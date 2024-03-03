@@ -5,7 +5,7 @@ import styled from "styled-components";
 const StyledNotFound = styled.main`
     width: 100%;
     height: 100dvh;
-    background-color: slateblue;
+    background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
     justify-content: center;
@@ -14,7 +14,7 @@ const StyledNotFound = styled.main`
 
 const StyledLink = styled(Link)`
     text-decoration: none;
-    color: cornsilk;
+    color: var(--color-grey-800);
     font-size: 2rem;
     margin-right: 1rem;
 `;
