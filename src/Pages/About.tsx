@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { animated, useSpring } from "react-spring";
+import { springOptions } from "../Constants/constant";
 
 const StyledAbout = styled.main`
     width: 100%;
@@ -17,10 +19,14 @@ const StyledParagraph = styled.p`
     color: var(--color-grey-800);
 `;
 
+const AnimatedStyledAbout = animated(StyledAbout);
+
 export default function About() {
+    const animationProps = useSpring(springOptions);
+
     return (
-        <StyledAbout>
+        <AnimatedStyledAbout style={animationProps}>
             <StyledParagraph>ABOUT</StyledParagraph>
-        </StyledAbout>
+        </AnimatedStyledAbout>
     );
 }

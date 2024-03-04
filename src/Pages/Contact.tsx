@@ -1,4 +1,6 @@
+import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
+import { springOptions } from "../Constants/constant";
 
 const StyledContact = styled.main`
     width: 100%;
@@ -17,10 +19,14 @@ const StyledParagraph = styled.p`
     color: var(--color-grey-800);
 `;
 
+const AnimatedStyledContact = animated(StyledContact);
+
 export default function Contact() {
+    const animationProps = useSpring(springOptions);
+
     return (
-        <StyledContact>
+        <AnimatedStyledContact style={animationProps}>
             <StyledParagraph>CONTACT</StyledParagraph>
-        </StyledContact>
+        </AnimatedStyledContact>
     );
 }

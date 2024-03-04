@@ -1,4 +1,6 @@
 import styled from "styled-components";
+import { animated, useSpring } from "react-spring";
+import { springOptions } from "../Constants/constant";
 
 const StyledHome = styled.main`
     width: 100%;
@@ -17,10 +19,14 @@ const StyledParagraph = styled.p`
     color: var(--color-grey-800);
 `;
 
+const AnimatedStyledHome = animated(StyledHome);
+
 export default function Home() {
+    const animationProps = useSpring(springOptions);
+
     return (
-        <StyledHome>
+        <AnimatedStyledHome style={animationProps}>
             <StyledParagraph>HOMEPAGE</StyledParagraph>
-        </StyledHome>
+        </AnimatedStyledHome>
     );
 }
