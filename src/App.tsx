@@ -4,6 +4,8 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
+import Users from "./Pages/Users";
+import Settings from "./Pages/Settings";
 
 export default function App() {
     return (
@@ -13,6 +15,8 @@ export default function App() {
                     <Route path="/" Component={Home} />
                     <Route path="/about" Component={About} />
                     <Route path="/contact" Component={Contact} />
+                    <Route path="/users" Component={Users} />
+                    <Route path="/settings" Component={Settings} />
                     <Route path="*" Component={NotFound} />
                 </Route>
             </Routes>
