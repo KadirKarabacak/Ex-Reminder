@@ -3,7 +3,9 @@ import styled from "styled-components";
 import HomeIcon from "@mui/icons-material/Home";
 import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import InfoIcon from "@mui/icons-material/Info";
-import { useState } from "react";
+import GroupIcon from "@mui/icons-material/Group";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { Tooltip } from "@mui/material";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -62,19 +64,37 @@ const iconStyle = {
 function Sidebar() {
     return (
         <StyledSidebar>
-            <StyledImg src="../../public/logo-here.png" />
-            <StyledNavLink to="/">
-                <HomeIcon sx={iconStyle} />
-                Home
-            </StyledNavLink>
-            <StyledNavLink to="/about">
-                <InfoIcon sx={iconStyle} />
-                About
-            </StyledNavLink>
-            <StyledNavLink to="/contact">
-                <QuestionAnswerIcon sx={iconStyle} />
-                Contact
-            </StyledNavLink>
+            <StyledImg src="../../logo-here.png" />
+            <Tooltip title="Home" placement="right">
+                <StyledNavLink to="/">
+                    <HomeIcon sx={iconStyle} />
+                    Home
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip title="About" placement="right">
+                <StyledNavLink to="/about">
+                    <InfoIcon sx={iconStyle} />
+                    About
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip title="Contact" placement="right">
+                <StyledNavLink to="/contact">
+                    <QuestionAnswerIcon sx={iconStyle} />
+                    Contact
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip title="Users" placement="right">
+                <StyledNavLink to="/users">
+                    <GroupIcon sx={iconStyle} />
+                    Users
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip title="Settings" placement="right">
+                <StyledNavLink to="/settings">
+                    <SettingsIcon sx={iconStyle} />
+                    Settings
+                </StyledNavLink>
+            </Tooltip>
         </StyledSidebar>
     );
 }
