@@ -6,11 +6,14 @@ import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
 import Users from "./Pages/Users";
 import Settings from "./Pages/Settings";
+import Login from "./Pages/Login";
 
 export default function App() {
     return (
         <BrowserRouter>
             <Routes>
+                <Route index path="login" Component={Login} />
+                {/* Applayout must be protected before login */}
                 <Route Component={AppLayout}>
                     <Route path="/" Component={Home} />
                     <Route path="/about" Component={About} />
