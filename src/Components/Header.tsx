@@ -6,6 +6,7 @@ import { useDarkMode } from "../Contexts/DarkModeContext";
 import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
+import { Link } from "react-router-dom";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -21,6 +22,7 @@ const StyledList = styled.ul`
     display: flex;
     gap: 1.2rem;
     list-style: none;
+    align-items: center;
 `;
 
 const StyledListItem = styled.li`
@@ -62,12 +64,19 @@ function Header() {
                 </StyledListItem>
                 <StyledListItem>
                     <Button
-                        sx={{ fontSize: "2rem", minWidth: 0, p: "0.7rem" }}
+                        sx={{
+                            fontSize: "2rem",
+                            minWidth: 0,
+                            p: "0.7rem",
+                            lineHeight: 0,
+                        }}
                         color="inherit"
                         variant="text"
                     >
                         <Tooltip TransitionComponent={Zoom} title="Logout">
-                            <LogoutIcon sx={iconStyle} />
+                            <Link to="/login">
+                                <LogoutIcon sx={iconStyle} />
+                            </Link>
                         </Tooltip>
                     </Button>
                 </StyledListItem>
