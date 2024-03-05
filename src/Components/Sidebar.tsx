@@ -5,7 +5,7 @@ import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import InfoIcon from "@mui/icons-material/Info";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Tooltip } from "@mui/material";
+import { Tooltip, Zoom } from "@mui/material";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -65,31 +65,39 @@ function Sidebar() {
     return (
         <StyledSidebar>
             <StyledImg src="../../logo-here.png" />
-            <Tooltip title="Home" placement="right">
+            <Tooltip TransitionComponent={Zoom} title="Home" placement="right">
                 <StyledNavLink to="/">
                     <HomeIcon sx={iconStyle} />
                     Home
                 </StyledNavLink>
             </Tooltip>
-            <Tooltip title="About" placement="right">
+            <Tooltip TransitionComponent={Zoom} title="About" placement="right">
                 <StyledNavLink to="/about">
                     <InfoIcon sx={iconStyle} />
                     About
                 </StyledNavLink>
             </Tooltip>
-            <Tooltip title="Contact" placement="right">
+            <Tooltip
+                TransitionComponent={Zoom}
+                title="Contact"
+                placement="right"
+            >
                 <StyledNavLink to="/contact">
                     <QuestionAnswerIcon sx={iconStyle} />
                     Contact
                 </StyledNavLink>
             </Tooltip>
-            <Tooltip title="Users" placement="right">
+            <Tooltip TransitionComponent={Zoom} title="Users" placement="right">
                 <StyledNavLink to="/users">
                     <GroupIcon sx={iconStyle} />
                     Users
                 </StyledNavLink>
             </Tooltip>
-            <Tooltip title="Settings" placement="right">
+            <Tooltip
+                TransitionComponent={Zoom}
+                title="Settings"
+                placement="right"
+            >
                 <StyledNavLink to="/settings">
                     <SettingsIcon sx={iconStyle} />
                     Settings
