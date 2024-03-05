@@ -1,7 +1,8 @@
-import { Button, Paper, TextField, colors } from "@mui/material";
+import { Button, Paper, TextField } from "@mui/material";
 import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
+import { useNavigate } from "react-router-dom";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -17,11 +18,16 @@ const StyledTextField = styled(TextField)`
     & div > input {
         color: var(--color-grey-800);
     }
+
+    & div > fieldset {
+        border-color: var(--color-grey-500);
+    }
 `;
 
 export default function LoginForm() {
     const { register, handleSubmit, reset, getValues, formState } = useForm();
     const { errors } = formState;
+    const navigate = useNavigate();
 
     function onSubmit() {
         console.log("Submitted");
@@ -77,6 +83,7 @@ export default function LoginForm() {
                     helperText={errors?.password?.message || ""}
                 />
                 <Button
+                    onClick={() => navigate("/")}
                     sx={{
                         backgroundColor: "var(--color-grey-800)",
                         color: "var(--color-grey-50)",
