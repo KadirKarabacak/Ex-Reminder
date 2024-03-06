@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./App.css";
 import GlobalStyles from "./styles/GlobalStyles.ts";
 import { DarkModeProvider } from "./Contexts/DarkModeContext.jsx";
-import "./firebase.ts";
+import "./Api/userController.ts";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>

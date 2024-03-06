@@ -7,7 +7,7 @@ import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
-import { logOut } from "../firebase";
+import { logOut } from "../Api/userController";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);

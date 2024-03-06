@@ -3,7 +3,7 @@ import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { createUserWithEmailAndPasswordQuery } from "../firebase";
+import { createUserWithEmailAndPasswordQuery } from "../Api/userController";
 
 const StyledLogo = styled.img`
     width: 10rem;

@@ -3,7 +3,7 @@ import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
-import { signInWithEmailAndPasswordQuery } from "../firebase";
+import { signInWithEmailAndPasswordQuery } from "../Api/userController";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -67,7 +67,7 @@ export default function LoginForm() {
                 }}
             >
                 <StyledLogo src="../../logo-here.png" />
-                <Heading title="Log in to get started" />
+                <Heading title="Login to your account" />
                 <StyledTextField
                     label="Email"
                     sx={{ minWidth: "100%" }}
