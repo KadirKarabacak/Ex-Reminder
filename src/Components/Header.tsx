@@ -7,6 +7,7 @@ import { Button } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
+import { logOut } from "../firebase";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -74,7 +75,7 @@ function Header() {
                         variant="text"
                     >
                         <Tooltip TransitionComponent={Zoom} title="Logout">
-                            <Link to="/login">
+                            <Link onClick={() => logOut()} to="/login">
                                 <LogoutIcon sx={iconStyle} />
                             </Link>
                         </Tooltip>
