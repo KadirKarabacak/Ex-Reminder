@@ -3,6 +3,7 @@ import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
+import { signInWithEmailAndPasswordQuery } from "../firebase";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -24,14 +25,30 @@ const StyledTextField = styled(TextField)`
     }
 `;
 
+const StyledButtonContainer = styled.div`
+    display: flex;
+    gap: 1.5rem;
+`;
+
 export default function LoginForm() {
-    const { register, handleSubmit, reset, getValues, formState } = useForm();
-    const { errors } = formState;
+    const {
+        register,
+        handleSubmit,
+        reset,
+        formState: { errors },
+        getValues,
+    } = useForm();
     const navigate = useNavigate();
 
-    function onSubmit() {
-        console.log("Submitted");
-        // reset();
+    async function onSubmit() {
+        const { email, password } = getValues();
+        if (!email || !password) return;
+        const loginState = await signInWithEmailAndPasswordQuery({
+            email,
+            password,
+        });
+        if (loginState) navigate("/");
+        reset();
     }
 
     return (
@@ -64,7 +81,9 @@ export default function LoginForm() {
                     })}
                     id="email"
                     error={Boolean(errors.email)}
-                    helperText={errors?.email?.message || ""}
+                    helperText={
+                        (errors?.email?.message as React.ReactNode) || ""
+                    }
                 />
                 <StyledTextField
                     label="Password"
@@ -72,38 +91,60 @@ export default function LoginForm() {
                     variant="outlined"
                     {...register("password", {
                         required: "Password is required",
-                        minLength: {
-                            value: 8,
-                            message: "Password must be at least 8 characters",
-                        },
                     })}
                     id="password"
                     type="password"
                     error={Boolean(errors.email)}
-                    helperText={errors?.password?.message || ""}
+                    helperText={
+                        (errors?.password?.message as React.ReactNode) || ""
+                    }
                 />
-                <Button
-                    onClick={() => navigate("/")}
-                    sx={{
-                        backgroundColor: "var(--color-grey-800)",
-                        color: "var(--color-grey-50)",
-                        transition: "all .3s",
-                        padding: "1rem 3rem",
-                        fontSize: "1.1rem",
-                        "&:hover": {
-                            backgroundColor: "var(--color-grey-600)",
-                            color: "var(--color-grey-100)",
-                            transform: "translateY(-2px)",
-                        },
-                        "&:active": {
-                            transform: "translateY(0)",
-                        },
-                    }}
-                    type="submit"
-                    variant="contained"
-                >
-                    Login
-                </Button>
+                <StyledButtonContainer>
+                    <Button
+                        sx={{
+                            backgroundColor: "var(--color-grey-800)",
+                            color: "var(--color-grey-50)",
+                            transition: "all .3s",
+                            padding: "1rem 3rem",
+                            fontSize: "1.1rem",
+                            "&:hover": {
+                                backgroundColor: "var(--color-grey-600)",
+                                color: "var(--color-grey-100)",
+                                transform: "translateY(-2px)",
+                            },
+                            "&:active": {
+                                transform: "translateY(0)",
+                            },
+                        }}
+                        type="submit"
+                        variant="contained"
+                    >
+                        Login
+                    </Button>
+                    <Button
+                        onClick={() => navigate("/register")}
+                        sx={{
+                            color: "var(--color-grey-800)",
+                            transition: "all .3s",
+                            padding: "1rem 3rem",
+                            fontSize: "1.1rem",
+                            border: "1px solid var(--color-grey-800)",
+                            "&:hover": {
+                                backgroundColor: "var(--color-grey-800)",
+                                color: "var(--color-grey-100)",
+                                transform: "translateY(-2px)",
+                                border: "1px solid var(--color-grey-800)",
+                            },
+                            "&:active": {
+                                transform: "translateY(0)",
+                            },
+                        }}
+                        type="submit"
+                        variant="outlined"
+                    >
+                        Register
+                    </Button>
+                </StyledButtonContainer>
             </Paper>
         </form>
     );
