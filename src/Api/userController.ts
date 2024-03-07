@@ -7,21 +7,9 @@ import {
 } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import toast from "react-hot-toast";
-import { auth, db } from "./firebase";
+import { auth, db, storage } from "./firebase";
 import { CurrentUserTypes, LoginTypes } from "../Interfaces/User";
-
-// // Firebase Default Setup
-// const firebaseApp = initializeApp({
-//     apiKey: "AIzaSyCTDVf4r8rsaIL1gRMnXl6tmGrC-Cl4e1w",
-//     authDomain: "my-router-project.firebaseapp.com",
-//     projectId: "my-router-project",
-//     storageBucket: "my-router-project.appspot.com",
-//     messagingSenderId: "999918257827",
-//     appId: "1:999918257827:web:d679ac1b87b845cd27a116",
-//     measurementId: "G-9H14BENC87",
-// });
-// const db = getFirestore(firebaseApp);
-// export const auth = getAuth();
+import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 
 // Get All Users
 export const getUsers = async () => {
@@ -92,20 +80,23 @@ export const logOut = async () => {
         });
 };
 
-// Update user profile with name and photoURL
-export const updateUserProfile = function ({
-    currentUser,
-    displayName,
+export const updateUser = async ({
     photoURL,
-}: CurrentUserTypes) {
-    updateProfile(currentUser, {
-        displayName: displayName,
-        photoURL: photoURL,
-    })
-        .then(() => {
-            console.log("Profile updated");
-        })
-        .catch(error => {
-            console.log(error.message);
+    displayName,
+    currentUser,
+}: CurrentUserTypes) => {
+    if (!photoURL) return;
+    const imageRef = ref(storage, `images/${photoURL[0]}`);
+
+    await uploadBytes(imageRef, photoURL[0]);
+
+    await getDownloadURL(imageRef).then(url => {
+        console.log(url);
+        updateProfile(currentUser, {
+            displayName,
+            photoURL: url,
         });
+    });
+
+    alert("Profile updated");
 };
