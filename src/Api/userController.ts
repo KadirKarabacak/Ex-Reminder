@@ -91,12 +91,25 @@ export const updateUser = async ({
     await uploadBytes(imageRef, photoURL[0]);
 
     await getDownloadURL(imageRef).then(url => {
-        console.log(url);
         updateProfile(currentUser, {
             displayName,
             photoURL: url,
         });
+        toast.success("Profile updated");
     });
-
-    alert("Profile updated");
 };
+
+// export const useUpdateUser = async function () {
+//     const queryClient = useQueryClient();
+//     const { mutate: editUser, isPending } = useMutation({
+//         mutationFn: updateUser,
+//         onSuccess: () => {
+//             toast.success("Profile updated");
+//             queryClient.invalidateQueries();
+//         },
+//         onError: err => {
+//             toast.error(err.message);
+//         },
+//     });
+//     return { isPending, editUser };
+// };
