@@ -20,8 +20,6 @@ interface ProtectedRouteProps {
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const { currentUser } = auth;
-    console.log(currentUser);
 
     // Handle authenticated user
     useEffect(() => {
