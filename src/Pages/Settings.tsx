@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
 import { springOptions } from "../Constants/constant";
+import SettingForm from "../Components/SettingForm";
 
 const StyledSettings = styled.main`
     width: 100%;
@@ -8,14 +9,18 @@ const StyledSettings = styled.main`
     background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
-    justify-content: center;
-    padding-top: 1rem;
+    flex-direction: column;
+
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
 `;
 
 const StyledParagraph = styled.p`
-    font-size: 6rem;
+    padding: 3rem 0 3rem 3rem;
+    font-size: 4rem;
+    height: max-content;
+    align-self: flex-start;
+    display: block;
     color: var(--color-grey-800);
 `;
 
@@ -26,7 +31,8 @@ export default function Settings() {
 
     return (
         <AnimatedStyledSettings style={animationProps}>
-            <StyledParagraph>Settings Page</StyledParagraph>
+            <StyledParagraph>Update user settings</StyledParagraph>
+            <SettingForm />
         </AnimatedStyledSettings>
     );
 }
