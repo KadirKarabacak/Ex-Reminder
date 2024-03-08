@@ -10,6 +10,7 @@ import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
 import { CurrentUserTypes, LoginTypes } from "../Interfaces/User";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 // Get All Users
 export const getUsers = async () => {
@@ -80,36 +81,35 @@ export const logOut = async () => {
         });
 };
 
+// Update user
 export const updateUser = async ({
     photoURL,
     displayName,
     currentUser,
 }: CurrentUserTypes) => {
-    if (!photoURL) return;
     const imageRef = ref(storage, `images/${photoURL[0]}`);
-
+    console.log(photoURL[0]);
     await uploadBytes(imageRef, photoURL[0]);
-
     await getDownloadURL(imageRef).then(url => {
         updateProfile(currentUser, {
             displayName,
             photoURL: url,
         });
-        toast.success("Profile updated");
     });
 };
 
-// export const useUpdateUser = async function () {
-//     const queryClient = useQueryClient();
-//     const { mutate: editUser, isPending } = useMutation({
-//         mutationFn: updateUser,
-//         onSuccess: () => {
-//             toast.success("Profile updated");
-//             queryClient.invalidateQueries();
-//         },
-//         onError: err => {
-//             toast.error(err.message);
-//         },
-//     });
-//     return { isPending, editUser };
-// };
+// Update user Query
+export function useUpdateUser() {
+    const queryClient = useQueryClient();
+    const { mutate, isPending } = useMutation({
+        mutationFn: updateUser,
+        onSuccess: () => {
+            toast.success("Profile updated");
+            queryClient.invalidateQueries();
+        },
+        onError: (err: any) => {
+            toast.error(err.message);
+        },
+    });
+    return { mutate, isPending };
+}
