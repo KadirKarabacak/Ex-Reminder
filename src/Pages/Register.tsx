@@ -1,8 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import RegisterForm from "../Components/RegisterForm";
+import { animationDuration } from "../Constants/constant";
 
-// Keyframes tanımlama
-const circleInHesitate = keyframes`
+export const circleInHesitate = keyframes`
   0% {
     clip-path: circle(0%);
   }
@@ -24,7 +24,8 @@ const StyledRegister = styled.main`
     align-items: center;
     gap: 2.5rem;
 
-    animation: 2.2s cubic-bezier(0.25, 1, 0.3, 1) ${circleInHesitate} both;
+    animation: ${animationDuration} cubic-bezier(0.25, 1, 0.3, 1)
+        ${circleInHesitate} both;
 `;
 
 export default function Login() {
