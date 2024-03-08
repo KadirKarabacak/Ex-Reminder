@@ -9,3 +9,4 @@ export const springOptions = {
         easing: easings.easeInOutCirc,
     },
 };
+export const animationDuration = "2s";
