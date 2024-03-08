@@ -10,6 +10,7 @@ import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import ForgotPassword from "./Pages/ForgotPassword";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -25,9 +26,9 @@ export default function App() {
             <BrowserRouter>
                 <Routes>
                     <Route index path="login" Component={Login} />
-                    <Route index path="/register" Component={Register} />
+                    <Route path="/register" Component={Register} />
+                    <Route path="/forgotpassword" Component={ForgotPassword} />
                     <Route path="*" Component={NotFound} />
-                    {/* Applayout must be protected before login */}
                     <Route Component={AppLayout}>
                         <Route path="/" Component={Home} />
                         <Route path="/about" Component={About} />
