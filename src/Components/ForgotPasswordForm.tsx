@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Heading from "../Components/Heading";
+import { useResetPasswordEmail } from "../Api/userController";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -41,10 +42,15 @@ export default function ForgotPasswordForm() {
         register,
         handleSubmit,
         formState: { errors },
+        getValues,
     } = useForm();
+    const { mutate: resetPassword, isPending: isResetting } =
+        useResetPasswordEmail();
     const navigate = useNavigate();
 
-    async function onSubmit() {
+    function onSubmit() {
+        const { email } = getValues();
+        resetPassword(email);
         console.log("submit");
     }
 
@@ -67,6 +73,7 @@ export default function ForgotPasswordForm() {
                 <Heading title="Reset your password" />
                 <StyledTextField
                     label="Email"
+                    disabled={isResetting}
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("email", {
@@ -84,6 +91,7 @@ export default function ForgotPasswordForm() {
                 />
                 <StyledButtonContainer>
                     <Button
+                        disabled={isResetting}
                         sx={{
                             backgroundColor: "var(--color-grey-800)",
                             color: "var(--color-grey-50)",
