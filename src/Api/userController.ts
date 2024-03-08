@@ -4,6 +4,7 @@ import {
     signOut,
     sendEmailVerification,
     updateProfile,
+    sendPasswordResetEmail,
 } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import toast from "react-hot-toast";
@@ -11,6 +12,7 @@ import { auth, db, storage } from "./firebase";
 import { CurrentUserTypes, LoginTypes } from "../Interfaces/User";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 
 // Get All Users
 export const getUsers = async () => {
@@ -82,7 +84,7 @@ export const logOut = async () => {
 };
 
 // Update user
-export const updateUser = async ({
+const updateUser = async ({
     photoURL,
     displayName,
     currentUser,
@@ -106,6 +108,27 @@ export function useUpdateUser() {
         onSuccess: () => {
             toast.success("Profile updated");
             queryClient.invalidateQueries();
+        },
+        onError: (err: any) => {
+            toast.error(err.message);
+        },
+    });
+    return { mutate, isPending };
+}
+
+async function resetPasswordEmail(email: string) {
+    await sendPasswordResetEmail(auth, email);
+}
+
+export function useResetPasswordEmail() {
+    const queryClient = useQueryClient();
+    const navigate = useNavigate();
+    const { mutate, isPending } = useMutation({
+        mutationFn: resetPasswordEmail,
+        onSuccess: () => {
+            toast.success("Password reset email sent");
+            queryClient.invalidateQueries();
+            navigate("/login");
         },
         onError: (err: any) => {
             toast.error(err.message);
