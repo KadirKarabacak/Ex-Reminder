@@ -4,7 +4,7 @@ import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled as muiStyled } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import { auth } from "../Api/firebase";
-import { updateUser } from "../Api/userController";
+import { useUpdateUser } from "../Api/userController";
 import { useEffect, useState } from "react";
 
 const StyledTitle = styled.h4`
@@ -41,17 +41,13 @@ const VisuallyHiddenInput = muiStyled("input")({
 export default function SettingForm() {
     const { register, handleSubmit, getValues } = useForm();
     const { currentUser } = auth;
-    const [photo, setPhoto] = useState("");
+    const { mutate: updateUser, isPending } = useUpdateUser();
 
     function onSubmit() {
         const { photoURL, displayName } = getValues();
-        setPhoto(photoURL);
+        if (photoURL.length === 0) return;
         updateUser({ photoURL, displayName, currentUser });
-
-        console.log(currentUser);
     }
-
-    useEffect(() => {}, [photo]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -77,6 +73,7 @@ export default function SettingForm() {
                 />
                 <StyledTitle>Display Name</StyledTitle>
                 <StyledTextField
+                    disabled={isPending}
                     defaultValue={currentUser?.displayName}
                     label="Display Name"
                     sx={{ minWidth: "100%", mb: "1rem" }}
@@ -85,6 +82,7 @@ export default function SettingForm() {
                 />
                 <StyledTitle>Profile photo</StyledTitle>
                 <Button
+                    disabled={isPending}
                     component="label"
                     role={undefined}
                     variant="contained"
@@ -112,9 +110,12 @@ export default function SettingForm() {
                         {...register("photoURL")}
                         type="file"
                         accept="image/*"
+                        id="fileInput"
                     />
                 </Button>
+
                 <Button
+                    disabled={isPending}
                     sx={{
                         backgroundColor: "var(--color-grey-800)",
                         color: "var(--color-grey-50)",
