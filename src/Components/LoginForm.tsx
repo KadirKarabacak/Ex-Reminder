@@ -2,7 +2,7 @@ import { Button, Paper, TextField } from "@mui/material";
 import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPasswordQuery } from "../Api/userController";
 
 const StyledLogo = styled.img`
@@ -29,6 +29,28 @@ const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
     align-items: center;
+`;
+
+const StyledLink = styled(Link)`
+    font-size: 1.3rem;
+    color: var(--color-grey-600);
+    border-bottom: 1px solid transparent;
+    padding-bottom: 3px;
+    transition: all 0.3s;
+
+    &:hover {
+        color: var(--color-grey-800);
+        border-bottom: 1px solid var(--color-grey-600);
+        transform: translateY(-1px);
+    }
+    &:active {
+        transform: translateY(0);
+    }
+`;
+
+const StyledParagraph = styled.p`
+    color: var(--color-grey-600);
+    font-size: 1.2rem;
 `;
 
 export default function LoginForm() {
@@ -122,7 +144,7 @@ export default function LoginForm() {
                     >
                         Login
                     </Button>
-                    <p>or</p>
+                    <StyledParagraph>or</StyledParagraph>
                     <Button
                         onClick={() => navigate("/register")}
                         sx={{
@@ -147,6 +169,9 @@ export default function LoginForm() {
                         Register
                     </Button>
                 </StyledButtonContainer>
+                <StyledLink to="/forgotpassword">
+                    Forgot your password?
+                </StyledLink>
             </Paper>
         </form>
     );
