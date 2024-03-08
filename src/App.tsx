@@ -9,43 +9,54 @@ import Settings from "./Pages/Settings";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import { Toaster } from "react-hot-toast";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient({
+    defaultOptions: {
+        queries: {
+            staleTime: 0,
+        },
+    },
+});
 
 export default function App() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route index path="login" Component={Login} />
-                <Route index path="/register" Component={Register} />
-                <Route path="*" Component={NotFound} />
-                {/* Applayout must be protected before login */}
-                <Route Component={AppLayout}>
-                    <Route path="/" Component={Home} />
-                    <Route path="/about" Component={About} />
-                    <Route path="/contact" Component={Contact} />
-                    <Route path="/users" Component={Users} />
-                    <Route path="/settings" Component={Settings} />
-                </Route>
-            </Routes>
-            <Toaster
-                position="bottom-left"
-                gutter={12}
-                containerStyle={{ margin: "8px" }}
-                toastOptions={{
-                    success: {
-                        duration: 4000,
-                    },
-                    error: {
-                        duration: 5000,
-                    },
-                    style: {
-                        fontSize: "16px",
-                        maxWidth: "500px",
-                        padding: "16px 24px",
-                        backgroundColor: "var(--color-grey-0)",
-                        color: "var(--color-grey-700)",
-                    },
-                }}
-            />
-        </BrowserRouter>
+        <QueryClientProvider client={queryClient}>
+            <BrowserRouter>
+                <Routes>
+                    <Route index path="login" Component={Login} />
+                    <Route index path="/register" Component={Register} />
+                    <Route path="*" Component={NotFound} />
+                    {/* Applayout must be protected before login */}
+                    <Route Component={AppLayout}>
+                        <Route path="/" Component={Home} />
+                        <Route path="/about" Component={About} />
+                        <Route path="/contact" Component={Contact} />
+                        <Route path="/users" Component={Users} />
+                        <Route path="/settings" Component={Settings} />
+                    </Route>
+                </Routes>
+                <Toaster
+                    position="bottom-left"
+                    gutter={12}
+                    containerStyle={{ margin: "8px" }}
+                    toastOptions={{
+                        success: {
+                            duration: 4000,
+                        },
+                        error: {
+                            duration: 5000,
+                        },
+                        style: {
+                            fontSize: "16px",
+                            maxWidth: "500px",
+                            padding: "16px 24px",
+                            backgroundColor: "var(--color-grey-0)",
+                            color: "var(--color-grey-700)",
+                        },
+                    }}
+                />
+            </BrowserRouter>
+        </QueryClientProvider>
     );
 }
