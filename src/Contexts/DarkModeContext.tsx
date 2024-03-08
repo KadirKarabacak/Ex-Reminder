@@ -37,7 +37,7 @@ const DarkModeProvider: React.FC<DarkModeProviderProps> = ({ children }) => {
 
     const toggleDarkMode = () => {
         setIsDarkMode(!isDarkMode);
-        toast.success(`Changed to ${!isDarkMode ? "Dark Mode" : "Light Mode"}`);
+        // toast.success(`Changed to ${!isDarkMode ? "Dark Mode" : "Light Mode"}`);
     };
 
     return (
