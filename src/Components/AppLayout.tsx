@@ -4,7 +4,6 @@ import Header from "./Header";
 import styled from "styled-components";
 import { Toaster } from "react-hot-toast";
 import ProtectedRoute from "./ProtectedRoute";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 
 const StyledAppLayout = styled.div`
     display: grid;
@@ -27,49 +26,39 @@ const Container = styled.div`
     gap: 3.2rem;
 `;
 
-const queryClient = new QueryClient({
-    defaultOptions: {
-        queries: {
-            staleTime: 0,
-        },
-    },
-});
-
 // Parent Route
 function AppLayout() {
     return (
         <ProtectedRoute>
-            <QueryClientProvider client={queryClient}>
-                <StyledAppLayout>
-                    <Header />
-                    <Sidebar />
-                    <Main>
-                        <Container>
-                            <Outlet />
-                        </Container>
-                    </Main>
-                    <Toaster
-                        position="bottom-left"
-                        gutter={12}
-                        containerStyle={{ margin: "8px" }}
-                        toastOptions={{
-                            success: {
-                                duration: 4000,
-                            },
-                            error: {
-                                duration: 5000,
-                            },
-                            style: {
-                                fontSize: "16px",
-                                maxWidth: "500px",
-                                padding: "16px 24px",
-                                backgroundColor: "var(--color-grey-0)",
-                                color: "var(--color-grey-700)",
-                            },
-                        }}
-                    />
-                </StyledAppLayout>
-            </QueryClientProvider>
+            <StyledAppLayout>
+                <Header />
+                <Sidebar />
+                <Main>
+                    <Container>
+                        <Outlet />
+                    </Container>
+                </Main>
+                <Toaster
+                    position="bottom-left"
+                    gutter={12}
+                    containerStyle={{ margin: "8px" }}
+                    toastOptions={{
+                        success: {
+                            duration: 4000,
+                        },
+                        error: {
+                            duration: 5000,
+                        },
+                        style: {
+                            fontSize: "16px",
+                            maxWidth: "500px",
+                            padding: "16px 24px",
+                            backgroundColor: "var(--color-grey-0)",
+                            color: "var(--color-grey-700)",
+                        },
+                    }}
+                />
+            </StyledAppLayout>
         </ProtectedRoute>
     );
 }
