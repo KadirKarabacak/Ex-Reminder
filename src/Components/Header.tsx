@@ -9,6 +9,7 @@ import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
+import { useEffect } from "react";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -81,16 +82,16 @@ function Header() {
                         color="inherit"
                         variant="text"
                     >
-                        <Tooltip
+                        {/* <Tooltip
                             TransitionComponent={Zoom}
                             title="Toggle dark mode"
-                        >
-                            {isDarkMode ? (
-                                <LightModeIcon sx={iconStyle} />
-                            ) : (
-                                <DarkModeIcon sx={iconStyle} />
-                            )}
-                        </Tooltip>
+                        > */}
+                        {isDarkMode ? (
+                            <LightModeIcon sx={iconStyle} />
+                        ) : (
+                            <DarkModeIcon sx={iconStyle} />
+                        )}
+                        {/* </Tooltip> */}
                     </Button>
                 </StyledListItem>
                 <StyledListItem>
