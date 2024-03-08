@@ -26,6 +26,7 @@ const StyledTextField = styled(TextField)`
 const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
+    align-items: center;
 `;
 
 export default function LoginForm() {
@@ -139,6 +140,7 @@ export default function LoginForm() {
                     >
                         Register
                     </Button>
+                    <p>or</p>
                     <Button
                         onClick={() => navigate("/login")}
                         sx={{
