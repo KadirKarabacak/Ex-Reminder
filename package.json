@@ -16,6 +16,7 @@
     "@mui/material": "^5.15.11",
     "@tanstack/react-query": "^5.25.0",
     "firebase": "^10.8.1",
+    "moment": "^2.30.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.51.0",
