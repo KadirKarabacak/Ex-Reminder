@@ -194,7 +194,9 @@ export function useDeleteUserAccount() {
             queryClient.invalidateQueries();
         },
         onError: err => {
-            toast.error(`Error deleting user because of ${err.message}`);
+            toast.error(
+                `Error deleting user because of your password does not match`
+            );
         },
     });
     return { mutate, isPending };
