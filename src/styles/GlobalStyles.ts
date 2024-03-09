@@ -144,11 +144,11 @@ button {
   cursor: not-allowed;
 }
 
-select:disabled,
 input:disabled {
-  background-color: var(--color-grey-300);
-  color: var(--color-grey-600);
+  background-color: var(--color-grey-200);
+  color: var(--color-grey-700);
 }
+
 
 input:focus,
 textarea:focus,
