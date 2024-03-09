@@ -195,7 +195,7 @@ export function useDeleteUserAccount() {
         },
         onError: err => {
             toast.error(
-                `Error deleting user because of your password does not match`
+                `Error on deleting user because of your password is wrong`
             );
         },
     });
