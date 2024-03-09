@@ -105,12 +105,13 @@ const StyledFileCont = styled.div`
 
 export default function SettingForm() {
     const [showPassword, setShowPassword] = React.useState(false);
-    const { register, handleSubmit, getValues } = useForm();
+    const { register, handleSubmit, getValues, reset } = useForm();
     const { currentUser } = auth;
     const { mutate: updateUser, isPending } = useUpdateUser();
     const { mutate: deleteUser, isPending: isDeleting } =
         useDeleteUserAccount();
-    const [photoURL, setPhotoURL] = React.useState(null);
+    const initialPhotoURL = currentUser ? currentUser.photoURL : null;
+    const [photoURL, setPhotoURL] = React.useState<any>(initialPhotoURL);
 
     useEffect(() => {
         const { photoURL } = getValues();
@@ -120,8 +121,13 @@ export default function SettingForm() {
     function onSubmit() {
         const { photoURL, displayName, password } = getValues();
         if (!photoURL.length && !displayName.length && !password.length)
-            return toast.error("There is no value to update");
+            return toast.error("There is no value to update user");
         updateUser({ photoURL, displayName, password, currentUser });
+        reset({
+            displayName: "",
+            password: "",
+        });
+        setPhotoURL(null);
     }
 
     const handleClickShowPassword = () => setShowPassword(show => !show);
@@ -221,6 +227,9 @@ export default function SettingForm() {
                                 "&:active": {
                                     transform: "translateY(0)",
                                 },
+                                "&:disabled": {
+                                    backgroundColor: "var(--color-grey-400)",
+                                },
                             }}
                         >
                             <CloudUploadIcon /> Upload
@@ -229,11 +238,13 @@ export default function SettingForm() {
                                 type="file"
                                 accept="image/*"
                                 id="fileInput"
-                                onChange={e => setPhotoURL(e?.target?.files[0])}
+                                onChange={e =>
+                                    setPhotoURL(e?.target?.files?.[0] || null)
+                                }
                             />
                         </Button>
                         <label htmlFor="fileInput">
-                            {photoURL?.length !== 0
+                            {photoURL?.length !== 0 && photoURL !== null
                                 ? extractFileName(photoURL)
                                 : "No file chosen"}
                         </label>
@@ -256,6 +267,9 @@ export default function SettingForm() {
                             },
                             "&:active": {
                                 transform: "translateY(0)",
+                            },
+                            "&:disabled": {
+                                backgroundColor: "var(--color-grey-500)",
                             },
                         }}
                         type="submit"
