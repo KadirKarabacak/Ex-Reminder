@@ -1,5 +1,5 @@
 import { Button, Paper, TextField } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -49,6 +49,7 @@ export default function ForgotPasswordForm() {
         handleSubmit,
         formState: { errors },
         getValues,
+        setFocus,
     } = useForm();
     const { mutate: resetPassword, isPending: isResetting } =
         useResetPasswordEmail();
@@ -58,6 +59,10 @@ export default function ForgotPasswordForm() {
         const { email } = getValues();
         resetPassword(email);
     }
+
+    useEffect(() => {
+        setFocus("email");
+    }, [setFocus]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>

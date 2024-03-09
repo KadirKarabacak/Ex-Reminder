@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPasswordQuery } from "../Api/userController";
+import { useEffect } from "react";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -36,8 +37,9 @@ const StyledButtonContainer = styled.div`
 `;
 
 export default function LoginForm() {
-    const { register, handleSubmit, reset, formState, getValues } = useForm();
-    const { errors } = formState;
+    const { register, handleSubmit, reset, formState, getValues, setFocus } =
+        useForm();
+    const { errors, isSubmitting } = formState;
     const navigate = useNavigate();
 
     async function onSubmit() {
@@ -51,6 +53,10 @@ export default function LoginForm() {
         if (createState) navigate("/login");
         reset();
     }
+
+    useEffect(() => {
+        setFocus("email");
+    }, [setFocus]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -70,6 +76,7 @@ export default function LoginForm() {
                 <StyledLogo src="../../logo-here.png" />
                 <Heading title="Register to get started" />
                 <StyledTextField
+                    disabled={isSubmitting}
                     label="Email"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
@@ -87,6 +94,7 @@ export default function LoginForm() {
                     }
                 />
                 <StyledTextField
+                    disabled={isSubmitting}
                     label="Password"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
@@ -105,6 +113,7 @@ export default function LoginForm() {
                     }
                 />
                 <StyledTextField
+                    disabled={isSubmitting}
                     label="Repeat Password"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
@@ -124,6 +133,7 @@ export default function LoginForm() {
                 />
                 <StyledButtonContainer>
                     <Button
+                        disabled={isSubmitting}
                         sx={{
                             backgroundColor: "var(--color-grey-800)",
                             color: "var(--color-grey-50)",
@@ -148,6 +158,7 @@ export default function LoginForm() {
                     </Button>
                     <p>or</p>
                     <Button
+                        disabled={isSubmitting}
                         onClick={() => navigate("/login")}
                         sx={{
                             color: "var(--color-grey-800)",

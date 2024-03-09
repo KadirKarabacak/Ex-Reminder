@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPasswordQuery } from "../Api/userController";
+import { useEffect } from "react";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -64,8 +65,9 @@ export default function LoginForm() {
         register,
         handleSubmit,
         reset,
-        formState: { errors },
+        formState: { errors, isSubmitting },
         getValues,
+        setFocus,
     } = useForm();
     const navigate = useNavigate();
 
@@ -79,6 +81,10 @@ export default function LoginForm() {
         if (loginState) navigate("/");
         reset();
     }
+
+    useEffect(() => {
+        setFocus("email");
+    }, [setFocus]);
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -98,6 +104,7 @@ export default function LoginForm() {
                 <StyledLogo src="../../logo-here.png" />
                 <Heading title="Login to your account" />
                 <StyledTextField
+                    disabled={isSubmitting}
                     label="Email"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
@@ -115,6 +122,7 @@ export default function LoginForm() {
                     }
                 />
                 <StyledTextField
+                    disabled={isSubmitting}
                     label="Password"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
@@ -130,6 +138,7 @@ export default function LoginForm() {
                 />
                 <StyledButtonContainer>
                     <Button
+                        disabled={isSubmitting}
                         sx={{
                             backgroundColor: "var(--color-grey-800)",
                             color: "var(--color-grey-50)",
@@ -152,6 +161,7 @@ export default function LoginForm() {
                     </Button>
                     <StyledParagraph>or</StyledParagraph>
                     <Button
+                        disabled={isSubmitting}
                         onClick={() => navigate("/register")}
                         sx={{
                             color: "var(--color-grey-800)",
