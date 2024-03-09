@@ -1,3 +1,3 @@
-export const extractFileName = (file: { name: any } | null) => {
-    return file ? file.name : "";
+export const extractFileName = (file: any) => {
+    return file ? file?.name?.slice(0, 25) + "..." : "";
 };
