@@ -4,4 +4,4 @@
 3- Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
 4- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
 5- ✅ Add forgot password to the login page and send reset password email // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#send_a_password_reset_email
-6- Add delete user and onDelete redirect user to the login page and set loggedout // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#delete_a_user
+6- ✅ Add delete user and onDelete redirect user to the login page and set loggedout // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#delete_a_user
