@@ -1,9 +1,7 @@
 import {
     Button,
-    Divider,
     IconButton,
     InputAdornment,
-    InputLabel,
     OutlinedInput,
     Paper,
     TextField,
@@ -15,9 +13,9 @@ import { useForm } from "react-hook-form";
 import { auth } from "../Api/firebase";
 import { useDeleteUserAccount, useUpdateUser } from "../Api/userController";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import React from "react";
-import { useNavigate, useNavigation } from "react-router-dom";
+import React, { useEffect } from "react";
 import toast from "react-hot-toast";
+import { extractFileName } from "../Utils/utils";
 
 const StyledTitle = styled.h4`
     color: var(--color-grey-800);
@@ -99,6 +97,12 @@ const StyledSpan = styled.span`
     color: var(--color-brand-500);
 `;
 
+const StyledFileCont = styled.div`
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+`;
+
 export default function SettingForm() {
     const [showPassword, setShowPassword] = React.useState(false);
     const { register, handleSubmit, getValues } = useForm();
@@ -106,9 +110,15 @@ export default function SettingForm() {
     const { mutate: updateUser, isPending } = useUpdateUser();
     const { mutate: deleteUser, isPending: isDeleting } =
         useDeleteUserAccount();
+    const [photoURL, setPhotoURL] = React.useState(null);
+
+    useEffect(() => {
+        const { photoURL } = getValues();
+        setPhotoURL(photoURL);
+    }, [getValues]);
 
     function onSubmit() {
-        const { photoURL, displayName, email, password } = getValues();
+        const { photoURL, displayName, password } = getValues();
         if (!photoURL.length && !displayName.length && !password.length)
             return toast.error("There is no value to update");
         updateUser({ photoURL, displayName, password, currentUser });
@@ -187,39 +197,47 @@ export default function SettingForm() {
                     />
 
                     <StyledTitle>Profile photo</StyledTitle>
-                    <Button
-                        disabled={isPending}
-                        component="label"
-                        role={undefined}
-                        variant="contained"
-                        tabIndex={-1}
-                        sx={{
-                            backgroundColor: "var(--color-grey-800)",
-                            color: "var(--color-grey-50)",
-                            transition: "all .3s",
-                            padding: "1rem 2rem",
-                            fontSize: "1.1rem",
-                            alignSelf: "flex-start",
-                            gap: "1rem",
-                            fontWeight: "bold",
-                            "&:hover": {
-                                backgroundColor: "var(--color-grey-600)",
-                                color: "var(--color-grey-100)",
-                                transform: "translateY(-2px)",
-                            },
-                            "&:active": {
-                                transform: "translateY(0)",
-                            },
-                        }}
-                    >
-                        <CloudUploadIcon /> Upload
-                        <VisuallyHiddenInput
-                            {...register("photoURL")}
-                            type="file"
-                            accept="image/*"
-                            id="fileInput"
-                        />
-                    </Button>
+                    <StyledFileCont>
+                        <Button
+                            disabled={isPending}
+                            component="label"
+                            role={undefined}
+                            variant="contained"
+                            tabIndex={-1}
+                            sx={{
+                                backgroundColor: "var(--color-grey-800)",
+                                color: "var(--color-grey-50)",
+                                transition: "all .3s",
+                                padding: "1rem 2rem",
+                                fontSize: "1.1rem",
+                                alignSelf: "flex-start",
+                                gap: "1rem",
+                                fontWeight: "bold",
+                                "&:hover": {
+                                    backgroundColor: "var(--color-grey-600)",
+                                    color: "var(--color-grey-100)",
+                                    transform: "translateY(-2px)",
+                                },
+                                "&:active": {
+                                    transform: "translateY(0)",
+                                },
+                            }}
+                        >
+                            <CloudUploadIcon /> Upload
+                            <VisuallyHiddenInput
+                                {...register("photoURL")}
+                                type="file"
+                                accept="image/*"
+                                id="fileInput"
+                                onChange={e => setPhotoURL(e?.target?.files[0])}
+                            />
+                        </Button>
+                        <label htmlFor="fileInput">
+                            {photoURL?.length !== 0
+                                ? extractFileName(photoURL)
+                                : "No file chosen"}
+                        </label>
+                    </StyledFileCont>
 
                     <Button
                         disabled={isPending}
