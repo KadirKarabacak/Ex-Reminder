@@ -7,4 +7,5 @@ export interface CurrentUserTypes {
     currentUser: any;
     displayName: string;
     photoURL: any;
+    password: string;
 }
