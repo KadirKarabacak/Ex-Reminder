@@ -5,6 +5,12 @@ import {
     sendEmailVerification,
     updateProfile,
     sendPasswordResetEmail,
+    updateEmail,
+    updatePassword,
+    reauthenticateWithCredential,
+    EmailAuthProvider,
+    deleteUser,
+    User,
 } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import toast from "react-hot-toast";
@@ -46,7 +52,7 @@ export const signInWithEmailAndPasswordQuery = async ({
     return false;
 };
 
-// Create new user
+//! Create new user [ Handle with react query ]
 export const createUserWithEmailAndPasswordQuery = async ({
     email,
     password,
@@ -75,7 +81,7 @@ export const createUserWithEmailAndPasswordQuery = async ({
 export const logOut = async () => {
     signOut(auth)
         .then(() => {
-            console.log("Logged out");
+            ("Logged out");
             toast.success("Successfully logged out");
         })
         .catch(error => {
@@ -87,17 +93,38 @@ export const logOut = async () => {
 const updateUser = async ({
     photoURL,
     displayName,
+    password,
     currentUser,
 }: CurrentUserTypes) => {
-    const imageRef = ref(storage, `images/${photoURL[0]}`);
-    console.log(photoURL[0]);
-    await uploadBytes(imageRef, photoURL[0]);
-    await getDownloadURL(imageRef).then(url => {
-        updateProfile(currentUser, {
-            displayName,
-            photoURL: url,
+    if (photoURL.length > 0) {
+        const imageRef = ref(storage, `images/${photoURL[0]}`);
+        await uploadBytes(imageRef, photoURL[0]);
+        await getDownloadURL(imageRef).then(url => {
+            updateProfile(currentUser, {
+                photoURL: url,
+            });
         });
-    });
+    }
+    if (displayName.length > 0) {
+        await updateProfile(currentUser, {
+            displayName,
+        });
+    }
+    if (password.length > 0) {
+        // need reauthenticate before updating password when the token is expired
+        const credential = EmailAuthProvider.credential(
+            currentUser.email,
+            prompt(
+                "Please enter your previous password for reauthentication"
+            ) as string
+        );
+        const result = await reauthenticateWithCredential(
+            currentUser,
+            credential
+        );
+        console.log(result);
+        await updatePassword(currentUser, password);
+    }
 };
 
 // Update user Query
@@ -107,19 +134,22 @@ export function useUpdateUser() {
         mutationFn: updateUser,
         onSuccess: () => {
             toast.success("Profile updated");
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["updateUser"] });
         },
         onError: (err: any) => {
+            console.log(err.message);
             toast.error(err.message);
         },
     });
     return { mutate, isPending };
 }
 
+// Reset Password
 async function resetPasswordEmail(email: string) {
     await sendPasswordResetEmail(auth, email);
 }
 
+// Reset Password Query
 export function useResetPasswordEmail() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -132,6 +162,41 @@ export function useResetPasswordEmail() {
         },
         onError: (err: any) => {
             toast.error(err.message);
+        },
+    });
+    return { mutate, isPending };
+}
+
+// export async function updateUserEmail(email: string, currentUser: any) {
+//     // Before updateEmail, need to validate new email
+//     await updateEmail(currentUser, email);
+// }
+
+// Delete user
+async function deleteUserAccount(currentUser: any) {
+    const credential = EmailAuthProvider.credential(
+        currentUser.email,
+        prompt(
+            "Please enter your previous password for reauthentication"
+        ) as string
+    );
+    await reauthenticateWithCredential(currentUser, credential);
+
+    await deleteUser(currentUser).then(() => {
+        logOut();
+    });
+}
+
+export function useDeleteUserAccount() {
+    const queryClient = useQueryClient();
+    const { mutate, isPending } = useMutation({
+        mutationFn: deleteUserAccount,
+        onSuccess: () => {
+            toast.success("User deleted");
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            toast.error(`Error deleting user because of ${err.message}`);
         },
     });
     return { mutate, isPending };
