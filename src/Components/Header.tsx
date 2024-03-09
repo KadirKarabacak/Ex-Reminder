@@ -3,13 +3,12 @@ import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useDarkMode } from "../Contexts/DarkModeContext";
-import { Button } from "@mui/material";
+import { Button, Divider } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
-import { useEffect } from "react";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -32,6 +31,11 @@ const StyledListItem = styled.li`
     display: flex;
     align-items: center;
     gap: 1rem;
+
+    &:not(:first-child) {
+        border: 1px solid var(--color-grey-200);
+        border-radius: 3px;
+    }
 `;
 
 const StyledUserInfo = styled.div`
@@ -49,12 +53,28 @@ const StyledAvatar = styled.img`
     object-position: center center;
     border-radius: 50%;
     outline: 2px solid var(--color-grey-800);
+    transition: all 0.3s;
+
+    &:hover {
+        opacity: 0.9;
+        outline: 2px solid transparent;
+        scale: 1.1;
+        border-radius: 3px;
+    }
+`;
+
+const StyledName = styled.span`
+    color: var(--color-grey-800);
 `;
 
 const iconStyle = {
     width: "2rem",
     height: "2rem",
     color: "var(--color-grey-600)",
+    transition: "all .3s",
+    ":hover": {
+        color: "var(--color-brand-500)",
+    },
 };
 
 function Header() {
@@ -72,26 +92,41 @@ function Header() {
                                 alt="User Avatar"
                             />
                         )}
-                        {currentUser?.displayName}
+                        {!currentUser?.photoURL && (
+                            <StyledAvatar
+                                src="../../placeholder-avatar.png"
+                                alt="Placeholder Avatar"
+                            />
+                        )}
+                        <StyledName>
+                            {currentUser?.displayName
+                                ? currentUser.displayName
+                                : "User"}
+                        </StyledName>
                     </StyledListItem>
                 </StyledUserInfo>
+                <Divider
+                    orientation="vertical"
+                    variant="middle"
+                    flexItem
+                    sx={{ borderColor: "var(--color-grey-500)" }}
+                />
                 <StyledListItem>
                     <Button
-                        sx={{ fontSize: "2rem", minWidth: 0, p: "0.7rem" }}
+                        sx={{
+                            fontSize: "2rem",
+                            minWidth: 0,
+                            p: "0.7rem",
+                        }}
                         onClick={() => toggleDarkMode()}
                         color="inherit"
                         variant="text"
                     >
-                        {/* <Tooltip
-                            TransitionComponent={Zoom}
-                            title="Toggle dark mode"
-                        > */}
                         {isDarkMode ? (
                             <LightModeIcon sx={iconStyle} />
                         ) : (
                             <DarkModeIcon sx={iconStyle} />
                         )}
-                        {/* </Tooltip> */}
                     </Button>
                 </StyledListItem>
                 <StyledListItem>
