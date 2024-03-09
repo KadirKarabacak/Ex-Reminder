@@ -50,9 +50,9 @@ export default function App() {
                         },
                         style: {
                             fontSize: "16px",
-                            maxWidth: "500px",
+                            maxWidth: "400px",
                             padding: "16px 24px",
-                            backgroundColor: "var(--color-grey-0)",
+                            backgroundColor: "var(--color-grey-100)",
                             color: "var(--color-grey-700)",
                         },
                     }}
