@@ -5,12 +5,10 @@ import {
     sendEmailVerification,
     updateProfile,
     sendPasswordResetEmail,
-    updateEmail,
     updatePassword,
     reauthenticateWithCredential,
     EmailAuthProvider,
     deleteUser,
-    User,
 } from "firebase/auth";
 import { collection, getDocs } from "firebase/firestore";
 import toast from "react-hot-toast";
