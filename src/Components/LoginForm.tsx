@@ -23,6 +23,12 @@ const StyledTextField = styled(TextField)`
     & div > fieldset {
         border-color: var(--color-grey-500);
     }
+
+    &:hover > label,
+    &:hover > div > fieldset {
+        color: var(--color-brand-600);
+        border-color: var(--color-brand-600) !important;
+    }
 `;
 
 const StyledButtonContainer = styled.div`

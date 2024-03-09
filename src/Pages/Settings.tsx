@@ -5,7 +5,7 @@ import SettingForm from "../Components/SettingForm";
 
 const StyledSettings = styled.main`
     width: 100%;
-    height: 100dvh;
+    /* height: 100dvh; */
     background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
@@ -15,15 +15,6 @@ const StyledSettings = styled.main`
     box-shadow: var(--shadow-sm);
 `;
 
-const StyledParagraph = styled.p`
-    padding: 3rem 0 3rem 3rem;
-    font-size: 4rem;
-    height: max-content;
-    align-self: flex-start;
-    display: block;
-    color: var(--color-grey-800);
-`;
-
 const AnimatedStyledSettings = animated(StyledSettings);
 
 export default function Settings() {
@@ -31,7 +22,6 @@ export default function Settings() {
 
     return (
         <AnimatedStyledSettings style={animationProps}>
-            <StyledParagraph>Update user settings</StyledParagraph>
             <SettingForm />
         </AnimatedStyledSettings>
     );
