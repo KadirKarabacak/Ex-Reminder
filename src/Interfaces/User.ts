@@ -7,5 +7,9 @@ export interface CurrentUserTypes {
     currentUser: any;
     displayName: string;
     photoURL: any;
-    password: string;
+}
+
+export interface ModalTypes {
+    open: boolean;
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
 }
