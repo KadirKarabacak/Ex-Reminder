@@ -13,6 +13,9 @@ const StyledLogo = styled.img`
 `;
 
 const StyledTextField = styled(TextField)`
+    & div + p {
+        font-size: 1rem;
+    }
     & label {
         color: var(--color-grey-800);
     }
