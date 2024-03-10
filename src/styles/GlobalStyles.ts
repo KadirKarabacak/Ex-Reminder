@@ -144,7 +144,7 @@ button {
   cursor: not-allowed;
 }
 
-input:disabled {
+input:disabled, label:disabled {
   background-color: var(--color-grey-200);
   color: var(--color-grey-700);
 }
