@@ -16,6 +16,7 @@ This project is a project that I started to create in order to use all my experi
 -   Uuid
 -   Context-API
 -   LocalStorage
+-   Moment
 
 ## `Login [ Authentication & Authorization ]`
 
