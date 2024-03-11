@@ -8,4 +8,5 @@
 7- ✅ Add a new parameter to deleteUser function "deleteUserAccount()" called password. On delete user, when clicked to delete open a modal which is a form takes password input and delete account button, use instead of propmt
 8- Buttons disabled variations are looks weird, try to fix colors.
 9- ✅ On update user, abstract email and password update to another form. Do the same modal for update password take users previous password and revalidate user.
-10- UpdatePasswordModal > OutlinedInput handle helperText usage + add updatePassword feature // https://mui.com/material-ui/api/outlined-input/
+10- ✅ UpdatePasswordModal > OutlinedInput handle helperText usage + add updatePassword feature // https://mui.com/material-ui/api/outlined-input/
+11- ✅ Make sure on every update use tanstack-query
