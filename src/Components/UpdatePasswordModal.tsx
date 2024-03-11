@@ -7,7 +7,6 @@ import {
     InputAdornment,
     Modal,
     OutlinedInput,
-    TextField,
     Typography,
 } from "@mui/material";
 import styled from "styled-components";
@@ -16,6 +15,7 @@ import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import { ModalTypes } from "../Interfaces/User";
+import { useUpdateUserPassword } from "../Api/userController";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -32,7 +32,7 @@ const StyledBox = styled(Box)`
 const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
-    margin-top: 1rem;
+    margin-top: 2rem;
     justify-content: center;
 `;
 
@@ -43,7 +43,7 @@ const StyledTitle = styled.h4`
 `;
 
 const StyledInput = styled(OutlinedInput)`
-    margin-bottom: 1rem;
+    margin-bottom: 0.2rem;
     width: 100%;
     & > input {
         color: var(--color-grey-800);
@@ -63,6 +63,12 @@ const StyledInput = styled(OutlinedInput)`
     }
 `;
 
+const StyledErrorMessage = styled.p`
+    font-size: 1.3rem;
+    color: var(--color-red-700);
+    margin-bottom: 1rem;
+`;
+
 export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
     const { currentUser } = auth;
@@ -72,17 +78,20 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
         getValues,
         clearErrors,
         reset,
-        formState: { isSubmitting, errors },
+        formState: { errors },
     } = useForm();
+    const { mutateAsync: updatePassword, isPending: isUpdating } =
+        useUpdateUserPassword();
 
-    function onSubmitPassword() {
-        const { password, newPassword, repeatNewPassword } = getValues();
-        // Password Update
+    async function onSubmitPassword() {
+        const { password, newPassword } = getValues();
+        await updatePassword({ currentUser, password, newPassword });
         reset({
             password: "",
             newPassword: "",
-            repeatPassword: "",
+            repeatNewPassword: "",
         });
+        onCloseModal();
     }
 
     const handleClickShowPassword = () => setShowPassword(show => !show);
@@ -95,6 +104,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
     function onCloseModal() {
         handleClose(open);
         clearErrors();
+        reset();
     }
 
     return (
@@ -125,11 +135,10 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                         <Typography
                             id="transition-modal-description"
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
-                        >
-                            Deneme
-                        </Typography>
+                        ></Typography>
                         <StyledTitle>Password</StyledTitle>
                         <StyledInput
+                            disabled={isUpdating}
                             {...register("password", {
                                 required: "Password is required",
                                 minLength: {
@@ -159,10 +168,19 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 </InputAdornment>
                             }
                         />
+                        <StyledErrorMessage>
+                            {errors?.password
+                                ? (errors.password.message as React.ReactNode)
+                                : ""}
+                        </StyledErrorMessage>
                         <StyledTitle>New Password</StyledTitle>
                         <StyledInput
+                            disabled={isUpdating}
                             {...register("newPassword", {
                                 required: "New password is required",
+                                validate: value =>
+                                    value !== getValues().password ||
+                                    "New password cannot be the same as the old one",
                                 minLength: {
                                     value: 8,
                                     message:
@@ -190,8 +208,15 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 </InputAdornment>
                             }
                         />
+                        <StyledErrorMessage>
+                            {errors?.newPassword
+                                ? (errors.newPassword
+                                      .message as React.ReactNode)
+                                : ""}
+                        </StyledErrorMessage>
                         <StyledTitle>Repeat New Password</StyledTitle>
                         <StyledInput
+                            disabled={isUpdating}
                             {...register("repeatNewPassword", {
                                 required: "Repeat new password is required",
                                 validate: value =>
@@ -219,9 +244,15 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 </InputAdornment>
                             }
                         />
+                        <StyledErrorMessage>
+                            {errors?.repeatNewPassword
+                                ? (errors.repeatNewPassword
+                                      .message as React.ReactNode)
+                                : ""}
+                        </StyledErrorMessage>
                         <StyledButtonContainer>
                             <Button
-                                disabled={isSubmitting}
+                                disabled={isUpdating}
                                 sx={{
                                     backgroundColor: "var(--color-grey-700)",
                                     color: "var(--color-grey-50)",
@@ -245,7 +276,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 Update password
                             </Button>
                             <Button
-                                disabled={isSubmitting}
+                                disabled={isUpdating}
                                 onClick={onCloseModal}
                                 sx={{
                                     color: "var(--color-grey-800)",
