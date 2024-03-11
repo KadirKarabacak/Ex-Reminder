@@ -14,7 +14,7 @@ import styled from "styled-components";
 import { auth } from "../Api/firebase";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { updateUserEmail } from "../Api/userController";
+import { useUpdateUserEmail } from "../Api/userController";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import { ModalTypes } from "../Interfaces/User";
@@ -68,7 +68,7 @@ const StyledTextField = styled(TextField)`
 `;
 
 const StyledInput = styled(OutlinedInput)`
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     width: 100%;
     & > input {
         color: var(--color-grey-800);
@@ -88,6 +88,12 @@ const StyledInput = styled(OutlinedInput)`
     }
 `;
 
+const StyledErrorMessage = styled.p`
+    font-size: 1.3rem;
+    color: var(--color-red-700);
+    margin-bottom: 1rem;
+`;
+
 export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
 
@@ -98,25 +104,25 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
         getValues,
         clearErrors,
         reset,
-        formState: { isSubmitting, errors },
+        formState: { errors },
     } = useForm();
+    const { mutateAsync: updateEmail, isPending: isUpdating } =
+        useUpdateUserEmail();
 
-    function onSubmitEmail() {
+    async function onSubmitEmail() {
         const { email, password } = getValues();
         if (!email.length)
             return toast.error("There is no value to update email");
         if (email.length > 0) {
             if (currentUser?.email === email)
                 return toast.error("Current email is already in use");
-            updateUserEmail(currentUser, email, password).then(() => {
-                toast.success("Your verification mail was sent successfully");
-                onCloseModal();
-            });
+            await updateEmail({ currentUser, email, password });
         }
         reset({
             email: "",
             password: "",
         });
+        onCloseModal();
     }
 
     const handleClickShowPassword = () => setShowPassword(show => !show);
@@ -129,6 +135,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
     function onCloseModal() {
         handleClose(open);
         clearErrors();
+        reset();
     }
 
     return (
@@ -176,25 +183,27 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                         />
                         <StyledTitle>New Email</StyledTitle>
                         <StyledTextField
-                            disabled={isSubmitting}
+                            disabled={isUpdating}
                             placeholder="test@example.com"
-                            sx={{ width: "100%", mb: "1rem" }}
+                            sx={{ width: "100%", mb: "0.5rem" }}
                             variant="outlined"
                             {...register("email", {
-                                required: "Email is required",
+                                required: "New email is required",
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                     message: "Invalid email",
                                 },
                             })}
                             error={Boolean(errors?.email)}
-                            helperText={
-                                (errors?.email?.message as React.ReactNode) ||
-                                ""
-                            }
                         />
+                        <StyledErrorMessage>
+                            {errors?.email
+                                ? (errors.email.message as React.ReactNode)
+                                : ""}
+                        </StyledErrorMessage>
                         <StyledTitle>Password</StyledTitle>
                         <StyledInput
+                            disabled={isUpdating}
                             {...register("password", {
                                 required: "Password is required",
                             })}
@@ -219,9 +228,14 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                 </InputAdornment>
                             }
                         />
+                        <StyledErrorMessage>
+                            {errors?.password
+                                ? (errors.password.message as React.ReactNode)
+                                : ""}
+                        </StyledErrorMessage>
                         <StyledButtonContainer>
                             <Button
-                                disabled={isSubmitting}
+                                disabled={isUpdating}
                                 sx={{
                                     backgroundColor: "var(--color-grey-700)",
                                     color: "var(--color-grey-50)",
@@ -245,7 +259,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                 Send Verification Mail
                             </Button>
                             <Button
-                                disabled={isSubmitting}
+                                disabled={isUpdating}
                                 onClick={onCloseModal}
                                 sx={{
                                     color: "var(--color-grey-800)",
