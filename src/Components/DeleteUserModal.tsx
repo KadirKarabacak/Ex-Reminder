@@ -37,7 +37,7 @@ const StyledButtonContainer = styled.div`
 `;
 
 const StyledInput = styled(OutlinedInput)`
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
     width: 100%;
     & > input {
         color: var(--color-grey-800);
@@ -61,6 +61,12 @@ const StyledTitle = styled.h4`
     color: var(--color-grey-800);
     align-self: flex-start;
     margin-bottom: 0.7rem;
+`;
+
+const StyledErrorMessage = styled.p`
+    font-size: 1.3rem;
+    color: var(--color-red-700);
+    margin-bottom: 1rem;
 `;
 
 export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
@@ -156,6 +162,11 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                                 </InputAdornment>
                             }
                         />
+                        <StyledErrorMessage>
+                            {errors?.password
+                                ? (errors.password.message as React.ReactNode)
+                                : ""}
+                        </StyledErrorMessage>
                         <StyledButtonContainer>
                             <Button
                                 disabled={isDeleting}
