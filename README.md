@@ -53,7 +53,7 @@ This project is a project that I started to create in order to use all my experi
 
 Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime yenilerini eklemek ve alanımda kendimi daha yüksek bir seviyeye getirmek amacıyla oluşturmaya başladığım bir projedir.
 
-## `Tech-Stack`
+## `Teknoloji Yığını`
 
 -   React-Router
 -   Tanstack-Query
@@ -68,24 +68,24 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 -   Context-API
 -   LocalStorage
 
-## `Login [ Authentication & Authorization ]`
+## `Giriş [ Kimlik Doğrulama & Yetkilendirme ]`
 
 -   Login sayfası arayüzü oluşturulması için styled-components ve materialUI'dan faydalandım. Form bilgilerinin doğruluğunu ele almak ve kullanıcıya yapabileceği hatalar doğrultusunda gösterilecek hata mesajları için react-hook-form kütüphanesinin zengin içeriğini kullandım.
 -   Authentication ve Authorization için Firebase'in sağlamış olduğu **signInWithEmailAndPassword** fonksiyonunu kullanarak oluşturduğum login sayfası ve login form'undan kullanıcının bilgilerini ele alarak kullanıcının authenticated veya not verified kondisyonuna göre uygulamaya erişimine izin verilir.
 
-## `Register`
+## `Kayıt`
 
 -   Henüz bir hesabı olmayan ve kullanıcılar için bir register formu mevcut olup gerekli bilgileri sağladıkları taktirde kullanıcı login sayfasına yeni oluşturduğu hesap bilgilerini girmek ve uygulamaya erişim sağlamak adına yönlendirilir. Oluşturulan yeni hesap için kullanıcının e-mail'ine bir doğrulama maili gönderilir ve kullanıcıdan mail onayı beklenir.
 
-## `DarkMode & LightMode`
+## `Karanlık Mod & Açık Mod`
 
 -   Kullanıcılar diledikleri temayı kullanmakta özgürdürler. Darkmode & LightMode durumunu ele almak için bir DarkModeContext oluşturdum. Bu context kullanıcının cihaz temasını otomatik olarak uygulamaya uyarlayacak biçimde ayarlandı.
 
-## `Updating User Name & Avatar`
+## `Kullanıcı İsmi & Avatar Güncelleme`
 
 -   Kullanıcının gösterilecek ismi ve avatar'ını güncelleyebilmesi için uygulama içerisinde settings sayfası ve settings formunu oluşturdum. Login ve register'da olduğu gibi arayüz kütüphanelerinden destek aldım. Yine firebase'in sağlamış olduğu **uploadBytes** fonksiyonu ile database'imi güncellerken **getDownloadURL** fonksiyonu ile de kullanıcının daha önceden seçtiği avatar'ını header kısmımda göstermek için kullandım.
 
-## `Updating Email & Password `
+## `Email & Şifre Güncelleme`
 
 -   Kullanıcının şifre ve email bilgisini güncelleyebilmek için iki durumu da ele alan **modal pencereleri** oluşturdum.
 -   Email güncelleme modalında kullanıcıya mevcut email'ini gösteren bir alan, yeni email bilgisini girebileceği bir alan, ve email bilgisini güncelleyebilmesi için hesap şifresini gireceği bir alan tasarladım.
@@ -94,7 +94,7 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 -   Kullanıcının mevcut şifresini doğru girmediği taktirde yeni bir şifre oluşturmasını engelledim. Aynı email güncellememde olduğu gibi şifre güncellememde de tanstack-query'den faydalandım.
 -   Her iki durum güncellemesinde de kullanıcının bilgi güncellemesi yapmadan önce yeniden authenticate olması durumunu güncellemek için mevcut şifresini kullanabileceğim firebase'in sunduğu **reauthenticateWithCredential** fonksiyonundan faydalandım.
 
-## `Deleting User`
+## `Kullanıcı Silme`
 
 -   Kullanıcının mevcut hesabını silebilmesi için bir modal arayüzü oluşturdum ve kullanıcıya hesabının silinmesi durumunda gerçekleşecek durumları açıklayan bir uyarıda bulundum.
 -   Kullanıcı **mevcut şifresini** girerek hesabını silebilir ve hesap silindikten sonra kullanıcı otomatik olarak **logout** edilir ve login sayfasına yönlendirilir.
