@@ -14,7 +14,13 @@ import {
 import { collection, getDocs } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
-import { CurrentUserTypes, LoginTypes } from "../Interfaces/User";
+import {
+    CurrentUserTypes,
+    DeleteUserTypes,
+    LoginTypes,
+    UpdateUserEmailTypes,
+    UpdateUserPasswordTypes,
+} from "../Interfaces/User";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
@@ -108,17 +114,6 @@ const updateUser = async ({
             displayName,
         });
     }
-    // Remove password update from here
-    // if (password.length > 0) {
-    //     const credential = EmailAuthProvider.credential(
-    //         currentUser.email,
-    //         prompt(
-    //             "Please enter your previous password for reauthentication"
-    //         ) as string
-    //     );
-    //     await reauthenticateWithCredential(currentUser, credential);
-    //     await updatePassword(currentUser, password);
-    // }
 };
 
 // Update user Query
@@ -137,12 +132,12 @@ export function useUpdateUser() {
     return { mutate, isPending };
 }
 
-// Reset Password
+// Reset Password [ Forgot Password ]
 async function resetPasswordEmail(email: string) {
     await sendPasswordResetEmail(auth, email);
 }
 
-// Reset Password Query
+// Reset Password Query [ Forgot Password ]
 export function useResetPasswordEmail() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -161,13 +156,7 @@ export function useResetPasswordEmail() {
 }
 
 // Delete user
-async function deleteUserAccount({
-    currentUser,
-    password,
-}: {
-    currentUser: any;
-    password: string;
-}) {
+async function deleteUserAccount({ currentUser, password }: DeleteUserTypes) {
     const credential = EmailAuthProvider.credential(
         currentUser.email,
         password
@@ -183,13 +172,13 @@ async function deleteUserAccount({
 export function useDeleteUserAccount() {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
-        mutationFn: (variables: { currentUser: any; password: string }) =>
+        mutationFn: (variables: DeleteUserTypes) =>
             deleteUserAccount(variables),
         onSuccess: () => {
             toast.success("User deleted");
             queryClient.invalidateQueries();
         },
-        onError: (err: any) => {
+        onError: () => {
             toast.error(
                 `Error on deleting user because of your password is wrong`
             );
@@ -213,21 +202,54 @@ export async function updateUserEmail(
 }
 
 // Update user email Query
-// export function useUpdateUserEmail() {
-//     const queryClient = useQueryClient();
-//     const { mutate, isPending } = useMutation({
-//         mutationFn: (variables: {
-//             currentUser: any;
-//             email: string;
-//             password: string;
-//         }) => updateUserEmail(variables),
-//         onSuccess: () => {
-//             toast.success("Email updated");
-//             queryClient.invalidateQueries();
-//         },
-//         onError: (err: any) => {
-//             toast.error(err.message);
-//         },
-//     });
-//     return { mutate, isPending };
-// }
+export function useUpdateUserEmail() {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateUserEmailTypes) => {
+            const { currentUser, email, password } = variables;
+            await updateUserEmail(currentUser, email, password);
+            return;
+        },
+        onSuccess: () => {
+            toast.success("Your verification mail was sent successfully");
+            queryClient.invalidateQueries();
+        },
+        onError: () => {
+            toast.error("Incorrect password or email, check your credentials");
+        },
+    });
+    return { mutateAsync, isPending };
+}
+
+// Update user password
+export async function updateUserPassword({
+    currentUser,
+    password,
+    newPassword,
+}: UpdateUserPasswordTypes) {
+    const credential = EmailAuthProvider.credential(
+        currentUser.email,
+        password
+    );
+    await reauthenticateWithCredential(currentUser, credential);
+    await updatePassword(currentUser, newPassword);
+}
+
+// Update user password Query
+export function useUpdateUserPassword() {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateUserPasswordTypes) => {
+            await updateUserPassword(variables);
+            return;
+        },
+        onSuccess: () => {
+            toast.success("Password successfully updated");
+            queryClient.invalidateQueries();
+        },
+        onError: () => {
+            toast.error("Wrong or invalid password");
+        },
+    });
+    return { mutateAsync, isPending };
+}
