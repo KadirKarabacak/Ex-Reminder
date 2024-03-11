@@ -1,4 +1,4 @@
-# `React-Router-Project` [ ENG ]
+# `React-Router-Project` [ ENG 🔵 ]
 
 This project is a project that I started to create in order to use all my experience I have learned so far, to add new ones to my knowledge and to bring myself to a higher level in my field.
 
@@ -17,6 +17,19 @@ This project is a project that I started to create in order to use all my experi
 -   Context-API
 -   LocalStorage
 -   Moment
+
+<p align="left"> 
+<img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="45" height="45" />
+<img src="https://techstack-generator.vercel.app/js-icon.svg" alt="icon" width="45" height="45" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/git/git-original.svg" width="40" height="40" />         
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg" width="40" height="40" /> 
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/npm/npm-original-wordmark.svg" width="40" height="40" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/materialui/materialui-original.svg" width="40" height="40" />
+<img src="https://techstack-generator.vercel.app/ts-icon.svg" alt="icon" width="45" height="45" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/firebase/firebase-original-wordmark.svg" width="40" height="40" />
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/reactrouter/reactrouter-original-wordmark.svg"  width="45" height="45" />
+<img src="./public/readme-react-spring.png"  width="45" height="45" />
+ </p>
 
 ## `Login [ Authentication & Authorization ]`
 
@@ -49,7 +62,7 @@ This project is a project that I started to create in order to use all my experi
 -   I have created a modal interface for the user to delete their existing account and I have provided a warning to the user explaining what happens if their account is deleted.
 -   The user can delete their account by entering their **current password** and after deleting the account the user is automatically **logout** and redirected to the login page.
 
-# `React-Router-Project` [ TR ]
+# `React-Router-Project` [ TR 🔴 ]
 
 Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime yenilerini eklemek ve alanımda kendimi daha yüksek bir seviyeye getirmek amacıyla oluşturmaya başladığım bir projedir.
 
