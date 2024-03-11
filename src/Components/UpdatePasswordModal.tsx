@@ -189,7 +189,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                             })}
                             error={Boolean(errors?.password)}
                             placeholder="New password"
-                            id="outlined-adornment-password"
+                            id="outlined-adornment-newpassword"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
                                 <InputAdornment position="end">
@@ -225,7 +225,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                             })}
                             error={Boolean(errors?.password)}
                             placeholder="Repeat New password"
-                            id="outlined-adornment-password"
+                            id="outlined-adornment-repeatpassword"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
                                 <InputAdornment position="end">
