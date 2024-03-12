@@ -168,7 +168,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                         >
                             For the email update, we will send a confirmation
-                            email to your new email account.{" "}
+                            mail to your new email account.{" "}
                             <strong style={{ color: "var(--color-red-700)" }}>
                                 Make sure you have access to the new email
                                 address.
