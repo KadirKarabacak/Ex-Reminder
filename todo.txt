@@ -10,3 +10,16 @@
 9- ✅ On update user, abstract email and password update to another form. Do the same modal for update password take users previous password and revalidate user.
 10- ✅ UpdatePasswordModal > OutlinedInput handle helperText usage + add updatePassword feature // https://mui.com/material-ui/api/outlined-input/
 11- ✅ Make sure on every update use tanstack-query
+12- For every row in the table add vertical button menu fo CRUD
+13- Add notifications button to the header
+
+
+
+
+
+
+
+
+OLASI PROJE ICERIGI
+- Şirkette yapılan toplantılar ve içeriklerinin tutulduğu bir sayfa
+- Muhasebe sayfası alım / satım verilerini tutan tablolar
