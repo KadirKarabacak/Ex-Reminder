@@ -21,58 +21,58 @@ const StyledChartTitle = styled.h2`
 
 export type RandomData = {
     name: string;
-    currency: string;
-    wallet: string;
+    sales: string;
+    profit: string;
     createdAt: string;
 };
 
 export const data: RandomData[] = [
     {
         name: "Nolan Acevedo",
-        currency: "$24.58",
-        wallet: "100",
+        sales: "$24.58",
+        profit: "100",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Porter Green",
-        currency: "$49.15",
-        wallet: "200",
+        sales: "$49.15",
+        profit: "200",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Russell Benson",
-        currency: "$82.16",
-        wallet: "300",
+        sales: "$82.16",
+        profit: "300",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Francesca Lamb",
-        currency: "$73.07",
-        wallet: "400",
+        sales: "$73.07",
+        profit: "400",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Marsden Terrell",
-        currency: "$44.25",
-        wallet: "700",
+        sales: "$44.25",
+        profit: "700",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Marsden Terrell",
-        currency: "$44.25",
-        wallet: "700",
+        sales: "$44.25",
+        profit: "700",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Francesca Lamb",
-        currency: "$73.07",
-        wallet: "400",
+        sales: "$73.07",
+        profit: "400",
         createdAt: format(new Date(), "MMM dd"),
     },
     {
         name: "Marsden Terrell",
-        currency: "$44.25",
-        wallet: "700",
+        sales: "$44.25",
+        profit: "700",
         createdAt: format(new Date(), "MMM dd"),
     },
 ];
@@ -82,14 +82,14 @@ export default function Chart() {
 
     const colors = isDarkMode
         ? {
-              currency: { stroke: "#4f46e5", fill: "#4f46e5" },
-              wallet: { stroke: "#22c55e", fill: "#22c55e" },
+              sales: { stroke: "#4f46e5", fill: "#4f46e5" },
+              profit: { stroke: "#22c55e", fill: "#22c55e" },
               text: "#e5e7eb",
               background: "#18212f",
           }
         : {
-              currency: { stroke: "#4f46e5", fill: "#c7d2fe" },
-              wallet: { stroke: "#16a34a", fill: "#dcfce7" },
+              sales: { stroke: "#4f46e5", fill: "#c7d2fe" },
+              profit: { stroke: "#16a34a", fill: "#dcfce7" },
               text: "#374151",
               background: "#fff",
           };
@@ -116,7 +116,7 @@ export default function Chart() {
                     flexDirection: "column",
                 }}
             >
-                <StyledChartTitle>Chart name</StyledChartTitle>
+                <StyledChartTitle>Annual sales</StyledChartTitle>
                 <ResponsiveContainer height={300} width="100%">
                     {/* Give data to AreaChart Component */}
                     <AreaChart data={data}>
@@ -138,21 +138,21 @@ export default function Chart() {
                         />
                         {/* Changes the tooltip styling */}
                         <Area
-                            dataKey="currency"
+                            dataKey="sales"
                             type="monotone"
-                            stroke={colors.currency?.stroke}
-                            fill={colors.currency?.fill}
+                            stroke={colors.sales?.stroke}
+                            fill={colors.sales?.fill}
                             strokeWidth={2}
-                            name="Currency"
+                            name="Sales"
                             unit="$"
                         />
                         <Area
-                            dataKey="wallet"
+                            dataKey="profit"
                             type="monotone"
-                            stroke={colors.wallet?.stroke}
-                            fill={colors.wallet?.fill}
+                            stroke={colors.profit?.stroke}
+                            fill={colors.profit?.fill}
                             strokeWidth={2}
-                            name="Wallet"
+                            name="Profit"
                             unit="$"
                         />
                     </AreaChart>
