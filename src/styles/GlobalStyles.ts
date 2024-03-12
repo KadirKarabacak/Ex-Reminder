@@ -187,78 +187,14 @@ img {
   filter: grayscale(var(--image-grayscale)) opacity(var(--image-opacity));
 }
 
+svg{
+  color: var(--color-grey-800);
+}
+
+.Mui-active{
+  color:  var(--color-grey-800)!important;
+}
+
 `;
 
 export default GlobalStyles;
-
-// import { createTheme } from "@mui/material/styles";
-
-// const lightTheme = createTheme({
-//     palette: {
-//         mode: "light",
-//         primary: {
-//             main: "#6366f1",
-//         },
-//         secondary: {
-//             main: "#4f46e5",
-//         },
-//         error: {
-//             main: "#b91c1c",
-//         },
-//         background: {
-//             default: "#fff",
-//             paper: "#f3f4f6",
-//         },
-//         text: {
-//             primary: "#374151",
-//             secondary: "#6b7280",
-//         },
-//     },
-//     shadows: {
-//         sm: "0 1px 2px rgba(0, 0, 0, 0.04)",
-//         md: "0px 0.6rem 2.4rem rgba(0, 0, 0, 0.06)",
-//         lg: "0 2.4rem 3.2rem rgba(0, 0, 0, 0.12)",
-//     },
-//     borderRadius: {
-//         tiny: "3px",
-//         sm: "5px",
-//         md: "7px",
-//         lg: "9px",
-//     },
-// });
-
-// const darkTheme = createTheme({
-//     palette: {
-//         mode: "dark",
-//         primary: {
-//             main: "#6366f1",
-//         },
-//         secondary: {
-//             main: "#4f46e5",
-//         },
-//         error: {
-//             main: "#b91c1c",
-//         },
-//         background: {
-//             default: "#18212f",
-//             paper: "#1f2937",
-//         },
-//         text: {
-//             primary: "#e5e7eb",
-//             secondary: "#9ca3af",
-//         },
-//     },
-//     shadows: {
-//         sm: "0 1px 2px rgba(0, 0, 0, 0.4)",
-//         md: "0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3)",
-//         lg: "0 2.4rem 3.2rem rgba(0, 0, 0, 0.4)",
-//     },
-//     borderRadius: {
-//         tiny: "3px",
-//         sm: "5px",
-//         md: "7px",
-//         lg: "9px",
-//     },
-// });
-
-// export { lightTheme, darkTheme };
