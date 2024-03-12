@@ -2,6 +2,7 @@ import styled from "styled-components";
 import LightModeIcon from "@mui/icons-material/LightMode";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
+import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useDarkMode } from "../Contexts/DarkModeContext";
 import { Button, Divider } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
@@ -77,6 +78,12 @@ const iconStyle = {
     },
 };
 
+const StyledButton = styled(Button)`
+    &:hover > svg {
+        color: var(--color-brand-500);
+    }
+`;
+
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const { currentUser } = auth;
@@ -107,45 +114,62 @@ function Header() {
                 </StyledUserInfo>
                 <Divider
                     orientation="vertical"
-                    variant="middle"
+                    variant="fullWidth"
                     flexItem
-                    sx={{ borderColor: "var(--color-grey-500)" }}
+                    sx={{ borderColor: "var(--color-grey-300)" }}
                 />
                 <StyledListItem>
-                    <Button
-                        sx={{
-                            fontSize: "2rem",
-                            minWidth: 0,
-                            p: "0.7rem",
-                        }}
-                        onClick={() => toggleDarkMode()}
-                        color="inherit"
-                        variant="text"
-                    >
-                        {isDarkMode ? (
-                            <LightModeIcon sx={iconStyle} />
-                        ) : (
-                            <DarkModeIcon sx={iconStyle} />
-                        )}
-                    </Button>
+                    <Tooltip TransitionComponent={Zoom} title="Notifications">
+                        <StyledButton
+                            sx={{
+                                fontSize: "2rem",
+                                minWidth: 0,
+                                p: "0.7rem",
+                            }}
+                            color="inherit"
+                            variant="text"
+                        >
+                            <NotificationsIcon sx={iconStyle} />
+                        </StyledButton>
+                    </Tooltip>
                 </StyledListItem>
                 <StyledListItem>
-                    <Button
-                        sx={{
-                            fontSize: "2rem",
-                            minWidth: 0,
-                            p: "0.7rem",
-                            lineHeight: 0,
-                        }}
-                        color="inherit"
-                        variant="text"
-                    >
-                        <Tooltip TransitionComponent={Zoom} title="Logout">
+                    <Tooltip TransitionComponent={Zoom} title="Toggle Darkmode">
+                        <StyledButton
+                            sx={{
+                                fontSize: "2rem",
+                                minWidth: 0,
+                                p: "0.7rem",
+                            }}
+                            onClick={() => toggleDarkMode()}
+                            color="inherit"
+                            variant="text"
+                        >
+                            {isDarkMode ? (
+                                <LightModeIcon sx={iconStyle} />
+                            ) : (
+                                <DarkModeIcon sx={iconStyle} />
+                            )}
+                        </StyledButton>
+                    </Tooltip>
+                </StyledListItem>
+                <StyledListItem>
+                    <Tooltip TransitionComponent={Zoom} title="Logout">
+                        <StyledButton
+                            sx={{
+                                fontSize: "2rem",
+                                minWidth: 0,
+                                p: "0.7rem",
+                                lineHeight: 0,
+                            }}
+                            color="inherit"
+                            variant="text"
+                        >
                             <Link onClick={() => logOut()} to="/login">
                                 <LogoutIcon sx={iconStyle} />
                             </Link>
-                        </Tooltip>
-                    </Button>
+                        </StyledButton>
+                    </Tooltip>
                 </StyledListItem>
             </StyledList>
         </StyledHeader>
