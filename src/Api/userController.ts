@@ -24,6 +24,7 @@ import {
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
+import i18n from "../i18n";
 
 // Get All Users
 export const getUsers = async () => {
@@ -46,14 +47,9 @@ export const signInWithEmailAndPasswordQuery = async ({
         );
         const user = userCredential.user;
         if (user) {
-            toast.success("Successfully logged in, redirecting...");
             return true;
         }
-    } catch (error) {
-        toast.error(
-            "Wrong email or password. Check your credentials and try again"
-        );
-    }
+    } catch (error) {}
     return false;
 };
 
@@ -71,13 +67,15 @@ export const createUserWithEmailAndPasswordQuery = async ({
         const user = userCredential.user;
         await sendEmailVerification(user);
         if (user) {
-            toast.success(
-                "User successfully created, check your email for verification."
-            );
             return true;
         }
-    } catch (error) {
-        toast.error("There was an error creating the user.");
+    } catch (error: any) {
+        console.log(error.message);
+        if (error.message.includes("email-already-in-use")) {
+            toast.error(i18n.t("Email already in use"));
+        } else {
+            toast.error(i18n.t("There was an error creating the user."));
+        }
     }
     return false;
 };
@@ -86,12 +84,12 @@ export const createUserWithEmailAndPasswordQuery = async ({
 export const logOut = async () => {
     signOut(auth)
         .then(() => {
-            ("Logged out");
-            toast.success("Successfully logged out");
+            return true;
         })
         .catch(error => {
-            toast.error(`Something went wrong with ${error.message}`);
+            toast.error(i18n.t(`Something went wrong with ${error.message}`));
         });
+    return false;
 };
 
 // Update user
@@ -122,7 +120,7 @@ export function useUpdateUser() {
     const { mutate, isPending } = useMutation({
         mutationFn: updateUser,
         onSuccess: () => {
-            toast.success("Profile updated");
+            toast.success(i18n.t("Profile updated"));
             queryClient.invalidateQueries({ queryKey: ["updateUser"] });
         },
         onError: (err: any) => {
@@ -144,7 +142,7 @@ export function useResetPasswordEmail() {
     const { mutate, isPending } = useMutation({
         mutationFn: resetPasswordEmail,
         onSuccess: () => {
-            toast.success("Password reset email sent");
+            toast.success(i18n.t("Password reset email sent"));
             queryClient.invalidateQueries();
             navigate("/login");
         },
@@ -175,12 +173,14 @@ export function useDeleteUserAccount() {
         mutationFn: (variables: DeleteUserTypes) =>
             deleteUserAccount(variables),
         onSuccess: () => {
-            toast.success("User deleted");
+            toast.success(i18n.t("User deleted"));
             queryClient.invalidateQueries();
         },
         onError: () => {
             toast.error(
-                `Error on deleting user because of your password is wrong`
+                i18n.t(
+                    `Error on deleting user because of your password is wrong`
+                )
             );
         },
     });
@@ -211,11 +211,15 @@ export function useUpdateUserEmail() {
             return;
         },
         onSuccess: () => {
-            toast.success("Your verification mail was sent successfully");
+            toast.success(
+                i18n.t("Your verification mail was sent successfully")
+            );
             queryClient.invalidateQueries();
         },
         onError: () => {
-            toast.error("Incorrect password or email, check your credentials");
+            toast.error(
+                i18n.t("Incorrect password or email, check your credentials")
+            );
         },
     });
     return { mutateAsync, isPending };
@@ -244,11 +248,11 @@ export function useUpdateUserPassword() {
             return;
         },
         onSuccess: () => {
-            toast.success("Password successfully updated");
+            toast.success(i18n.t("Password successfully updated"));
             queryClient.invalidateQueries();
         },
         onError: () => {
-            toast.error("Wrong or invalid password");
+            toast.error(i18n.t("Wrong or invalid password"));
         },
     });
     return { mutateAsync, isPending };
