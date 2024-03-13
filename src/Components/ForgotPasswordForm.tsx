@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Heading from "../Components/Heading";
 import { useResetPasswordEmail } from "../Api/userController";
+import { useTranslation } from "react-i18next";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -47,6 +48,7 @@ const StyledParagraph = styled.p`
 `;
 
 export default function ForgotPasswordForm() {
+    const { t } = useTranslation();
     const {
         register,
         handleSubmit,
@@ -83,17 +85,17 @@ export default function ForgotPasswordForm() {
                 }}
             >
                 <StyledLogo src="../../logo-here.png" />
-                <Heading title="Reset your password" />
+                <Heading title={t("Reset your password")} />
                 <StyledTextField
                     label="Email"
                     disabled={isResetting}
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("email", {
-                        required: "Email is required",
+                        required: t("Email is required"),
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email",
+                            message: t("Invalid email"),
                         },
                     })}
                     id="email"
@@ -123,9 +125,9 @@ export default function ForgotPasswordForm() {
                         type="submit"
                         variant="contained"
                     >
-                        Reset Password
+                        {t("Reset Password")}
                     </Button>
-                    <StyledParagraph>or</StyledParagraph>
+                    <StyledParagraph>{t("or")}</StyledParagraph>
                     <Button
                         onClick={() => navigate("/login")}
                         sx={{
@@ -146,7 +148,7 @@ export default function ForgotPasswordForm() {
                         }}
                         variant="outlined"
                     >
-                        Back to Login
+                        {t("Back to login")}
                     </Button>
                 </StyledButtonContainer>
             </Paper>
