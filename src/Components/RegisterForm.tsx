@@ -5,6 +5,8 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { createUserWithEmailAndPasswordQuery } from "../Api/userController";
 import { useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -40,6 +42,7 @@ const StyledButtonContainer = styled.div`
 `;
 
 export default function LoginForm() {
+    const { t } = useTranslation();
     const { register, handleSubmit, reset, formState, getValues, setFocus } =
         useForm();
     const { errors, isSubmitting } = formState;
@@ -53,7 +56,15 @@ export default function LoginForm() {
             email,
             password,
         });
-        if (createState) navigate("/login");
+        console.log(createState);
+        if (createState) {
+            navigate("/login");
+            toast.success(
+                t(
+                    "User successfully created, check your email for verification."
+                )
+            );
+        }
         reset();
     }
 
@@ -77,17 +88,17 @@ export default function LoginForm() {
                 }}
             >
                 <StyledLogo src="../../logo-here.png" />
-                <Heading title="Register to get started" />
+                <Heading title={t("Register to get started")} />
                 <StyledTextField
                     disabled={isSubmitting}
                     label="Email"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("email", {
-                        required: "Email is required",
+                        required: t("Email is required"),
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email",
+                            message: t("Invalid email"),
                         },
                     })}
                     id="email"
@@ -98,14 +109,16 @@ export default function LoginForm() {
                 />
                 <StyledTextField
                     disabled={isSubmitting}
-                    label="Password"
+                    label={t("Password")}
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("password", {
-                        required: "Password is required",
+                        required: t("Password is required"),
                         minLength: {
                             value: 8,
-                            message: "Password must be at least 8 characters",
+                            message: t(
+                                "Password must be at least 8 characters"
+                            ),
                         },
                     })}
                     id="password"
@@ -117,14 +130,14 @@ export default function LoginForm() {
                 />
                 <StyledTextField
                     disabled={isSubmitting}
-                    label="Repeat Password"
+                    label={t("Repeat Password")}
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("repeatPassword", {
-                        required: "Password repeat is required",
+                        required: t("Password repeat is required"),
                         validate: value =>
                             getValues().password === value ||
-                            "Passwords do not match",
+                            t("Passwords do not match"),
                     })}
                     id="repeatPassword"
                     type="password"
@@ -157,9 +170,9 @@ export default function LoginForm() {
                         type="submit"
                         variant="contained"
                     >
-                        Register
+                        {t("Register")}
                     </Button>
-                    <p>or</p>
+                    <p>{t("or")}</p>
                     <Button
                         disabled={isSubmitting}
                         onClick={() => navigate("/login")}
@@ -182,7 +195,7 @@ export default function LoginForm() {
                         type="submit"
                         variant="outlined"
                     >
-                        Back to login
+                        {t("Back to login")}
                     </Button>
                 </StyledButtonContainer>
             </Paper>
