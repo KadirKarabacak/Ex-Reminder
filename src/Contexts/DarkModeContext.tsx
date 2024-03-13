@@ -1,6 +1,5 @@
 import React, { createContext, useContext, useEffect } from "react";
 import { useLocalStorageState } from "../Hooks/useLocalStorageState";
-import toast from "react-hot-toast";
 
 interface DarkModeProviderProps {
     children: React.ReactNode;
