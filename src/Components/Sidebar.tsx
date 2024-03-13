@@ -6,6 +6,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Tooltip, Zoom } from "@mui/material";
+import { useTranslation } from "react-i18next";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -62,45 +63,58 @@ const iconStyle = {
 };
 
 function Sidebar() {
+    const { t } = useTranslation();
     return (
         <StyledSidebar>
             <StyledImg src="../../logo-here.png" />
-            <Tooltip TransitionComponent={Zoom} title="Home" placement="right">
+            <Tooltip
+                TransitionComponent={Zoom}
+                title={t("Home")}
+                placement="right"
+            >
                 <StyledNavLink to="/">
                     <HomeIcon sx={iconStyle} />
-                    Home
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title="About" placement="right">
-                <StyledNavLink to="/about">
-                    <InfoIcon sx={iconStyle} />
-                    About
+                    {t("Home")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title="Contact"
+                title={t("About")}
+                placement="right"
+            >
+                <StyledNavLink to="/about">
+                    <InfoIcon sx={iconStyle} />
+                    {t("About")}
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip
+                TransitionComponent={Zoom}
+                title={t("Contact")}
                 placement="right"
             >
                 <StyledNavLink to="/contact">
                     <QuestionAnswerIcon sx={iconStyle} />
-                    Contact
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip TransitionComponent={Zoom} title="Users" placement="right">
-                <StyledNavLink to="/users">
-                    <GroupIcon sx={iconStyle} />
-                    Users
+                    {t("Contact")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title="Settings"
+                title={t("Users")}
+                placement="right"
+            >
+                <StyledNavLink to="/users">
+                    <GroupIcon sx={iconStyle} />
+                    {t("Users")}
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip
+                TransitionComponent={Zoom}
+                title={t("Settings")}
                 placement="right"
             >
                 <StyledNavLink to="/settings">
                     <SettingsIcon sx={iconStyle} />
-                    Settings
+                    {t("Settings")}
                 </StyledNavLink>
             </Tooltip>
         </StyledSidebar>
