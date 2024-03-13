@@ -1,24 +1,17 @@
-import {
-    Button,
-    IconButton,
-    InputAdornment,
-    OutlinedInput,
-    Paper,
-    TextField,
-} from "@mui/material";
+import { Button, Paper, TextField } from "@mui/material";
 import styled from "styled-components";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled as muiStyled } from "@mui/material/styles";
 import { useForm } from "react-hook-form";
 import { auth } from "../Api/firebase";
 import { useUpdateUser } from "../Api/userController";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React, { useEffect } from "react";
 import toast from "react-hot-toast";
 import { extractFileName } from "../Utils/utils";
 import DeleteUserModal from "./DeleteUserModal";
 import UpdateEmailModal from "./UpdateEmailModal";
 import UpdatePasswordModal from "./UpdatePasswordModal";
+import { useTranslation } from "react-i18next";
 
 const StyledTitle = styled.h4`
     color: var(--color-grey-800);
@@ -44,26 +37,6 @@ const StyledTextField = styled(TextField)`
     }
 
     &:hover > div > fieldset {
-        border-color: var(--color-brand-600) !important;
-    }
-`;
-
-const StyledInput = styled(OutlinedInput)`
-    margin-bottom: 0.7rem;
-    & > input {
-        color: var(--color-grey-800);
-        font-size: 1.3rem;
-    }
-
-    & > input + div > button {
-        color: var(--color-grey-800);
-    }
-
-    & > input + div + fieldset {
-        border-color: var(--color-grey-500);
-    }
-
-    &:hover > input + div + fieldset {
         border-color: var(--color-brand-600) !important;
     }
 `;
@@ -118,21 +91,15 @@ const StyledButtonContainer = styled.div`
 `;
 
 export default function SettingForm() {
-    const [showPassword, setShowPassword] = React.useState(false);
     const [open, setOpen] = React.useState(false);
     const [openEmailModal, setOpenEmailModal] = React.useState(false);
     const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
-    const {
-        register,
-        handleSubmit,
-        getValues,
-        reset,
-        formState: { errors },
-    } = useForm();
+    const { register, handleSubmit, getValues, reset } = useForm();
     const { currentUser } = auth;
     const { mutate: updateUser, isPending } = useUpdateUser();
     const initialPhotoURL = currentUser ? currentUser.photoURL : null;
     const [photoURL, setPhotoURL] = React.useState<any>(initialPhotoURL);
+    const { t } = useTranslation();
 
     const handleOpenModal = () => setOpen(true);
     const handleCloseModal = () => setOpen(false);
@@ -140,12 +107,7 @@ export default function SettingForm() {
     const handleCloseEmailModal = () => setOpenEmailModal(false);
     const handleOpenPasswordModal = () => setOpenPasswordModal(true);
     const handleClosePasswordModal = () => setOpenPasswordModal(false);
-    const handleClickShowPassword = () => setShowPassword(show => !show);
-    const handleMouseDownPassword = (
-        event: React.MouseEvent<HTMLButtonElement>
-    ) => {
-        event.preventDefault();
-    };
+
     const handleReset = () => {
         reset({
             displayName: "",
@@ -160,7 +122,7 @@ export default function SettingForm() {
     function onSubmit() {
         const { photoURL, displayName } = getValues();
         if (!photoURL.length && !displayName.length)
-            return toast.error("There is no value to update user");
+            return toast.error(t("There is no value to update user"));
         updateUser({ photoURL, displayName, currentUser });
         reset({
             displayName: "",
@@ -184,16 +146,18 @@ export default function SettingForm() {
                         boxShadow: "var(--shadow-md)",
                     }}
                 >
-                    <StyledParagraph>Update username & avatar</StyledParagraph>
-                    <StyledTitle>Display Name</StyledTitle>
+                    <StyledParagraph>
+                        {t("Update username & avatar")}
+                    </StyledParagraph>
+                    <StyledTitle>{t("Display Name")}</StyledTitle>
                     <StyledTextField
                         disabled={isPending}
-                        placeholder="Display Name"
+                        placeholder={t("Display Name")}
                         sx={{ minWidth: "100%", mb: "1rem" }}
                         variant="outlined"
                         {...register("displayName")}
                     />
-                    <StyledTitle>Profile photo</StyledTitle>
+                    <StyledTitle>{t("Profile photo")}</StyledTitle>
                     <StyledFileCont>
                         <Button
                             disabled={isPending}
@@ -222,8 +186,8 @@ export default function SettingForm() {
                                 },
                             }}
                         >
-                            <CloudUploadIcon sx={{ fontSize: "2rem" }} /> Select
-                            file
+                            <CloudUploadIcon sx={{ fontSize: "2rem" }} />
+                            {t("Select file")}
                             <VisuallyHiddenInput
                                 {...register("photoURL")}
                                 type="file"
@@ -237,7 +201,7 @@ export default function SettingForm() {
                         <label htmlFor="fileInput">
                             {photoURL?.length !== 0 && photoURL !== null
                                 ? extractFileName(photoURL)
-                                : "No file chosen"}
+                                : t("No file chosen")}
                         </label>
                     </StyledFileCont>
                     <StyledButtonContainer>
@@ -266,7 +230,7 @@ export default function SettingForm() {
                             type="submit"
                             variant="contained"
                         >
-                            Save changes
+                            {t("Save changes")}
                         </Button>
                         <Button
                             onClick={handleReset}
@@ -287,7 +251,7 @@ export default function SettingForm() {
                             }}
                             variant="outlined"
                         >
-                            Cancel
+                            {t("Cancel")}
                         </Button>
                     </StyledButtonContainer>
                 </Paper>
@@ -306,9 +270,11 @@ export default function SettingForm() {
                     boxShadow: "var(--shadow-md)",
                 }}
             >
-                <StyledParagraph>Update email & password</StyledParagraph>
+                <StyledParagraph>
+                    {t("Update email & password")}
+                </StyledParagraph>
                 <StyledTitle>
-                    Update your email by sending vericifation mail
+                    {t("Update your email by sending verification mail")}
                 </StyledTitle>
                 <Button
                     onClick={handleOpenEmailModal}
@@ -333,13 +299,14 @@ export default function SettingForm() {
                             backgroundColor: "var(--color-grey-500)",
                         },
                     }}
-                    // type="submit"
                     variant="contained"
                 >
-                    Update Email
+                    {t("Update Email")}
                 </Button>
 
-                <StyledTitle>Update your password</StyledTitle>
+                <StyledTitle>
+                    {t("Update your password by verifying your information")}
+                </StyledTitle>
                 <Button
                     onClick={handleOpenPasswordModal}
                     sx={{
@@ -363,10 +330,9 @@ export default function SettingForm() {
                             backgroundColor: "var(--color-grey-500)",
                         },
                     }}
-                    // type="submit"
                     variant="contained"
                 >
-                    Update password
+                    {t("Update password")}
                 </Button>
             </Paper>
 
@@ -384,12 +350,14 @@ export default function SettingForm() {
                         boxShadow: "var(--shadow-md)",
                     }}
                 >
-                    <StyledParagraph>Delete account</StyledParagraph>
+                    <StyledParagraph>{t("Delete account")}</StyledParagraph>
                     <StyledDeleteText>
-                        Are you sure you want to delete this user named &nbsp;
+                        {t("Are you sure you want to delete this user named")}{" "}
+                        &nbsp;
                         <StyledSpan>
-                            {currentUser?.displayName}&nbsp;?
+                            {currentUser?.displayName}&nbsp;
                         </StyledSpan>
+                        ?
                     </StyledDeleteText>
                     <Button
                         sx={{
@@ -411,7 +379,7 @@ export default function SettingForm() {
                         variant="contained"
                         onClick={handleOpenModal}
                     >
-                        Delete Account
+                        {t("Delete Account")}
                     </Button>
                 </Paper>
             )}
