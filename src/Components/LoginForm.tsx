@@ -1,10 +1,20 @@
-import { Button, Paper, TextField } from "@mui/material";
+import {
+    Box,
+    Button,
+    FormControl,
+    MenuItem,
+    Paper,
+    Select,
+    TextField,
+} from "@mui/material";
 import Heading from "./Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
 import { signInWithEmailAndPasswordQuery } from "../Api/userController";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import toast from "react-hot-toast";
 
 const StyledLogo = styled.img`
     width: 10rem;
@@ -63,7 +73,28 @@ const StyledParagraph = styled.p`
     font-size: 1.2rem;
 `;
 
+const StyledFormControl = styled(FormControl)`
+    & > div {
+        color: var(--color-grey-800);
+        font-size: 1.2rem;
+
+        &:hover &::before {
+            border-bottom: 1px solid var(--color-grey-800);
+        }
+
+        &::before {
+            border-color: var(--color-grey-800) !important;
+        }
+    }
+
+    & > div > div {
+        padding: 1.5rem;
+    }
+`;
+
 export default function LoginForm() {
+    const { t, i18n } = useTranslation();
+    const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const {
         register,
         handleSubmit,
@@ -81,13 +112,32 @@ export default function LoginForm() {
             email,
             password,
         });
-        if (loginState) navigate("/");
         reset();
+        if (loginState) {
+            navigate("/");
+            return toast.success(t("Successfully logged in, redirecting..."));
+        } else {
+            return toast.error(
+                t(
+                    "Wrong email or password. Check your credentials and try again"
+                )
+            );
+        }
     }
 
     useEffect(() => {
         setFocus("email");
     }, [setFocus]);
+
+    useEffect(() => {
+        setCurrentLanguage(i18n.language || "en-EN");
+        i18n.changeLanguage(i18n.language);
+    }, []);
+
+    const handleChangeLang = (e: string) => {
+        i18n.changeLanguage(e);
+        setCurrentLanguage(e);
+    };
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -97,25 +147,26 @@ export default function LoginForm() {
                     flexDirection: "column",
                     justifyContent: "center",
                     alignItems: "center",
-                    gap: "2.5rem",
+                    gap: "2rem",
                     color: "var(--color-grey-800)",
                     backgroundColor: "var(--color-grey-50)",
-                    p: "6rem 4rem",
+                    p: "4rem 4rem",
                     boxShadow: "var(--shadow-md)",
+                    minWidth: "45rem",
                 }}
             >
                 <StyledLogo src="../../logo-here.png" />
-                <Heading title="Login to your account" />
+                <Heading title={t("Login to your account")} />
                 <StyledTextField
                     disabled={isSubmitting}
                     label="Email"
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("email", {
-                        required: "Email is required",
+                        required: t("Email is required"),
                         pattern: {
                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                            message: "Invalid email",
+                            message: t("Invalid email"),
                         },
                     })}
                     id="email"
@@ -126,11 +177,11 @@ export default function LoginForm() {
                 />
                 <StyledTextField
                     disabled={isSubmitting}
-                    label="Password"
+                    label={t("Password")}
                     sx={{ minWidth: "100%" }}
                     variant="outlined"
                     {...register("password", {
-                        required: "Password is required",
+                        required: t("Password is required"),
                     })}
                     id="password"
                     type="password"
@@ -160,9 +211,9 @@ export default function LoginForm() {
                         type="submit"
                         variant="contained"
                     >
-                        Login
+                        {t("Login")}
                     </Button>
-                    <StyledParagraph>or</StyledParagraph>
+                    <StyledParagraph>{t("or")}</StyledParagraph>
                     <Button
                         disabled={isSubmitting}
                         onClick={() => navigate("/register")}
@@ -185,12 +236,49 @@ export default function LoginForm() {
                         type="submit"
                         variant="outlined"
                     >
-                        Register
+                        {t("Register")}
                     </Button>
                 </StyledButtonContainer>
                 <StyledLink to="/forgotpassword">
-                    Forgot your password?
+                    {t("Forgot your password?")}
                 </StyledLink>
+                <StyledFormControl variant="standard">
+                    <Select
+                        value={currentLanguage}
+                        onChange={e => handleChangeLang(e.target.value)}
+                        variant="filled"
+                        sx={{ minWidth: "10rem" }}
+                    >
+                        <MenuItem value="tr-TR">
+                            <Box
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    gap: "8px",
+                                    fontSize: "1.3rem",
+                                }}
+                            >
+                                <Box>Türkçe</Box>
+                            </Box>
+                        </MenuItem>
+                        <MenuItem value="en-EN">
+                            <Box
+                                style={{
+                                    display: "flex",
+                                    flexDirection: "row",
+                                    alignItems: "center",
+                                    width: "100%",
+                                    gap: "8px",
+                                    fontSize: "1.3rem",
+                                }}
+                            >
+                                <Box>English</Box>
+                            </Box>
+                        </MenuItem>
+                    </Select>
+                </StyledFormControl>
             </Paper>
         </form>
     );
