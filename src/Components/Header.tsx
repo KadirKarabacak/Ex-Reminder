@@ -10,6 +10,9 @@ import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
+import toast from "react-hot-toast";
+import { t } from "i18next";
+import { useTranslation } from "react-i18next";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -87,6 +90,7 @@ const StyledButton = styled(Button)`
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const { currentUser } = auth;
+    const { t } = useTranslation();
 
     return (
         <StyledHeader>
@@ -96,19 +100,19 @@ function Header() {
                         {currentUser?.photoURL && (
                             <StyledAvatar
                                 src={currentUser.photoURL}
-                                alt="User Avatar"
+                                alt={t("User Avatar")}
                             />
                         )}
                         {!currentUser?.photoURL && (
                             <StyledAvatar
                                 src="../../placeholder-avatar.png"
-                                alt="Placeholder Avatar"
+                                alt={t("Placeholder Avatar")}
                             />
                         )}
                         <StyledName>
                             {currentUser?.displayName
                                 ? currentUser.displayName
-                                : "User"}
+                                : t("User")}
                         </StyledName>
                     </StyledListItem>
                 </StyledUserInfo>
@@ -119,7 +123,10 @@ function Header() {
                     sx={{ borderColor: "var(--color-grey-300)" }}
                 />
                 <StyledListItem>
-                    <Tooltip TransitionComponent={Zoom} title="Notifications">
+                    <Tooltip
+                        TransitionComponent={Zoom}
+                        title={t("Notifications")}
+                    >
                         <StyledButton
                             sx={{
                                 fontSize: "2rem",
@@ -134,7 +141,10 @@ function Header() {
                     </Tooltip>
                 </StyledListItem>
                 <StyledListItem>
-                    <Tooltip TransitionComponent={Zoom} title="Toggle Darkmode">
+                    <Tooltip
+                        TransitionComponent={Zoom}
+                        title={t("Toggle Darkmode")}
+                    >
                         <StyledButton
                             sx={{
                                 fontSize: "2rem",
@@ -154,7 +164,7 @@ function Header() {
                     </Tooltip>
                 </StyledListItem>
                 <StyledListItem>
-                    <Tooltip TransitionComponent={Zoom} title="Logout">
+                    <Tooltip TransitionComponent={Zoom} title={t("Logout")}>
                         <StyledButton
                             sx={{
                                 fontSize: "2rem",
@@ -165,7 +175,15 @@ function Header() {
                             color="inherit"
                             variant="text"
                         >
-                            <Link onClick={() => logOut()} to="/login">
+                            <Link
+                                onClick={() => {
+                                    logOut();
+                                    return toast.success(
+                                        t("Successfully logged out")
+                                    );
+                                }}
+                                to="/login"
+                            >
                                 <LogoutIcon sx={iconStyle} />
                             </Link>
                         </StyledButton>
