@@ -16,6 +16,7 @@ import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import { ModalTypes } from "../Interfaces/User";
 import { useUpdateUserPassword } from "../Api/userController";
+import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -71,6 +72,7 @@ const StyledErrorMessage = styled.p`
 
 export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
+    const { t } = useTranslation();
     const { currentUser } = auth;
     const {
         handleSubmit,
@@ -130,25 +132,26 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            Update Password
+                            {t("Update Password")}
                         </Typography>
                         <Typography
                             id="transition-modal-description"
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                         ></Typography>
-                        <StyledTitle>Password</StyledTitle>
+                        <StyledTitle>{t("Password")}</StyledTitle>
                         <StyledInput
                             disabled={isUpdating}
                             {...register("password", {
-                                required: "Password is required",
+                                required: t("Password is required"),
                                 minLength: {
                                     value: 8,
-                                    message:
-                                        "Password must be at least 8 characters",
+                                    message: t(
+                                        "Password must be at least 8 characters"
+                                    ),
                                 },
                             })}
                             error={Boolean(errors?.password)}
-                            placeholder="Password"
+                            placeholder={t("Password")}
                             id="outlined-adornment-password"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
@@ -173,22 +176,25 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 ? (errors.password.message as React.ReactNode)
                                 : ""}
                         </StyledErrorMessage>
-                        <StyledTitle>New Password</StyledTitle>
+                        <StyledTitle>{t("New Password")}</StyledTitle>
                         <StyledInput
                             disabled={isUpdating}
                             {...register("newPassword", {
-                                required: "New password is required",
+                                required: t("New password is required"),
                                 validate: value =>
                                     value !== getValues().password ||
-                                    "New password cannot be the same as the old one",
+                                    t(
+                                        "New password cannot be the same as the old one"
+                                    ),
                                 minLength: {
                                     value: 8,
-                                    message:
-                                        "Password must be at least 8 characters",
+                                    message: t(
+                                        "Password must be at least 8 characters"
+                                    ),
                                 },
                             })}
                             error={Boolean(errors?.password)}
-                            placeholder="New password"
+                            placeholder={t("New password")}
                             id="outlined-adornment-newpassword"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
@@ -214,14 +220,14 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                       .message as React.ReactNode)
                                 : ""}
                         </StyledErrorMessage>
-                        <StyledTitle>Repeat New Password</StyledTitle>
+                        <StyledTitle>{t("Repeat New Password")}</StyledTitle>
                         <StyledInput
                             disabled={isUpdating}
                             {...register("repeatNewPassword", {
-                                required: "Repeat new password is required",
+                                required: t("Repeat new password is required"),
                                 validate: value =>
                                     value === getValues().newPassword ||
-                                    "Passwords does not match",
+                                    t("Passwords do not match"),
                             })}
                             error={Boolean(errors?.password)}
                             placeholder="Repeat New password"
@@ -273,7 +279,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 type="submit"
                                 variant="contained"
                             >
-                                Update password
+                                {t("Update password")}
                             </Button>
                             <Button
                                 disabled={isUpdating}
@@ -296,7 +302,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 }}
                                 variant="outlined"
                             >
-                                Cancel
+                                {t("Cancel")}
                             </Button>
                         </StyledButtonContainer>
                     </StyledBox>
