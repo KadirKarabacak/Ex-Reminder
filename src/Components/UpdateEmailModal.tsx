@@ -18,6 +18,7 @@ import { useUpdateUserEmail } from "../Api/userController";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
 import { ModalTypes } from "../Interfaces/User";
+import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -96,6 +97,7 @@ const StyledErrorMessage = styled.p`
 
 export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
+    const { t } = useTranslation();
 
     const { currentUser } = auth;
     const {
@@ -111,11 +113,9 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
 
     async function onSubmitEmail() {
         const { email, password } = getValues();
-        if (!email.length)
-            return toast.error("There is no value to update email");
         if (email.length > 0) {
             if (currentUser?.email === email)
-                return toast.error("Current email is already in use");
+                return toast.error(t("Current email is already in use"));
             await updateEmail({ currentUser, email, password });
         }
         reset({
@@ -161,37 +161,39 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            Update email
+                            {t("Update email")}
                         </Typography>
                         <Typography
                             id="transition-modal-description"
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                         >
-                            For the email update, we will send a confirmation
-                            mail to your new email account.{" "}
+                            {t(
+                                "For the email update, we will send a confirmation mail to your new email account."
+                            )}{" "}
                             <strong style={{ color: "var(--color-red-700)" }}>
-                                Make sure you have access to the new email
-                                address.
+                                {t(
+                                    "Make sure you have access to the new email address."
+                                )}
                             </strong>
                         </Typography>
-                        <StyledTitle>Your Email</StyledTitle>
+                        <StyledTitle>{t("Your Email")}</StyledTitle>
                         <StyledTextField
                             disabled
                             defaultValue={currentUser?.email}
                             sx={{ width: "100%", mb: "1rem" }}
                             variant="outlined"
                         />
-                        <StyledTitle>New Email</StyledTitle>
+                        <StyledTitle>{t("New Email")}</StyledTitle>
                         <StyledTextField
                             disabled={isUpdating}
-                            placeholder="test@example.com"
+                            placeholder={t("test@example.com")}
                             sx={{ width: "100%", mb: "0.5rem" }}
                             variant="outlined"
                             {...register("email", {
-                                required: "New email is required",
+                                required: t("New email is required"),
                                 pattern: {
                                     value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: "Invalid email",
+                                    message: t("Invalid email"),
                                 },
                             })}
                             error={Boolean(errors?.email)}
@@ -201,14 +203,14 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                 ? (errors.email.message as React.ReactNode)
                                 : ""}
                         </StyledErrorMessage>
-                        <StyledTitle>Password</StyledTitle>
+                        <StyledTitle>{t("Password")}</StyledTitle>
                         <StyledInput
                             disabled={isUpdating}
                             {...register("password", {
-                                required: "Password is required",
+                                required: t("Password is required"),
                             })}
                             error={Boolean(errors?.password)}
-                            placeholder="Password"
+                            placeholder={t("Password")}
                             id="outlined-adornment-password"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
@@ -256,7 +258,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                 type="submit"
                                 variant="contained"
                             >
-                                Send Verification Mail
+                                {t("Send Verification Mail")}
                             </Button>
                             <Button
                                 disabled={isUpdating}
@@ -279,7 +281,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                 }}
                                 variant="outlined"
                             >
-                                Cancel
+                                {t("Cancel")}
                             </Button>
                         </StyledButtonContainer>
                     </StyledBox>
