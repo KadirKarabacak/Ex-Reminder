@@ -5,6 +5,7 @@ import "./App.css";
 import GlobalStyles from "./styles/GlobalStyles.ts";
 import { DarkModeProvider } from "./Contexts/DarkModeContext.jsx";
 import "./Api/userController.ts";
+import "./i18n";
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
     <React.StrictMode>
