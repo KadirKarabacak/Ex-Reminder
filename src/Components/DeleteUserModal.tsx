@@ -16,6 +16,7 @@ import { useDeleteUserAccount } from "../Api/userController";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
+import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -71,6 +72,7 @@ const StyledErrorMessage = styled.p`
 
 export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
+    const { t } = useTranslation();
     const { currentUser } = auth;
     const {
         handleSubmit,
@@ -122,27 +124,27 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            Delete user
+                            {t("Delete user")}
                         </Typography>
                         <Typography
                             id="transition-modal-description"
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                         >
-                            Deleted users{" "}
+                            {t("Deleted users")}{" "}
                             <strong style={{ color: "var(--color-red-700)" }}>
                                 {" "}
-                                cannot be brought back
+                                {t("cannot be brought back")}
                             </strong>
-                            , are you sure you want to delete?
+                            {t(", are you sure you want to delete?")}
                         </Typography>
-                        <StyledTitle>Password</StyledTitle>
+                        <StyledTitle>{t("Password")}</StyledTitle>
                         <StyledInput
                             disabled={isDeleting}
                             {...register("password", {
-                                required: "Password is required",
+                                required: t("Password is required"),
                             })}
                             error={Boolean(errors?.password)}
-                            placeholder="Password"
+                            placeholder={t("Password")}
                             id="outlined-adornment-password"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
@@ -189,7 +191,7 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                                 type="submit"
                                 variant="contained"
                             >
-                                Delete Account
+                                {t("Delete Account")}
                             </Button>
                             <Button
                                 disabled={isDeleting}
@@ -212,7 +214,7 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                                 }}
                                 variant="outlined"
                             >
-                                Cancel
+                                {t("Cancel")}
                             </Button>
                         </StyledButtonContainer>
                     </StyledBox>
