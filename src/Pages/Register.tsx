@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import RegisterForm from "../Components/RegisterForm";
+import RegisterForm from "../Components/Forms/RegisterForm";
 import { animationDuration } from "../Constants/constant";
 
 export const circleInHesitate = keyframes`

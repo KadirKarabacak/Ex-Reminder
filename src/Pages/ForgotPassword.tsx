@@ -1,5 +1,5 @@
 import styled, { keyframes } from "styled-components";
-import ForgotPasswordForm from "../Components/ForgotPasswordForm";
+import ForgotPasswordForm from "../Components/Forms/ForgotPasswordForm";
 import { animationDuration } from "../Constants/constant";
 
 export const circleInHesitate = keyframes`

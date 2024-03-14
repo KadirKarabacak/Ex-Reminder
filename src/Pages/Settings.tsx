@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
 import { springOptions } from "../Constants/constant";
-import SettingForm from "../Components/SettingForm";
+import SettingForm from "../Components/Forms/SettingForm";
 
 const StyledSettings = styled.main`
     width: 100%;
