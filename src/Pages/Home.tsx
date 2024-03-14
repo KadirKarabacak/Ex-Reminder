@@ -1,8 +1,9 @@
 import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
 import { springOptions } from "../Constants/constant";
-import Table from "../Components/Table";
 import Chart from "../Components/Chart";
+import CustomTable from "../Components/Table";
+import { HomeToolBar } from "../Components/TableToolBars/HomeBar";
 
 const StyledHome = styled.main`
     width: 100%;
@@ -17,11 +18,6 @@ const StyledHome = styled.main`
     box-shadow: var(--shadow-sm);
 `;
 
-const StyledParagraph = styled.p`
-    font-size: 6rem;
-    color: var(--color-grey-800);
-`;
-
 const AnimatedStyledHome = animated(StyledHome);
 
 export default function Home() {
@@ -29,7 +25,7 @@ export default function Home() {
 
     return (
         <AnimatedStyledHome style={animationProps}>
-            <Table />
+            <CustomTable CustomToolbar={<HomeToolBar />} />
             <Chart />
         </AnimatedStyledHome>
     );
