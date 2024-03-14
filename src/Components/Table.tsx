@@ -3,64 +3,18 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import Toolbar from "@mui/material/Toolbar";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
-import { visuallyHidden } from "@mui/utils";
-import styled from "styled-components";
-import { Typography } from "@mui/material";
-
-const StyledIconButton = styled(IconButton)`
-    font-size: 1.8rem;
-    & svg {
-        color: var(--color-grey-800);
-    }
-`;
-
-const StyledBox = styled(Box)`
-    transition: all 0.3s;
-    & + svg {
-        color: var(--color-grey-800) !important;
-    }
-
-    &:active,
-    &:hover,
-    &:focus,
-    &:focus-within {
-        color: var(--color-grey-800) !important;
-    }
-`;
+import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
 
 const TableCellStyles = {
     color: "var(--color-grey-800)",
     fontSize: "1.2rem",
     textAlign: "left",
     borderBottom: "1px solid var(--color-grey-200)",
-};
-
-const TableHeadStyles = {
-    transition: "all .3s",
-    ":hover": {
-        color: "var(--color-grey-700)",
-    },
-    ":focus": {
-        color: "var(--color-grey-700)",
-    },
-    ":focus-within": {
-        color: "var(--color-grey-700)",
-    },
-    ":active": {
-        color: "var(--color-grey-700)",
-    },
 };
 
 interface Data {
@@ -145,172 +99,11 @@ function stableSort<T>(
     return stabilizedThis.map(el => el[0]);
 }
 
-interface HeadCell {
-    disablePadding: boolean;
-    id: keyof Data;
-    label: string;
-    numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-    {
-        id: "name",
-        numeric: false,
-        disablePadding: true,
-        label: "Dessert (100g serving)",
-    },
-    {
-        id: "calories",
-        numeric: true,
-        disablePadding: false,
-        label: "Calories",
-    },
-    {
-        id: "fat",
-        numeric: true,
-        disablePadding: false,
-        label: "Fat (g)",
-    },
-    {
-        id: "carbs",
-        numeric: true,
-        disablePadding: false,
-        label: "Carbs (g)",
-    },
-    {
-        id: "protein",
-        numeric: true,
-        disablePadding: false,
-        label: "Protein (g)",
-    },
-];
-
-interface EnhancedTableProps {
-    numSelected: number;
-    onRequestSort: (
-        event: React.MouseEvent<unknown>,
-        property: keyof Data
-    ) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
-
-function EnhancedTableHead(props: EnhancedTableProps) {
-    const {
-        onSelectAllClick,
-        order,
-        orderBy,
-        numSelected,
-        rowCount,
-        onRequestSort,
-    } = props;
-    const createSortHandler =
-        (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
-            onRequestSort(event, property);
-        };
-
-    return (
-        <TableHead>
-            <TableRow
-                sx={{
-                    borderColor: "var(--color-grey-300)",
-                }}
-            >
-                <TableCell padding="checkbox" sx={TableCellStyles}>
-                    <Checkbox
-                        indeterminate={
-                            numSelected > 0 && numSelected < rowCount
-                        }
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            "aria-label": "select all desserts",
-                        }}
-                        sx={{
-                            color: "var(--color-grey-800)",
-                        }}
-                    />
-                </TableCell>
-                {headCells.map(headCell => (
-                    <TableCell
-                        key={headCell.id}
-                        padding={headCell.disablePadding ? "none" : "normal"}
-                        sortDirection={orderBy === headCell.id ? order : false}
-                        sx={{
-                            color: "var(--color-grey-800)",
-                            fontSize: "1.2rem",
-                            fontWeight: "bold",
-                            textAlign: "left",
-                            borderBottom: "1px solid var(--color-grey-200)",
-                        }}
-                    >
-                        <TableSortLabel
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : "asc"}
-                            onClick={createSortHandler(headCell.id)}
-                            sx={TableHeadStyles}
-                        >
-                            {headCell.label}
-                            {orderBy === headCell.id ? (
-                                <StyledBox component="span" sx={visuallyHidden}>
-                                    {order === "desc"
-                                        ? "sorted descending"
-                                        : "sorted ascending"}
-                                </StyledBox>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
-            </TableRow>
-        </TableHead>
-    );
-}
-
-interface EnhancedTableToolbarProps {
-    numSelected: number;
-}
-
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
-
-    return (
-        <Toolbar
-            sx={{
-                pl: { sm: 2 },
-                pr: { xs: 1, sm: 1 },
-            }}
-        >
-            <Typography
-                sx={{
-                    flex: "1 1 100%",
-                    color: "var(--color-grey-800)",
-                    fontSize: "1.3rem",
-                    fontWeight: "bold",
-                }}
-                variant="subtitle1"
-                component="div"
-            >
-                DENEME TABLE
-            </Typography>
-            {numSelected > 0 ? (
-                <Tooltip title="Delete">
-                    <StyledIconButton>
-                        <DeleteIcon />
-                    </StyledIconButton>
-                </Tooltip>
-            ) : (
-                <Tooltip title="Filter list">
-                    <StyledIconButton>
-                        <FilterListIcon />
-                    </StyledIconButton>
-                </Tooltip>
-            )}
-        </Toolbar>
-    );
-}
-export default function EnhancedTable() {
+export default function CustomTable({
+    CustomToolbar,
+}: {
+    CustomToolbar: React.ReactNode;
+}) {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Data>("");
     const [selected, setSelected] = React.useState<readonly number[]>([]);
@@ -330,6 +123,7 @@ export default function EnhancedTable() {
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (event.target.checked) {
+            //: n.employee_id
             const newSelected = rows.map(n => n.id);
             setSelected(newSelected);
             return;
@@ -401,7 +195,8 @@ export default function EnhancedTable() {
                     boxShadow: "var(--shadow-md)",
                 }}
             >
-                <EnhancedTableToolbar numSelected={selected.length} />
+                {/* Custom ToolBar */}
+                {CustomToolbar}
                 <TableContainer
                     sx={{
                         overflowY: "scroll",
@@ -409,7 +204,8 @@ export default function EnhancedTable() {
                     }}
                 >
                     <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                        <EnhancedTableHead
+                        {/* Own tablehead */}
+                        <EmployeeTableHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
@@ -419,6 +215,7 @@ export default function EnhancedTable() {
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
+                                // : row.employee_id
                                 const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
@@ -426,11 +223,13 @@ export default function EnhancedTable() {
                                     <TableRow
                                         hover
                                         onClick={event =>
+                                            // : row.employee_id
                                             handleClick(event, row.id)
                                         }
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
+                                        // : row.employee_id
                                         key={row.id}
                                         selected={isItemSelected}
                                         sx={{
@@ -442,7 +241,6 @@ export default function EnhancedTable() {
                                             sx={TableCellStyles}
                                         >
                                             <Checkbox
-                                                // color="primary"
                                                 checked={isItemSelected}
                                                 inputProps={{
                                                     "aria-labelledby": labelId,
@@ -459,30 +257,35 @@ export default function EnhancedTable() {
                                             padding="none"
                                             sx={TableCellStyles}
                                         >
+                                            {/* `${row.first_name} ${row.last_name}` */}
                                             {row.name}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
+                                            {/* row.age */}
                                             {row.calories}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
+                                            {/* row.job_title */}
                                             {row.fat}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
+                                            {/* row.salary */}
                                             {row.carbs}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
+                                            {/* row.hire_date */}
                                             {row.protein}
                                         </TableCell>
                                     </TableRow>
