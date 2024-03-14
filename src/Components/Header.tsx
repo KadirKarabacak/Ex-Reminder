@@ -4,15 +4,23 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useDarkMode } from "../Contexts/DarkModeContext";
-import { Button, Divider } from "@mui/material";
+import {
+    Box,
+    Button,
+    Divider,
+    FormControl,
+    MenuItem,
+    Select,
+} from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
 import { Link } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
-import { t } from "i18next";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import i18n from "../i18n";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -87,10 +95,36 @@ const StyledButton = styled(Button)`
     }
 `;
 
+const StyledFormControl = styled(FormControl)`
+    & > div {
+        color: var(--color-grey-800);
+        font-size: 1.2rem;
+        min-width: 1rem;
+
+        &:hover &::before {
+            border-bottom: 1px solid var(--color-grey-800);
+        }
+
+        &::before {
+            border-color: var(--color-grey-800) !important;
+        }
+    }
+
+    & > div > div {
+        padding: 0.8rem;
+    }
+`;
+
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
+    const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const { currentUser } = auth;
     const { t } = useTranslation();
+
+    const handleChangeLang = (e: string) => {
+        i18n.changeLanguage(e);
+        setCurrentLanguage(e);
+    };
 
     return (
         <StyledHeader>
@@ -122,6 +156,45 @@ function Header() {
                     flexItem
                     sx={{ borderColor: "var(--color-grey-300)" }}
                 />
+                <StyledListItem>
+                    <StyledFormControl variant="filled">
+                        <Select
+                            value={currentLanguage}
+                            onChange={e => handleChangeLang(e.target.value)}
+                            variant="standard"
+                            sx={{ minWidth: "10rem" }}
+                        >
+                            <MenuItem value="tr-TR">
+                                <Box
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        width: "100%",
+                                        gap: "8px",
+                                        fontSize: "1rem",
+                                    }}
+                                >
+                                    <Box>Türkçe</Box>
+                                </Box>
+                            </MenuItem>
+                            <MenuItem value="en-EN">
+                                <Box
+                                    style={{
+                                        display: "flex",
+                                        flexDirection: "row",
+                                        alignItems: "center",
+                                        width: "100%",
+                                        gap: "8px",
+                                        fontSize: "1rem",
+                                    }}
+                                >
+                                    <Box>English</Box>
+                                </Box>
+                            </MenuItem>
+                        </Select>
+                    </StyledFormControl>
+                </StyledListItem>
                 <StyledListItem>
                     <Tooltip
                         TransitionComponent={Zoom}
