@@ -15,6 +15,7 @@
     "@mui/icons-material": "^5.15.11",
     "@mui/material": "^5.15.11",
     "@tanstack/react-query": "^5.25.0",
+    "axios": "^1.6.7",
     "date-fns": "^3.4.0",
     "firebase": "^10.8.1",
     "i18next": "^23.10.1",
