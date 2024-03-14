@@ -17,22 +17,31 @@ import { auth, db, storage } from "./firebase";
 import {
     CurrentUserTypes,
     DeleteUserTypes,
+    Employee,
     LoginTypes,
     UpdateUserEmailTypes,
     UpdateUserPasswordTypes,
 } from "../Interfaces/User";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
 
 // Get All Users
-export const getUsers = async () => {
-    const querySnapShot = await getDocs(collection(db, "users"));
-    querySnapShot.forEach(doc => {
-        console.log(doc.id, doc.data());
-    });
+const getEmployees = async () => {
+    const querySnapShot = await getDocs(collection(db, "employees"));
+    const employees: Employee[] = [];
+    querySnapShot.forEach(doc => employees.push(doc.data() as Employee));
+    return employees;
 };
+
+export function useGetEmployees() {
+    const { data, isLoading } = useQuery({
+        queryKey: ["employees"],
+        queryFn: getEmployees,
+    });
+    return { data, isLoading };
+}
 
 // Login
 export const signInWithEmailAndPasswordQuery = async ({
@@ -257,3 +266,5 @@ export function useUpdateUserPassword() {
     });
     return { mutateAsync, isPending };
 }
+
+//! OTHER CONTROLLERS
