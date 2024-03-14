@@ -4,13 +4,13 @@ import About from "./Pages/About";
 import Contact from "./Pages/Contact";
 import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
-import Users from "./Pages/Users";
 import Settings from "./Pages/Settings";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
 import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ForgotPassword from "./Pages/ForgotPassword";
+import Employees from "./Pages/Employees";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -33,7 +33,7 @@ export default function App() {
                         <Route path="/" Component={Home} />
                         <Route path="/about" Component={About} />
                         <Route path="/contact" Component={Contact} />
-                        <Route path="/users" Component={Users} />
+                        <Route path="/employees" Component={Employees} />
                         <Route path="/settings" Component={Settings} />
                     </Route>
                 </Routes>
