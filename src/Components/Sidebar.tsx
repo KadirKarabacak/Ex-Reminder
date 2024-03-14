@@ -99,12 +99,12 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Users")}
+                title={t("Employees")}
                 placement="right"
             >
-                <StyledNavLink to="/users">
+                <StyledNavLink to="/employees">
                     <GroupIcon sx={iconStyle} />
-                    {t("Users")}
+                    {t("Employees")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
