@@ -1,18 +1,18 @@
 # `TODO:`
-1- ❌ After updated user, navigate to Home page *[ It doesnt update avatar ]*
-2- use MUI table for homepage
-3- ✅ Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
-4- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
-5- ✅ Add forgot password to the login page and send reset password email // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#send_a_password_reset_email
-6- ✅ Add delete user and onDelete redirect user to the login page and set loggedout // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#delete_a_user
-7- ✅ Add a new parameter to deleteUser function "deleteUserAccount()" called password. On delete user, when clicked to delete open a modal which is a form takes password input and delete account button, use instead of propmt
-8- Buttons disabled variations are looks weird, try to fix colors.
-9- ✅ On update user, abstract email and password update to another form. Do the same modal for update password take users previous password and revalidate user.
+01- ❌ After updated user, navigate to Home page *[ It doesnt update avatar ]*
+02- use MUI table for homepage
+03- ✅ Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
+04- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
+05- ✅ Add forgot password to the login page and send reset password email // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#send_a_password_reset_email
+06- ✅ Add delete user and onDelete redirect user to the login page and set loggedout // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#delete_a_user
+07- ✅ Add a new parameter to deleteUser function "deleteUserAccount()" called password. On delete user, when clicked to delete open a modal which is a form takes password input and delete account button, use instead of propmt
+08- Buttons disabled variations are looks weird, try to fix colors.
+09- ✅ On update user, abstract email and password update to another form. Do the same modal for update password take users previous password and revalidate user.
 10- ✅ UpdatePasswordModal > OutlinedInput handle helperText usage + add updatePassword feature // https://mui.com/material-ui/api/outlined-input/
 11- ✅ Make sure on every update use tanstack-query
 12- For every row in the table add vertical button menu fo CRUD // import MoreVertIcon from '@mui/icons-material/MoreVert';
 13- ✅ Add notifications button to the header
-14- Add change language feature into application interface somewhere in settings route or header
+14- ✅ Add change language feature into application interface somewhere in settings route or header
 15- Translate homepage features
 
 
@@ -23,7 +23,10 @@
 
 # Personel Yönetim Paneli: ✅
 Çalışanların bilgilerini / maaşlarını ve performanslarını yönetmek için bir panel oluştur.
-Personel raporları, izin günleri, performans değerlendirmeleri gibi konuları içerebilir.
+[
+    1- Add employee butonunda modal aç. Tüm field'lar için input oluştur ve addDoc fonksiyonu ile employee eklemeyi oluştur.
+    2- ✅ Table'larda EnhancedTableToolbar tablonun en üstünü her tabloda farklı gelecek şekilde oluştur import et.
+]
 
 # Harita Tabanlı İşlevsellik ✅
 Firebase Firestore veya Realtime Database'den alınan konum verilerini harita üzerinde göster. Satış noktalarını, ofisleri veya müşteri konumlarını harita üzerinde gösterme.
