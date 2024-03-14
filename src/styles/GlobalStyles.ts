@@ -195,6 +195,10 @@ svg{
   color:  var(--color-grey-800)!important;
 }
 
+.MuiTooltip-tooltip{
+  font-size: 1rem !important;
+}
+
 `;
 
 export default GlobalStyles;
