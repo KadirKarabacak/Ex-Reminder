@@ -56,7 +56,6 @@ export default function LoginForm() {
             email,
             password,
         });
-        console.log(createState);
         if (createState) {
             navigate("/login");
             toast.success(
