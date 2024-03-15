@@ -22,12 +22,10 @@ const AnimatedStyledEmployees = animated(StyledEmployees);
 export default function Employees() {
     const animationProps = useSpring(springOptions);
     const { data } = useGetEmployees();
-    // Columns ve rows objeler dizisi olmalı
-    console.log(data);
 
     return (
         <AnimatedStyledEmployees style={animationProps}>
-            <CustomTable CustomToolbar={<EmployeeToolBar />} />
+            <CustomTable CustomToolbar={<EmployeeToolBar />} data={data} />
         </AnimatedStyledEmployees>
     );
 }
