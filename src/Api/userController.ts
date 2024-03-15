@@ -79,7 +79,6 @@ export const createUserWithEmailAndPasswordQuery = async ({
             return true;
         }
     } catch (error: any) {
-        console.log(error.message);
         if (error.message.includes("email-already-in-use")) {
             toast.error(i18n.t("Email already in use"));
         } else {
