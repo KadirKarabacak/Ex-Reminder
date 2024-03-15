@@ -11,7 +11,7 @@ import {
     deleteUser,
     verifyBeforeUpdateEmail,
 } from "firebase/auth";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, addDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
 import {
@@ -267,3 +267,24 @@ export function useUpdateUserPassword() {
 }
 
 //! OTHER CONTROLLERS
+
+const addEmployee = async function (employee: object) {
+    const docRef = await addDoc(collection(db, "employees"), employee);
+    console.log(docRef.id);
+};
+
+export const useAddEmployee = function () {
+    const queryClient = useQueryClient();
+    const { mutate, isPending } = useMutation({
+        mutationFn: addEmployee,
+        onSuccess: () => {
+            toast.success(i18n.t("Employee added"));
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("There was an error adding the employee"));
+        },
+    });
+    return { mutate, isPending };
+};
