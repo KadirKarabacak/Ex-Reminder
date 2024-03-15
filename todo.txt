@@ -14,7 +14,9 @@
 13- ✅ Add notifications button to the header
 14- ✅ Add change language feature into application interface somewhere in settings route or header
 15- Translate homepage features
-
+16- Fix employees sort feature
+17- ✅ Make tables Toolbars reusable
+18- Implement add employee feature by modal and form submit
 
 
 ### FEATURES ###
@@ -23,10 +25,6 @@
 
 # Personel Yönetim Paneli: ✅
 Çalışanların bilgilerini / maaşlarını ve performanslarını yönetmek için bir panel oluştur.
-[
-    1- Add employee butonunda modal aç. Tüm field'lar için input oluştur ve addDoc fonksiyonu ile employee eklemeyi oluştur.
-    2- ✅ Table'larda EnhancedTableToolbar tablonun en üstünü her tabloda farklı gelecek şekilde oluştur import et.
-]
 
 # Harita Tabanlı İşlevsellik ✅
 Firebase Firestore veya Realtime Database'den alınan konum verilerini harita üzerinde göster. Satış noktalarını, ofisleri veya müşteri konumlarını harita üzerinde gösterme.
