@@ -19,8 +19,7 @@ import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
-import i18n from "../i18n";
+import { useEffect, useState } from "react";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -119,12 +118,17 @@ function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const { currentUser } = auth;
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
 
     const handleChangeLang = (e: string) => {
         i18n.changeLanguage(e);
         setCurrentLanguage(e);
     };
+
+    useEffect(() => {
+        setCurrentLanguage(i18n.language || "en-EN");
+        i18n.changeLanguage(i18n.language);
+    }, []);
 
     return (
         <StyledHeader>
