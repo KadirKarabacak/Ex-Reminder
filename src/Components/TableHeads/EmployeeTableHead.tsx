@@ -8,6 +8,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { visuallyHidden } from "@mui/utils";
+import { useTranslation } from "react-i18next";
 
 interface Data {
     id: number;
@@ -69,46 +70,6 @@ const TableHeadStyles = {
     },
 };
 
-interface HeadCell {
-    disablePadding: boolean;
-    id: keyof Data;
-    label: string;
-    numeric: boolean;
-}
-
-const headCells: readonly HeadCell[] = [
-    {
-        id: "name",
-        numeric: false,
-        disablePadding: true,
-        label: "Dessert (100g serving)",
-    },
-    {
-        id: "calories",
-        numeric: true,
-        disablePadding: false,
-        label: "Calories",
-    },
-    {
-        id: "fat",
-        numeric: true,
-        disablePadding: false,
-        label: "Fat (g)",
-    },
-    {
-        id: "carbs",
-        numeric: true,
-        disablePadding: false,
-        label: "Carbs (g)",
-    },
-    {
-        id: "protein",
-        numeric: true,
-        disablePadding: false,
-        label: "Protein (g)",
-    },
-];
-
 interface EnhancedTableProps {
     numSelected: number;
     onRequestSort: (
@@ -122,6 +83,7 @@ interface EnhancedTableProps {
 }
 
 export function EmployeeTableHead(props: EnhancedTableProps) {
+    const { t } = useTranslation();
     const {
         onSelectAllClick,
         order,
@@ -134,6 +96,15 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
+    const array = [
+        t("Full Name"),
+        t("Job Title"),
+        t("Department"),
+        t("Salary"),
+        t("Hire Date"),
+        t("Age"),
+        t("Email"),
+    ];
 
     return (
         <TableHead>
@@ -157,15 +128,15 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {/* columns.map */}
-                {headCells.map(headCell => (
+                {array?.map((col, i) => (
                     <TableCell
-                        // change with index
-                        key={headCell.id}
-                        // remove for start
-                        padding={headCell.disablePadding ? "none" : "normal"}
-                        // change with index
-                        sortDirection={orderBy === headCell.id ? order : false}
+                        key={i}
+                        padding={
+                            col === "Full Name" || col === "İsim"
+                                ? "none"
+                                : "normal"
+                        }
+                        sortDirection={orderBy === String(i) ? order : false}
                         sx={{
                             color: "var(--color-grey-800)",
                             fontSize: "1.2rem",
@@ -175,16 +146,13 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
                         }}
                     >
                         <TableSortLabel
-                            // change with index
-                            active={orderBy === headCell.id}
-                            direction={orderBy === headCell.id ? order : "asc"}
-                            onClick={createSortHandler(headCell.id)}
+                            active={orderBy === String(i)}
+                            direction={orderBy === String(i) ? order : "asc"}
+                            onClick={createSortHandler(col as keyof Data)}
                             sx={TableHeadStyles}
                         >
-                            {/* headCell */}
-                            {headCell.label}
-                            {/* change with index */}
-                            {orderBy === headCell.id ? (
+                            {col}
+                            {orderBy === String(i) ? (
                                 <StyledBox component="span" sx={visuallyHidden}>
                                     {order === "desc"
                                         ? "sorted descending"
