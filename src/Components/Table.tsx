@@ -9,6 +9,7 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
+import styled from "styled-components";
 
 const TableCellStyles = {
     color: "var(--color-grey-800)",
@@ -18,47 +19,15 @@ const TableCellStyles = {
 };
 
 interface Data {
-    id: number;
-    calories: number;
-    carbs: number;
-    fat: number;
-    name: string;
-    protein: number;
+    age: string;
+    department: string;
+    email: string;
+    employee_id: number;
+    full_name: string;
+    hire_date: string;
+    job_title: string;
+    salary: string;
 }
-
-function createData(
-    id: number,
-    name: string,
-    calories: number,
-    fat: number,
-    carbs: number,
-    protein: number
-): Data {
-    return {
-        id,
-        name,
-        calories,
-        fat,
-        carbs,
-        protein,
-    };
-}
-
-const rows = [
-    createData(1, "Cupcake", 305, 3.7, 67, 4.3),
-    createData(2, "Donut", 452, 25.0, 51, 4.9),
-    createData(3, "Eclair", 262, 16.0, 24, 6.0),
-    createData(4, "Frozen yoghurt", 159, 6.0, 24, 4.0),
-    createData(5, "Gingerbread", 356, 16.0, 49, 3.9),
-    createData(6, "Honeycomb", 408, 3.2, 87, 6.5),
-    createData(7, "Ice cream sandwich", 237, 9.0, 37, 4.3),
-    createData(8, "Jelly Bean", 375, 0.0, 94, 0.0),
-    createData(9, "KitKat", 518, 26.0, 65, 7.0),
-    createData(10, "Lollipop", 392, 0.2, 98, 0.0),
-    createData(11, "Marshmallow", 318, 0, 81, 2.0),
-    createData(12, "Nougat", 360, 19.0, 9, 37.0),
-    createData(13, "Oreo", 437, 18.0, 63, 4.0),
-];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -99,10 +68,22 @@ function stableSort<T>(
     return stabilizedThis.map(el => el[0]);
 }
 
+const StyledParagraph = styled.span`
+    font-size: 2rem;
+    color: var(--color-grey-800);
+    width: 100%;
+    position: absolute;
+    top: 33%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+`;
+
 export default function CustomTable({
     CustomToolbar,
+    data,
 }: {
     CustomToolbar: React.ReactNode;
+    data: any;
 }) {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Data>("");
@@ -124,7 +105,7 @@ export default function CustomTable({
     ) => {
         if (event.target.checked) {
             //: n.employee_id
-            const newSelected = rows.map(n => n.id);
+            const newSelected = data.map((n: object, i: string) => i);
             setSelected(newSelected);
             return;
         }
@@ -165,15 +146,15 @@ export default function CustomTable({
 
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows =
-        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+        page > 0 ? Math.max(0, (1 + page) * rowsPerPage - data?.length) : 0;
 
     const visibleRows = React.useMemo(
         () =>
-            stableSort(rows, getComparator(order, orderBy)).slice(
+            stableSort(data || [], getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage
             ),
-        [order, orderBy, page, rowsPerPage]
+        [order, orderBy, page, rowsPerPage, data]
     );
 
     return (
@@ -185,6 +166,9 @@ export default function CustomTable({
                 paddingTop: "2rem",
             }}
         >
+            {!visibleRows.length && (
+                <StyledParagraph>There is no data to display</StyledParagraph>
+            )}
             <Paper
                 sx={{
                     width: "100%",
@@ -195,7 +179,6 @@ export default function CustomTable({
                     boxShadow: "var(--shadow-md)",
                 }}
             >
-                {/* Custom ToolBar */}
                 {CustomToolbar}
                 <TableContainer
                     sx={{
@@ -204,33 +187,29 @@ export default function CustomTable({
                     }}
                 >
                     <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                        {/* Own tablehead */}
                         <EmployeeTableHead
                             numSelected={selected.length}
                             order={order}
                             orderBy={orderBy}
                             onSelectAllClick={handleSelectAllClick}
                             onRequestSort={handleRequestSort}
-                            rowCount={rows.length}
+                            rowCount={data?.length || 0}
                         />
                         <TableBody>
-                            {visibleRows.map((row, index) => {
-                                // : row.employee_id
-                                const isItemSelected = isSelected(row.id);
+                            {visibleRows?.map((row, index) => {
+                                const isItemSelected = isSelected(index);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
                                     <TableRow
+                                        key={index}
                                         hover
                                         onClick={event =>
-                                            // : row.employee_id
-                                            handleClick(event, row.id)
+                                            handleClick(event, index)
                                         }
                                         role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
-                                        // : row.employee_id
-                                        key={row.id}
                                         selected={isItemSelected}
                                         sx={{
                                             cursor: "pointer",
@@ -257,36 +236,43 @@ export default function CustomTable({
                                             padding="none"
                                             sx={TableCellStyles}
                                         >
-                                            {/* `${row.first_name} ${row.last_name}` */}
-                                            {row.name}
+                                            {row.full_name}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {/* row.age */}
-                                            {row.calories}
+                                            {row.job_title}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {/* row.job_title */}
-                                            {row.fat}
+                                            {row.department}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {/* row.salary */}
-                                            {row.carbs}
+                                            {row.salary}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {/* row.hire_date */}
-                                            {row.protein}
+                                            {row.hire_date}
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                            sx={TableCellStyles}
+                                        >
+                                            {row.age}
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                            sx={TableCellStyles}
+                                        >
+                                            {row.email}
                                         </TableCell>
                                     </TableRow>
                                 );
@@ -306,7 +292,7 @@ export default function CustomTable({
                 <TablePagination
                     rowsPerPageOptions={[5, 10, 25]}
                     component="div"
-                    count={rows.length}
+                    count={data?.length || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
