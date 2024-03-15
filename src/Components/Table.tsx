@@ -81,9 +81,11 @@ const StyledParagraph = styled.span`
 export default function CustomTable({
     CustomToolbar,
     data,
+    employee,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
+    employee?: boolean;
 }) {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<keyof Data>("");
@@ -187,14 +189,16 @@ export default function CustomTable({
                     }}
                 >
                     <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                        <EmployeeTableHead
-                            numSelected={selected.length}
-                            order={order}
-                            orderBy={orderBy}
-                            onSelectAllClick={handleSelectAllClick}
-                            onRequestSort={handleRequestSort}
-                            rowCount={data?.length || 0}
-                        />
+                        {employee && (
+                            <EmployeeTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={data?.length || 0}
+                            />
+                        )}
                         <TableBody>
                             {visibleRows?.map((row, index) => {
                                 const isItemSelected = isSelected(index);
@@ -236,43 +240,43 @@ export default function CustomTable({
                                             padding="none"
                                             sx={TableCellStyles}
                                         >
-                                            {row.full_name}
+                                            {row.full_name || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.job_title}
+                                            {row.job_title || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.department}
+                                            {row.department || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.salary}
+                                            {row.salary || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.hire_date}
+                                            {row.hire_date || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.age}
+                                            {row.age || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.email}
+                                            {row.email || "-"}
                                         </TableCell>
                                     </TableRow>
                                 );
