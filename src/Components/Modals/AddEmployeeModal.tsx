@@ -13,10 +13,12 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { ModalTypes } from "../../Interfaces/User";
 import { useTranslation } from "react-i18next";
-import { DatePicker } from "@mui/x-date-pickers";
+import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 import { formatDate } from "../../Utils/utils";
 import { useAddEmployee } from "../../Api/userController";
+import { min } from "date-fns";
+import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -44,7 +46,7 @@ const StyledTextField = styled(TextField)`
     }
     & label {
         color: var(--color-grey-400);
-        font-size: 1.3rem;
+        font-size: 1.2rem;
     }
     & div > input {
         color: var(--color-grey-800);
@@ -61,6 +63,8 @@ const StyledTextField = styled(TextField)`
         border-color: var(--color-brand-600) !important;
     }
 `;
+
+const minDate = min([new Date(2000, 1, 1)]);
 
 const StyledTitle = styled.h4`
     color: var(--color-grey-800);
@@ -87,8 +91,24 @@ const StyledDatePicker = styled(DatePicker)`
 
 export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
     const [hireTime, setHireTime] = useState(new Date());
+    const [error, setError] = useState<DateValidationError>(null);
     const { t } = useTranslation();
     const { mutate, isPending } = useAddEmployee();
+
+    const errorMessage = React.useMemo(() => {
+        switch (error) {
+            case "minDate": {
+                return t("Date cannot be before 10/06/2000");
+            }
+            case "invalidDate": {
+                return "Your date is not valid";
+            }
+
+            default: {
+                return "";
+            }
+        }
+    }, [error]);
 
     const {
         handleSubmit,
@@ -116,6 +136,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
             salary,
             hire_date: date,
         };
+        if (errorMessage) return toast.error("Before submit fix your date");
         mutate(newEmployee);
         onCloseModal();
     }
@@ -258,6 +279,13 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                     }}
                                     value={hireTime}
                                     defaultValue={new Date()}
+                                    onError={newError => setError(newError)}
+                                    slotProps={{
+                                        textField: {
+                                            helperText: errorMessage,
+                                        },
+                                    }}
+                                    minDate={minDate}
                                 />
                             </Grid>
                         </Grid>
