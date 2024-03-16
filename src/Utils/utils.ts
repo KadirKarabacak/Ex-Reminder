@@ -15,3 +15,8 @@ export function formatCurrency(value: string) {
         currency: "TRY",
     }).format(value);
 }
+
+export function parseDateFromString(dateString: String) {
+    const [day, month, year] = dateString.split("/");
+    return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
+}
