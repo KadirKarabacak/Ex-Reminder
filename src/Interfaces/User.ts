@@ -1,3 +1,5 @@
+import { ReactNode } from "react";
+
 export interface LoginTypes {
     email: string;
     password: string;
@@ -46,5 +48,54 @@ export interface Employee {
 
 export interface UpdateEmployeeTypes {
     employee: object;
+    id: string;
+}
+
+export interface EditEmployeeModalTypes {
+    open: boolean;
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+    id: string;
+    row: any;
+}
+
+export interface EnhancedTableProps {
+    numSelected: number;
+    onRequestSort: (
+        event: React.MouseEvent<unknown>,
+        property: keyof EmployeeData
+    ) => void;
+    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
+    order: Order;
+    orderBy: string;
+    rowCount: number;
+}
+
+export type Order = "asc" | "desc";
+
+export interface ButtonGroupTypes {
+    id: string;
+    row: any;
+}
+
+export interface HeadingProps {
+    title: string;
+}
+
+export interface ProtectedRouteProps {
+    children: ReactNode;
+}
+
+export interface EmployeeData {
+    age: string;
+    department: string;
+    email: string;
+    employee_id: number;
+    full_name: string;
+    hire_date: string;
+    job_title: string;
+    salary: string;
+}
+
+export interface DeleteEmployeeTypes {
     id: string;
 }
