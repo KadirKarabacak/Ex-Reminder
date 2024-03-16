@@ -206,6 +206,11 @@ svg{
   border-bottom: none !important;
 }
 
+/* .MuiFilledInput-root::after{
+  border-bottom: 2px solid var(--color-brand-500)!important;
+} */
+
+
 `;
 
 export default GlobalStyles;
