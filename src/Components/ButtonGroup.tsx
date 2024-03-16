@@ -6,6 +6,9 @@ import EditIcon from "@mui/icons-material/Edit";
 import { IconButton } from "@mui/material";
 import { DeleteOutline, MoreVert } from "@mui/icons-material";
 import EditEmployeeModal from "./Modals/EditEmployeeModal";
+import DeleteEmployeeModal from "./Modals/DeleteEmployeeModal";
+import { ButtonGroupTypes } from "../Interfaces/User";
+import { useTranslation } from "react-i18next";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -49,10 +52,12 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-export default function ButtonGroup({ id, row }: { id: string; row: any }) {
+export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [opens, setOpens] = React.useState(false);
+    const [opensDelete, setOpensDelete] = React.useState(false);
     const open = Boolean(anchorEl);
+    const { t } = useTranslation();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -65,6 +70,11 @@ export default function ButtonGroup({ id, row }: { id: string; row: any }) {
         handleClose();
     };
     const handleCloseEditModal = () => setOpens(false);
+    const handleOpenDeleteModal = () => {
+        setOpensDelete(true);
+        handleClose();
+    };
+    const handleCloseDeleteModal = () => setOpensDelete(false);
 
     return (
         <div>
@@ -85,17 +95,25 @@ export default function ButtonGroup({ id, row }: { id: string; row: any }) {
                 </MenuItem>
                 <MenuItem onClick={handleOpenEditModal} disableRipple>
                     <EditIcon />
-                    Edit
+                    {t("Edit")}
                 </MenuItem>
-                <MenuItem onClick={handleClose} disableRipple>
+                <MenuItem onClick={handleOpenDeleteModal} disableRipple>
                     <DeleteOutline />
-                    Delete
+                    {t("Delete")}
                 </MenuItem>
             </StyledMenu>
             {opens && (
                 <EditEmployeeModal
                     open={opens}
                     handleClose={handleCloseEditModal}
+                    id={id}
+                    row={row}
+                />
+            )}
+            {opensDelete && (
+                <DeleteEmployeeModal
+                    open={opensDelete}
+                    handleClose={handleCloseDeleteModal}
                     id={id}
                     row={row}
                 />
