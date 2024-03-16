@@ -97,7 +97,7 @@ const StyledButton = styled(Button)`
 const StyledFormControl = styled(FormControl)`
     & > div {
         color: var(--color-grey-800);
-        font-size: 1.2rem;
+        font-size: 1.3rem;
         min-width: 1rem;
 
         &:hover &::before {
@@ -111,6 +111,10 @@ const StyledFormControl = styled(FormControl)`
 
     & > div > div {
         padding: 0.8rem;
+    }
+
+    & > div > svg {
+        color: var(--color-grey-800) !important;
     }
 `;
 
