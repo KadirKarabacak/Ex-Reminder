@@ -22,6 +22,8 @@
 21- ✅ Try to get employee id's from getEmployees to able to update each employee
 22- There is a bug on closing edit employee modal, fix animation
 23- Add deleting employee feature with modal like delete user
+25- Check add employe date feature and compare with edit, add new feature if needed
+26- Control edit employee with empty date
 
 ### FEATURES ###
 
