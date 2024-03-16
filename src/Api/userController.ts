@@ -282,7 +282,7 @@ export function useGetEmployees() {
 
 //! Add new employee
 const addEmployee = async function (employee: object) {
-    const docRef = await addDoc(collection(db, "employees"), employee);
+    await addDoc(collection(db, "employees"), employee);
 };
 
 //! Add new employee Query
