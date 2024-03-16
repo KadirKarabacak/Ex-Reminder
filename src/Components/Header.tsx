@@ -78,16 +78,6 @@ const StyledName = styled.span`
     color: var(--color-grey-800);
 `;
 
-const iconStyle = {
-    width: "2rem",
-    height: "2rem",
-    color: "var(--color-grey-600)",
-    transition: "all .3s",
-    ":hover": {
-        color: "var(--color-brand-500)",
-    },
-};
-
 const StyledButton = styled(Button)`
     &:hover > svg {
         color: var(--color-brand-500);
@@ -117,6 +107,16 @@ const StyledFormControl = styled(FormControl)`
         color: var(--color-grey-800) !important;
     }
 `;
+
+const iconStyle = {
+    width: "2rem",
+    height: "2rem",
+    color: "var(--color-grey-600)",
+    transition: "all .3s",
+    ":hover": {
+        color: "var(--color-brand-500)",
+    },
+};
 
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
