@@ -17,11 +17,13 @@ import {
     addDoc,
     doc,
     updateDoc,
+    deleteDoc,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
 import {
     CurrentUserTypes,
+    DeleteEmployeeTypes,
     DeleteUserTypes,
     Employee,
     LoginTypes,
@@ -323,6 +325,30 @@ export const useUpdateEmployee = function () {
         onError: err => {
             console.log(err);
             toast.error(i18n.t("An error occurred while editing the employee"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Delete Employee
+const deleteEmployee = async function ({ id }: DeleteEmployeeTypes) {
+    const ref = doc(db, "employees", id);
+    await deleteDoc(ref);
+};
+
+export const useDeleteEmployee = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: deleteEmployee,
+        onSuccess: () => {
+            toast.success(i18n.t("Employee successfully deleted"));
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(
+                i18n.t("An error occurred while deleting the employee")
+            );
         },
     });
     return { mutateAsync, isPending };
