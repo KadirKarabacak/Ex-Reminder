@@ -9,15 +9,7 @@ import {
 import styled from "styled-components";
 import { visuallyHidden } from "@mui/utils";
 import { useTranslation } from "react-i18next";
-
-interface Data {
-    id: number;
-    calories: number;
-    carbs: number;
-    fat: number;
-    name: string;
-    protein: number;
-}
+import { Data } from "../Table";
 
 type Order = "asc" | "desc";
 
@@ -92,10 +84,12 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         rowCount,
         onRequestSort,
     } = props;
+
     const createSortHandler =
         (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
+
     const array = [
         t("Full Name"),
         t("Job Title"),
@@ -104,6 +98,7 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         t("Hire Date"),
         t("Age"),
         t("Email"),
+        "",
     ];
 
     return (
