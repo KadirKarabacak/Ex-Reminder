@@ -1,8 +1,9 @@
 // import styled from "styled-components";
 import { onAuthStateChanged } from "firebase/auth";
-import { ReactNode, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { auth } from "../Api/firebase";
+import { ProtectedRouteProps } from "../Interfaces/User";
 
 //: Daha sonra spinner için kullanılabilir.
 // const FullPage = styled.div`
@@ -13,15 +14,10 @@ import { auth } from "../Api/firebase";
 //     justify-content: center;
 // `;
 
-interface ProtectedRouteProps {
-    children: ReactNode;
-}
-
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
 
-    // Handle authenticated user
     useEffect(() => {
         const unsubscribe = onAuthStateChanged(auth, user => {
             if (user) {
