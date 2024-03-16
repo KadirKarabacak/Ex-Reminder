@@ -292,7 +292,6 @@ export default function CustomTable({
                                         >
                                             <ButtonGroup
                                                 id={ids?.[index]}
-                                                name={row.full_name}
                                                 row={row}
                                             />
                                         </TableCell>
