@@ -10,6 +10,9 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
 import styled from "styled-components";
+import { formatCurrency } from "../Utils/utils";
+import ButtonGroup from "./ButtonGroup";
+import { useTranslation } from "react-i18next";
 
 const TableCellStyles = {
     color: "var(--color-grey-800)",
@@ -18,7 +21,7 @@ const TableCellStyles = {
     borderBottom: "1px solid var(--color-grey-200)",
 };
 
-interface Data {
+export interface Data {
     age: string;
     department: string;
     email: string;
@@ -82,16 +85,19 @@ export default function CustomTable({
     CustomToolbar,
     data,
     employee,
+    ids,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
     employee?: boolean;
+    ids?: any[] | undefined;
 }) {
     const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState<keyof Data>("");
+    const [orderBy, setOrderBy] = React.useState<keyof Data>("full_name");
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const { t } = useTranslation();
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
@@ -106,7 +112,6 @@ export default function CustomTable({
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (event.target.checked) {
-            //: n.employee_id
             const newSelected = data.map((n: object, i: string) => i);
             setSelected(newSelected);
             return;
@@ -169,7 +174,9 @@ export default function CustomTable({
             }}
         >
             {!visibleRows.length && (
-                <StyledParagraph>There is no data to display</StyledParagraph>
+                <StyledParagraph>
+                    {t("There is no data to display")}
+                </StyledParagraph>
             )}
             <Paper
                 sx={{
@@ -208,20 +215,19 @@ export default function CustomTable({
                                     <TableRow
                                         key={index}
                                         hover
-                                        onClick={event =>
-                                            handleClick(event, index)
-                                        }
-                                        role="checkbox"
                                         aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         selected={isItemSelected}
-                                        sx={{
-                                            cursor: "pointer",
-                                        }}
                                     >
                                         <TableCell
+                                            onClick={event =>
+                                                handleClick(event, index)
+                                            }
                                             padding="checkbox"
-                                            sx={TableCellStyles}
+                                            sx={{
+                                                ...TableCellStyles,
+                                                cursor: "pointer",
+                                            }}
                                         >
                                             <Checkbox
                                                 checked={isItemSelected}
@@ -258,7 +264,9 @@ export default function CustomTable({
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            {row.salary || "-"}
+                                            {formatCurrency(
+                                                row.salary as string
+                                            ) || "-"}
                                         </TableCell>
                                         <TableCell
                                             align="right"
@@ -277,6 +285,16 @@ export default function CustomTable({
                                             sx={TableCellStyles}
                                         >
                                             {row.email || "-"}
+                                        </TableCell>
+                                        <TableCell
+                                            align="right"
+                                            sx={TableCellStyles}
+                                        >
+                                            <ButtonGroup
+                                                id={ids?.[index]}
+                                                name={row.full_name}
+                                                row={row}
+                                            />
                                         </TableCell>
                                     </TableRow>
                                 );
