@@ -11,7 +11,13 @@ import {
     deleteUser,
     verifyBeforeUpdateEmail,
 } from "firebase/auth";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+    collection,
+    getDocs,
+    addDoc,
+    doc,
+    updateDoc,
+} from "firebase/firestore";
 import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
 import {
@@ -19,6 +25,7 @@ import {
     DeleteUserTypes,
     Employee,
     LoginTypes,
+    UpdateEmployeeTypes,
     UpdateUserEmailTypes,
     UpdateUserPasswordTypes,
 } from "../Interfaces/User";
@@ -27,23 +34,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
 
-// Get All Users
-const getEmployees = async () => {
-    const querySnapShot = await getDocs(collection(db, "employees"));
-    const employees: Employee[] = [];
-    querySnapShot.forEach(doc => employees.push(doc.data() as Employee));
-    return employees;
-};
-
-export function useGetEmployees() {
-    const { data, isLoading } = useQuery({
-        queryKey: ["employees"],
-        queryFn: getEmployees,
-    });
-    return { data, isLoading };
-}
-
-// Login
+//! Login
 export const signInWithEmailAndPasswordQuery = async ({
     email,
     password,
@@ -88,7 +79,7 @@ export const createUserWithEmailAndPasswordQuery = async ({
     return false;
 };
 
-// Logout
+//! Logout
 export const logOut = async () => {
     signOut(auth)
         .then(() => {
@@ -100,7 +91,7 @@ export const logOut = async () => {
     return false;
 };
 
-// Update user
+//! Update user
 const updateUser = async ({
     photoURL,
     displayName,
@@ -122,7 +113,7 @@ const updateUser = async ({
     }
 };
 
-// Update user Query
+//! Update user Query
 export function useUpdateUser() {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -138,12 +129,12 @@ export function useUpdateUser() {
     return { mutate, isPending };
 }
 
-// Reset Password [ Forgot Password ]
+//! Reset Password [ Forgot Password ]
 async function resetPasswordEmail(email: string) {
     await sendPasswordResetEmail(auth, email);
 }
 
-// Reset Password Query [ Forgot Password ]
+//! Reset Password Query [ Forgot Password ]
 export function useResetPasswordEmail() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -161,7 +152,7 @@ export function useResetPasswordEmail() {
     return { mutate, isPending };
 }
 
-// Delete user
+//! Delete user
 async function deleteUserAccount({ currentUser, password }: DeleteUserTypes) {
     const credential = EmailAuthProvider.credential(
         currentUser.email,
@@ -174,7 +165,7 @@ async function deleteUserAccount({ currentUser, password }: DeleteUserTypes) {
     });
 }
 
-// Delete user Query
+//! Delete user Query
 export function useDeleteUserAccount() {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -195,7 +186,7 @@ export function useDeleteUserAccount() {
     return { mutate, isPending };
 }
 
-// Update user email
+//! Update user email
 export async function updateUserEmail(
     currentUser: any,
     email: string,
@@ -209,7 +200,7 @@ export async function updateUserEmail(
     await verifyBeforeUpdateEmail(currentUser, email);
 }
 
-// Update user email Query
+//! Update user email Query
 export function useUpdateUserEmail() {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -233,7 +224,7 @@ export function useUpdateUserEmail() {
     return { mutateAsync, isPending };
 }
 
-// Update user password
+//! Update user password
 export async function updateUserPassword({
     currentUser,
     password,
@@ -247,7 +238,7 @@ export async function updateUserPassword({
     await updatePassword(currentUser, newPassword);
 }
 
-// Update user password Query
+//! Update user password Query
 export function useUpdateUserPassword() {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -266,19 +257,41 @@ export function useUpdateUserPassword() {
     return { mutateAsync, isPending };
 }
 
-//! OTHER CONTROLLERS
+//! ----------------- OTHER CONTROLLERS -------------------
 
-const addEmployee = async function (employee: object) {
-    const docRef = await addDoc(collection(db, "employees"), employee);
-    console.log(docRef.id);
+//! Get All Employees
+const getEmployees = async () => {
+    const querySnapShot = await getDocs(collection(db, "employees"));
+
+    const employees: Employee[] = [];
+    const employeeIds: any[] = [];
+    querySnapShot.forEach(doc => {
+        employees.push(doc.data() as Employee);
+        employeeIds.push(doc.id);
+    });
+    return { employees, employeeIds };
 };
 
+export function useGetEmployees() {
+    const { data, isLoading } = useQuery({
+        queryKey: ["employees"],
+        queryFn: getEmployees,
+    });
+    return { data, isLoading };
+}
+
+//! Add new employee
+const addEmployee = async function (employee: object) {
+    const docRef = await addDoc(collection(db, "employees"), employee);
+};
+
+//! Add new employee Query
 export const useAddEmployee = function () {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
         mutationFn: addEmployee,
         onSuccess: () => {
-            toast.success(i18n.t("Employee added"));
+            toast.success(i18n.t("New Employee added successfully"));
             queryClient.invalidateQueries();
         },
         onError: err => {
@@ -287,4 +300,30 @@ export const useAddEmployee = function () {
         },
     });
     return { mutate, isPending };
+};
+
+//! Update Employee
+const updateEmployee = async function ({ employee, id }: UpdateEmployeeTypes) {
+    const ref = doc(db, "employees", id);
+    await updateDoc(ref, employee);
+};
+
+//! Update Employee Query
+export const useUpdateEmployee = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateEmployeeTypes) => {
+            await updateEmployee(variables);
+            return;
+        },
+        onSuccess: () => {
+            toast.success(i18n.t("Employee successfully edited"));
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("An error occurred while editing the employee"));
+        },
+    });
+    return { mutateAsync, isPending };
 };
