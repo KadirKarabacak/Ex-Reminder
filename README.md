@@ -17,6 +17,9 @@ This project is a project that I started to create in order to use all my experi
 -   Context-API
 -   LocalStorage
 -   Moment
+-   i18next
+-   Recharts
+-   Date-fns
 
 <p align="left"> 
 <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="45" height="45" />
@@ -62,6 +65,23 @@ This project is a project that I started to create in order to use all my experi
 -   I have created a modal interface for the user to delete their existing account and I have provided a warning to the user explaining what happens if their account is deleted.
 -   The user can delete their account by entering their **current password** and after deleting the account the user is automatically **logout** and redirected to the login page.
 
+## `Employees`
+
+-   I created a table that holds all the information of the employees in the route I created using the MaterialUI Table component. I took the list of all employees from the **employees** collection, a collection I created on firebase.
+
+## `Adding Employees`
+
+-   In order to add a new employee, I created an add button in the toolbar of my table and through this button I directed the user to the modal page where they can fill in the information required to add a new employee. I allowed the user to fill in the information such as the full name of the new employee, job title, department, salary, date of hire, age and email and place the new employee in the table. To add a new employee, I used the addDoc() function provided by firebase and handled this function with tanstack-query.
+
+## `Updating employee information`
+
+-   In order to update each of the added employees and to correct or complete the incorrect or missing information, I placed an update button at the end of the row where each employee is located in the table. I directed the user to the employee update modal through these buttons and automatically filled the fields to be filled in the modal with the existing information entered for the employee.
+-   Again, for this purpose, I took advantage of the updateDoc() function offered by firebase and handled it with tanstack-query.
+
+## `English & Turkish Language Support`
+
+-   I handled all the fields in my project with the useTranslation hook provided by **i18next** and provided English - Turkish language support for all of them. I enabled the user to change the language at any time, either just before logging in on the login page or by accessing the header section throughout the application.
+
 # `React-Router-Project` [ TR 🔴 ]
 
 Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime yenilerini eklemek ve alanımda kendimi daha yüksek bir seviyeye getirmek amacıyla oluşturmaya başladığım bir projedir.
@@ -80,6 +100,9 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 -   Uuid
 -   Context-API
 -   LocalStorage
+-   i18next
+-   Recharts
+-   Date-fns
 
 ## `Giriş [ Kimlik Doğrulama & Yetkilendirme ]`
 
@@ -111,3 +134,20 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 
 -   Kullanıcının mevcut hesabını silebilmesi için bir modal arayüzü oluşturdum ve kullanıcıya hesabının silinmesi durumunda gerçekleşecek durumları açıklayan bir uyarıda bulundum.
 -   Kullanıcı **mevcut şifresini** girerek hesabını silebilir ve hesap silindikten sonra kullanıcı otomatik olarak **logout** edilir ve login sayfasına yönlendirilir.
+
+## `Çalışanlar`
+
+-   MaterialUI Table componentinden yararlanarak oluşturduğum route'da çalışanların tüm bilgilerini tutan bir tablo oluşturdum. Tüm çalışanların listesini firebase üzerinde oluşturduğum bir koleksiyon olan **employees** koleksiyonundan aldım.
+
+## `Çalışan Ekleme`
+
+-   Yeni bir çalışan ekleyebilmek için tablomun toolbar kısmında bir ekleme butonu oluşturdum ve bu buton aracılığıyla kullanıcıyı yeni çalışan eklemek için gerekli olan bilgileri doldurabileceği modal sayfasına yönlendirdim. Yeni çalışanın tam ismi, iş başlığı, çalıştığı departman, maaş, işe giriş tarihi, yaş ve email gibi bilgileri kullanıcının doldurmasına ve tabloya yeni çalışanını yerleştirmesine olanak sağladım. Yeni çalışan eklemek için firebase'in sağladığı addDoc() fonksiyonundan yararlandım ve bu fonksiyonu tanstack-query ile ele aldım.
+
+## `Çalışan bilgilerini güncelleme`
+
+-   Eklenmiş çalışanların her birisini güncelleyebilmek ve varsa yanlış yada eksik girilen bilgilerin düzeltilmesi veya tamamlanması için tabloda her çalışanın bulunduğu satır sonuna bir güncelleme butonu yerleştirdim. Kullanıcıyı bu butonlar aracılığı ile çalışan güncelleme modalına yönlendirdim ve modal içerisinde doldurulacak alanları çalışan için girilmiş mevcut bilgiler ile otomatik olarak doldurdum.
+-   Yine bu amaç için firebase'in sunduğu updateDoc() fonksiyonundan faydalandım ve tanstack-query ile ele aldım.
+
+## `İngilizce & Türkçe Dil Desteği`
+
+-   Projemdeki tüm alanları **i18next** in sağladığı useTranslation hook'u ile ele aldım ve tamamına Ingilizce ve Türkçe dil desteği sağladım. Kullanıcının dil değişimini ister login sayfasında giriş yapmadan hemen önce isterse de uygulama boyunca header kısmından erişerek dilediği zaman değiştirebilmesini sağladım.
