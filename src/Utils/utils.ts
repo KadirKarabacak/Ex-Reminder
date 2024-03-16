@@ -8,3 +8,10 @@ export function formatDate(date: any) {
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 }
+
+export function formatCurrency(value: string) {
+    return new Intl.NumberFormat("tr", {
+        style: "currency",
+        currency: "TRY",
+    }).format(value);
+}
