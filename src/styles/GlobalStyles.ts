@@ -150,7 +150,6 @@ input:disabled, label:disabled {
 }
 
 
-input:focus,
 textarea:focus,
 select:focus {
   outline: 2px solid var(--color-brand-600);
@@ -197,6 +196,14 @@ svg{
 
 .MuiTooltip-tooltip{
   font-size: 1rem !important;
+}
+
+.MuiButtonBase-root{
+  font-size: 1rem !important;
+}
+
+.MuiTablePagination-root{
+  border-bottom: none !important;
 }
 
 `;
