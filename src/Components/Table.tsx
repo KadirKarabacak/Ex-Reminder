@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { formatCurrency } from "../Utils/utils";
 import ButtonGroup from "./ButtonGroup";
 import { useTranslation } from "react-i18next";
+import { EmployeeData } from "../Interfaces/User";
 
 const TableCellStyles = {
     color: "var(--color-grey-800)",
@@ -20,17 +21,6 @@ const TableCellStyles = {
     textAlign: "left",
     borderBottom: "1px solid var(--color-grey-200)",
 };
-
-export interface Data {
-    age: string;
-    department: string;
-    email: string;
-    employee_id: number;
-    full_name: string;
-    hire_date: string;
-    job_title: string;
-    salary: string;
-}
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
     if (b[orderBy] < a[orderBy]) {
@@ -76,7 +66,8 @@ const StyledParagraph = styled.span`
     color: var(--color-grey-800);
     width: 100%;
     position: absolute;
-    top: 33%;
+    /* top: ${props => (props.employee ? "42%" : "30%")}; */
+    top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
 `;
@@ -93,7 +84,8 @@ export default function CustomTable({
     ids?: any[] | undefined;
 }) {
     const [order, setOrder] = React.useState<Order>("asc");
-    const [orderBy, setOrderBy] = React.useState<keyof Data>("full_name");
+    const [orderBy, setOrderBy] =
+        React.useState<keyof EmployeeData>("full_name");
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -101,7 +93,7 @@ export default function CustomTable({
 
     const handleRequestSort = (
         event: React.MouseEvent<unknown>,
-        property: keyof Data
+        property: keyof EmployeeData
     ) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -298,7 +290,7 @@ export default function CustomTable({
                                     </TableRow>
                                 );
                             })}
-                            {emptyRows > 0 && (
+                            {/* {emptyRows > 0 && (
                                 <TableRow
                                     style={{
                                         height: 53 * emptyRows,
@@ -306,7 +298,7 @@ export default function CustomTable({
                                 >
                                     <TableCell colSpan={6} />
                                 </TableRow>
-                            )}
+                            )} */}
                         </TableBody>
                     </Table>
                 </TableContainer>
