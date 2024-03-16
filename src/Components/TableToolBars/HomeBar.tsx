@@ -32,7 +32,6 @@ export function HomeToolBar() {
             >
                 {t("Home Deneme")}
             </Typography>
-
             <Tooltip title="Filter list">
                 <StyledIconButton>
                     <FilterListIcon />
