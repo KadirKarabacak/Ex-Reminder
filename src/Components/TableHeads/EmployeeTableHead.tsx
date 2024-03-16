@@ -9,21 +9,7 @@ import {
 import styled from "styled-components";
 import { visuallyHidden } from "@mui/utils";
 import { useTranslation } from "react-i18next";
-import { Data } from "../Table";
-
-type Order = "asc" | "desc";
-
-interface EnhancedTableProps {
-    numSelected: number;
-    onRequestSort: (
-        event: React.MouseEvent<unknown>,
-        property: keyof Data
-    ) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
+import { EmployeeData, EnhancedTableProps } from "../../Interfaces/User";
 
 const StyledBox = styled(Box)`
     transition: all 0.3s;
@@ -62,18 +48,6 @@ const TableHeadStyles = {
     },
 };
 
-interface EnhancedTableProps {
-    numSelected: number;
-    onRequestSort: (
-        event: React.MouseEvent<unknown>,
-        property: keyof Data
-    ) => void;
-    onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
-    order: Order;
-    orderBy: string;
-    rowCount: number;
-}
-
 export function EmployeeTableHead(props: EnhancedTableProps) {
     const { t } = useTranslation();
     const {
@@ -86,11 +60,12 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
     } = props;
 
     const createSortHandler =
-        (property: keyof Data) => (event: React.MouseEvent<unknown>) => {
+        (property: keyof EmployeeData) =>
+        (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
 
-    const array = [
+    const tableHeads = [
         t("Full Name"),
         t("Job Title"),
         t("Department"),
@@ -123,7 +98,7 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {array?.map((col, i) => (
+                {tableHeads?.map((col, i) => (
                     <TableCell
                         key={i}
                         padding={
@@ -143,7 +118,9 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
                         <TableSortLabel
                             active={orderBy === String(i)}
                             direction={orderBy === String(i) ? order : "asc"}
-                            onClick={createSortHandler(col as keyof Data)}
+                            onClick={createSortHandler(
+                                col as keyof EmployeeData
+                            )}
                             sx={TableHeadStyles}
                         >
                             {col}
