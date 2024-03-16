@@ -21,9 +21,9 @@ const StyledIconButton = styled(IconButton)`
 export function EmployeeToolBar() {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
-
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
     return (
         <>
             <Toolbar
@@ -45,8 +45,6 @@ export function EmployeeToolBar() {
                 >
                     {t("Employees")}
                 </Typography>
-
-                {/* EMPLOYEE BUTTON OPENS MODAL */}
                 <Button
                     onClick={handleOpen}
                     sx={{
@@ -79,7 +77,6 @@ export function EmployeeToolBar() {
                     </StyledIconButton>
                 </Tooltip>
             </Toolbar>
-            {/* AddEmployeeModal */}
             <AddEmployeeModal handleClose={handleClose} open={open} />
         </>
     );
