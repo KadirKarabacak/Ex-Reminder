@@ -10,14 +10,18 @@
 09- ✅ On update user, abstract email and password update to another form. Do the same modal for update password take users previous password and revalidate user.
 10- ✅ UpdatePasswordModal > OutlinedInput handle helperText usage + add updatePassword feature // https://mui.com/material-ui/api/outlined-input/
 11- ✅ Make sure on every update use tanstack-query
-12- For every row in the table add vertical button menu fo CRUD // import MoreVertIcon from '@mui/icons-material/MoreVert';
+12- ✅ For every row in the table add vertical button menu fo CRUD // import MoreVertIcon from '@mui/icons-material/MoreVert';
 13- ✅ Add notifications button to the header
 14- ✅ Add change language feature into application interface somewhere in settings route or header
 15- Translate homepage features
 16- Fix employees sort feature
 17- ✅ Make tables Toolbars reusable
-18- Implement add employee feature by modal and form submit
-
+18- ✅ Implement add employee feature by modal and form submit 
+19- ✅ fix datepicker error
+20- Before data reach, show spinner on employees route
+21- ✅ Try to get employee id's from getEmployees to able to update each employee
+22- There is a bug on closing edit employee modal, fix animation
+23- Add deleting employee feature with modal like delete user
 
 ### FEATURES ###
 
