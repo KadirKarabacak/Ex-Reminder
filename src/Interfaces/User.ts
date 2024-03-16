@@ -43,3 +43,8 @@ export interface Employee {
     manager_id: string;
     salary: string;
 }
+
+export interface UpdateEmployeeTypes {
+    employee: object;
+    id: string;
+}
