@@ -23,13 +23,13 @@ export default function Employees() {
     const animationProps = useSpring(springOptions);
     const { data } = useGetEmployees();
     const employee = true;
-    console.log(data);
 
     return (
         <AnimatedStyledEmployees style={animationProps}>
             <CustomTable
                 CustomToolbar={<EmployeeToolBar />}
-                data={data}
+                data={data?.employees}
+                ids={data?.employeeIds}
                 employee={employee}
             />
         </AnimatedStyledEmployees>
