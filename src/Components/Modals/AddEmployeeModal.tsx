@@ -2,6 +2,7 @@ import {
     Backdrop,
     Box,
     Button,
+    Divider,
     Fade,
     Grid,
     Modal,
@@ -85,7 +86,7 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 
 export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
-    const [hireDate, setHireDate] = useState(new Date());
+    const [hireTime, setHireTime] = useState(new Date());
     const { t } = useTranslation();
     const { mutate, isPending } = useAddEmployee();
 
@@ -103,7 +104,9 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
         const { fullName, jobTitle, department, email, age, salary, hireDate } =
             getValues();
         let date;
-        if (hireDate !== null) date = formatDate(hireDate);
+        hireDate !== undefined
+            ? (date = formatDate(hireDate))
+            : (date = formatDate(hireTime));
         const newEmployee = {
             full_name: fullName,
             job_title: jobTitle,
@@ -114,7 +117,6 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
             hire_date: date,
         };
         mutate(newEmployee);
-        console.log(fullName, jobTitle, department, email, age, salary, date);
         onCloseModal();
     }
 
@@ -180,6 +182,13 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                     }
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>Department</StyledTitle>
                                 <StyledTextField
@@ -216,6 +225,13 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                     }
                                 />
                             </Grid>
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>Age</StyledTitle>
                                 <StyledTextField
@@ -238,9 +254,9 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                     disabled={isPending}
                                     onChange={(date: any) => {
                                         setValue("hireDate", date);
-                                        setHireDate(date);
+                                        setHireTime(date);
                                     }}
-                                    value={hireDate}
+                                    value={hireTime}
                                     defaultValue={new Date()}
                                 />
                             </Grid>
