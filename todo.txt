@@ -14,16 +14,17 @@
 13- ✅ Add notifications button to the header
 14- ✅ Add change language feature into application interface somewhere in settings route or header
 15- Translate homepage features
-16- Fix employees sort feature
+16- 🟡 Fix employees sort feature // Components\TableHeads\EmployeeTableHead.tsx // Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
 17- ✅ Make tables Toolbars reusable
 18- ✅ Implement add employee feature by modal and form submit 
 19- ✅ fix datepicker error
 20- Before data reach, show spinner on employees route
 21- ✅ Try to get employee id's from getEmployees to able to update each employee
 22- There is a bug on closing edit employee modal, fix animation
-23- Add deleting employee feature with modal like delete user
-25- Check add employe date feature and compare with edit, add new feature if needed
-26- Control edit employee with empty date
+23- ✅ Add deleting employee feature with modal like delete user
+25- ✅ Check add employe date feature and compare with edit, add new feature if needed
+26- ✅ Control edit employee with empty date
+27- ✅ Fix when i change avatar in a user account, it changes also other accounts
 
 ### FEATURES ###
 
