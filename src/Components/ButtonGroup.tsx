@@ -3,7 +3,8 @@ import { styled, alpha } from "@mui/material/styles";
 import Menu, { MenuProps } from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import EditIcon from "@mui/icons-material/Edit";
-import { IconButton } from "@mui/material";
+import ReadMoreIcon from "@mui/icons-material/ReadMore";
+import { Divider, IconButton } from "@mui/material";
 import { DeleteOutline, MoreVert } from "@mui/icons-material";
 import EditEmployeeModal from "./Modals/EditEmployeeModal";
 import DeleteEmployeeModal from "./Modals/DeleteEmployeeModal";
@@ -37,6 +38,8 @@ const StyledMenu = styled((props: MenuProps) => (
             padding: "4px 0",
         },
         "& .MuiMenuItem-root": {
+            fontSize: "1.2rem",
+            fontWeight: "bold",
             "& .MuiSvgIcon-root": {
                 fontSize: 18,
                 color: theme.palette.text.secondary,
@@ -93,9 +96,14 @@ export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
                 <MenuItem disabled disableRipple>
                     {row.full_name}
                 </MenuItem>
+                <Divider sx={{ marginTop: "0!important" }} />
                 <MenuItem onClick={handleOpenEditModal} disableRipple>
                     <EditIcon />
                     {t("Edit")}
+                </MenuItem>
+                <MenuItem disableRipple>
+                    <ReadMoreIcon />
+                    {t("Detail")}
                 </MenuItem>
                 <MenuItem onClick={handleOpenDeleteModal} disableRipple>
                     <DeleteOutline />
