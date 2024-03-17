@@ -25,7 +25,7 @@ export default function Home() {
 
     return (
         <AnimatedStyledHome style={animationProps}>
-            <CustomTable CustomToolbar={<HomeToolBar />} />
+            {/* <CustomTable CustomToolbar={<HomeToolBar />} /> */}
             <Chart />
         </AnimatedStyledHome>
     );
