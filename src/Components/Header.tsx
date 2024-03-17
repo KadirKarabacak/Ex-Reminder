@@ -246,28 +246,28 @@ function Header() {
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip TransitionComponent={Zoom} title={t("Logout")}>
-                        <StyledButton
-                            sx={{
-                                fontSize: "2rem",
-                                minWidth: 0,
-                                p: "0.7rem",
-                                lineHeight: 0,
+                        <Link
+                            onClick={() => {
+                                logOut();
+                                return toast.success(
+                                    t("Successfully logged out")
+                                );
                             }}
-                            color="inherit"
-                            variant="text"
+                            to="/login"
                         >
-                            <Link
-                                onClick={() => {
-                                    logOut();
-                                    return toast.success(
-                                        t("Successfully logged out")
-                                    );
+                            <StyledButton
+                                sx={{
+                                    fontSize: "2rem",
+                                    minWidth: 0,
+                                    p: "0.7rem",
+                                    lineHeight: 0,
                                 }}
-                                to="/login"
+                                color="inherit"
+                                variant="text"
                             >
                                 <LogoutIcon sx={iconStyle} />
-                            </Link>
-                        </StyledButton>
+                            </StyledButton>
+                        </Link>
                     </Tooltip>
                 </StyledListItem>
             </StyledList>
