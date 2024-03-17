@@ -34,6 +34,7 @@ const TableCellStyles = {
 
 const TableHeadStyles = {
     transition: "all .3s",
+    fontSize: "1.4rem",
     ":hover": {
         color: "var(--color-grey-700)",
     },
@@ -48,8 +49,24 @@ const TableHeadStyles = {
     },
 };
 
+// Change TableHead sort feat by translation
+type TranslationMap = {
+    [key: string]: keyof EmployeeData;
+};
+
+const translationMap: TranslationMap = {
+    isim: "full_name",
+    meslek: "job_title",
+    departman: "department",
+    maaş: "salary",
+    giriş_tarihi: "hire_date",
+    yaş: "age",
+    email: "email",
+};
+
 export function EmployeeTableHead(props: EnhancedTableProps) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
+    const currentLanguage = i18n.language;
     const {
         onSelectAllClick,
         order,
@@ -59,22 +76,31 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         onRequestSort,
     } = props;
 
+    const tableHeads = [
+        t("full_name"),
+        t("job_title"),
+        t("department"),
+        t("salary"),
+        t("hire_date"),
+        t("age"),
+        t("email"),
+        "",
+    ];
+
+    function translateToTurkish(property: keyof EmployeeData) {
+        return translationMap[property];
+    }
+
     const createSortHandler =
         (property: keyof EmployeeData) =>
         (event: React.MouseEvent<unknown>) => {
-            onRequestSort(event, property);
+            onRequestSort(
+                event,
+                currentLanguage === "tr-TR"
+                    ? translateToTurkish(property)
+                    : property
+            );
         };
-
-    const tableHeads = [
-        t("Full Name"),
-        t("Job Title"),
-        t("Department"),
-        t("Salary"),
-        t("Hire Date"),
-        t("Age"),
-        t("Email"),
-        "",
-    ];
 
     return (
         <TableHead>
@@ -98,42 +124,55 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {tableHeads?.map((col, i) => (
-                    <TableCell
-                        key={i}
-                        padding={
-                            col === "Full Name" || col === "İsim"
-                                ? "none"
-                                : "normal"
-                        }
-                        sortDirection={orderBy === String(i) ? order : false}
-                        sx={{
-                            color: "var(--color-grey-800)",
-                            fontSize: "1.2rem",
-                            fontWeight: "bold",
-                            textAlign: "left",
-                            borderBottom: "1px solid var(--color-grey-200)",
-                        }}
-                    >
-                        <TableSortLabel
-                            active={orderBy === String(i)}
-                            direction={orderBy === String(i) ? order : "asc"}
-                            onClick={createSortHandler(
-                                col as keyof EmployeeData
-                            )}
-                            sx={TableHeadStyles}
+                {tableHeads?.map((col, i) => {
+                    //! Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
+                    // console.log(orderBy);
+                    // console.log(col);
+                    return (
+                        <TableCell
+                            key={i}
+                            padding={
+                                col === "full_name" || col === "isim"
+                                    ? "none"
+                                    : "normal"
+                            }
+                            sortDirection={
+                                orderBy === String(i) ? order : false
+                            }
+                            sx={{
+                                color: "var(--color-grey-800)",
+                                fontSize: "1.2rem",
+                                fontWeight: "bold",
+                                textAlign: "left",
+                                borderBottom: "1px solid var(--color-grey-200)",
+                            }}
                         >
-                            {col}
-                            {orderBy === String(i) ? (
-                                <StyledBox component="span" sx={visuallyHidden}>
-                                    {order === "desc"
-                                        ? "sorted descending"
-                                        : "sorted ascending"}
-                                </StyledBox>
-                            ) : null}
-                        </TableSortLabel>
-                    </TableCell>
-                ))}
+                            <TableSortLabel
+                                active={orderBy === col}
+                                direction={orderBy === col ? order : "asc"}
+                                onClick={createSortHandler(
+                                    col as keyof EmployeeData
+                                )}
+                                sx={TableHeadStyles}
+                            >
+                                {(
+                                    col.slice(0, 1).toUpperCase() +
+                                    col.slice(1).toLowerCase()
+                                ).replaceAll("_", " ")}
+                                {orderBy === col ? (
+                                    <StyledBox
+                                        component="span"
+                                        sx={visuallyHidden}
+                                    >
+                                        {order === "desc"
+                                            ? "sorted_descending"
+                                            : "sorted_ascending"}
+                                    </StyledBox>
+                                ) : null}
+                            </TableSortLabel>
+                        </TableCell>
+                    );
+                })}
             </TableRow>
         </TableHead>
     );
