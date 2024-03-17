@@ -19,6 +19,7 @@ import { formatDate } from "../../Utils/utils";
 import { useAddEmployee } from "../../Api/userController";
 import { min } from "date-fns";
 import toast from "react-hot-toast";
+import { auth } from "../../Api/firebase";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -93,6 +94,8 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
     const [hireTime, setHireTime] = useState(new Date());
     const [error, setError] = useState<DateValidationError>(null);
     const { t } = useTranslation();
+    const { currentUser } = auth;
+    const uid = currentUser?.uid;
     const { mutate, isPending } = useAddEmployee();
 
     const errorMessage = React.useMemo(() => {
@@ -101,7 +104,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                 return t("Date cannot be before 10/06/2000");
             }
             case "invalidDate": {
-                return "Your date is not valid";
+                return t("Your date is not valid");
             }
 
             default: {
@@ -136,7 +139,8 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
             salary,
             hire_date: date,
         };
-        if (errorMessage) return toast.error("Before submit fix your date");
+        if (errorMessage)
+            return toast.error("Before submit you must enter a valid date");
         mutate(newEmployee);
         onCloseModal();
     }
@@ -170,14 +174,14 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t("Add Employee")}
+                            {t("Add New Employee")}
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>Full Name</StyledTitle>
+                                <StyledTitle>{t("Full Name")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Full Name"
+                                    label={t("Full Name")}
                                     {...register("fullName", {
                                         required: t("Full Name is required"),
                                     })}
@@ -189,10 +193,10 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>Job Title</StyledTitle>
+                                <StyledTitle>{t("Job Title")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Job Title"
+                                    label={t("Job Title")}
                                     {...register("jobTitle", {
                                         required: t("Job Title is required"),
                                     })}
@@ -211,10 +215,10 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>Department</StyledTitle>
+                                <StyledTitle>{t("Department")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Department"
+                                    label={t("Department")}
                                     {...register("department", {
                                         required: t(
                                             "Department name is required"
@@ -254,24 +258,25 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>Age</StyledTitle>
+                                <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Age"
+                                    label={t("Age")}
                                     {...register("age")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>Salary</StyledTitle>
+                                <StyledTitle>{t("Salary")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Salary"
+                                    label={t("Salary")}
                                     {...register("salary")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>Hire Date</StyledTitle>
+                                <StyledTitle>{t("Hire Date")}</StyledTitle>
                                 <StyledDatePicker
+                                    format="dd/MM/yyyy"
                                     disabled={isPending}
                                     onChange={(date: any) => {
                                         setValue("hireDate", date);
