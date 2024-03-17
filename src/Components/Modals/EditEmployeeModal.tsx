@@ -19,6 +19,7 @@ import { useUpdateEmployee } from "../../Api/userController";
 import { min } from "date-fns";
 import toast from "react-hot-toast";
 import { EditEmployeeModalTypes } from "../../Interfaces/User";
+import { auth } from "../../Api/firebase";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -117,6 +118,8 @@ export default function EditEmployeeModal({
     const { t } = useTranslation();
     const { mutateAsync: updateEmployee, isPending: isUpdating } =
         useUpdateEmployee();
+    const { currentUser } = auth;
+    const userId = currentUser?.uid;
 
     const errorMessage = React.useMemo(() => {
         switch (error) {
@@ -160,8 +163,8 @@ export default function EditEmployeeModal({
             salary,
             hire_date: date,
         };
-        if (errorMessage) return toast.error("Before submit fix your date");
-        await updateEmployee({ employee, id });
+        if (errorMessage) return toast.error("You must enter a valid date");
+        await updateEmployee({ employee, id, userId });
         onCloseModal();
     }
 
