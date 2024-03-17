@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { useDeleteEmployee } from "../../Api/userController";
 import { EditEmployeeModalTypes } from "../../Interfaces/User";
+import { auth } from "../../Api/firebase";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -41,9 +42,11 @@ export default function DeleteEmployeeModal({
     const { handleSubmit } = useForm();
     const { mutateAsync: deleteEmployee, isPending: isDeleting } =
         useDeleteEmployee();
+    const { currentUser } = auth;
+    const userId = currentUser?.uid;
 
     async function onSubmit() {
-        await deleteEmployee({ id });
+        await deleteEmployee({ id, userId });
         onCloseModal();
     }
 
