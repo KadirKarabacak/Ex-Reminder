@@ -20,18 +20,18 @@ const StyledTextField = styled(TextField)`
     & label {
         color: var(--color-grey-800);
     }
-
     & div > input {
         color: var(--color-grey-800);
-    }
+        font-size: 1.3rem;
 
+        &:disabled {
+            background-color: var(--color-grey-300);
+        }
+    }
     & div > fieldset {
         border-color: var(--color-grey-500);
     }
-
-    &:hover > label,
     &:hover > div > fieldset {
-        color: var(--color-brand-600);
         border-color: var(--color-brand-600) !important;
     }
 `;
