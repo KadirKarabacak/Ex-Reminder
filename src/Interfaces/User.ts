@@ -26,6 +26,7 @@ export interface UpdateUserEmailTypes {
 export interface DeleteUserTypes {
     currentUser: any;
     password: string;
+    userId: string | undefined;
 }
 
 export interface ModalTypes {
@@ -49,6 +50,7 @@ export interface Employee {
 export interface UpdateEmployeeTypes {
     employee: object;
     id: string;
+    userId: string | undefined;
 }
 
 export interface EditEmployeeModalTypes {
@@ -98,4 +100,5 @@ export interface EmployeeData {
 
 export interface DeleteEmployeeTypes {
     id: string;
+    userId: string | undefined;
 }
