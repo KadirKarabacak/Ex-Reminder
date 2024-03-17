@@ -74,6 +74,7 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
     const { t } = useTranslation();
     const { currentUser } = auth;
+    const userId = currentUser?.uid;
     const {
         handleSubmit,
         register,
@@ -93,7 +94,7 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
 
     function onDelete() {
         const { password } = getValues();
-        deleteUser({ currentUser, password });
+        deleteUser({ currentUser, password, userId });
     }
 
     function onCloseModal() {
