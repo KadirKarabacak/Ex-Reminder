@@ -198,9 +198,9 @@ svg{
   font-size: 1rem !important;
 }
 
-.MuiButtonBase-root{
+/* .MuiButtonBase-root{
   font-size: 1rem !important;
-}
+} */
 
 .MuiTablePagination-root{
   border-bottom: none !important;
@@ -210,6 +210,9 @@ svg{
   border-bottom: 2px solid var(--color-brand-500)!important;
 } */
 
+.MuiSelect-icon{
+  color: var(--color-grey-800)!important;
+}
 
 `;
 
