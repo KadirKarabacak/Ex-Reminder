@@ -66,7 +66,6 @@ const StyledParagraph = styled.span`
     color: var(--color-grey-800);
     width: 100%;
     position: absolute;
-    /* top: ${props => (props.employee ? "42%" : "30%")}; */
     top: 42%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -162,7 +161,6 @@ export default function CustomTable({
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
-                paddingTop: "2rem",
             }}
         >
             {!visibleRows.length && (
@@ -175,7 +173,6 @@ export default function CustomTable({
                     width: "100%",
                     mb: 2,
                     backgroundColor: "transparent",
-                    maxWidth: "95%",
                     height: "max-content",
                     boxShadow: "var(--shadow-md)",
                 }}
@@ -303,7 +300,7 @@ export default function CustomTable({
                     </Table>
                 </TableContainer>
                 <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
+                    rowsPerPageOptions={[10, 25, 50]}
                     component="div"
                     count={data?.length || 0}
                     rowsPerPage={rowsPerPage}
