@@ -81,6 +81,10 @@ const StyledFileCont = styled.div`
     align-items: center;
     gap: 1rem;
     margin-bottom: 1.5rem;
+
+    & svg {
+        color: #e5e7eb;
+    }
 `;
 
 const StyledButtonContainer = styled.div`
