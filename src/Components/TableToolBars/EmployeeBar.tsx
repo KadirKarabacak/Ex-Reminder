@@ -28,16 +28,16 @@ export function EmployeeToolBar() {
         <>
             <Toolbar
                 sx={{
-                    pl: { sm: 2 },
-                    pr: { xs: 1, sm: 1 },
+                    pl: { sm: 3 },
+                    pr: { xs: 1, sm: 2 },
                     gap: "1rem",
                 }}
             >
                 <Typography
                     sx={{
                         marginRight: "auto",
-                        color: "var(--color-grey-800)",
-                        fontSize: "1.3rem",
+                        color: "var(--color-indigo-700)",
+                        fontSize: "2rem",
                         fontWeight: "bold",
                     }}
                     variant="subtitle1"
@@ -71,11 +71,11 @@ export function EmployeeToolBar() {
                 >
                     {t("Add Employee")}
                 </Button>
-                <Tooltip title="Filter list">
+                {/* <Tooltip title="Filter list">
                     <StyledIconButton>
                         <FilterListIcon />
                     </StyledIconButton>
-                </Tooltip>
+                </Tooltip> */}
             </Toolbar>
             <AddEmployeeModal handleClose={handleClose} open={open} />
         </>
