@@ -18,6 +18,8 @@ import {
     doc,
     updateDoc,
     deleteDoc,
+    setDoc,
+    getDoc,
 } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
@@ -49,6 +51,18 @@ export const signInWithEmailAndPasswordQuery = async ({
         );
         const user = userCredential.user;
         if (user) {
+            let ref = doc(db, "users", user.uid);
+            const docSnap = await getDoc(ref);
+
+            if (docSnap.exists()) {
+                localStorage.setItem(
+                    "user",
+                    JSON.stringify({
+                        email: docSnap.data().email,
+                    })
+                );
+                localStorage.setItem("user-creds", JSON.stringify(user));
+            }
             return true;
         }
     } catch (error) {}
@@ -67,14 +81,19 @@ export const createUserWithEmailAndPasswordQuery = async ({
             password
         );
         const user = userCredential.user;
-        await sendEmailVerification(user);
         if (user) {
+            await sendEmailVerification(user);
+            const ref = doc(db, "users", user.uid);
+            await setDoc(ref, {
+                email: user.email,
+            });
             return true;
         }
     } catch (error: any) {
         if (error.message.includes("email-already-in-use")) {
             toast.error(i18n.t("Email already in use"));
         } else {
+            console.log(error);
             toast.error(i18n.t("There was an error creating the user."));
         }
     }
@@ -100,15 +119,14 @@ const updateUser = async ({
     currentUser,
 }: CurrentUserTypes) => {
     if (photoURL.length > 0) {
-        const imageRef = ref(storage, `images/${photoURL[0]}`);
+        const imageRef = ref(storage, `images/${photoURL[0]?.name}`); // Anahtar olarak dosya adını kullanabilirsiniz
         await uploadBytes(imageRef, photoURL[0]);
-        await getDownloadURL(imageRef).then(url => {
-            updateProfile(currentUser, {
-                photoURL: url,
-            });
+        const url = await getDownloadURL(imageRef);
+        await updateProfile(currentUser, {
+            photoURL: url,
         });
     }
-    if (displayName.length > 0) {
+    if (displayName) {
         await updateProfile(currentUser, {
             displayName,
         });
@@ -155,13 +173,17 @@ export function useResetPasswordEmail() {
 }
 
 //! Delete user
-async function deleteUserAccount({ currentUser, password }: DeleteUserTypes) {
+async function deleteUserAccount({
+    currentUser,
+    password,
+    userId,
+}: DeleteUserTypes) {
     const credential = EmailAuthProvider.credential(
         currentUser.email,
         password
     );
     await reauthenticateWithCredential(currentUser, credential);
-
+    await deleteDoc(doc(db, `users/${userId}`));
     await deleteUser(currentUser).then(() => {
         logOut();
     });
@@ -262,8 +284,10 @@ export function useUpdateUserPassword() {
 //! ----------------- OTHER CONTROLLERS -------------------
 
 //! Get All Employees
-const getEmployees = async () => {
-    const querySnapShot = await getDocs(collection(db, "employees"));
+const getEmployees = async (userId: string | undefined) => {
+    const querySnapShot = await getDocs(
+        collection(db, `users/${userId}/employees`)
+    );
 
     const employees: Employee[] = [];
     const employeeIds: any[] = [];
@@ -276,22 +300,28 @@ const getEmployees = async () => {
 
 export function useGetEmployees() {
     const { data, isLoading } = useQuery({
-        queryKey: ["employees"],
-        queryFn: getEmployees,
+        queryKey: ["employees", auth?.currentUser?.uid],
+        queryFn: () => getEmployees(auth?.currentUser?.uid),
     });
     return { data, isLoading };
 }
 
 //! Add new employee
-const addEmployee = async function (employee: object) {
-    await addDoc(collection(db, "employees"), employee);
+const addEmployee = async function (
+    employee: object,
+    userId: string | undefined
+) {
+    // await addDoc(collection(db, "employees"), employee);
+    await addDoc(collection(db, `users/${userId}/employees`), employee);
 };
 
 //! Add new employee Query
 export const useAddEmployee = function () {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
-        mutationFn: addEmployee,
+        // mutationFn: addEmployee,
+        mutationFn: (employee: object) =>
+            addEmployee(employee, auth?.currentUser?.uid),
         onSuccess: () => {
             toast.success(i18n.t("New Employee added successfully"));
             queryClient.invalidateQueries();
@@ -305,8 +335,12 @@ export const useAddEmployee = function () {
 };
 
 //! Update Employee
-const updateEmployee = async function ({ employee, id }: UpdateEmployeeTypes) {
-    const ref = doc(db, "employees", id);
+const updateEmployee = async function ({
+    employee,
+    id,
+    userId,
+}: UpdateEmployeeTypes) {
+    const ref = doc(db, `users/${userId}/employees`, id);
     await updateDoc(ref, employee);
 };
 
@@ -331,15 +365,23 @@ export const useUpdateEmployee = function () {
 };
 
 //! Delete Employee
-const deleteEmployee = async function ({ id }: DeleteEmployeeTypes) {
-    const ref = doc(db, "employees", id);
-    await deleteDoc(ref);
+const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
+    const ref = doc(db, `users/${userId}/employees`, id);
+    try {
+        const deleted = await deleteDoc(ref);
+        console.log(deleted);
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
 };
 
 export const useDeleteEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: deleteEmployee,
+        mutationFn: async (variables: DeleteEmployeeTypes) =>
+            await deleteEmployee(variables),
         onSuccess: () => {
             toast.success(i18n.t("Employee successfully deleted"));
             queryClient.invalidateQueries();
