@@ -4,10 +4,11 @@ import { springOptions } from "../Constants/constant";
 import { useGetEmployees } from "../Api/userController";
 import CustomTable from "../Components/Table";
 import { EmployeeToolBar } from "../Components/TableToolBars/EmployeeBar";
+import { InfinitySpin } from "react-loader-spinner";
 
 const StyledEmployees = styled.main`
     width: 100%;
-    height: 100dvh;
+    min-height: 60rem;
     background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
@@ -17,12 +18,27 @@ const StyledEmployees = styled.main`
     box-shadow: var(--shadow-sm);
 `;
 
+const FullPage = styled.div`
+    height: 65rem;
+    background-color: var(--color-grey-50);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+`;
+
 const AnimatedStyledEmployees = animated(StyledEmployees);
 
 export default function Employees() {
     const animationProps = useSpring(springOptions);
-    const { data } = useGetEmployees();
+    const { data, isLoading } = useGetEmployees();
     const employee = true;
+
+    if (isLoading)
+        return (
+            <FullPage>
+                <InfinitySpin color="var(--color-grey-800)" />
+            </FullPage>
+        );
 
     return (
         <AnimatedStyledEmployees style={animationProps}>
