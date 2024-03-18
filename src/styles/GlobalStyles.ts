@@ -110,6 +110,7 @@ const GlobalStyles = createGlobalStyle`
   box-sizing: border-box;
   padding: 0;
   margin: 0;
+  font-family: "DM Sans", sans-serif !important;
 
   /* Creating animations for dark mode */
   transition: background-color 0.3s, border 0.3s;
@@ -198,20 +199,26 @@ svg{
   font-size: 1rem !important;
 }
 
-/* .MuiButtonBase-root{
+.MuiPickersDay-root{
   font-size: 1rem !important;
-} */
+  font-family: "DM Sans", sans-serif !important;
+}
+
 
 .MuiTablePagination-root{
   border-bottom: none !important;
 }
 
-/* .MuiFilledInput-root::after{
+.MuiFilledInput-root::after{
   border-bottom: 2px solid var(--color-brand-500)!important;
-} */
+}
 
 .MuiSelect-icon{
   color: var(--color-grey-800)!important;
+}
+
+.css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: var(--color-brand-500)!important;
 }
 
 `;
