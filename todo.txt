@@ -25,6 +25,7 @@
 25- ✅ Check add employe date feature and compare with edit, add new feature if needed
 26- ✅ Control edit employee with empty date
 27- ✅ Fix when i change avatar in a user account, it changes also other accounts
+28- On update user display name and avatar, fix header to automatically reflect changes
 
 ### FEATURES ###
 
