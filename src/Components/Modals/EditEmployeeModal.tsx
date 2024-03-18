@@ -63,8 +63,8 @@ const StyledTextField = styled(TextField)`
         }
     }
 
-    & div:focus & div::after {
-        border-bottom: 2px solid var(--color-brand-600);
+    & div > input:focus .MuiInputLabel-filled {
+        color: var(--color-brand-500);
     }
 
     & div > fieldset {
