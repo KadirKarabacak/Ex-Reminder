@@ -53,7 +53,6 @@ export const signInWithEmailAndPasswordQuery = async ({
         if (user) {
             let ref = doc(db, "users", user.uid);
             const docSnap = await getDoc(ref);
-
             if (docSnap.exists()) {
                 localStorage.setItem(
                     "user",
@@ -65,11 +64,13 @@ export const signInWithEmailAndPasswordQuery = async ({
             }
             return true;
         }
-    } catch (error) {}
-    return false;
+    } catch (error) {
+        console.log(error);
+        return false;
+    }
 };
 
-//! Create new user [ Handle with react query ]
+//! Create new user
 export const createUserWithEmailAndPasswordQuery = async ({
     email,
     password,
@@ -140,7 +141,7 @@ export function useUpdateUser() {
         mutationFn: updateUser,
         onSuccess: () => {
             toast.success(i18n.t("Profile updated"));
-            queryClient.invalidateQueries({ queryKey: ["updateUser"] });
+            queryClient.invalidateQueries();
         },
         onError: (err: any) => {
             toast.error(err.message);
