@@ -14,7 +14,7 @@ import UpdatePasswordModal from "../Modals/UpdatePasswordModal";
 import { useTranslation } from "react-i18next";
 
 const StyledTitle = styled.h4`
-    color: var(--color-grey-800);
+    color: var(--color-grey-600);
     align-self: flex-start;
     margin-bottom: 1rem;
 `;
@@ -118,6 +118,7 @@ export default function SettingForm() {
         });
         setPhotoURL(null);
     };
+
     useEffect(() => {
         const { photoURL } = getValues();
         setPhotoURL(photoURL);
@@ -244,6 +245,8 @@ export default function SettingForm() {
                                 padding: "1rem 3rem",
                                 fontSize: "1.1rem",
                                 border: "1px solid var(--color-grey-500)",
+                                fontWeight: "bold",
+                                backgroundColor: "var(--color-grey-100)",
                                 "&:hover": {
                                     backgroundColor: "var(--color-grey-200)",
                                     transform: "translateY(-2px)",
