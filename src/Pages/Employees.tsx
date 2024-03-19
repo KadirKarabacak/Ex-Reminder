@@ -44,8 +44,7 @@ export default function Employees() {
         <AnimatedStyledEmployees style={animationProps}>
             <CustomTable
                 CustomToolbar={<EmployeeToolBar />}
-                data={data?.employees}
-                ids={data?.employeeIds}
+                data={data}
                 employee={employee}
             />
         </AnimatedStyledEmployees>
