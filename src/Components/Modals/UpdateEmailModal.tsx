@@ -239,7 +239,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                             <Button
                                 disabled={isUpdating}
                                 sx={{
-                                    backgroundColor: "var(--color-grey-700)",
+                                    backgroundColor: "var(--color-grey-800)",
                                     color: "var(--color-grey-50)",
                                     transition: "all .3s",
                                     padding: "1rem 2rem",
@@ -248,7 +248,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                     fontWeight: "bold",
                                     "&:hover": {
                                         backgroundColor:
-                                            "var(--color-grey-800)",
+                                            "var(--color-grey-700)",
                                         transform: "translateY(-2px)",
                                     },
                                     "&:active": {
@@ -269,6 +269,8 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                     padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
+                                    backgroundColor: "var(--color-grey-100)",
+                                    fontWeight: "bold",
                                     "&:hover": {
                                         backgroundColor:
                                             "var(--color-grey-200)",

@@ -174,7 +174,7 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                             <Button
                                 disabled={isDeleting}
                                 sx={{
-                                    backgroundColor: "var(--color-red-700)",
+                                    backgroundColor: "var(--color-red-800)",
                                     color: "white",
                                     transition: "all .3s",
                                     padding: "1rem 2rem",
@@ -182,7 +182,7 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
                                     "&:hover": {
-                                        backgroundColor: "var(--color-red-800)",
+                                        backgroundColor: "var(--color-red-700)",
                                         transform: "translateY(-2px)",
                                     },
                                     "&:active": {
@@ -203,6 +203,8 @@ export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
                                     padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
+                                    backgroundColor: "var(--color-grey-100)",
+                                    fontWeight: "bold",
                                     "&:hover": {
                                         backgroundColor:
                                             "var(--color-grey-200)",

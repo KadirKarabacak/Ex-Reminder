@@ -364,6 +364,8 @@ export default function EditEmployeeModal({
                                     padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
+                                    backgroundColor: "var(--color-grey-100)",
+                                    fontWeight: "bold",
                                     "&:hover": {
                                         backgroundColor:
                                             "var(--color-grey-200)",
