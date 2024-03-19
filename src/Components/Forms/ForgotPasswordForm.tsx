@@ -129,6 +129,7 @@ export default function ForgotPasswordForm() {
                     </Button>
                     <StyledParagraph>{t("or")}</StyledParagraph>
                     <Button
+                        disabled={isResetting}
                         onClick={() => navigate("/login")}
                         sx={{
                             color: "var(--color-grey-800)",
