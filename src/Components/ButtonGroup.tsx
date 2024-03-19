@@ -11,6 +11,7 @@ import DeleteEmployeeModal from "./Modals/DeleteEmployeeModal";
 import { ButtonGroupTypes } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import DetailEmployeeModal from "./Modals/DetailEmployeeModal";
+import EditItemModal from "./Modals/EditItemModal";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -56,35 +57,41 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-export default function ButtonGroup({ row }: ButtonGroupTypes) {
+export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [opens, setOpens] = React.useState(false);
     const [opensDelete, setOpensDelete] = React.useState(false);
     const [opensDetail, setOpensDetail] = React.useState(false);
+    const [opensEditItem, setOpensEditItem] = React.useState(false);
     const open = Boolean(anchorEl);
     const { t } = useTranslation();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
+
     const handleClose = () => {
         setAnchorEl(null);
     };
-
     const handleOpenEditModal = () => {
         setOpens(true);
         handleClose();
     };
-    const handleCloseEditModal = () => setOpens(false);
     const handleOpenDeleteModal = () => {
         setOpensDelete(true);
         handleClose();
     };
-    const handleCloseDeleteModal = () => setOpensDelete(false);
     const handleOpenDetailModal = () => {
         setOpensDetail(true);
         handleClose();
     };
+    const handleOpenEditItemModal = () => {
+        setOpensEditItem(true);
+        handleClose();
+    };
+    const handleCloseEditModal = () => setOpens(false);
+    const handleCloseDeleteModal = () => setOpensDelete(false);
     const handleCloseDetailModal = () => setOpensDetail(false);
+    const handleCloseEditItemModal = () => setOpensEditItem(false);
 
     return (
         <div>
@@ -108,10 +115,18 @@ export default function ButtonGroup({ row }: ButtonGroupTypes) {
                     disabled
                     disableRipple
                 >
-                    {row.full_name}
+                    {tableName === "employee" && row?.full_name}
+                    {tableName === "warehouse" && row?.itemName}
                 </MenuItem>
                 <Divider sx={{ marginTop: "0!important" }} />
-                <MenuItem onClick={handleOpenEditModal} disableRipple>
+                <MenuItem
+                    onClick={
+                        tableName === "employee"
+                            ? handleOpenEditModal
+                            : handleOpenEditItemModal
+                    }
+                    disableRipple
+                >
                     <EditIcon />
                     {t("Edit")}
                 </MenuItem>
@@ -146,6 +161,14 @@ export default function ButtonGroup({ row }: ButtonGroupTypes) {
                     row={row}
                     open={opensDetail}
                     handleClose={handleCloseDetailModal}
+                />
+            )}
+            {opensEditItem && (
+                <EditItemModal
+                    id={row.id}
+                    row={row}
+                    open={opensEditItem}
+                    handleClose={handleCloseEditItemModal}
                 />
             )}
         </div>
