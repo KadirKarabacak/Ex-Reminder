@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import HomeIcon from "@mui/icons-material/Home";
-import QuestionAnswerIcon from "@mui/icons-material/QuestionAnswer";
 import InfoIcon from "@mui/icons-material/Info";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Tooltip, Zoom } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { WarehouseOutlined } from "@mui/icons-material";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -92,9 +92,9 @@ function Sidebar() {
                 title={t("Contact")}
                 placement="right"
             >
-                <StyledNavLink to="/contact">
-                    <QuestionAnswerIcon sx={iconStyle} />
-                    {t("Contact")}
+                <StyledNavLink to="/warehouse">
+                    <WarehouseOutlined sx={iconStyle} />
+                    {t("Warehouse")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
