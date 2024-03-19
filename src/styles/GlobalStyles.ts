@@ -102,6 +102,8 @@ const GlobalStyles = createGlobalStyle`
   --color-brand-700: #4338ca;
   --color-brand-800: #3730a3;
   --color-brand-900: #312e81;
+
+  --color-green-new: #166534;
 }
 
 *,
@@ -219,6 +221,12 @@ svg{
 
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: var(--color-brand-500)!important;
+}
+
+.Mui-disabled{
+  background-color: var(--color-grey-200)!important;
+  color: var(--color-grey-400)!important;
+  cursor: not-allowed;
 }
 
 `;
