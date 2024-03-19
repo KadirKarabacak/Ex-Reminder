@@ -95,7 +95,6 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
     const [error, setError] = useState<DateValidationError>(null);
     const { t } = useTranslation();
     const { currentUser } = auth;
-    const uid = currentUser?.uid;
     const { mutate, isPending } = useAddEmployee();
 
     const errorMessage = React.useMemo(() => {
@@ -329,6 +328,8 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                     padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
+                                    backgroundColor: "var(--color-grey-100)",
+                                    fontWeight: "bold",
                                     "&:hover": {
                                         backgroundColor:
                                             "var(--color-grey-200)",
