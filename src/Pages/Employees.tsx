@@ -1,10 +1,10 @@
 import { animated, useSpring } from "react-spring";
 import styled from "styled-components";
 import { springOptions } from "../Constants/constant";
-import { useGetEmployees } from "../Api/userController";
 import CustomTable from "../Components/Table";
 import { EmployeeToolBar } from "../Components/TableToolBars/EmployeeBar";
 import { InfinitySpin } from "react-loader-spinner";
+import { useGetEmployees } from "../Api/employeeController";
 
 const StyledEmployees = styled.main`
     width: 100%;
