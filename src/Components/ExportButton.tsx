@@ -1,7 +1,7 @@
 import React from "react";
-import { Button, Fade, Menu, MenuItem } from "@mui/material";
+import { Button, Grow, Menu, MenuItem } from "@mui/material";
 import { ExpandMore, ExpandLess } from "@mui/icons-material";
-import DownloadIcon from "@mui/icons-material/Download";
+import ArrowCircleDownIcon from "@mui/icons-material/ArrowCircleDown";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import { useTranslation } from "react-i18next";
@@ -87,7 +87,7 @@ function ExportButton(props: Props) {
                     backgroundColor: "var(--color-grey-800)",
                     transition: "all .3s",
                     ":hover": {
-                        backgroundColor: "var(--color-grey-700)",
+                        backgroundColor: "var(--color-grey-600)",
                         transform: "translateY(-2px)",
                     },
                 }}
@@ -106,12 +106,12 @@ function ExportButton(props: Props) {
                     vertical: "top",
                     horizontal: "right",
                 }}
-                TransitionComponent={Fade}
+                TransitionComponent={Grow}
             >
                 <MenuItem>
                     <Button
                         startIcon={
-                            <DownloadIcon
+                            <ArrowCircleDownIcon
                                 sx={{ color: "var(--color-brand-800)" }}
                             />
                         }
@@ -143,7 +143,7 @@ function ExportButton(props: Props) {
                     >
                         <Button
                             startIcon={
-                                <DownloadIcon
+                                <ArrowCircleDownIcon
                                     sx={{ color: "var(--color-brand-00)" }}
                                 />
                             }
