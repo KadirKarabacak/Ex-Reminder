@@ -15,11 +15,11 @@ import { useTranslation } from "react-i18next";
 import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 import { formatDate, parseDateFromString } from "../../Utils/utils";
-import { useUpdateEmployee } from "../../Api/userController";
 import { min } from "date-fns";
 import toast from "react-hot-toast";
 import { EditEmployeeModalTypes } from "../../Interfaces/User";
 import { auth } from "../../Api/firebase";
+import { useUpdateEmployee } from "../../Api/employeeController";
 
 const StyledBox = styled(Box)`
     position: absolute;
