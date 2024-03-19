@@ -10,6 +10,7 @@ import EditEmployeeModal from "./Modals/EditEmployeeModal";
 import DeleteEmployeeModal from "./Modals/DeleteEmployeeModal";
 import { ButtonGroupTypes } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
+import DetailEmployeeModal from "./Modals/DetailEmployeeModal";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -55,10 +56,11 @@ const StyledMenu = styled((props: MenuProps) => (
     },
 }));
 
-export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
+export default function ButtonGroup({ row }: ButtonGroupTypes) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [opens, setOpens] = React.useState(false);
     const [opensDelete, setOpensDelete] = React.useState(false);
+    const [opensDetail, setOpensDetail] = React.useState(false);
     const open = Boolean(anchorEl);
     const { t } = useTranslation();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -78,6 +80,11 @@ export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
         handleClose();
     };
     const handleCloseDeleteModal = () => setOpensDelete(false);
+    const handleOpenDetailModal = () => {
+        setOpensDetail(true);
+        handleClose();
+    };
+    const handleCloseDetailModal = () => setOpensDetail(false);
 
     return (
         <div>
@@ -93,7 +100,14 @@ export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
                 open={open}
                 onClose={handleClose}
             >
-                <MenuItem disabled disableRipple>
+                <MenuItem
+                    sx={{
+                        backgroundColor: "transparent!important",
+                        color: "inherit!important",
+                    }}
+                    disabled
+                    disableRipple
+                >
                     {row.full_name}
                 </MenuItem>
                 <Divider sx={{ marginTop: "0!important" }} />
@@ -101,7 +115,7 @@ export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
                     <EditIcon />
                     {t("Edit")}
                 </MenuItem>
-                <MenuItem disableRipple>
+                <MenuItem onClick={handleOpenDetailModal} disableRipple>
                     <ReadMoreIcon />
                     {t("Detail")}
                 </MenuItem>
@@ -114,7 +128,7 @@ export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
                 <EditEmployeeModal
                     open={opens}
                     handleClose={handleCloseEditModal}
-                    id={id}
+                    id={row.id}
                     row={row}
                 />
             )}
@@ -122,8 +136,16 @@ export default function ButtonGroup({ id, row }: ButtonGroupTypes) {
                 <DeleteEmployeeModal
                     open={opensDelete}
                     handleClose={handleCloseDeleteModal}
-                    id={id}
+                    id={row.id}
                     row={row}
+                />
+            )}
+            {opensDetail && (
+                <DetailEmployeeModal
+                    id={row.id}
+                    row={row}
+                    open={opensDetail}
+                    handleClose={handleCloseDetailModal}
                 />
             )}
         </div>
