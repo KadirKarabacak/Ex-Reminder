@@ -16,10 +16,9 @@ import { useTranslation } from "react-i18next";
 import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
 import React, { useState } from "react";
 import { formatDate } from "../../Utils/utils";
-import { useAddEmployee } from "../../Api/userController";
 import { min } from "date-fns";
 import toast from "react-hot-toast";
-import { auth } from "../../Api/firebase";
+import { useAddEmployee } from "../../Api/employeeController";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -94,7 +93,6 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
     const [hireTime, setHireTime] = useState(new Date());
     const [error, setError] = useState<DateValidationError>(null);
     const { t } = useTranslation();
-    const { currentUser } = auth;
     const { mutate, isPending } = useAddEmployee();
 
     const errorMessage = React.useMemo(() => {
