@@ -43,8 +43,8 @@ export interface Employee {
     last_name: string;
     job_title: string;
     hire_date: string;
-    manager_id: string;
     salary: string;
+    id?: string;
 }
 
 export interface UpdateEmployeeTypes {
@@ -75,7 +75,6 @@ export interface EnhancedTableProps {
 export type Order = "asc" | "desc";
 
 export interface ButtonGroupTypes {
-    id: string;
     row: any;
 }
 
