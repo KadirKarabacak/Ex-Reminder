@@ -109,8 +109,7 @@ export default function DetailEmployeeModal({
                         component="h1"
                         sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                     >
-                        {t(`Employee Detail`)}
-                        <StyledSpan>{row.full_name}</StyledSpan>
+                        {t(`Employee Detail`) + " " + row.full_name}
                     </Typography>
                     <Grid container spacing={2} sx={{ mt: "2rem" }}>
                         <Grid item xs={4}>
