@@ -291,12 +291,15 @@ const getEmployees = async (userId: string | undefined) => {
     );
 
     const employees: Employee[] = [];
-    const employeeIds: any[] = [];
     querySnapShot.forEach(doc => {
-        employees.push(doc.data() as Employee);
-        employeeIds.push(doc.id);
+        const employeeData = doc.data() as Employee;
+        employees.push({
+            ...employeeData,
+            id: doc.id,
+        });
     });
-    return { employees, employeeIds };
+
+    return employees;
 };
 
 export function useGetEmployees() {
@@ -369,8 +372,7 @@ export const useUpdateEmployee = function () {
 const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
     const ref = doc(db, `users/${userId}/employees`, id);
     try {
-        const deleted = await deleteDoc(ref);
-        console.log(deleted);
+        await deleteDoc(ref);
         return true;
     } catch (err) {
         console.error(err);
