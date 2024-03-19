@@ -66,7 +66,7 @@ const StyledParagraph = styled.span`
     color: var(--color-grey-800);
     width: 100%;
     position: absolute;
-    top: 42%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 `;
@@ -75,12 +75,10 @@ export default function CustomTable({
     CustomToolbar,
     data,
     employee,
-    ids,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
     employee?: boolean;
-    ids?: any[] | undefined;
 }) {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] =
@@ -279,23 +277,11 @@ export default function CustomTable({
                                             align="right"
                                             sx={TableCellStyles}
                                         >
-                                            <ButtonGroup
-                                                id={ids?.[index]}
-                                                row={row}
-                                            />
+                                            <ButtonGroup row={row} />
                                         </TableCell>
                                     </TableRow>
                                 );
                             })}
-                            {/* {emptyRows > 0 && (
-                                <TableRow
-                                    style={{
-                                        height: 53 * emptyRows,
-                                    }}
-                                >
-                                    <TableCell colSpan={6} />
-                                </TableRow>
-                            )} */}
                         </TableBody>
                     </Table>
                 </TableContainer>
