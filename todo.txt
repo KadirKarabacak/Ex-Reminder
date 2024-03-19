@@ -6,7 +6,7 @@
 05- ✅ Add forgot password to the login page and send reset password email // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#send_a_password_reset_email
 06- ✅ Add delete user and onDelete redirect user to the login page and set loggedout // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#delete_a_user
 07- ✅ Add a new parameter to deleteUser function "deleteUserAccount()" called password. On delete user, when clicked to delete open a modal which is a form takes password input and delete account button, use instead of propmt
-08- Buttons disabled variations are looks weird, try to fix colors.
+08- ✅ Buttons disabled variations are looks weird, try to fix colors.
 09- ✅ On update user, abstract email and password update to another form. Do the same modal for update password take users previous password and revalidate user.
 10- ✅ UpdatePasswordModal > OutlinedInput handle helperText usage + add updatePassword feature // https://mui.com/material-ui/api/outlined-input/
 11- ✅ Make sure on every update use tanstack-query
@@ -27,6 +27,9 @@
 27- ✅ Fix when i change avatar in a user account, it changes also other accounts
 28- On update user display name and avatar, fix header to automatically reflect changes
 29- ✅ ON DELETE IT DELETES WRONG EMPLOYEE
+30- On item detail, show profit which calculated from "(itemPrice - purchasePrice)* itemAmount"
+31- The item user trying to add, if already exists in table (compare with name, lowercase both of them) return an error
+32- On employees page, below the table add total salaries, average salary, average age, add how many Game Developer is there like [ Game Developer x3 ], Add a pie chart for that
 
 ### FEATURES ###
 
@@ -46,3 +49,4 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 
 # Depo / Stoklar ✅
 Şirketin mevcut ürün listesi - sayıları - fiyatlandırması - sipariş verme - [ Sipariş verme yetkisi belirli kullanıcılarda olmalıdır ]
+[ Ürün adı, ürün adedi, ürün alış fiyatı, ürün satış fiyatı, ürün açıklaması, ürün id ]
