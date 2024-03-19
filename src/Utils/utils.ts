@@ -16,6 +16,10 @@ export function formatCurrency(value: string) {
     }).format(value);
 }
 
+export function parseCurrency(value: string) {
+    return parseInt(value.slice(1));
+}
+
 export function parseDateFromString(dateString: String) {
     const [day, month, year] = dateString.split("/");
     return new Date(parseInt(year), parseInt(month) - 1, parseInt(day));
