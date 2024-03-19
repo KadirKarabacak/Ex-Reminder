@@ -26,6 +26,7 @@
 26- ✅ Control edit employee with empty date
 27- ✅ Fix when i change avatar in a user account, it changes also other accounts
 28- On update user display name and avatar, fix header to automatically reflect changes
+29- ✅ ON DELETE IT DELETES WRONG EMPLOYEE
 
 ### FEATURES ###
 
