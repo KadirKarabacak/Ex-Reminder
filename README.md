@@ -20,6 +20,8 @@ This project is a project that I started to create in order to use all my experi
 -   i18next
 -   Recharts
 -   Date-fns
+-   jsPDF
+-   react-csv
 
 <p align="left"> 
 <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="45" height="45" />
@@ -68,19 +70,25 @@ This project is a project that I started to create in order to use all my experi
 ## `Employees`
 
 -   I created a table that holds all the information of the employees in the route I created using the MaterialUI Table component. I took the list of all employees from the **employees** collection, a collection I created on firebase.
-
-## `Adding Employees`
-
 -   In order to add a new employee, I created an add button in the toolbar of my table and through this button I directed the user to the modal page where they can fill in the information required to add a new employee. I allowed the user to fill in the information such as the full name of the new employee, job title, department, salary, date of hire, age and email and place the new employee in the table. To add a new employee, I used the addDoc() function provided by firebase and handled this function with tanstack-query.
-
-## `Updating employee information`
-
 -   In order to update each of the added employees and to correct or complete the incorrect or missing information, I placed an update button at the end of the row where each employee is located in the table. I directed the user to the employee update modal through these buttons and automatically filled the fields to be filled in the modal with the existing information entered for the employee.
 -   Again, for this purpose, I took advantage of the updateDoc() function offered by firebase and handled it with tanstack-query.
+-   I created a delete employee button for all employees previously added to the table and redirected the user to a modal window that warns the user if they are sure they want to delete the employee, so that if the user accidentally clicks the delete employee button, they can delete the employee instantly and avoid victimizing the user.
+
+## `Warehouse`
+
+-   I created a warehouse page and route and stored this data on firebase. I used the getDocs() function provided by firebase to pull all warehouse data and processed this function with the useQuery function provided by Tanstack-Query.
+-   In order for users to add a new item to their warehouse, I created an Add item button in the Toolbar section of my table and directed the user to the modal structure where the user can enter item information.
+-   I created data entries such as item name, amount, purchase price, sale price and item description.
+-   I placed an update button at the end of each row where each item is located in the table to update the added items and correct or complete any incorrect or missing information. Through these buttons, I directed the user to the item update modal and automatically filled the fields to be filled in the modal with the existing information entered for the selected item.
 
 ## `English & Turkish Language Support`
 
 -   I handled all the fields in my project with the useTranslation hook provided by **i18next** and provided English - Turkish language support for all of them. I enabled the user to change the language at any time, either just before logging in on the login page or by accessing the header section throughout the application.
+
+## `User Specific Data`
+
+-   In order to prevent each user from seeing the same data, I created a users collection for each account created in firebase. All changes made in the application (added, deleted, edited) do not affect any other user because they are only in the sub-branches of that user. In this way, my project has turned into an application that can be used for many users at the same time.
 
 # `React-Router-Project` [ TR 🔴 ]
 
@@ -103,6 +111,8 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 -   i18next
 -   Recharts
 -   Date-fns
+-   jsPDF
+-   react-csv
 
 ## `Giriş [ Kimlik Doğrulama & Yetkilendirme ]`
 
@@ -138,16 +148,24 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 ## `Çalışanlar`
 
 -   MaterialUI Table componentinden yararlanarak oluşturduğum route'da çalışanların tüm bilgilerini tutan bir tablo oluşturdum. Tüm çalışanların listesini firebase üzerinde oluşturduğum bir koleksiyon olan **employees** koleksiyonundan aldım.
-
-## `Çalışan Ekleme`
-
 -   Yeni bir çalışan ekleyebilmek için tablomun toolbar kısmında bir ekleme butonu oluşturdum ve bu buton aracılığıyla kullanıcıyı yeni çalışan eklemek için gerekli olan bilgileri doldurabileceği modal sayfasına yönlendirdim. Yeni çalışanın tam ismi, iş başlığı, çalıştığı departman, maaş, işe giriş tarihi, yaş ve email gibi bilgileri kullanıcının doldurmasına ve tabloya yeni çalışanını yerleştirmesine olanak sağladım. Yeni çalışan eklemek için firebase'in sağladığı addDoc() fonksiyonundan yararlandım ve bu fonksiyonu tanstack-query ile ele aldım.
-
-## `Çalışan bilgilerini güncelleme`
-
 -   Eklenmiş çalışanların her birisini güncelleyebilmek ve varsa yanlış yada eksik girilen bilgilerin düzeltilmesi veya tamamlanması için tabloda her çalışanın bulunduğu satır sonuna bir güncelleme butonu yerleştirdim. Kullanıcıyı bu butonlar aracılığı ile çalışan güncelleme modalına yönlendirdim ve modal içerisinde doldurulacak alanları çalışan için girilmiş mevcut bilgiler ile otomatik olarak doldurdum.
 -   Yine bu amaç için firebase'in sunduğu updateDoc() fonksiyonundan faydalandım ve tanstack-query ile ele aldım.
+-   Tablodaki her bir çalışan için kullanıcının, çalışanların tüm bilgilerini görebileceği bir modal yapısı oluşturdum ve içerisini gerekli bilgiler ile doldurdum. Aynı zamanda çalışan detaylarının dökümünü alabilmesi adına bir "export as" butonu oluşturdum ve hem PDF hemde Excel yapısı ile modaldaki tüm çalışan bilgilerini kullanıcının bilgisayarlarına indirebilmesini sağladım.
+-   Bu butonun işlevselliği için jsPDF, jspdf-autotable ve react-csv kütüphanelerinden, arayüz için ise projenin geri kalanında olduğu gibi MUI'dan faydalandım.
+-   Tabloya daha önce eklenmiş tüm çalışanlar için bir çalışan silme butonu oluşturdum ve kullanıcıyı silmek istediğinden emin olup olmadığı konusunda uyaran bir modal penceresine yönlendirdim. Böylece kullanıcı yanlışlıkla çalışan silme butonuna tıkladığında çalışanı anında silip kullanıcıyı mağdur etmekten kaçındım.
+
+## `Depolar`
+
+-   Bir depolar sayfası&route'ı oluşturdum ve firebase üzerinde bu verileri sakladım. Tüm depo verilerini çekmek için firebase'in sağladığı getDocs() fonksiyonundan yararlandım ve bu fonksiyonumu Tanstack-Query'nin sağladığı useQuery fonksiyonu ile ele aldım.
+-   Kullanıcılara, depolarına yeni bir malzeme ekleme için tablomun Toolbar kısmında bir Malzeme Ekle butonu oluşturdum ve kullanıcıyı malzeme bilgilerini girebileceği modal yapısına yönlendirdim.
+-   Malzeme ismi, miktar, alış fiyatı, satış fiyatı, ve malzeme açıklaması gibi veri girişleri oluşturdum.
+-   Eklenmiş malzemeleri güncelleyebilmek ve varsa yanlış yada eksik girilen bilgilerin düzeltilmesi veya tamamlanması için tabloda her malzemenin bulunduğu satır sonuna bir güncelleme butonu yerleştirdim. Kullanıcıyı bu butonlar aracılığı ile malzeme güncelleme modalına yönlendirdim ve modal içerisinde doldurulacak alanları seçilen malzeme için girilmiş mevcut bilgiler ile otomatik olarak doldurdum.
 
 ## `İngilizce & Türkçe Dil Desteği`
 
 -   Projemdeki tüm alanları **i18next** in sağladığı useTranslation hook'u ile ele aldım ve tamamına Ingilizce ve Türkçe dil desteği sağladım. Kullanıcının dil değişimini ister login sayfasında giriş yapmadan hemen önce isterse de uygulama boyunca header kısmından erişerek dilediği zaman değiştirebilmesini sağladım.
+
+## `Kullanıcıya Özel Veri`
+
+-   Her bir kullanıcının aynı verileri görmemesi adına firebase'de oluşturulan her hesap için bir users koleksiyonu oluşturdum. Uygulama içerisinde yapılan tüm değişiklikler(eklenen, silinen, düzenlenen) sadece o kullanıcının alt dallarında bulunduğu için diğer hiçbir kullanıcıyı etkilemiyor. Böylece projem birçok kullanıcı için aynı anda kullanılabilir bir uygulama haline dönüştü.
