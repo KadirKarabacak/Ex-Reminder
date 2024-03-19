@@ -1,7 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import About from "./Pages/About";
-import Contact from "./Pages/Contact";
 import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
 import Settings from "./Pages/Settings";
@@ -11,6 +10,7 @@ import { Toaster } from "react-hot-toast";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ForgotPassword from "./Pages/ForgotPassword";
 import Employees from "./Pages/Employees";
+import Warehouse from "./Pages/Warehouse";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -32,7 +32,7 @@ export default function App() {
                     <Route Component={AppLayout}>
                         <Route path="/" Component={Home} />
                         <Route path="/about" Component={About} />
-                        <Route path="/contact" Component={Contact} />
+                        <Route path="/warehouse" Component={Warehouse} />
                         <Route path="/employees" Component={Employees} />
                         <Route path="/settings" Component={Settings} />
                     </Route>
