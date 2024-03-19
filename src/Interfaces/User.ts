@@ -60,6 +60,13 @@ export interface EditEmployeeModalTypes {
     row: any;
 }
 
+export interface EditItemModalTypes {
+    open: boolean;
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+    id: string;
+    row: any;
+}
+
 export interface EnhancedTableProps {
     numSelected: number;
     onRequestSort: (
@@ -76,6 +83,7 @@ export type Order = "asc" | "desc";
 
 export interface ButtonGroupTypes {
     row: any;
+    tableName: string;
 }
 
 export interface HeadingProps {
@@ -100,4 +108,16 @@ export interface EmployeeData {
 export interface DeleteEmployeeTypes {
     id: string;
     userId: string | undefined;
+}
+
+export interface Warehouses {
+    itemAmount?: number;
+    itemId?: string;
+    itemName: string;
+    itemSalePrice?: number;
+    itemPurchasePrice?: number;
+    purchasePrice?: number;
+    itemDescription?: string;
+    id?: string;
+    createdAt: Date;
 }
