@@ -1,22 +1,7 @@
-import {
-    Button,
-    IconButton,
-    Toolbar,
-    Tooltip,
-    Typography,
-} from "@mui/material";
+import { Button, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import styled from "styled-components";
-import FilterListIcon from "@mui/icons-material/FilterList";
 import { useState } from "react";
 import AddEmployeeModal from "../Modals/AddEmployeeModal";
-
-const StyledIconButton = styled(IconButton)`
-    font-size: 1.8rem;
-    & svg {
-        color: var(--color-grey-800);
-    }
-`;
 
 export function EmployeeToolBar() {
     const { t } = useTranslation();
