@@ -9,11 +9,11 @@ export function formatDate(date: any) {
     return `${day}/${month}/${year}`;
 }
 
-export function formatCurrency(value: string) {
+export function formatCurrency(value: string | number) {
     return new Intl.NumberFormat("tr", {
         style: "currency",
         currency: "TRY",
-    }).format(value);
+    }).format(value as number);
 }
 
 export function parseCurrency(value: string) {
