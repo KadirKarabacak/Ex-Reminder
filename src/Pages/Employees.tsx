@@ -5,6 +5,8 @@ import CustomTable from "../Components/Table";
 import { EmployeeToolBar } from "../Components/TableToolBars/EmployeeBar";
 import { InfinitySpin } from "react-loader-spinner";
 import { useGetEmployees } from "../Api/employeeController";
+import { CustomPieChart } from "../Components/CustomPieChart";
+import EmployeeStats from "../Components/Modals/EmployeeStats";
 
 const StyledEmployees = styled.main`
     width: 100%;
@@ -24,6 +26,11 @@ const FullPage = styled.div`
     display: flex;
     align-items: center;
     justify-content: center;
+`;
+
+const InformationContainer = styled.div`
+    display: flex;
+    gap: 1.5rem;
 `;
 
 const AnimatedStyledEmployees = animated(StyledEmployees);
@@ -47,6 +54,10 @@ export default function Employees() {
                 data={data}
                 employee={employee}
             />
+            <InformationContainer>
+                <CustomPieChart data={data} />
+                <EmployeeStats data={data} />
+            </InformationContainer>
         </AnimatedStyledEmployees>
     );
 }
