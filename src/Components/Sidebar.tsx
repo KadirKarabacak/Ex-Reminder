@@ -89,7 +89,7 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Contact")}
+                title={t("Warehouse")}
                 placement="right"
             >
                 <StyledNavLink to="/warehouse">
