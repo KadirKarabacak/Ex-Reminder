@@ -110,6 +110,11 @@ export interface DeleteEmployeeTypes {
     userId: string | undefined;
 }
 
+export interface DeleteItemTypes {
+    id: string;
+    userId: string | undefined;
+}
+
 export interface Warehouses {
     itemAmount?: number;
     itemId?: string;
