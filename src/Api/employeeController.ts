@@ -59,7 +59,7 @@ export const useAddEmployee = function () {
             addEmployee(employee, auth?.currentUser?.uid),
         onSuccess: () => {
             toast.success(i18n.t("New Employee added successfully"));
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
         onError: err => {
             console.log(err);
@@ -89,7 +89,7 @@ export const useUpdateEmployee = function () {
         },
         onSuccess: () => {
             toast.success(i18n.t("Employee successfully edited"));
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
         onError: err => {
             console.log(err);
@@ -111,6 +111,7 @@ const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
     }
 };
 
+//! Delete employee query
 export const useDeleteEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -118,7 +119,7 @@ export const useDeleteEmployee = function () {
             await deleteEmployee(variables),
         onSuccess: () => {
             toast.success(i18n.t("Employee successfully deleted"));
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
         onError: err => {
             console.log(err);
