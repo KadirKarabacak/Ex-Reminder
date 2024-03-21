@@ -11,30 +11,18 @@ import {
     deleteUser,
     verifyBeforeUpdateEmail,
 } from "firebase/auth";
-import {
-    collection,
-    getDocs,
-    addDoc,
-    doc,
-    updateDoc,
-    deleteDoc,
-    setDoc,
-    getDoc,
-} from "firebase/firestore";
+import { doc, deleteDoc, setDoc, getDoc } from "firebase/firestore";
 import toast from "react-hot-toast";
 import { auth, db, storage } from "./firebase";
 import {
     CurrentUserTypes,
-    DeleteEmployeeTypes,
     DeleteUserTypes,
-    Employee,
     LoginTypes,
-    UpdateEmployeeTypes,
     UpdateUserEmailTypes,
     UpdateUserPasswordTypes,
 } from "../Interfaces/User";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
 
@@ -120,7 +108,7 @@ const updateUser = async ({
     currentUser,
 }: CurrentUserTypes) => {
     if (photoURL.length > 0) {
-        const imageRef = ref(storage, `images/${photoURL[0]?.name}`); // Anahtar olarak dosya adını kullanabilirsiniz
+        const imageRef = ref(storage, `images/${photoURL[0]?.name}`);
         await uploadBytes(imageRef, photoURL[0]);
         const url = await getDownloadURL(imageRef);
         await updateProfile(currentUser, {
@@ -281,5 +269,3 @@ export function useUpdateUserPassword() {
     });
     return { mutateAsync, isPending };
 }
-
-//! ----------------- OTHER CONTROLLERS -------------------
