@@ -12,6 +12,8 @@ import { ButtonGroupTypes } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import DetailEmployeeModal from "./Modals/DetailEmployeeModal";
 import EditItemModal from "./Modals/EditItemModal";
+import DetailItemModal from "./Modals/DetailItemModal";
+import DeleteItemModal from "./Modals/DeleteItemModal";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -63,6 +65,8 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     const [opensDelete, setOpensDelete] = React.useState(false);
     const [opensDetail, setOpensDetail] = React.useState(false);
     const [opensEditItem, setOpensEditItem] = React.useState(false);
+    const [opensDetailItem, setOpensDetailItem] = React.useState(false);
+    const [opensDeleteItem, setOpensDeleteItem] = React.useState(false);
     const open = Boolean(anchorEl);
     const { t } = useTranslation();
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -88,10 +92,20 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensEditItem(true);
         handleClose();
     };
+    const handleOpenDetailItemModal = () => {
+        setOpensDetailItem(true);
+        handleClose();
+    };
+    const handleOpenDeleteItemModal = () => {
+        setOpensDeleteItem(true);
+        handleClose();
+    };
     const handleCloseEditModal = () => setOpens(false);
     const handleCloseDeleteModal = () => setOpensDelete(false);
     const handleCloseDetailModal = () => setOpensDetail(false);
     const handleCloseEditItemModal = () => setOpensEditItem(false);
+    const handleCloseDetailItemModal = () => setOpensDetailItem(false);
+    const handleCloseDeleteItemModal = () => setOpensDeleteItem(false);
 
     return (
         <div>
@@ -130,11 +144,25 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     <EditIcon />
                     {t("Edit")}
                 </MenuItem>
-                <MenuItem onClick={handleOpenDetailModal} disableRipple>
+                <MenuItem
+                    onClick={
+                        tableName === "employee"
+                            ? handleOpenDetailModal
+                            : handleOpenDetailItemModal
+                    }
+                    disableRipple
+                >
                     <ReadMoreIcon />
                     {t("Detail")}
                 </MenuItem>
-                <MenuItem onClick={handleOpenDeleteModal} disableRipple>
+                <MenuItem
+                    onClick={
+                        tableName === "employee"
+                            ? handleOpenDeleteModal
+                            : handleOpenDeleteItemModal
+                    }
+                    disableRipple
+                >
                     <DeleteOutline />
                     {t("Delete")}
                 </MenuItem>
@@ -169,6 +197,22 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     row={row}
                     open={opensEditItem}
                     handleClose={handleCloseEditItemModal}
+                />
+            )}
+            {opensDetailItem && (
+                <DetailItemModal
+                    id={row.id}
+                    row={row}
+                    open={opensDetailItem}
+                    handleClose={handleCloseDetailItemModal}
+                />
+            )}
+            {opensDeleteItem && (
+                <DeleteItemModal
+                    id={row.id}
+                    row={row}
+                    open={opensDeleteItem}
+                    handleClose={handleCloseDeleteItemModal}
                 />
             )}
         </div>
