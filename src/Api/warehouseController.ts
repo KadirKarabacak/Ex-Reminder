@@ -1,12 +1,13 @@
 import {
     addDoc,
     collection,
+    deleteDoc,
     doc,
     getDocs,
     updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
-import { Warehouses } from "../Interfaces/User";
+import { DeleteItemTypes, Warehouses } from "../Interfaces/User";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
@@ -87,6 +88,36 @@ export const useUpdateItem = function () {
         onError: err => {
             console.log(err);
             toast.error(i18n.t("An error occurred while editing the item"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Delete Item
+const deleteItem = async function ({ id, userId }: DeleteItemTypes) {
+    const ref = doc(db, `users/${userId}/warehouse`, id);
+    try {
+        await deleteDoc(ref);
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+};
+
+//! Delete Item query
+export const useDeleteItem = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: DeleteItemTypes) =>
+            await deleteItem(variables),
+        onSuccess: () => {
+            toast.success(i18n.t("Item successfully deleted"));
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("An error occurred while deleting the item"));
         },
     });
     return { mutateAsync, isPending };
