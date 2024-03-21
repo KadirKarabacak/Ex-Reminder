@@ -2,8 +2,7 @@ import styled from "styled-components";
 import { animated, useSpring } from "react-spring";
 import { springOptions } from "../Constants/constant";
 import Chart from "../Components/Chart";
-import CustomTable from "../Components/Table";
-import { HomeToolBar } from "../Components/TableToolBars/HomeBar";
+// import { CustomPieChart } from "../Components/CustomPieChart";
 
 const StyledHome = styled.main`
     width: 100%;
@@ -25,8 +24,8 @@ export default function Home() {
 
     return (
         <AnimatedStyledHome style={animationProps}>
-            {/* <CustomTable CustomToolbar={<HomeToolBar />} /> */}
             <Chart />
+            {/* <CustomPieChart /> */}
         </AnimatedStyledHome>
     );
 }
