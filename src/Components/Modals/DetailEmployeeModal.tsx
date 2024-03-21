@@ -45,11 +45,6 @@ const StyledDescription = styled.h5`
     margin-bottom: 0.9rem;
 `;
 
-const StyledSpan = styled.span`
-    color: var(--color-brand-600);
-    margin-left: 6px;
-`;
-
 export default function DetailEmployeeModal({
     open,
     handleClose,
