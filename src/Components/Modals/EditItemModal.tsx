@@ -116,7 +116,7 @@ export default function EditItemModal({
             itemSalePrice: itemSalePrice ? formattedSale : "",
             itemPurchasePrice: itemPurchasePrice ? formattedPurchase : "",
             itemDescription,
-            createdAt: formatDate(new Date()),
+            editedAt: formatDate(new Date()),
         };
         await updateItem({ id, item, userId });
         onCloseModal();
@@ -147,7 +147,7 @@ export default function EditItemModal({
                     <StyledBox>
                         <Typography
                             id="transition-modal-title"
-                            variant="h2"
+                            variant="h3"
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
