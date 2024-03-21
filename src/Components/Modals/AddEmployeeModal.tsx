@@ -135,6 +135,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
             age,
             salary,
             hire_date: date,
+            createdAt: formatDate(new Date()),
         };
         if (errorMessage)
             return toast.error("Before submit you must enter a valid date");
