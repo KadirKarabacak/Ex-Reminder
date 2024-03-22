@@ -49,21 +49,6 @@ const TableHeadStyles = {
     },
 };
 
-// Change TableHead sort feat by translation
-type TranslationMap = {
-    [key: string]: keyof EmployeeData;
-};
-
-const translationMap: TranslationMap = {
-    isim: "full_name",
-    meslek: "job_title",
-    departman: "department",
-    maaş: "salary",
-    giriş_tarihi: "hire_date",
-    yaş: "age",
-    email: "email",
-};
-
 export function EmployeeTableHead(props: EnhancedTableProps) {
     const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
@@ -76,30 +61,32 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         onRequestSort,
     } = props;
 
-    const tableHeads = [
-        t("full_name"),
-        t("job_title"),
-        t("department"),
-        t("salary"),
-        t("hire_date"),
-        t("age"),
-        t("email"),
+    const tableHeadsEng = [
+        { label: "Full Name", key: "full_name" },
+        { label: "Job Title", key: "job_title" },
+        { label: "Department", key: "department" },
+        { label: "Salary", key: "salary" },
+        { label: "Hire Date", key: "hire_date" },
+        { label: "Age", key: "age" },
+        { label: "Email", key: "email" },
         "",
     ];
 
-    function translateToTurkish(property: keyof EmployeeData) {
-        return translationMap[property];
-    }
+    const tableHeadsTr = [
+        { label: "Ad Soyad", key: "full_name" },
+        { label: "Meslek", key: "job_title" },
+        { label: "Departman", key: "department" },
+        { label: "Maaş", key: "salary" },
+        { label: "Giriş Tarihi", key: "hire_date" },
+        { label: "Yaş", key: "age" },
+        { label: "Email", key: "email" },
+        "",
+    ];
 
     const createSortHandler =
         (property: keyof EmployeeData) =>
         (event: React.MouseEvent<unknown>) => {
-            onRequestSort(
-                event,
-                currentLanguage === "tr-TR"
-                    ? translateToTurkish(property)
-                    : property
-            );
+            onRequestSort(event, property);
         };
 
     return (
@@ -124,55 +111,145 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {tableHeads?.map((col, i) => {
-                    //! Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
-                    // console.log(orderBy);
-                    // console.log(col);
-                    return (
-                        <TableCell
-                            key={i}
-                            padding={
-                                col === "full_name" || col === "isim"
-                                    ? "none"
-                                    : "normal"
-                            }
-                            sortDirection={
-                                orderBy === String(i) ? order : false
-                            }
-                            sx={{
-                                color: "var(--color-grey-800)",
-                                fontSize: "1.2rem",
-                                fontWeight: "bold",
-                                textAlign: "left",
-                                borderBottom: "1px solid var(--color-grey-200)",
-                            }}
-                        >
-                            <TableSortLabel
-                                active={orderBy === col}
-                                direction={orderBy === col ? order : "asc"}
-                                onClick={createSortHandler(
-                                    col as keyof EmployeeData
-                                )}
-                                sx={TableHeadStyles}
-                            >
-                                {(
-                                    col.slice(0, 1).toUpperCase() +
-                                    col.slice(1).toLowerCase()
-                                ).replaceAll("_", " ")}
-                                {orderBy === col ? (
-                                    <StyledBox
-                                        component="span"
-                                        sx={visuallyHidden}
-                                    >
-                                        {order === "desc"
-                                            ? "sorted_descending"
-                                            : "sorted_ascending"}
-                                    </StyledBox>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                    );
-                })}
+                {currentLanguage === "en-EN"
+                    ? tableHeadsEng?.map((col, i) => {
+                          if (typeof col === "string") {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          lineHeight: "1.1",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      {col}
+                                  </TableCell>
+                              );
+                          } else {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      padding={
+                                          col.label === "Full Name"
+                                              ? "none"
+                                              : "normal"
+                                      }
+                                      sortDirection={
+                                          orderBy === col.key ? order : false
+                                      }
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          lineHeight: "1.1",
+                                          minWidth: "10rem",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      <TableSortLabel
+                                          active={orderBy === col.key}
+                                          direction={
+                                              orderBy === col.key
+                                                  ? order
+                                                  : "asc"
+                                          }
+                                          onClick={createSortHandler(
+                                              col.key as keyof EmployeeData
+                                          )}
+                                          sx={TableHeadStyles}
+                                      >
+                                          {col.label}
+                                          {orderBy === col.key ? (
+                                              <StyledBox
+                                                  component="span"
+                                                  sx={visuallyHidden}
+                                              >
+                                                  {order === "desc"
+                                                      ? "sorted_descending"
+                                                      : "sorted_ascending"}
+                                              </StyledBox>
+                                          ) : null}
+                                      </TableSortLabel>
+                                  </TableCell>
+                              );
+                          }
+                      })
+                    : tableHeadsTr?.map((col, i) => {
+                          if (typeof col === "string") {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          lineHeight: "1.1",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      {col}
+                                  </TableCell>
+                              );
+                          } else {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      padding={
+                                          col.label === "Ad Soyad"
+                                              ? "none"
+                                              : "normal"
+                                      }
+                                      sortDirection={
+                                          orderBy === col.key ? order : false
+                                      }
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          lineHeight: "1.1",
+                                          minWidth: "10rem",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      <TableSortLabel
+                                          active={orderBy === col.key}
+                                          direction={
+                                              orderBy === col.key
+                                                  ? order
+                                                  : "asc"
+                                          }
+                                          onClick={createSortHandler(
+                                              col.key as keyof EmployeeData
+                                          )}
+                                          sx={TableHeadStyles}
+                                      >
+                                          {col.label}
+                                          {orderBy === col.key ? (
+                                              <StyledBox
+                                                  component="span"
+                                                  sx={visuallyHidden}
+                                              >
+                                                  {order === "desc"
+                                                      ? "sorted_descending"
+                                                      : "sorted_ascending"}
+                                              </StyledBox>
+                                          ) : null}
+                                      </TableSortLabel>
+                                  </TableCell>
+                              );
+                          }
+                      })}
             </TableRow>
         </TableHead>
     );
