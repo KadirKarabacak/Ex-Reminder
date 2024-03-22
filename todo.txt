@@ -29,9 +29,11 @@
 29- ✅ ON DELETE IT DELETES WRONG EMPLOYEE
 30- ✅ On item detail, show profit which calculated from "(itemPrice - purchasePrice)* itemAmount"
 31- The item user trying to add, if already exists in table (compare with name, lowercase both of them) return an error
-32- On employees page, below the table add total salaries, average salary, average age, add how many Game Developer is there like [ Game Developer x3 ], Add a pie chart for that
-33- Make Warehouse table sortable
-
+32- ✅ On employees page, below the table add total salaries, average salary, average age, add how many Game Developer is there like [ Game Developer x3 ], Add a pie chart for that
+33- ✅ Make Warehouse table sortable
+34- On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
+35- On reset password form, if the email doesnt exist user trying to reset the password, display error "The email does not exist"
+ 
 ### FEATURES ###
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
