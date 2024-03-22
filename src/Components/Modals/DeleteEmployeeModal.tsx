@@ -38,11 +38,12 @@ export default function DeleteEmployeeModal({
     id,
     row,
 }: EditEmployeeModalTypes) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { handleSubmit } = useForm();
     const { mutateAsync: deleteEmployee, isPending: isDeleting } =
         useDeleteEmployee();
     const { currentUser } = auth;
+    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
 
     async function onSubmit() {
@@ -86,7 +87,7 @@ export default function DeleteEmployeeModal({
                             {t("Deleted employees")}{" "}
                             <strong>{t("cannot be brought back")}</strong>
                             {t(", are you sure you want to delete")}
-                            <StyledSpan>{row.full_name}</StyledSpan>
+                            <StyledSpan>{row.full_name}</StyledSpan> ?
                         </Typography>
 
                         <StyledButtonContainer>
@@ -96,7 +97,10 @@ export default function DeleteEmployeeModal({
                                     backgroundColor: "var(--color-red-700)",
                                     color: "white",
                                     transition: "all .3s",
-                                    padding: "1rem 2rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 2rem"
+                                            : "1rem 3rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
@@ -111,7 +115,7 @@ export default function DeleteEmployeeModal({
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Delete Employee")}
+                                {t("Delete")}
                             </Button>
                             <Button
                                 disabled={isDeleting}
@@ -119,7 +123,10 @@ export default function DeleteEmployeeModal({
                                 sx={{
                                     color: "var(--color-grey-800)",
                                     transition: "all .3s",
-                                    padding: "1rem 3rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 2rem"
+                                            : "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
                                     backgroundColor: "var(--color-grey-100)",
