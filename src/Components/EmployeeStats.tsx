@@ -1,7 +1,8 @@
 import { Divider, Grid, Typography } from "@mui/material";
 import styled from "styled-components";
-import { formatCurrency } from "../../Utils/utils";
-import { Employee } from "../../Interfaces/User";
+import { formatCurrency } from "../Utils/utils";
+import { Employee } from "../Interfaces/User";
+import { useTranslation } from "react-i18next";
 
 const Stats = styled.div`
     width: 50%;
@@ -32,16 +33,14 @@ export default function EmployeeStats({
 }: {
     data: Employee[] | undefined;
 }) {
+    const { t } = useTranslation();
     const totalEmployee = data?.length;
-
     const totalSalary = data?.reduce((acc, employee) => {
         return acc + +employee.salary;
     }, 0);
-
     const averageSalary =
         totalSalary &&
         formatCurrency(+(totalSalary / (totalEmployee || 1)).toFixed(2));
-
     const totalAge = data?.reduce((acc, employee) => {
         return acc + +employee.age;
     }, 0);
@@ -60,7 +59,7 @@ export default function EmployeeStats({
                     padding: "1rem 0 2rem 0",
                 }}
             >
-                {`Employees Stats`}
+                {t(`Employees Stats`)}
             </Typography>
             <Grid container spacing={2}>
                 <Grid
@@ -68,7 +67,7 @@ export default function EmployeeStats({
                     xs={4}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
-                    <StyledTitle>{`Total Employees`}</StyledTitle>
+                    <StyledTitle>{t(`Total Employees`)}</StyledTitle>
                     <StyledDescription>{totalEmployee}</StyledDescription>
                 </Grid>
                 <Grid
@@ -76,7 +75,7 @@ export default function EmployeeStats({
                     xs={4}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
-                    <StyledTitle>{`Total Salary`}</StyledTitle>
+                    <StyledTitle>{t(`Total Salary`)}</StyledTitle>
                     <StyledDescription>
                         {formatCurrency(totalSalary ? totalSalary : 0)}
                     </StyledDescription>
@@ -86,7 +85,7 @@ export default function EmployeeStats({
                     xs={4}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
-                    <StyledTitle>{`Average Salary`}</StyledTitle>
+                    <StyledTitle>{t(`Average Salary`)}</StyledTitle>
                     <StyledDescription>{averageSalary}</StyledDescription>
                 </Grid>
                 <Grid
@@ -105,7 +104,7 @@ export default function EmployeeStats({
                     xs={4}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
-                    <StyledTitle>{`Average Age`}</StyledTitle>
+                    <StyledTitle>{t(`Average Age`)}</StyledTitle>
                     <StyledDescription>{averageAge}</StyledDescription>
                 </Grid>
             </Grid>
