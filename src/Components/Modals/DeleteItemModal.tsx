@@ -95,7 +95,7 @@ export default function DeleteItemModal({
                                     backgroundColor: "var(--color-red-700)",
                                     color: "white",
                                     transition: "all .3s",
-                                    padding: "1rem 2rem",
+                                    padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
@@ -110,7 +110,7 @@ export default function DeleteItemModal({
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Delete Item")}
+                                {t("Delete")}
                             </Button>
                             <Button
                                 disabled={isDeleting}
