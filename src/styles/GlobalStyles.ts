@@ -104,6 +104,7 @@ const GlobalStyles = createGlobalStyle`
   --color-brand-900: #312e81;
 
   --color-green-new: #1F994D;
+  --color-green-lighter: #25b35b;
 }
 
 *,
