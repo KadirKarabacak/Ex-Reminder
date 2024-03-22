@@ -17,7 +17,7 @@ import { EmployeeData, Warehouses } from "../Interfaces/User";
 import { WarehouseTableHead } from "./TableHeads/WarehouseTableHead";
 
 const TableCellStyles = {
-    color: "var(--color-grey-800)",
+    color: "var(--color-grey-600)",
     fontSize: "1.2rem",
     textAlign: "left",
     borderBottom: "1px solid var(--color-grey-200)",
@@ -216,6 +216,17 @@ export default function CustomTable({
                                             aria-checked={isItemSelected}
                                             tabIndex={-1}
                                             selected={isItemSelected}
+                                            // sx={
+                                            //     index % 2 === 0
+                                            //         ? {
+                                            //               backgroundColor:
+                                            //                   "var(--color-grey-0)",
+                                            //           }
+                                            //         : {
+                                            //               backgroundColor:
+                                            //                   "var(--color-grey-100)",
+                                            //           }
+                                            // }
                                         >
                                             <TableCell
                                                 onClick={event =>
