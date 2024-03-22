@@ -115,10 +115,11 @@ export default function EditEmployeeModal({
         parseDateFromString(row.hire_date)
     );
     const [error, setError] = useState<DateValidationError>(null);
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { mutateAsync: updateEmployee, isPending: isUpdating } =
         useUpdateEmployee();
     const { currentUser } = auth;
+    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
 
     const errorMessage = React.useMemo(() => {
@@ -127,7 +128,7 @@ export default function EditEmployeeModal({
                 return t("Date cannot be before 10/06/2000");
             }
             case "invalidDate": {
-                return "Your date is not valid";
+                return t("Your date is not valid");
             }
 
             default: {
@@ -202,12 +203,12 @@ export default function EditEmployeeModal({
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>Full Name</StyledTitle>
+                                <StyledTitle>{t("Full Name")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.full_name}
-                                    label="Full Name"
+                                    label={t("Full Name")}
                                     {...register("fullName", {
                                         required: t("Full Name is required"),
                                     })}
@@ -219,12 +220,12 @@ export default function EditEmployeeModal({
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>Job Title</StyledTitle>
+                                <StyledTitle>{t("Job Title")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.job_title}
-                                    label="Job Title"
+                                    label={t("Job Title")}
                                     {...register("jobTitle", {
                                         required: t("Job Title is required"),
                                     })}
@@ -243,12 +244,12 @@ export default function EditEmployeeModal({
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>Department</StyledTitle>
+                                <StyledTitle>{t("Department")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.department}
-                                    label="Department"
+                                    label={t("Department")}
                                     {...register("department", {
                                         required: t(
                                             "Department name is required"
@@ -290,27 +291,27 @@ export default function EditEmployeeModal({
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>Age</StyledTitle>
+                                <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.age}
-                                    label="Age"
+                                    label={t("Age")}
                                     {...register("age")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>Salary</StyledTitle>
+                                <StyledTitle>{t("Salary")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.salary}
-                                    label="Salary"
+                                    label={t("Salary")}
                                     {...register("salary")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>Hire Date</StyledTitle>
+                                <StyledTitle>{t("Hire Date")}</StyledTitle>
                                 <StyledDatePicker
                                     format="dd/MM/yyyy"
                                     disabled={isUpdating}
@@ -337,7 +338,10 @@ export default function EditEmployeeModal({
                                     backgroundColor: "var(--color-grey-800)",
                                     color: "var(--color-grey-50)",
                                     transition: "all .3s",
-                                    padding: "1rem 2rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 3rem"
+                                            : "1rem 2rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
@@ -353,7 +357,7 @@ export default function EditEmployeeModal({
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Edit Employee")}
+                                {t("Edit")}
                             </Button>
                             <Button
                                 disabled={isUpdating}
@@ -361,7 +365,10 @@ export default function EditEmployeeModal({
                                 sx={{
                                     color: "var(--color-grey-800)",
                                     transition: "all .3s",
-                                    padding: "1rem 3rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 2rem"
+                                            : "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
                                     backgroundColor: "var(--color-grey-100)",
