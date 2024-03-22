@@ -6,7 +6,11 @@ import { EmployeeToolBar } from "../Components/TableToolBars/EmployeeBar";
 import { InfinitySpin } from "react-loader-spinner";
 import { useGetEmployees } from "../Api/employeeController";
 import { CustomPieChart } from "../Components/CustomPieChart";
-import EmployeeStats from "../Components/Modals/EmployeeStats";
+import EmployeeStats from "../Components/EmployeeStats";
+// import EditIcon from "@mui/icons-material/Edit";
+// import { DeleteOutline } from "@mui/icons-material";
+// import ReadMoreIcon from "@mui/icons-material/ReadMore";
+// import React from "react";
 
 const StyledEmployees = styled.main`
     width: 100%;
@@ -38,7 +42,34 @@ const AnimatedStyledEmployees = animated(StyledEmployees);
 export default function Employees() {
     const animationProps = useSpring(springOptions);
     const { data, isLoading } = useGetEmployees();
+    // const [opensEdit, setOpensEdit] = React.useState(false);
+    // const [opensDelete, setOpensDelete] = React.useState(false);
+    // const [opensDetail, setOpensDetail] = React.useState(false);
     const employee = true;
+
+    // const buttonGroups = [
+    //     {
+    //         label: "Edit",
+    //         handleOpen: () => setOpensEdit(true),
+    //         handleClose: () => setOpensEdit(false),
+    //         opens: opensEdit,
+    //         startIcon: <EditIcon />,
+    //     },
+    //     {
+    //         label: "Detail",
+    //         handleOpen: () => setOpensDetail(true),
+    //         handleClose: () => setOpensDetail(false),
+    //         opens: opensDelete,
+    //         startIcon: <ReadMoreIcon />,
+    //     },
+    //     {
+    //         label: "Delete",
+    //         handleOpen: () => setOpensDelete(true),
+    //         handleClose: () => setOpensDelete(false),
+    //         opens: opensDetail,
+    //         startIcon: <DeleteOutline />,
+    //     },
+    // ];
 
     if (isLoading)
         return (
