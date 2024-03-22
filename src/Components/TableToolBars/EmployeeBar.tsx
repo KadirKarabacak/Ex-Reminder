@@ -2,6 +2,12 @@ import { Button, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import AddEmployeeModal from "../Modals/AddEmployeeModal";
+import styled from "styled-components";
+
+const StyledToolBar = styled(Toolbar)`
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+`;
 
 export function EmployeeToolBar() {
     const { t } = useTranslation();
@@ -11,7 +17,7 @@ export function EmployeeToolBar() {
 
     return (
         <>
-            <Toolbar
+            <StyledToolBar
                 sx={{
                     pl: { sm: 3 },
                     pr: { xs: 1, sm: 2 },
@@ -61,7 +67,7 @@ export function EmployeeToolBar() {
                         <FilterListIcon />
                     </StyledIconButton>
                 </Tooltip> */}
-            </Toolbar>
+            </StyledToolBar>
             <AddEmployeeModal handleClose={handleClose} open={open} />
         </>
     );
