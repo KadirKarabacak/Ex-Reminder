@@ -83,7 +83,7 @@ export default function EditItemModal({
     id,
     row,
 }: EditItemModalTypes) {
-    const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const {
         handleSubmit,
         register,
@@ -93,6 +93,7 @@ export default function EditItemModal({
         formState: { errors },
     } = useForm();
     const { currentUser } = auth;
+    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
     const { isPending: isUpdating, mutateAsync: updateItem } = useUpdateItem();
 
@@ -237,7 +238,10 @@ export default function EditItemModal({
                                     backgroundColor: "var(--color-grey-800)",
                                     color: "var(--color-grey-50)",
                                     transition: "all .3s",
-                                    padding: "1rem 2rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 3rem"
+                                            : "1rem 2rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
@@ -254,14 +258,17 @@ export default function EditItemModal({
                                 variant="contained"
                                 disabled={isUpdating}
                             >
-                                {t("Edit Item")}
+                                {t("Edit")}
                             </Button>
                             <Button
                                 onClick={onCloseModal}
                                 sx={{
                                     color: "var(--color-grey-800)",
                                     transition: "all .3s",
-                                    padding: "1rem 3rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 2rem"
+                                            : "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
                                     backgroundColor: "var(--color-grey-100)",
