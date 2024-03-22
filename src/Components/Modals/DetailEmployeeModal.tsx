@@ -129,7 +129,7 @@ export default function DetailEmployeeModal({
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>Department</StyledTitle>
+                            <StyledTitle>{t("Department")}</StyledTitle>
                             <StyledDescription>
                                 {row.department || t("Not spesified")}
                             </StyledDescription>
@@ -148,13 +148,13 @@ export default function DetailEmployeeModal({
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>Age</StyledTitle>
+                            <StyledTitle>{t("Age")}</StyledTitle>
                             <StyledDescription>
                                 {row.age || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>Salary</StyledTitle>
+                            <StyledTitle>{t("Salary")}</StyledTitle>
                             <StyledDescription>
                                 {formatCurrency(row.salary) ||
                                     t("Not spesified")}
@@ -169,7 +169,7 @@ export default function DetailEmployeeModal({
                         </Grid>
 
                         <Grid item xs={4}>
-                            <StyledTitle>Hire Date</StyledTitle>
+                            <StyledTitle>{t("Hire Date")}</StyledTitle>
                             <StyledDescription>
                                 {row.hire_date || t("Not spesified")}
                             </StyledDescription>
@@ -181,11 +181,6 @@ export default function DetailEmployeeModal({
                                 }}
                             />
                         </Grid>
-
-                        {/* <Grid item xs={4}>
-                            <StyledTitle>Export</StyledTitle>
-                            <StyledDescription></StyledDescription>
-                        </Grid> */}
                     </Grid>
 
                     <StyledButtonContainer>
