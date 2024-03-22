@@ -120,7 +120,7 @@ function ExportButton(props: Props) {
                             exportPdf();
                             handleClose();
                             toast.success(
-                                "Document was successfully downloaded"
+                                t("Document was successfully downloaded")
                             );
                         }}
                         sx={{
@@ -151,7 +151,7 @@ function ExportButton(props: Props) {
                             onClick={() => {
                                 handleClose();
                                 toast.success(
-                                    "Document was successfully downloaded"
+                                    t("Document was successfully downloaded")
                                 );
                             }}
                             sx={{
