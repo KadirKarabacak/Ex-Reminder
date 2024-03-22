@@ -4,7 +4,7 @@ import { springOptions } from "../Constants/constant";
 
 const StyledAbout = styled.main`
     width: 100%;
-    height: 100dvh;
+    min-height: 60rem;
     background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
