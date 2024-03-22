@@ -14,20 +14,32 @@ const StyledLogo = styled.img`
 `;
 
 const StyledTextField = styled(TextField)`
+    width: 100%;
+    background-color: var(--color-grey-200);
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+
     & div + p {
         font-size: 1rem;
     }
     & label {
-        color: var(--color-grey-800);
+        color: var(--color-grey-400);
+        font-size: 1.3rem;
     }
+
     & div > input {
-        color: var(--color-grey-800);
+        color: var(--color-grey-700);
         font-size: 1.3rem;
 
         &:disabled {
             background-color: var(--color-grey-300);
         }
     }
+
+    & div > input:focus .MuiInputLabel-filled {
+        color: var(--color-brand-500);
+    }
+
     & div > fieldset {
         border-color: var(--color-grey-500);
     }
@@ -90,7 +102,7 @@ export default function ForgotPasswordForm() {
                     label="Email"
                     disabled={isResetting}
                     sx={{ minWidth: "100%" }}
-                    variant="outlined"
+                    variant="filled"
                     {...register("email", {
                         required: t("Email is required"),
                         pattern: {
@@ -113,6 +125,7 @@ export default function ForgotPasswordForm() {
                             transition: "all .3s",
                             padding: "1rem 3rem",
                             fontSize: "1.1rem",
+                            fontWeight: "bold",
                             "&:hover": {
                                 backgroundColor: "var(--color-grey-600)",
                                 color: "var(--color-grey-100)",
@@ -138,8 +151,7 @@ export default function ForgotPasswordForm() {
                             fontSize: "1.1rem",
                             border: "1px solid var(--color-grey-800)",
                             "&:hover": {
-                                backgroundColor: "var(--color-grey-800)",
-                                color: "var(--color-grey-100)",
+                                backgroundColor: "var(--color-grey-200)",
                                 transform: "translateY(-2px)",
                                 border: "1px solid var(--color-grey-800)",
                             },
