@@ -32,7 +32,6 @@ export default function Warehouse() {
     const animationProps = useSpring(springOptions);
     const { data, isLoading } = useGetWarehouse();
     const warehouse = true;
-    console.log(data);
 
     if (isLoading)
         return (
