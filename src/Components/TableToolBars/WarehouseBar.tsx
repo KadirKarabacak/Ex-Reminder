@@ -56,11 +56,6 @@ export function WarehouseToolBar() {
                 >
                     {t("Add New Item")}
                 </Button>
-                {/* <Tooltip title="Filter list">
-                    <StyledIconButton>
-                        <FilterListIcon />
-                    </StyledIconButton>
-                </Tooltip> */}
             </Toolbar>
             <AddItemModal handleClose={handleClose} open={open} />
         </>
