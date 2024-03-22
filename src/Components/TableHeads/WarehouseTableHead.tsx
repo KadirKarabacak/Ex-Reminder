@@ -9,7 +9,7 @@ import {
 import styled from "styled-components";
 import { visuallyHidden } from "@mui/utils";
 import { useTranslation } from "react-i18next";
-import { EmployeeData, EnhancedTableProps } from "../../Interfaces/User";
+import { EnhancedTableProps, Warehouses } from "../../Interfaces/User";
 
 const StyledBox = styled(Box)`
     transition: all 0.3s;
@@ -49,21 +49,6 @@ const TableHeadStyles = {
     },
 };
 
-// Change TableHead sort feat by translation
-type TranslationMap = {
-    [key: string]: keyof EmployeeData;
-};
-
-const translationMap: TranslationMap = {
-    isim: "full_name",
-    meslek: "job_title",
-    departman: "department",
-    maaş: "salary",
-    giriş_tarihi: "hire_date",
-    yaş: "age",
-    email: "email",
-};
-
 export function WarehouseTableHead(props: EnhancedTableProps) {
     const { t, i18n } = useTranslation();
     const currentLanguage = i18n.language;
@@ -76,28 +61,27 @@ export function WarehouseTableHead(props: EnhancedTableProps) {
         onRequestSort,
     } = props;
 
-    const tableHeads = [
-        t("Item Name"),
-        t("Item Amount"),
-        t("Sale Price"),
-        t("Purchase Price"),
-        t("Item Description"),
+    const tableHeadsEng = [
+        { label: "Item Name", key: "itemName" },
+        { label: "Item Amount", key: "itemAmount" },
+        { label: "Item Sale Price", key: "itemSalePrice" },
+        { label: "Item Purchase Price", key: "itemPurchasePrice" },
+        { label: "Description", key: "itemDescription" },
         "",
     ];
 
-    function translateToTurkish(property: keyof EmployeeData) {
-        return translationMap[property];
-    }
+    const tableHeadsTr = [
+        { label: "Malzeme İsmi", key: "itemName" },
+        { label: "Malzeme Miktar", key: "itemAmount" },
+        { label: "Satış Fiyatı", key: "itemSalePrice" },
+        { label: "Alış Fiyatı", key: "itemPurchasePrice" },
+        { label: "Açıklama", key: "itemDescription" },
+        "",
+    ];
 
     const createSortHandler =
-        (property: keyof EmployeeData) =>
-        (event: React.MouseEvent<unknown>) => {
-            onRequestSort(
-                event,
-                currentLanguage === "tr-TR"
-                    ? translateToTurkish(property)
-                    : property
-            );
+        (property: keyof Warehouses) => (event: React.MouseEvent<unknown>) => {
+            onRequestSort(event, property);
         };
 
     return (
@@ -122,48 +106,144 @@ export function WarehouseTableHead(props: EnhancedTableProps) {
                         }}
                     />
                 </TableCell>
-                {tableHeads?.map((col, i) => {
-                    //! Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
-                    // console.log(orderBy);
-                    // console.log(col);
-                    return (
-                        <TableCell
-                            key={i}
-                            padding={col === "Item Name" ? "none" : "normal"}
-                            sortDirection={
-                                orderBy === String(i) ? order : false
-                            }
-                            sx={{
-                                color: "var(--color-grey-800)",
-                                fontSize: "1.2rem",
-                                fontWeight: "bold",
-                                textAlign: "left",
-                                borderBottom: "1px solid var(--color-grey-200)",
-                            }}
-                        >
-                            <TableSortLabel
-                                active={orderBy === col}
-                                direction={orderBy === col ? order : "asc"}
-                                onClick={createSortHandler(
-                                    col as keyof EmployeeData
-                                )}
-                                sx={TableHeadStyles}
-                            >
-                                {col}
-                                {orderBy === col ? (
-                                    <StyledBox
-                                        component="span"
-                                        sx={visuallyHidden}
-                                    >
-                                        {order === "desc"
-                                            ? "sorted_descending"
-                                            : "sorted_ascending"}
-                                    </StyledBox>
-                                ) : null}
-                            </TableSortLabel>
-                        </TableCell>
-                    );
-                })}
+                {currentLanguage === "en-EN"
+                    ? tableHeadsEng?.map((col, i) => {
+                          if (typeof col === "string") {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      padding={
+                                          col === "Item Name"
+                                              ? "none"
+                                              : "normal"
+                                      }
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      {col}
+                                  </TableCell>
+                              );
+                          } else {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      padding={
+                                          col.label === "Item Name"
+                                              ? "none"
+                                              : "normal"
+                                      }
+                                      sortDirection={
+                                          orderBy === col.key ? order : false
+                                      }
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      <TableSortLabel
+                                          active={orderBy === col.key}
+                                          direction={
+                                              orderBy === col.key
+                                                  ? order
+                                                  : "asc"
+                                          }
+                                          onClick={createSortHandler(
+                                              col.key as keyof Warehouses
+                                          )}
+                                          sx={TableHeadStyles}
+                                      >
+                                          {col.label}
+                                          {orderBy === col.key ? (
+                                              <StyledBox
+                                                  component="span"
+                                                  sx={visuallyHidden}
+                                              >
+                                                  {order === "desc"
+                                                      ? "sorted_descending"
+                                                      : "sorted_ascending"}
+                                              </StyledBox>
+                                          ) : null}
+                                      </TableSortLabel>
+                                  </TableCell>
+                              );
+                          }
+                      })
+                    : tableHeadsTr?.map((col, i) => {
+                          if (typeof col === "string") {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      {col}
+                                  </TableCell>
+                              );
+                          } else {
+                              return (
+                                  <TableCell
+                                      key={i}
+                                      padding={
+                                          col.label === "Malzeme İsmi"
+                                              ? "none"
+                                              : "normal"
+                                      }
+                                      sortDirection={
+                                          orderBy === col.key ? order : false
+                                      }
+                                      sx={{
+                                          color: "var(--color-grey-800)",
+                                          fontSize: "1.2rem",
+                                          fontWeight: "bold",
+                                          textAlign: "left",
+                                          borderBottom:
+                                              "1px solid var(--color-grey-200)",
+                                      }}
+                                  >
+                                      <TableSortLabel
+                                          active={orderBy === col.key}
+                                          direction={
+                                              orderBy === col.key
+                                                  ? order
+                                                  : "asc"
+                                          }
+                                          onClick={createSortHandler(
+                                              col.key as keyof Warehouses
+                                          )}
+                                          sx={TableHeadStyles}
+                                      >
+                                          {col.label}
+                                          {orderBy === col.key ? (
+                                              <StyledBox
+                                                  component="span"
+                                                  sx={visuallyHidden}
+                                              >
+                                                  {order === "desc"
+                                                      ? "sorted_descending"
+                                                      : "sorted_ascending"}
+                                              </StyledBox>
+                                          ) : null}
+                                      </TableSortLabel>
+                                  </TableCell>
+                              );
+                          }
+                      })}
             </TableRow>
         </TableHead>
     );
