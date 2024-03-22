@@ -10,6 +10,7 @@ import {
 } from "recharts";
 import { Typography } from "@mui/material";
 import { Employee } from "../Interfaces/User";
+import { useTranslation } from "react-i18next";
 
 const ChartBox = styled.div`
     /* Box */
@@ -42,6 +43,7 @@ const COLORSLIGHT = [
 ];
 
 export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
+    const { t } = useTranslation();
     const jobTitles = data?.map((employee: Employee) => {
         return employee.job_title;
     });
@@ -67,7 +69,6 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
     }
 
     const jobs = transformData(jobTitles);
-    console.log(jobs);
 
     return (
         <ChartBox>
@@ -82,7 +83,7 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
                     padding: "1rem 0 2rem 2rem",
                 }}
             >
-                {`Total Employees`}
+                {t(`Total Employees`)}
             </Typography>
             <ResponsiveContainer width="100%" height={240}>
                 <PieChart>
