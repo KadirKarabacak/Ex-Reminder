@@ -5,15 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../Api/firebase";
 import { ProtectedRouteProps } from "../Interfaces/User";
 
-//: Daha sonra spinner için kullanılabilir.
-// const FullPage = styled.div`
-//     height: 100vh;
-//     background-color: var(--color-grey-50);
-//     display: flex;
-//     align-items: center;
-//     justify-content: center;
-// `;
-
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({ children }) => {
     const navigate = useNavigate();
     const [isAuthenticated, setIsAuthenticated] = useState(false);
