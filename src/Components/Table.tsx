@@ -93,7 +93,7 @@ export default function CustomTable({
     const { t } = useTranslation();
 
     const handleRequestSort = (
-        event: React.MouseEvent<unknown>,
+        _event: React.MouseEvent<unknown>,
         property: keyof EmployeeData | keyof Warehouses
     ) => {
         const isAsc = orderBy === property && order === "asc";
@@ -105,14 +105,14 @@ export default function CustomTable({
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (event.target.checked) {
-            const newSelected = data.map((n: object, i: string) => i);
+            const newSelected = data.map((_n: object, i: string) => i);
             setSelected(newSelected);
             return;
         }
         setSelected([]);
     };
 
-    const handleClick = (event: React.MouseEvent<unknown>, id: number) => {
+    const handleClick = (_event: React.MouseEvent<unknown>, id: number) => {
         const selectedIndex = selected.indexOf(id);
         let newSelected: readonly number[] = [];
 
@@ -131,7 +131,7 @@ export default function CustomTable({
         setSelected(newSelected);
     };
 
-    const handleChangePage = (event: unknown, newPage: number) => {
+    const handleChangePage = (_event: unknown, newPage: number) => {
         setPage(newPage);
     };
 
