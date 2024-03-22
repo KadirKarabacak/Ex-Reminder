@@ -12,7 +12,7 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { formatCurrency, parseCurrency } from "../../Utils/utils";
 import { EditEmployeeModalTypes } from "../../Interfaces/User";
-import ExportButton from "../ExportButton";
+// import ExportButton from "../ExportButton";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -60,40 +60,38 @@ export default function DetailItemModal({
         handleClose(open);
     }
 
-    const data = [{ ...row }];
+    // const data = [{ ...row }];
 
-    const ExcelData = data.map(value => {
-        return {
-            full_name: value?.full_name,
-            job_title: value?.job_title,
-            department: value?.department,
-            email: value?.email,
-            age: value?.age,
-            salary: value?.salary,
-            hire_date: value?.hire_date,
-        };
-    });
+    // const ExcelData = data.map(value => {
+    //     return {
+    //         full_name: value?.full_name,
+    //         job_title: value?.job_title,
+    //         department: value?.department,
+    //         email: value?.email,
+    //         age: value?.age,
+    //         salary: value?.salary,
+    //         hire_date: value?.hire_date,
+    //     };
+    // });
 
-    const PdfBody = data.map(value => {
-        return [
-            value?.full_name,
-            value?.job_title,
-            value?.department,
-            value?.email,
-            value?.age,
-            value?.salary,
-            value?.hire_date,
-        ];
-    });
-    console.log(row.itemPurhcasePrice);
-    // const isProfit =
-    //     row.itemPurhcasePrice !== undefined && row.itemSalePrice !== undefined;
+    // const PdfBody = data.map(value => {
+    //     return [
+    //         value?.full_name,
+    //         value?.job_title,
+    //         value?.department,
+    //         value?.email,
+    //         value?.age,
+    //         value?.salary,
+    //         value?.hire_date,
+    //     ];
+    // });
 
-    //! IF THERE IS NO itemSalePrice || itemPurchasePrice it calcualtes NaN
-    const profit =
-        (parseCurrency(row.itemSalePrice) -
-            parseCurrency(row.itemPurchasePrice)) *
-        (row.itemAmount || 1);
+    const isValues = row.itemSalePrice !== "" && row.itemPurchasePrice !== "";
+    const profit = isValues
+        ? (parseCurrency(row.itemSalePrice) -
+              parseCurrency(row.itemPurchasePrice)) *
+          (row.itemAmount || 1)
+        : 0;
 
     return (
         <Modal
@@ -136,13 +134,13 @@ export default function DetailItemModal({
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Item amount")}</StyledTitle>
+                            <StyledTitle>{t("Item Amount")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemAmount || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Sale price")}</StyledTitle>
+                            <StyledTitle>{t("Sale Price")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemSalePrice || t("Not spesified")}
                             </StyledDescription>
@@ -155,18 +153,28 @@ export default function DetailItemModal({
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Purchase price")}</StyledTitle>
+                            <StyledTitle>{t("Purchase Price")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemPurchasePrice || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Profit")}</StyledTitle>
+                            <StyledTitle>
+                                {profit > 0
+                                    ? t("Profit")
+                                    : profit < 0
+                                    ? t("Loss")
+                                    : t("Fit")}
+                            </StyledTitle>
                             <StyledDescription>
                                 {(
                                     <StyledSpan
                                         color={
-                                            profit > 0 ? "#1F994D" : "#CA1212"
+                                            profit > 0
+                                                ? "#1F994D"
+                                                : profit < 0
+                                                ? "#CA1212"
+                                                : "var(--color-grey-600)"
                                         }
                                     >
                                         {" "}
@@ -176,7 +184,7 @@ export default function DetailItemModal({
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>Created at</StyledTitle>
+                            <StyledTitle>{t("Created At")}</StyledTitle>
                             <StyledDescription>
                                 {row.createdAt || t("Not spesified")}
                             </StyledDescription>
@@ -190,7 +198,7 @@ export default function DetailItemModal({
                         </Grid>
 
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Item description")}</StyledTitle>
+                            <StyledTitle>{t("Item Description")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemDescription || t("Not spesified")}
                             </StyledDescription>
@@ -205,7 +213,7 @@ export default function DetailItemModal({
                     </Grid>
 
                     <StyledButtonContainer>
-                        <ExportButton
+                        {/* <ExportButton
                             title={t("Employee Details")}
                             excel={{
                                 headers: [
@@ -254,7 +262,7 @@ export default function DetailItemModal({
                                 ],
                                 body: PdfBody,
                             }}
-                        />{" "}
+                        /> */}
                         <Button
                             onClick={onCloseModal}
                             sx={{
