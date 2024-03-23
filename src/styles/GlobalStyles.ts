@@ -220,6 +220,7 @@ svg{
   color: var(--color-grey-800)!important;
 }
 
+/* DOESNT WORK */
 .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: var(--color-brand-500)!important;
 }

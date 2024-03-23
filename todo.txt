@@ -33,6 +33,8 @@
 33- ✅ Make Warehouse table sortable
 34- On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
 35- On reset password form, if the email doesnt exist user trying to reset the password, display error "The email does not exist"
+36- On deployed version .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused this class is changing and labels in textfields still blue not brand-500, fix it with more spesific way
+37- On the browser tab, add current route's name in the title like "Ex Reminder | Login"
  
 ### FEATURES ###
 
