@@ -10,9 +10,9 @@ import toast from "react-hot-toast";
 import ConfidentialityAgreementModal from "../Modals/ConfidentialityAgreementModal";
 
 const StyledLogo = styled.img`
-    width: 10rem;
-    height: 10rem;
-    filter: blur(3px);
+    width: 17rem;
+    height: 17rem;
+    /* filter: blur(3px); */
 `;
 
 const StyledTextField = styled(TextField)`
@@ -156,12 +156,12 @@ export default function RegisterForm() {
                         gap: "2rem",
                         color: "var(--color-grey-800)",
                         backgroundColor: "var(--color-grey-50)",
-                        p: "6rem 4rem",
+                        p: "4rem 4rem",
                         boxShadow: "var(--shadow-md)",
                         maxWidth: "55rem",
                     }}
                 >
-                    <StyledLogo src="../../logo-here.png" />
+                    <StyledLogo src="../../../EX_REMINDER-blue.png" />
                     <Heading title={t("Register to get started")} />
                     <StyledTextField
                         disabled={isSubmitting}
@@ -278,7 +278,7 @@ export default function RegisterForm() {
                             disabled={isSubmitting || !watchAgreement}
                             sx={{
                                 backgroundColor: "var(--color-green-new)",
-                                color: "var(--color-grey-600)",
+                                color: "var(--color-grey-50)",
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
                                 fontSize: "1.1rem",
@@ -287,7 +287,7 @@ export default function RegisterForm() {
                                 "&:hover": {
                                     backgroundColor:
                                         "var(--color-green-lighter)",
-                                    color: "var(--color-grey-00)",
+                                    color: "var(--color-grey-100)",
                                     transform: "translateY(-2px)",
                                     border: "1px solid transparent",
                                 },

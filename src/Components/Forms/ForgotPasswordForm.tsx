@@ -8,9 +8,8 @@ import { useResetPasswordEmail } from "../../Api/userController";
 import { useTranslation } from "react-i18next";
 
 const StyledLogo = styled.img`
-    width: 10rem;
-    height: 10rem;
-    filter: blur(3px);
+    width: 18rem;
+    height: 18rem;
 `;
 
 const StyledTextField = styled(TextField)`
@@ -96,7 +95,7 @@ export default function ForgotPasswordForm() {
                     boxShadow: "var(--shadow-md)",
                 }}
             >
-                <StyledLogo src="../../logo-here.png" />
+                <StyledLogo src="../../../EX_REMINDER-blue.png" />
                 <Heading title={t("Reset your password")} />
                 <StyledTextField
                     label="Email"

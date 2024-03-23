@@ -49,11 +49,12 @@ const StyledNavLink = styled(NavLink)`
 `;
 
 const StyledImg = styled.img`
-    width: 10rem;
-    height: 10rem;
+    width: 15rem;
+    height: 15rem;
     align-self: center;
     margin-bottom: 3rem;
-    filter: blur(4px);
+    object-fit: cover;
+    /* filter: blur(4px); */
 `;
 
 const iconStyle = {
@@ -66,7 +67,11 @@ function Sidebar() {
     const { t } = useTranslation();
     return (
         <StyledSidebar>
-            <StyledImg src="../../logo-here.png" />
+            {/* <StyledImg src="../../logo-here.png" /> */}
+            <StyledImg
+                src="../../public/EX_REMINDER-green.png"
+                alt="Ex_REMINDER logo"
+            />
             <Tooltip
                 TransitionComponent={Zoom}
                 title={t("Home")}

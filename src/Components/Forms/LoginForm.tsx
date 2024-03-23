@@ -17,9 +17,9 @@ import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
 
 const StyledLogo = styled.img`
-    width: 10rem;
-    height: 10rem;
-    filter: blur(3px);
+    width: 18rem;
+    height: 18rem;
+    /* filter: blur(3px); */
 `;
 
 const StyledTextField = styled(TextField)`
@@ -167,7 +167,11 @@ export default function LoginForm() {
                     minWidth: "45rem",
                 }}
             >
-                <StyledLogo src="../../logo-here.png" />
+                {/* <StyledLogo src="../../logo-here.png" /> */}
+                <StyledLogo
+                    src="../../../public/EX_REMINDER-blue.png"
+                    alt="EX_REMINDER logo"
+                />
                 <Heading title={t("Login to your account")} />
                 <StyledTextField
                     disabled={isSubmitting}
