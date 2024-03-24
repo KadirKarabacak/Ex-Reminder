@@ -131,54 +131,59 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                 >
                     {tableName === "employee" && row?.full_name}
                     {tableName === "warehouse" && row?.itemName}
+                    {tableName === "company" && row?.companyName}
                 </MenuItem>
                 <Divider sx={{ marginTop: "0!important" }} />
-                <MenuItem
-                    onClick={
-                        tableName === "employee"
-                            ? handleOpenEditModal
-                            : handleOpenEditItemModal
-                    }
-                    disableRipple
-                >
-                    <EditIcon />
-                    {t("Edit")}
-                </MenuItem>
-                <MenuItem
-                    onClick={
-                        tableName === "employee"
-                            ? handleOpenDetailModal
-                            : handleOpenDetailItemModal
-                    }
-                    disableRipple
-                >
-                    <ReadMoreIcon />
-                    {t("Detail")}
-                </MenuItem>
-                <MenuItem
-                    onClick={
-                        tableName === "employee"
-                            ? handleOpenDeleteModal
-                            : handleOpenDeleteItemModal
-                    }
-                    disableRipple
-                >
-                    <DeleteOutline />
-                    {t("Delete")}
-                </MenuItem>
+
+                {tableName === "employee" && (
+                    <>
+                        <MenuItem onClick={handleOpenEditModal} disableRipple>
+                            <EditIcon />
+                            {t("Edit")}
+                        </MenuItem>
+                        <MenuItem onClick={handleOpenDetailModal} disableRipple>
+                            <ReadMoreIcon />
+                            {t("Detail")}
+                        </MenuItem>
+                        <MenuItem onClick={handleOpenDeleteModal} disableRipple>
+                            <DeleteOutline />
+                            {t("Delete")}
+                        </MenuItem>
+                    </>
+                )}
+                {tableName === "warehouse" && (
+                    <>
+                        <MenuItem
+                            onClick={handleOpenEditItemModal}
+                            disableRipple
+                        >
+                            <EditIcon />
+                            {t("Edit")}
+                        </MenuItem>
+                        <MenuItem
+                            onClick={handleOpenDetailItemModal}
+                            disableRipple
+                        >
+                            <ReadMoreIcon />
+                            {t("Detail")}
+                        </MenuItem>
+                        <MenuItem
+                            onClick={handleOpenDeleteItemModal}
+                            disableRipple
+                        >
+                            <DeleteOutline />
+                            {t("Delete")}
+                        </MenuItem>
+                    </>
+                )}
+                {tableName === "company" && <></>}
             </StyledMenu>
+
+            {/* Employees */}
             {opens && (
                 <EditEmployeeModal
                     open={opens}
                     handleClose={handleCloseEditModal}
-                    id={row.id}
-                    row={row}
-                />
-            )}
-            {opensDelete && (
-                <DeleteEmployeeModal
-                    open={opensDelete}
-                    handleClose={handleCloseDeleteModal}
                     id={row.id}
                     row={row}
                 />
@@ -191,6 +196,16 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     handleClose={handleCloseDetailModal}
                 />
             )}
+            {opensDelete && (
+                <DeleteEmployeeModal
+                    open={opensDelete}
+                    handleClose={handleCloseDeleteModal}
+                    id={row.id}
+                    row={row}
+                />
+            )}
+
+            {/* Warehouses */}
             {opensEditItem && (
                 <EditItemModal
                     id={row.id}
@@ -215,6 +230,8 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     handleClose={handleCloseDeleteItemModal}
                 />
             )}
+
+            {/* Companies */}
         </div>
     );
 }
