@@ -126,3 +126,11 @@ export interface Warehouses {
     id?: string;
     createdAt: Date;
 }
+
+export interface TableRowTypes {
+    isItemSelected: any;
+    handleClick: any;
+    index: number;
+    labelId: string;
+    row: any;
+}

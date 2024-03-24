@@ -1,5 +1,6 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
+import { TableRowTypes } from "../../Interfaces/User";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -8,21 +9,13 @@ const TableCellStyles = {
     borderBottom: "1px solid var(--color-grey-200)",
 };
 
-interface WarehouseTableRowTypes {
-    isItemSelected: any;
-    handleClick: any;
-    index: number;
-    labelId: string;
-    row: any;
-}
-
 export default function WarehouseTableRow({
     isItemSelected,
     handleClick,
     index,
     labelId,
     row,
-}: WarehouseTableRowTypes) {
+}: TableRowTypes) {
     return (
         <TableRow
             hover
