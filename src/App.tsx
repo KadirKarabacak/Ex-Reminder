@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
-import About from "./Pages/About";
+import About from "./Pages/Companies";
 import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
 import Settings from "./Pages/Settings";
@@ -31,7 +31,7 @@ export default function App() {
                     <Route path="*" Component={NotFound} />
                     <Route Component={AppLayout}>
                         <Route path="/" Component={Home} />
-                        <Route path="/about" Component={About} />
+                        <Route path="/companies" Component={About} />
                         <Route path="/warehouse" Component={Warehouse} />
                         <Route path="/employees" Component={Employees} />
                         <Route path="/settings" Component={Settings} />
