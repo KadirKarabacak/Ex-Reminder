@@ -32,7 +32,7 @@ const StyledTextField = styled(TextField)`
         font-size: 1rem;
     }
     & label {
-        color: var(--color-grey-400);
+        color: var(--color-grey-400) !important;
         font-size: 1.3rem;
     }
 
@@ -43,10 +43,6 @@ const StyledTextField = styled(TextField)`
         &:disabled {
             background-color: var(--color-grey-300);
         }
-    }
-
-    & div > input:focus .MuiInputLabel-filled {
-        color: var(--color-brand-500);
     }
 
     & div > fieldset {
@@ -169,7 +165,7 @@ export default function LoginForm() {
             >
                 {/* <StyledLogo src="../../logo-here.png" /> */}
                 <StyledLogo
-                    src="../../../public/EX_REMINDER-blue.png"
+                    src="../../../EX_REMINDER-blue.png"
                     alt="EX_REMINDER logo"
                 />
                 <Heading title={t("Login to your account")} />
