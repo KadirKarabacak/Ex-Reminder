@@ -164,7 +164,7 @@ export default function DetailItemModal({
                                     ? t("Profit")
                                     : profit < 0
                                     ? t("Loss")
-                                    : t("Fit")}
+                                    : t("Profit | Loss")}
                             </StyledTitle>
                             <StyledDescription>
                                 {(
