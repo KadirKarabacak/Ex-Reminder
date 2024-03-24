@@ -1,12 +1,12 @@
 import { NavLink } from "react-router-dom";
 import styled from "styled-components";
 import HomeIcon from "@mui/icons-material/Home";
-import InfoIcon from "@mui/icons-material/Info";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Tooltip, Zoom } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { WarehouseOutlined } from "@mui/icons-material";
+import BusinessIcon from "@mui/icons-material/Business";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -69,7 +69,7 @@ function Sidebar() {
         <StyledSidebar>
             {/* <StyledImg src="../../logo-here.png" /> */}
             <StyledImg
-                src="../../public/EX_REMINDER-green.png"
+                src="../../EX_REMINDER-green.png"
                 alt="Ex_REMINDER logo"
             />
             <Tooltip
@@ -84,12 +84,12 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("About")}
+                title={t("Companies")}
                 placement="right"
             >
-                <StyledNavLink to="/about">
-                    <InfoIcon sx={iconStyle} />
-                    {t("About")}
+                <StyledNavLink to="/companies">
+                    <BusinessIcon sx={iconStyle} />
+                    {t("Companies")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
