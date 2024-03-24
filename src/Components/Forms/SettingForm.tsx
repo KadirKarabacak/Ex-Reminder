@@ -258,7 +258,7 @@ export default function SettingForm() {
                             }}
                             variant="outlined"
                         >
-                            {t("Cancel")}
+                            {t("Clear")}
                         </Button>
                     </StyledButtonContainer>
                 </Paper>
