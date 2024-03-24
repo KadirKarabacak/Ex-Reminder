@@ -1,6 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import LoginForm from "../Components/Forms/LoginForm";
 import { animationDuration } from "../Constants/constant";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 
 export const circleInHesitate = keyframes`
   0% {
@@ -29,8 +31,12 @@ const StyledLogin = styled.main`
 `;
 
 export default function Login() {
+    const { t } = useTranslation();
     return (
         <StyledLogin>
+            <Helmet>
+                <title>Ex Reminder | {t("Login")}</title>
+            </Helmet>
             <LoginForm />
         </StyledLogin>
     );

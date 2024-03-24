@@ -1,6 +1,8 @@
 import styled, { keyframes } from "styled-components";
 import ForgotPasswordForm from "../Components/Forms/ForgotPasswordForm";
 import { animationDuration } from "../Constants/constant";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 
 export const circleInHesitate = keyframes`
   0% {
@@ -28,8 +30,12 @@ const StyledForgotPassword = styled.main`
 `;
 
 export default function ForgotPassword() {
+    const { t } = useTranslation();
     return (
         <StyledForgotPassword>
+            <Helmet>
+                <title>Ex Reminder | {t("Forgot Password")}</title>
+            </Helmet>
             <ForgotPasswordForm />
         </StyledForgotPassword>
     );

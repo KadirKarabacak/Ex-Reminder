@@ -1,6 +1,8 @@
 import { Link } from "react-router-dom";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import styled from "styled-components";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
 
 const StyledNotFound = styled.main`
     width: 100%;
@@ -28,8 +30,13 @@ const StyledText = styled.p`
 `;
 
 export default function NotFound() {
+    const { t } = useTranslation();
+
     return (
         <StyledNotFound>
+            <Helmet>
+                <title>Ex Reminder | {t("Not Found")}</title>
+            </Helmet>
             <StyledText>
                 Sorry, the page you are looking for does not exist. 😥
             </StyledText>
