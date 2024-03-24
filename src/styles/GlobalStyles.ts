@@ -221,9 +221,9 @@ svg{
 }
 
 /* DOESNT WORK */
-.css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+/* .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
   color: var(--color-brand-500)!important;
-}
+} */
 
 .Mui-disabled{
   background-color: var(--color-grey-200)!important;
