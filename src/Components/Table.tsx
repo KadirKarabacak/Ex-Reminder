@@ -1,20 +1,19 @@
 import * as React from "react";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
-import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
-import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
-import Checkbox from "@mui/material/Checkbox";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
 import styled from "styled-components";
-import { formatCurrency } from "../Utils/utils";
-import ButtonGroup from "./ButtonGroup";
 import { useTranslation } from "react-i18next";
 import { EmployeeData, Warehouses } from "../Interfaces/User";
 import { WarehouseTableHead } from "./TableHeads/WarehouseTableHead";
+import EmployeeTableRow from "./TableRows/EmployeeTableRow";
+import WarehouseTableRow from "./TableRows/WarehouseTableRow";
+import { CompanyTableHead } from "./TableHeads/CompanyTableHead";
+import CompanyTableRow from "./TableRows/CompanyTableRow";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -77,11 +76,13 @@ export default function CustomTable({
     data,
     employee,
     warehouse,
+    company,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
     employee?: boolean;
     warehouse?: boolean;
+    company?: boolean;
 }) {
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<
@@ -203,6 +204,16 @@ export default function CustomTable({
                                 rowCount={data?.length || 0}
                             />
                         )}
+                        {company && (
+                            <CompanyTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={data?.length || 0}
+                            />
+                        )}
                         <TableBody>
                             {employee &&
                                 visibleRows?.map((row, index) => {
@@ -210,102 +221,14 @@ export default function CustomTable({
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
-                                        <TableRow
+                                        <EmployeeTableRow
+                                            isItemSelected={isItemSelected}
+                                            handleClick={handleClick}
                                             key={index}
-                                            hover
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            selected={isItemSelected}
-                                            // sx={
-                                            //     index % 2 === 0
-                                            //         ? {
-                                            //               backgroundColor:
-                                            //                   "var(--color-grey-0)",
-                                            //           }
-                                            //         : {
-                                            //               backgroundColor:
-                                            //                   "var(--color-grey-100)",
-                                            //           }
-                                            // }
-                                        >
-                                            <TableCell
-                                                onClick={event =>
-                                                    handleClick(event, index)
-                                                }
-                                                padding="checkbox"
-                                                sx={{
-                                                    ...TableCellStyles,
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                <Checkbox
-                                                    checked={isItemSelected}
-                                                    inputProps={{
-                                                        "aria-labelledby":
-                                                            labelId,
-                                                    }}
-                                                    sx={{
-                                                        color: "var(--color-grey-800)",
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.full_name || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.job_title || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.department || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {formatCurrency(
-                                                    row.salary as string
-                                                ) || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.hire_date || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.age || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.email || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                <ButtonGroup
-                                                    tableName="employee"
-                                                    row={row}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
+                                            index={index}
+                                            labelId={labelId}
+                                            row={row}
+                                        />
                                     );
                                 })}
                             {warehouse &&
@@ -314,77 +237,30 @@ export default function CustomTable({
                                     const labelId = `enhanced-table-checkbox-${index}`;
 
                                     return (
-                                        <TableRow
+                                        <WarehouseTableRow
+                                            isItemSelected={isItemSelected}
+                                            handleClick={handleClick}
                                             key={index}
-                                            hover
-                                            aria-checked={isItemSelected}
-                                            tabIndex={-1}
-                                            selected={isItemSelected}
-                                        >
-                                            <TableCell
-                                                onClick={event =>
-                                                    handleClick(event, index)
-                                                }
-                                                padding="checkbox"
-                                                sx={{
-                                                    ...TableCellStyles,
-                                                    cursor: "pointer",
-                                                }}
-                                            >
-                                                <Checkbox
-                                                    checked={isItemSelected}
-                                                    inputProps={{
-                                                        "aria-labelledby":
-                                                            labelId,
-                                                    }}
-                                                    sx={{
-                                                        color: "var(--color-grey-800)",
-                                                    }}
-                                                />
-                                            </TableCell>
-                                            <TableCell
-                                                component="th"
-                                                id={labelId}
-                                                scope="row"
-                                                padding="none"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.itemName || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.itemAmount || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.itemSalePrice || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.itemPurchasePrice || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                {row.itemDescription || "-"}
-                                            </TableCell>
-                                            <TableCell
-                                                align="right"
-                                                sx={TableCellStyles}
-                                            >
-                                                <ButtonGroup
-                                                    tableName="warehouse"
-                                                    row={row}
-                                                />
-                                            </TableCell>
-                                        </TableRow>
+                                            index={index}
+                                            labelId={labelId}
+                                            row={row}
+                                        />
+                                    );
+                                })}
+                            {company &&
+                                visibleRows?.map((row, index) => {
+                                    const isItemSelected = isSelected(index);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                                    return (
+                                        <CompanyTableRow
+                                            isItemSelected={isItemSelected}
+                                            handleClick={handleClick}
+                                            key={index}
+                                            index={index}
+                                            labelId={labelId}
+                                            row={row}
+                                        />
                                     );
                                 })}
                         </TableBody>
