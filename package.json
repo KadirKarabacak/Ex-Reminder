@@ -19,6 +19,7 @@
     "axios": "^1.6.7",
     "date-fns": "^3.4.0",
     "firebase": "^10.8.1",
+    "framer-motion": "^11.0.20",
     "i18next": "^23.10.1",
     "i18next-browser-languagedetector": "^7.2.0",
     "i18next-http-backend": "^2.5.0",
@@ -40,6 +41,7 @@
     "@types/react": "^18.2.56",
     "@types/react-csv": "^1.1.10",
     "@types/react-dom": "^18.2.19",
+    "@types/react-helmet": "^6.1.11",
     "@typescript-eslint/eslint-plugin": "^7.0.2",
     "@typescript-eslint/parser": "^7.0.2",
     "@vitejs/plugin-react": "^4.2.1",
@@ -47,6 +49,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-react-refresh": "^0.4.5",
     "react-csv": "^2.2.2",
+    "react-helmet": "^6.1.0",
     "typescript": "^5.2.2",
     "uuid": "^9.0.1",
     "vite": "^5.1.4"
