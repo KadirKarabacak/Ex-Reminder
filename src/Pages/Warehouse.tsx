@@ -35,7 +35,6 @@ export default function Warehouse() {
     const { t } = useTranslation();
 
     const { data, isLoading } = useGetWarehouse();
-    const warehouse = true;
 
     if (isLoading)
         return (
@@ -49,11 +48,7 @@ export default function Warehouse() {
             <Helmet>
                 <title>Ex Reminder | {t("Warehouse")}</title>
             </Helmet>
-            <CustomTable
-                data={data}
-                CustomToolbar={<WarehouseToolBar />}
-                warehouse={warehouse}
-            />
+            <CustomTable data={data} CustomToolbar={<WarehouseToolBar />} />
         </AnimatedStyledContact>
     );
 }
