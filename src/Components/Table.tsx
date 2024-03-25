@@ -8,12 +8,13 @@ import Paper from "@mui/material/Paper";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { EmployeeData, Warehouses } from "../Interfaces/User";
+import { Companies, EmployeeData, Warehouses } from "../Interfaces/User";
 import { WarehouseTableHead } from "./TableHeads/WarehouseTableHead";
 import EmployeeTableRow from "./TableRows/EmployeeTableRow";
 import WarehouseTableRow from "./TableRows/WarehouseTableRow";
 import { CompanyTableHead } from "./TableHeads/CompanyTableHead";
 import CompanyTableRow from "./TableRows/CompanyTableRow";
+import { useLocation } from "react-router-dom";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -74,20 +75,21 @@ const StyledParagraph = styled.span`
 export default function CustomTable({
     CustomToolbar,
     data,
-    employee,
-    warehouse,
-    company,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
-    employee?: boolean;
-    warehouse?: boolean;
-    company?: boolean;
 }) {
+    const { pathname } = useLocation();
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<
-        keyof EmployeeData | keyof Warehouses
-    >(employee ? "full_name" : "itemName");
+        keyof EmployeeData | keyof Warehouses | keyof Companies
+    >(
+        pathname === "/employees"
+            ? "full_name"
+            : pathname === "/warehouse"
+            ? "itemName"
+            : "companyName"
+    );
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
@@ -95,7 +97,7 @@ export default function CustomTable({
 
     const handleRequestSort = (
         _event: React.MouseEvent<unknown>,
-        property: keyof EmployeeData | keyof Warehouses
+        property: keyof EmployeeData | keyof Warehouses | keyof Companies
     ) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -184,7 +186,7 @@ export default function CustomTable({
                     }}
                 >
                     <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle">
-                        {employee && (
+                        {pathname === "/employees" && (
                             <EmployeeTableHead
                                 numSelected={selected.length}
                                 order={order}
@@ -194,7 +196,7 @@ export default function CustomTable({
                                 rowCount={data?.length || 0}
                             />
                         )}
-                        {warehouse && (
+                        {pathname === "/warehouse" && (
                             <WarehouseTableHead
                                 numSelected={selected.length}
                                 order={order}
@@ -204,7 +206,7 @@ export default function CustomTable({
                                 rowCount={data?.length || 0}
                             />
                         )}
-                        {company && (
+                        {pathname === "/companies" && (
                             <CompanyTableHead
                                 numSelected={selected.length}
                                 order={order}
@@ -215,7 +217,7 @@ export default function CustomTable({
                             />
                         )}
                         <TableBody>
-                            {employee &&
+                            {pathname === "/employees" &&
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -231,7 +233,7 @@ export default function CustomTable({
                                         />
                                     );
                                 })}
-                            {warehouse &&
+                            {pathname === "/warehouse" &&
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
@@ -247,7 +249,7 @@ export default function CustomTable({
                                         />
                                     );
                                 })}
-                            {company &&
+                            {pathname === "/companies" &&
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
