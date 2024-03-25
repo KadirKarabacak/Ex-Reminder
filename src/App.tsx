@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
-import About from "./Pages/Companies";
 import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
 import Settings from "./Pages/Settings";
@@ -11,6 +10,8 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import ForgotPassword from "./Pages/ForgotPassword";
 import Employees from "./Pages/Employees";
 import Warehouse from "./Pages/Warehouse";
+import Companies from "./Pages/Companies";
+import { AnimatePresence } from "framer-motion";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -24,19 +25,36 @@ export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <BrowserRouter>
-                <Routes>
-                    <Route index path="login" Component={Login} />
-                    <Route path="/register" Component={Register} />
-                    <Route path="/forgotpassword" Component={ForgotPassword} />
-                    <Route path="*" Component={NotFound} />
-                    <Route Component={AppLayout}>
-                        <Route path="/" Component={Home} />
-                        <Route path="/companies" Component={About} />
-                        <Route path="/warehouse" Component={Warehouse} />
-                        <Route path="/employees" Component={Employees} />
-                        <Route path="/settings" Component={Settings} />
-                    </Route>
-                </Routes>
+                <AnimatePresence mode="wait">
+                    <Routes key={location.pathname}>
+                        <Route index path="login" Component={Login} />
+                        <Route path="/register" Component={Register} />
+                        <Route
+                            path="/forgotpassword"
+                            Component={ForgotPassword}
+                        />
+                        <Route path="*" Component={NotFound} />
+                        <Route Component={AppLayout}>
+                            <Route path="/" Component={Home} />
+                            <Route
+                                key="companies"
+                                path="/companies"
+                                Component={Companies}
+                            >
+                                <Route
+                                    key="companyId"
+                                    path=":companyId"
+                                    Component={null}
+                                />
+                            </Route>
+
+                            <Route path="/warehouse" Component={Warehouse} />
+                            <Route path="/employees" Component={Employees} />
+                            <Route path="/settings" Component={Settings} />
+                        </Route>
+                    </Routes>
+                </AnimatePresence>
+
                 <Toaster
                     position="bottom-left"
                     gutter={12}
