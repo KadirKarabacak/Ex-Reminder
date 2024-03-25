@@ -13,9 +13,11 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { ModalTypes } from "../../Interfaces/User";
 import { useTranslation } from "react-i18next";
-import React from "react";
+import React, { useState } from "react";
 import { formatDate } from "../../Utils/utils";
 import { useAddCompany } from "../../Api/companyController";
+import { MuiTelInput } from "mui-tel-input";
+import i18n from "../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -67,9 +69,29 @@ const StyledTitle = styled.h4`
     margin-bottom: 0.9rem;
 `;
 
+const StyledTelInput = styled(MuiTelInput)`
+    width: 100%;
+    & > div {
+        color: var(--color-grey-800);
+        font-size: 1.3rem;
+        padding-left: 10px;
+    }
+
+    & > div > fieldset {
+        border-color: var(--color-grey-500);
+    }
+
+    &:hover > div > fieldset {
+        border-color: var(--color-brand-600) !important;
+    }
+`;
+
 export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     const { t } = useTranslation();
     const { mutate, isPending } = useAddCompany();
+    const [companyPhone, setCompanyPhone] = useState("");
+    const [managerPhone, setManagerPhone] = useState("");
+    const currentLanguage = i18n.language;
 
     const {
         handleSubmit,
@@ -84,23 +106,21 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
         const {
             companyName,
             companyAddress,
-            companyPhone,
             companyEmail,
             companyWebsite,
             managerName,
-            managerPhone,
             managerEmail,
         } = getValues();
 
         const newCompany = {
             companyName,
             companyAddress,
-            companyPhone,
+            companyPhone: companyPhone,
             companyEmail,
             companyWebsite,
             companyManager: {
                 managerName,
-                managerPhone,
+                managerPhone: managerPhone,
                 managerEmail,
             },
             createdAt: formatDate(new Date()),
@@ -114,6 +134,9 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
         handleClose(open);
         clearErrors();
         reset();
+
+        setCompanyPhone("");
+        setManagerPhone("");
     }
 
     return (
@@ -181,15 +204,15 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Company Phone")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    label={t("Company Phone")}
-                                    {...register("companyPhone")}
-                                    error={Boolean(errors?.companyPhone)}
-                                    helperText={
-                                        (errors?.companyPhone
-                                            ?.message as React.ReactNode) || ""
+                                <StyledTelInput
+                                    preferredCountries={["TR", "GB"]}
+                                    defaultCountry={
+                                        currentLanguage === "tr-TR"
+                                            ? "TR"
+                                            : "GB"
                                     }
+                                    value={companyPhone}
+                                    onChange={value => setCompanyPhone(value)}
                                 />
                             </Grid>
                             <Grid item xs={4}>
@@ -237,10 +260,15 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Manager Phone")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    label={t("Manager Phone")}
-                                    {...register("managerPhone")}
+                                <StyledTelInput
+                                    preferredCountries={["TR", "GB"]}
+                                    defaultCountry={
+                                        currentLanguage === "tr-TR"
+                                            ? "TR"
+                                            : "GB"
+                                    }
+                                    value={managerPhone}
+                                    onChange={value => setManagerPhone(value)}
                                 />
                             </Grid>
                             <Grid item xs={4}>
