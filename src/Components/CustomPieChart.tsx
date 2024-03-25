@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 
 const ChartBox = styled.div`
     /* Box */
-    width: 50%;
+    width: 100%;
     background-color: var(--color-grey-100);
     border: 1px solid var(--color-grey-100);
     border-radius: var(--border-radius-md);

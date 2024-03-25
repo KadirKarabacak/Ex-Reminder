@@ -5,7 +5,7 @@ import { Employee } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
 
 const Stats = styled.div`
-    width: 50%;
+    width: 100%;
     background-color: var(--color-grey-100);
     border: 1px solid var(--color-grey-100);
     border-radius: var(--border-radius-md);
