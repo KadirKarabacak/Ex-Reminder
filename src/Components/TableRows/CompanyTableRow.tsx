@@ -60,7 +60,7 @@ export default function CompanyTableRow({
                 {row.companyEmail || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.companyDescription || "-"}
+                {row.companyManager?.managerName || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 <ButtonGroup tableName="company" row={row} />
