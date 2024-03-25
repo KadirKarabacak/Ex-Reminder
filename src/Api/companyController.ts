@@ -1,20 +1,21 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDocs,
+    updateDoc,
+} from "firebase/firestore";
 import { auth, db } from "./firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
-
-interface Companies {
-    companyName: string;
-    companyAddress: string;
-    companyPhone: number | string;
-    companyEmail: string;
-    companyWebsite: string;
-    companyLogo: string;
-    companyDescription: string;
-    companyManager: object;
-    id?: string;
-}
+import {
+    Agreements,
+    Companies,
+    DeleteCompanyTypes,
+    UpdateCompanyTypes,
+} from "../Interfaces/User";
 
 //! Get All Companies
 const getCompanies = async (userId: string | undefined) => {
@@ -67,4 +68,131 @@ export const useAddCompany = function () {
         },
     });
     return { mutate, isPending };
+};
+
+//! Update Company
+const updateCompany = async function ({
+    company,
+    id,
+    userId,
+}: UpdateCompanyTypes) {
+    const ref = doc(db, `users/${userId}/companies`, id);
+    await updateDoc(ref, company);
+};
+
+//! Update Company Query
+export const useUpdateCompany = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateCompanyTypes) => {
+            await updateCompany(variables);
+            return;
+        },
+        onSuccess: () => {
+            toast.success(i18n.t("Company successfully edited"));
+            queryClient.invalidateQueries({ queryKey: ["companies"] });
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("An error occurred while editing the company"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Delete Company
+const deleteCompany = async function ({ id, userId }: DeleteCompanyTypes) {
+    const ref = doc(db, `users/${userId}/companies`, id);
+    try {
+        await deleteDoc(ref);
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+};
+
+//! Delete Company query
+export const useDeleteCompany = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: DeleteCompanyTypes) =>
+            await deleteCompany(variables),
+        onSuccess: () => {
+            toast.success(i18n.t("Company successfully deleted"));
+            queryClient.invalidateQueries({ queryKey: ["companies"] });
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("An error occurred while deleting the company"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Add agreement to company
+const addAgreement = async function (
+    agreement: object,
+    companyId: string | undefined,
+    userId: string | undefined
+) {
+    await addDoc(
+        collection(db, `users/${userId}/companies/${companyId}/agreements`),
+        agreement
+    );
+};
+
+//! Add new agreement Query
+export const useAddAgreement = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (data: {
+            agreement: object;
+            companyId: string | undefined;
+        }) =>
+            addAgreement(
+                data.agreement,
+                data.companyId,
+                auth?.currentUser?.uid
+            ),
+        onSuccess: () => {
+            toast.success(i18n.t("New Agreement added successfully"));
+            queryClient.invalidateQueries({ queryKey: ["agreements"] });
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("There was an error adding the Agreement"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Get Agreements
+const getAgreements = async (
+    userId: string | undefined,
+    companyId: string | undefined
+) => {
+    const querySnapShot = await getDocs(
+        collection(db, `users/${userId}/companies/${companyId}/agreements`)
+    );
+
+    const agreements: Agreements[] = [];
+    querySnapShot.forEach(doc => {
+        const companyData = doc.data() as Agreements;
+        agreements.push({
+            ...companyData,
+            agreementId: doc.id,
+        });
+    });
+    console.log(agreements);
+    return agreements;
+};
+
+//! Get Agreements Query
+export const useGetAgreements = function (companyId: string | undefined) {
+    const { data, isLoading } = useQuery({
+        queryKey: ["agreements"],
+        queryFn: () => getAgreements(auth?.currentUser?.uid, companyId),
+    });
+    return { data, isLoading };
 };
