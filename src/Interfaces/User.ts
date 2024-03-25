@@ -67,11 +67,18 @@ export interface EditItemModalTypes {
     row: any;
 }
 
+export interface EditCompanyModalTypes {
+    open: boolean;
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+    id: string;
+    row: any;
+}
+
 export interface EnhancedTableProps {
     numSelected: number;
     onRequestSort: (
         event: React.MouseEvent<unknown>,
-        property: keyof EmployeeData | keyof Warehouses
+        property: keyof EmployeeData | keyof Warehouses | keyof Companies
     ) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
@@ -115,6 +122,11 @@ export interface DeleteItemTypes {
     userId: string | undefined;
 }
 
+export interface DeleteCompanyTypes {
+    id: string;
+    userId: string | undefined;
+}
+
 export interface Warehouses {
     itemAmount?: number;
     itemId?: string;
@@ -133,4 +145,36 @@ export interface TableRowTypes {
     index: number;
     labelId: string;
     row: any;
+}
+
+export interface UpdateCompanyTypes {
+    company: object;
+    id: string;
+    userId: string | undefined;
+}
+
+export interface Companies {
+    companyName: string;
+    companyAddress: string;
+    companyPhone: number | string;
+    companyEmail: string;
+    companyWebsite: string;
+    companyLogo: string;
+    companyDescription: string;
+    companyManager: {
+        managerName: string;
+        managerPhone: number | string;
+        managerEmail: string;
+    };
+    id?: string;
+}
+
+export interface Agreements {
+    agreementBudget: string;
+    agreementDescription: string;
+    agreementEndDate: string;
+    agreementStartDate: string;
+    agreementParties: string;
+    createdAt: string;
+    agreementId?: string;
 }
