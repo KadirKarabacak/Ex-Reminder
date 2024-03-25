@@ -9,7 +9,7 @@ import {
 import styled from "styled-components";
 import { visuallyHidden } from "@mui/utils";
 import { useTranslation } from "react-i18next";
-import { EmployeeData, EnhancedTableProps } from "../../Interfaces/User";
+import { Companies, EnhancedTableProps } from "../../Interfaces/User";
 
 const StyledBox = styled(Box)`
     transition: all 0.3s;
@@ -66,7 +66,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
         { label: "Company Address", key: "companyAddress" },
         { label: "Company Phone", key: "companyPhone" },
         { label: "Email", key: "companyEmail" },
-        { label: "Description", key: "companyDescription" },
+        { label: "Manager Name", key: "managerName" },
         "",
     ];
 
@@ -75,14 +75,12 @@ export function CompanyTableHead(props: EnhancedTableProps) {
         { label: "Şirket Adres", key: "companyAddress" },
         { label: "Şirket Numarası", key: "companyPhone" },
         { label: "Email", key: "companyEmail" },
-        { label: "Açıklama", key: "companyDescription" },
-
+        { label: "Yönetici İsmi", key: "managerName" },
         "",
     ];
 
     const createSortHandler =
-        (property: keyof EmployeeData) =>
-        (event: React.MouseEvent<unknown>) => {
+        (property: keyof Companies) => (event: React.MouseEvent<unknown>) => {
             onRequestSort(event, property);
         };
 
@@ -158,7 +156,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                                                   : "asc"
                                           }
                                           onClick={createSortHandler(
-                                              col.key as keyof EmployeeData
+                                              col.key as keyof Companies
                                           )}
                                           sx={TableHeadStyles}
                                       >
@@ -227,7 +225,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                                                   : "asc"
                                           }
                                           onClick={createSortHandler(
-                                              col.key as keyof EmployeeData
+                                              col.key as keyof Companies
                                           )}
                                           sx={TableHeadStyles}
                                       >
