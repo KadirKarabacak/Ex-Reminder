@@ -14,6 +14,10 @@ import DetailEmployeeModal from "./Modals/DetailEmployeeModal";
 import EditItemModal from "./Modals/EditItemModal";
 import DetailItemModal from "./Modals/DetailItemModal";
 import DeleteItemModal from "./Modals/DeleteItemModal";
+import EditCompanyModal from "./Modals/EditCompanyModal";
+import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import DeleteCompanyModal from "./Modals/DeleteCompanyModal";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -61,51 +65,137 @@ const StyledMenu = styled((props: MenuProps) => (
 
 export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const [searchParams, setSearchParams] = useSearchParams();
+
+    const open = Boolean(anchorEl);
+    const navigate = useNavigate();
+    const { t } = useTranslation();
+
+    // Employees
     const [opens, setOpens] = React.useState(false);
     const [opensDelete, setOpensDelete] = React.useState(false);
     const [opensDetail, setOpensDetail] = React.useState(false);
+
+    // Warehouses
     const [opensEditItem, setOpensEditItem] = React.useState(false);
     const [opensDetailItem, setOpensDetailItem] = React.useState(false);
     const [opensDeleteItem, setOpensDeleteItem] = React.useState(false);
-    const open = Boolean(anchorEl);
-    const { t } = useTranslation();
+
+    // Companies
+    const [opensEditCompany, setOpensEditCompany] = React.useState(false);
+    // const [opensDetailCompany, setOpensDetailCompany] = React.useState(false);
+    const [opensDeleteCompany, setOpensDeleteCompany] = React.useState(false);
+
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
-
     const handleClose = () => {
         setAnchorEl(null);
     };
+
+    // Employees
     const handleOpenEditModal = () => {
         setOpens(true);
         handleClose();
+        setSearchParams("edit-employee");
     };
     const handleOpenDeleteModal = () => {
         setOpensDelete(true);
         handleClose();
+        setSearchParams("delete-employee");
     };
     const handleOpenDetailModal = () => {
         setOpensDetail(true);
         handleClose();
+        setSearchParams("detail-employee");
     };
+    const handleCloseEditModal = () => {
+        setOpens(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+    const handleCloseDeleteModal = () => {
+        setOpensDelete(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+    const handleCloseDetailModal = () => {
+        setOpensDetail(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+
+    // Warehouses
     const handleOpenEditItemModal = () => {
         setOpensEditItem(true);
         handleClose();
+        setSearchParams("edit-item");
     };
     const handleOpenDetailItemModal = () => {
         setOpensDetailItem(true);
         handleClose();
+        setSearchParams("detail-item");
     };
     const handleOpenDeleteItemModal = () => {
         setOpensDeleteItem(true);
         handleClose();
+        setSearchParams("delete-item");
     };
-    const handleCloseEditModal = () => setOpens(false);
-    const handleCloseDeleteModal = () => setOpensDelete(false);
-    const handleCloseDetailModal = () => setOpensDetail(false);
-    const handleCloseEditItemModal = () => setOpensEditItem(false);
-    const handleCloseDetailItemModal = () => setOpensDetailItem(false);
-    const handleCloseDeleteItemModal = () => setOpensDeleteItem(false);
+    const handleCloseEditItemModal = () => {
+        setOpensEditItem(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+    const handleCloseDetailItemModal = () => {
+        setOpensDetailItem(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+    const handleCloseDeleteItemModal = () => {
+        setOpensDeleteItem(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+
+    // Companies
+    const handleOpenEditCompanyModal = () => {
+        setOpensEditCompany(true);
+        handleClose();
+        setSearchParams("edit-company");
+    };
+    // const handleOpenDetailCompanyModal = () => {
+    //     setOpensDetailCompany(true);
+    //     handleClose();
+    // };
+    const handleOpenDeleteCompanyModal = () => {
+        setOpensDeleteCompany(true);
+        handleClose();
+        setSearchParams("delete-company");
+    };
+    const handleCloseEditCompanyModal = () => {
+        setOpensEditCompany(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+    // const handleCloseDetailCompanyModal = () => setOpensDetailCompany(false);
+    const handleCloseDeleteCompanyModal = () => {
+        setOpensDeleteCompany(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
+
+    const handleOperationsClick = () => {
+        setSearchParams(row.id);
+        navigate(`/companies/${row.id}`);
+    };
 
     return (
         <div>
@@ -136,7 +226,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                 <Divider sx={{ marginTop: "0!important" }} />
 
                 {tableName === "employee" && (
-                    <>
+                    <div>
                         <MenuItem onClick={handleOpenEditModal} disableRipple>
                             <EditIcon />
                             {t("Edit")}
@@ -149,10 +239,10 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                             <DeleteOutline />
                             {t("Delete")}
                         </MenuItem>
-                    </>
+                    </div>
                 )}
                 {tableName === "warehouse" && (
-                    <>
+                    <div>
                         <MenuItem
                             onClick={handleOpenEditItemModal}
                             disableRipple
@@ -174,13 +264,34 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                             <DeleteOutline />
                             {t("Delete")}
                         </MenuItem>
-                    </>
+                    </div>
                 )}
-                {tableName === "company" && <></>}
+                {tableName === "company" && (
+                    <div>
+                        <MenuItem
+                            onClick={handleOpenEditCompanyModal}
+                            disableRipple
+                        >
+                            <EditIcon />
+                            {t("Edit")}
+                        </MenuItem>
+                        <MenuItem onClick={handleOperationsClick} disableRipple>
+                            <SettingsApplicationsIcon />
+                            {t("Operations")}
+                        </MenuItem>
+                        <MenuItem
+                            onClick={handleOpenDeleteCompanyModal}
+                            disableRipple
+                        >
+                            <DeleteOutline />
+                            {t("Delete")}
+                        </MenuItem>
+                    </div>
+                )}
             </StyledMenu>
 
             {/* Employees */}
-            {opens && (
+            {searchParams.has("edit-employee") && (
                 <EditEmployeeModal
                     open={opens}
                     handleClose={handleCloseEditModal}
@@ -188,7 +299,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     row={row}
                 />
             )}
-            {opensDetail && (
+            {searchParams.has("detail-employee") && (
                 <DetailEmployeeModal
                     id={row.id}
                     row={row}
@@ -196,7 +307,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     handleClose={handleCloseDetailModal}
                 />
             )}
-            {opensDelete && (
+            {searchParams.has("delete-employee") && (
                 <DeleteEmployeeModal
                     open={opensDelete}
                     handleClose={handleCloseDeleteModal}
@@ -206,7 +317,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             )}
 
             {/* Warehouses */}
-            {opensEditItem && (
+            {searchParams.has("edit-item") && (
                 <EditItemModal
                     id={row.id}
                     row={row}
@@ -214,7 +325,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     handleClose={handleCloseEditItemModal}
                 />
             )}
-            {opensDetailItem && (
+            {searchParams.has("detail-item") && (
                 <DetailItemModal
                     id={row.id}
                     row={row}
@@ -222,7 +333,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     handleClose={handleCloseDetailItemModal}
                 />
             )}
-            {opensDeleteItem && (
+            {searchParams.has("delete-item") && (
                 <DeleteItemModal
                     id={row.id}
                     row={row}
@@ -232,6 +343,22 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             )}
 
             {/* Companies */}
+            {searchParams.has("edit-company") && (
+                <EditCompanyModal
+                    open={opensEditCompany}
+                    handleClose={handleCloseEditCompanyModal}
+                    id={row.id}
+                    row={row}
+                />
+            )}
+            {searchParams.has("delete-company") && (
+                <DeleteCompanyModal
+                    open={opensDeleteCompany}
+                    handleClose={handleCloseDeleteCompanyModal}
+                    id={row.id}
+                    row={row}
+                />
+            )}
         </div>
     );
 }
