@@ -7,8 +7,12 @@ import CustomTable from "../Components/Table";
 import { CompaniesToolBar } from "../Components/TableToolBars/CompaniesBar";
 import { useGetCompanies } from "../Api/companyController";
 import { InfinitySpin } from "react-loader-spinner";
+import { useParams } from "react-router-dom";
+import { OperationsHeader } from "../Components/CompanyOperations/OperationsHeader";
+import AnimatedPage from "../Components/AnimatedPage";
+import OperationsBody from "../Components/CompanyOperations/OperationsBody";
 
-const StyledAbout = styled.main`
+const StyledCompany = styled.main`
     width: 100%;
     min-height: 60rem;
     background-color: var(--color-grey-100);
@@ -28,13 +32,30 @@ const FullPage = styled.div`
     justify-content: center;
 `;
 
-const AnimatedStyledAbout = animated(StyledAbout);
+const StyledOperations = styled.main`
+    width: 100%;
+    min-height: 60rem;
+    background-color: var(--color-grey-100);
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 2rem 2rem;
+    border-radius: var(--border-radius-md);
+    box-shadow: var(--shadow-sm);
+`;
+
+const AnimatedStyledCompany = animated(StyledCompany);
+const AnimatedStyledOperations = animated(StyledOperations);
 
 export default function Companies() {
     const animationProps = useSpring(springOptions);
     const { t } = useTranslation();
     const { data, isLoading } = useGetCompanies();
-    const company = true;
+    const params = useParams();
+    const { companyId } = params;
+
+    const currentCompany =
+        companyId && data?.find(comp => comp.id === companyId);
 
     if (isLoading)
         return (
@@ -43,16 +64,33 @@ export default function Companies() {
             </FullPage>
         );
 
-    return (
-        <AnimatedStyledAbout style={animationProps}>
-            <Helmet>
-                <title>Ex Reminder | {t("Companies")}</title>
-            </Helmet>
-            <CustomTable
-                CustomToolbar={<CompaniesToolBar />}
-                data={data}
-                company={company}
-            />
-        </AnimatedStyledAbout>
-    );
+    if (companyId)
+        return (
+            <AnimatedStyledOperations style={animationProps}>
+                <AnimatedPage>
+                    <>
+                        <Helmet>
+                            <title>Ex Reminder | {t("Operations")}</title>
+                        </Helmet>
+                        <OperationsHeader currentCompany={currentCompany} />
+                        <OperationsBody currentCompany={currentCompany} />
+                    </>
+                </AnimatedPage>
+            </AnimatedStyledOperations>
+        );
+
+    if (!companyId)
+        return (
+            <AnimatedStyledCompany style={animationProps}>
+                <Helmet>
+                    <title>Ex Reminder | {t("Companies")}</title>
+                </Helmet>
+                <AnimatedPage>
+                    <CustomTable
+                        CustomToolbar={<CompaniesToolBar />}
+                        data={data}
+                    />
+                </AnimatedPage>
+            </AnimatedStyledCompany>
+        );
 }
