@@ -127,6 +127,12 @@ export interface DeleteCompanyTypes {
     userId: string | undefined;
 }
 
+export interface DeleteAgreementTypes {
+    agreementId: any;
+    userId: string | undefined;
+    companyId: string | undefined;
+}
+
 export interface Warehouses {
     itemAmount?: number;
     itemId?: string;
@@ -171,10 +177,17 @@ export interface Companies {
 
 export interface Agreements {
     agreementBudget: string;
-    agreementDescription: string;
+    agreementContent: string;
     agreementEndDate: string;
     agreementStartDate: string;
     agreementParties: string;
     createdAt: string;
     agreementId?: string;
+}
+
+export interface UpdateAgreementTypes {
+    editedAgreement: object;
+    id: string;
+    userId: string | undefined;
+    companyId: string | undefined;
 }
