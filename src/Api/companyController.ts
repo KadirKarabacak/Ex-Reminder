@@ -13,7 +13,9 @@ import i18n from "../i18n";
 import {
     Agreements,
     Companies,
+    DeleteAgreementTypes,
     DeleteCompanyTypes,
+    UpdateAgreementTypes,
     UpdateCompanyTypes,
 } from "../Interfaces/User";
 
@@ -178,13 +180,12 @@ const getAgreements = async (
 
     const agreements: Agreements[] = [];
     querySnapShot.forEach(doc => {
-        const companyData = doc.data() as Agreements;
+        const agreementData = doc.data() as Agreements;
         agreements.push({
-            ...companyData,
+            ...agreementData,
             agreementId: doc.id,
         });
     });
-    console.log(agreements);
     return agreements;
 };
 
@@ -195,4 +196,82 @@ export const useGetAgreements = function (companyId: string | undefined) {
         queryFn: () => getAgreements(auth?.currentUser?.uid, companyId),
     });
     return { data, isLoading };
+};
+
+//! Update Agreement
+const updateAgreement = async function ({
+    editedAgreement,
+    companyId,
+    id,
+    userId,
+}: UpdateAgreementTypes) {
+    console.log(id);
+    const ref = doc(
+        db,
+        `users/${userId}/companies/${companyId}/agreements`,
+        id
+    );
+    await updateDoc(ref, editedAgreement);
+};
+
+//! Update Agreement Query
+export const useUpdateAgreement = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateAgreementTypes) => {
+            await updateAgreement(variables);
+            return;
+        },
+        onSuccess: () => {
+            toast.success(i18n.t("Agreement successfully edited"));
+            queryClient.invalidateQueries({ queryKey: ["agreements"] });
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(
+                i18n.t("An error occurred while editing the Agreement")
+            );
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Delete Employee
+const deleteAgreement = async function ({
+    agreementId,
+    userId,
+    companyId,
+}: DeleteAgreementTypes) {
+    const ref = doc(
+        db,
+        `users/${userId}/companies/${companyId}/agreements`,
+        agreementId
+    );
+    try {
+        await deleteDoc(ref);
+        return true;
+    } catch (err) {
+        console.error(err);
+        return false;
+    }
+};
+
+//! Delete employee query
+export const useDeleteAgreement = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: DeleteAgreementTypes) =>
+            await deleteAgreement(variables),
+        onSuccess: () => {
+            toast.success(i18n.t("Agreement successfully deleted"));
+            queryClient.invalidateQueries({ queryKey: ["agreements"] });
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(
+                i18n.t("An error occurred while deleting the Agreement")
+            );
+        },
+    });
+    return { mutateAsync, isPending };
 };
