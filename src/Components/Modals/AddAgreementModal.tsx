@@ -14,10 +14,11 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
 // import { MuiTelInput } from "mui-tel-input";
-import { min, sub } from "date-fns";
+import { add, isBefore, min } from "date-fns";
 import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
 import { useAddAgreement } from "../../Api/companyController";
 import { formatCurrency, formatDate } from "../../Utils/utils";
+import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -69,23 +70,6 @@ const StyledTitle = styled.h4`
     margin-bottom: 0.9rem;
 `;
 
-// const StyledTelInput = styled(MuiTelInput)`
-//     width: 100%;
-//     & > div {
-//         color: var(--color-grey-800);
-//         font-size: 1.3rem;
-//         padding-left: 10px;
-//     }
-
-//     & > div > fieldset {
-//         border-color: var(--color-grey-500);
-//     }
-
-//     &:hover > div > fieldset {
-//         border-color: var(--color-brand-600) !important;
-//     }
-// `;
-
 const StyledSpan = styled.span`
     color: var(--color-brand-500);
     font-size: 3rem;
@@ -124,10 +108,10 @@ export default function AddAgreementModal({
     currentCompany,
 }: AgreementModalTypes) {
     const { t } = useTranslation();
-    const [agreementStart, setAgreementStart] = useState(
-        sub(new Date(), { months: 1 })
+    const [agreementStart, setAgreementStart] = useState(new Date());
+    const [agreementEnd, setAgreementEnd] = useState(
+        add(new Date(), { months: 1 })
     );
-    const [agreementEnd, setAgreementEnd] = useState(new Date());
     const [error, setError] = useState<DateValidationError>(null);
     const { mutateAsync: addAgreement, isPending } = useAddAgreement();
     const companyId = currentCompany?.id;
@@ -156,25 +140,28 @@ export default function AddAgreementModal({
         setValue,
         formState: { errors },
     } = useForm();
+    const isDateBefore = isBefore(agreementEnd, agreementStart);
 
     async function onSubmit() {
-        const { agreementDescription, agreementParties, agreementBudget } =
+        const { agreementContent, agreementParties, agreementBudget } =
             getValues();
 
         let budget;
         if (agreementBudget) budget = formatCurrency(agreementBudget);
 
         const agreement = {
-            agreementDescription,
+            agreementContent,
             agreementParties,
             agreementBudget: budget || "",
             agreementStartDate: formatDate(agreementStart),
             agreementEndDate: formatDate(agreementEnd),
             createdAt: formatDate(new Date()),
         };
+        if (errorMessage) return toast.error(errorMessage);
+        if (isDateBefore)
+            return toast.error(t("End Date cannot be before Start Date"));
         await addAgreement({ agreement, companyId });
         //! BİR ANLAŞMA BELGESİ VAR İSE KULLANICININ ONU SİSTEME YÜKLEMESİNE İZİN VER
-        //! ANLAŞMA OLUŞTURULDUKTAN SONRA "SUB" FONKSİYONU İLE BİTİŞ TARİHİNDEN BAŞLANGIÇ TARİHİNİ ÇIKARARAK KALAN ANLAŞMA SÜRESİNİ HESAPLA
         onCloseModal();
     }
 
@@ -215,20 +202,19 @@ export default function AddAgreementModal({
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Agreement Description")}
+                                    {t("Agreement Content")}
                                 </StyledTitle>
                                 <StyledTextField
-                                    label={t("Agreement Description")}
-                                    {...register("agreementDescription", {
+                                    disabled={isPending}
+                                    label={t("Agreement Content")}
+                                    {...register("agreementContent", {
                                         required: t(
-                                            "Agreement Description is required"
+                                            "Agreement Content is required"
                                         ),
                                     })}
-                                    error={Boolean(
-                                        errors?.agreementDescription
-                                    )}
+                                    error={Boolean(errors?.agreementContent)}
                                     helperText={
-                                        (errors?.agreementDescription
+                                        (errors?.agreementContent
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
@@ -238,6 +224,7 @@ export default function AddAgreementModal({
                                     {t("Agreement Budget")}
                                 </StyledTitle>
                                 <StyledTextField
+                                    disabled={isPending}
                                     type="number"
                                     label={t("Agreement Budget")}
                                     {...register("agreementBudget")}
@@ -260,6 +247,7 @@ export default function AddAgreementModal({
                                     {t("Parties to the Agreement")}
                                 </StyledTitle>
                                 <StyledTextField
+                                    disabled={isPending}
                                     type="text"
                                     label={t("Parties to the Agreement")}
                                     {...register("agreementParties")}
@@ -271,6 +259,7 @@ export default function AddAgreementModal({
                                     {t("Agreement Start Date")}
                                 </StyledTitle>
                                 <StyledDatePicker
+                                    disabled={isPending}
                                     format="dd/MM/yyyy"
                                     onChange={(date: any) => {
                                         setValue("agreementStartDate", date);
@@ -292,6 +281,7 @@ export default function AddAgreementModal({
                                     {t("Agreement End Date")}
                                 </StyledTitle>
                                 <StyledDatePicker
+                                    disabled={isPending}
                                     format="dd/MM/yyyy"
                                     onChange={(date: any) => {
                                         setValue("agreementEndDate", date);
@@ -319,6 +309,7 @@ export default function AddAgreementModal({
 
                         <StyledButtonContainer>
                             <Button
+                                disabled={isPending}
                                 sx={{
                                     backgroundColor: "var(--color-grey-800)",
                                     color: "var(--color-grey-50)",
@@ -342,6 +333,7 @@ export default function AddAgreementModal({
                                 {t("Complate Agreement")}
                             </Button>
                             <Button
+                                disabled={isPending}
                                 onClick={onCloseModal}
                                 sx={{
                                     color: "var(--color-grey-800)",
