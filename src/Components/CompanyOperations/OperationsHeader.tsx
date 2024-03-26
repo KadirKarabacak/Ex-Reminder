@@ -10,6 +10,13 @@ const StyledToolBar = styled(Toolbar)`
     border-top-right-radius: 5px;
 `;
 
+const StyledSpan = styled.span`
+    color: var(--color-green-new);
+    font-size: 3.5rem;
+    border-left: 2px solid var(--color-grey-500);
+    padding-left: 8px;
+`;
+
 export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
     const { t } = useTranslation();
     const navigate = useNavigate();
@@ -39,10 +46,7 @@ export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
                     component="div"
                 >
                     {t("Operations")}{" "}
-                    <span style={{ color: "var(--color-green-new)" }}>
-                        {" "}
-                        {currentCompany?.companyName}
-                    </span>
+                    <StyledSpan> {currentCompany?.companyName}</StyledSpan>
                 </Typography>
                 <Button
                     onClick={handleOpenAgreement}
