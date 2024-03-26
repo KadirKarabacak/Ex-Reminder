@@ -20,7 +20,7 @@ const StyledSidebar = styled.aside`
 
 const StyledNavLink = styled(NavLink)`
     text-decoration: none;
-    color: var(--color-grey-600);
+    color: var(--color-grey-500);
     font-size: 2rem;
     padding: 1rem 0;
     transition: all 0.3s;
@@ -39,7 +39,7 @@ const StyledNavLink = styled(NavLink)`
     &.active:link,
     &.active:visited {
         transform: translateY(-3px);
-        color: var(--color-brand-500);
+        color: var(--color-grey-900);
         background-color: var(--color-grey-50);
         border-left: 3px solid var(--color-grey-800);
         border-top-right-radius: var(--border-radius-tiny);
