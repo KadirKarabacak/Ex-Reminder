@@ -71,6 +71,12 @@ const StyledTitle = styled.h4`
 
 const StyledTelInput = styled(MuiTelInput)`
     width: 100%;
+
+    & label {
+        color: var(--color-grey-400);
+        font-size: 1.2rem;
+    }
+
     & > div {
         color: var(--color-grey-800);
         font-size: 1.3rem;
@@ -205,7 +211,8 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Company Phone")}</StyledTitle>
                                 <StyledTelInput
-                                    preferredCountries={["TR", "GB"]}
+                                    label={t("Company Phone")}
+                                    preferredCountries={["TR", "GB", "US"]}
                                     defaultCountry={
                                         currentLanguage === "tr-TR"
                                             ? "TR"
@@ -261,7 +268,8 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Manager Phone")}</StyledTitle>
                                 <StyledTelInput
-                                    preferredCountries={["TR", "GB"]}
+                                    label={t("Manager Phone")}
+                                    preferredCountries={["TR", "GB", "US"]}
                                     defaultCountry={
                                         currentLanguage === "tr-TR"
                                             ? "TR"
