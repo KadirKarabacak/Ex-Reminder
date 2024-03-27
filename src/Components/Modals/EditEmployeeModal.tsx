@@ -83,6 +83,12 @@ const StyledTitle = styled.h4`
 
 const StyledDatePicker = styled(DatePicker)`
     width: 100%;
+    background-color: var(--color-grey-200);
+
+    & label {
+        color: var(--color-grey-400);
+        font-size: 1.3rem;
+    }
 
     & > div {
         color: var(--color-grey-800);
@@ -324,6 +330,8 @@ export default function EditEmployeeModal({
                                     slotProps={{
                                         textField: {
                                             helperText: errorMessage,
+                                            variant: "filled",
+                                            label: t("Hire Date"),
                                         },
                                     }}
                                     minDate={minDate}
