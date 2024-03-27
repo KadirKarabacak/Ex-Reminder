@@ -95,7 +95,7 @@ export default function Agreements({
             >
                 <StyledTitle>{t(`Agreement Content`)}</StyledTitle>
                 <StyledDescription>
-                    {agreement?.agreementContent || t("Not Spesified")}
+                    {agreement?.agreementContent || t("Not spesified")}
                 </StyledDescription>
             </Grid>
             <Grid
@@ -108,7 +108,7 @@ export default function Agreements({
             >
                 <StyledTitle>{t(`Agreement Budget`)}</StyledTitle>
                 <StyledDescription>
-                    {agreement?.agreementBudget || t("Not Spesified")}
+                    {agreement?.agreementBudget || t("Not spesified")}
                 </StyledDescription>
             </Grid>
             <Grid
@@ -122,7 +122,7 @@ export default function Agreements({
             >
                 <StyledTitle>{t(`Agreement Parties`)}</StyledTitle>
                 <StyledDescription>
-                    {agreement?.agreementParties || t("Not Spesified")}
+                    {agreement?.agreementParties || t("Not spesified")}
                 </StyledDescription>
             </Grid>
             <Grid
@@ -136,7 +136,7 @@ export default function Agreements({
             >
                 <StyledTitle>{t(`Agreement Start Date`)}</StyledTitle>
                 <StyledDescription>
-                    {agreement?.agreementStartDate || t("Not Spesified")}
+                    {agreement?.agreementStartDate || t("Not spesified")}
                 </StyledDescription>
             </Grid>
             <Grid
@@ -149,7 +149,7 @@ export default function Agreements({
             >
                 <StyledTitle>{t(`Agreement End Date`)}</StyledTitle>
                 <StyledDescription>
-                    {agreement?.agreementEndDate || t("Not Spesified")}
+                    {agreement?.agreementEndDate || t("Not spesified")}
                 </StyledDescription>
             </Grid>
             <Grid
@@ -164,7 +164,7 @@ export default function Agreements({
                 <StyledTitle>{t(`Agreement Remaining Time`)}</StyledTitle>
                 <StyledDescription>
                     {remainingTime(agreement.agreementEndDate) ||
-                        t("Not Spesified")}
+                        t("Not spesified")}
                 </StyledDescription>
             </Grid>
             <Grid
