@@ -83,11 +83,10 @@ export default function ConfidentialityAgreementModal({
                             component="p"
                         >
                             <StyledSpan>{t("Gizlilik Sözleşmesi")}</StyledSpan>
-                            {t(`Bu gizlilik sözleşmesi ("Sözleşme"), [Şirket Adı]
-                            ("Şirket") tarafından işletilen ve [Uygulama Adı]
-                            ("Uygulama") adlı web sitesi veya mobil uygulama
+                            {t(`Bu gizlilik sözleşmesi,
+                            "Ex Software & Development" tarafından işletilen ve "Ex Reminder" adlı web sitesi veya mobil uygulama
                             üzerinden sağlanan hizmetlerle ilgili olarak
-                            kullanıcılarımızın ("Kullanıcılar") gizliliğini
+                            kullanıcılarımızın gizliliğini
                             korumak için oluşturulmuştur. Bu Sözleşme, Uygulama
                             kullanımıyla ilgili olarak kullanıcılarımızın
                             kişisel bilgilerinin nasıl toplandığını,
