@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { OperationsHeader } from "../Components/CompanyOperations/OperationsHeader";
 import AnimatedPage from "../Components/AnimatedPage";
 import OperationsBody from "../Components/CompanyOperations/OperationsBody";
+import { useState } from "react";
 
 const StyledCompany = styled.main`
     width: 100%;
@@ -51,6 +52,7 @@ export default function Companies() {
     const animationProps = useSpring(springOptions);
     const { t } = useTranslation();
     const { data, isLoading } = useGetCompanies();
+    const [searchText, setSearchText] = useState("");
     const params = useParams();
     const { companyId } = params;
 
@@ -87,8 +89,14 @@ export default function Companies() {
                 </Helmet>
                 <AnimatedPage>
                     <CustomTable
-                        CustomToolbar={<CompaniesToolBar />}
+                        CustomToolbar={
+                            <CompaniesToolBar
+                                searchText={searchText}
+                                setSearchText={setSearchText}
+                            />
+                        }
                         data={data}
+                        searchText={searchText}
                     />
                 </AnimatedPage>
             </AnimatedStyledCompany>

@@ -10,6 +10,7 @@ import EmployeeStats from "../Components/EmployeeStats";
 
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const StyledEmployees = styled.main`
     width: 100%;
@@ -42,6 +43,7 @@ const AnimatedStyledEmployees = animated(StyledEmployees);
 export default function Employees() {
     const animationProps = useSpring(springOptions);
     const { data, isLoading } = useGetEmployees();
+    const [searchText, setSearchText] = useState("");
 
     const { t } = useTranslation();
 
@@ -57,7 +59,16 @@ export default function Employees() {
             <Helmet>
                 <title>Ex Reminder | {t("Employees")}</title>
             </Helmet>
-            <CustomTable CustomToolbar={<EmployeeToolBar />} data={data} />
+            <CustomTable
+                CustomToolbar={
+                    <EmployeeToolBar
+                        setSearchText={setSearchText}
+                        searchText={searchText}
+                    />
+                }
+                data={data}
+                searchText={searchText}
+            />
             <InformationContainer>
                 <CustomPieChart data={data} />
                 <EmployeeStats data={data} />

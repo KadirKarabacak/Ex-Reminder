@@ -7,6 +7,7 @@ import { WarehouseToolBar } from "../Components/TableToolBars/WarehouseBar";
 import { InfinitySpin } from "react-loader-spinner";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
 
 const StyledContact = styled.main`
     width: 100%;
@@ -33,7 +34,7 @@ const AnimatedStyledContact = animated(StyledContact);
 export default function Warehouse() {
     const animationProps = useSpring(springOptions);
     const { t } = useTranslation();
-
+    const [searchText, setSearchText] = useState("");
     const { data, isLoading } = useGetWarehouse();
 
     if (isLoading)
@@ -48,7 +49,16 @@ export default function Warehouse() {
             <Helmet>
                 <title>Ex Reminder | {t("Warehouse")}</title>
             </Helmet>
-            <CustomTable data={data} CustomToolbar={<WarehouseToolBar />} />
+            <CustomTable
+                data={data}
+                CustomToolbar={
+                    <WarehouseToolBar
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                    />
+                }
+                searchText={searchText}
+            />
         </AnimatedStyledContact>
     );
 }
