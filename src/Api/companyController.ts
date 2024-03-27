@@ -205,7 +205,6 @@ const updateAgreement = async function ({
     id,
     userId,
 }: UpdateAgreementTypes) {
-    console.log(id);
     const ref = doc(
         db,
         `users/${userId}/companies/${companyId}/agreements`,
