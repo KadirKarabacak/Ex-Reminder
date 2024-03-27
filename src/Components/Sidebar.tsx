@@ -67,7 +67,6 @@ function Sidebar() {
     const { t } = useTranslation();
     return (
         <StyledSidebar>
-            {/* <StyledImg src="../../logo-here.png" /> */}
             <StyledImg
                 src="../../EX_REMINDER-green.png"
                 alt="Ex_REMINDER logo"
