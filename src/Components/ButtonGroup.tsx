@@ -66,7 +66,6 @@ const StyledMenu = styled((props: MenuProps) => (
 export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
     const [searchParams, setSearchParams] = useSearchParams();
-
     const open = Boolean(anchorEl);
     const navigate = useNavigate();
     const { t } = useTranslation();
@@ -83,7 +82,6 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
 
     // Companies
     const [opensEditCompany, setOpensEditCompany] = React.useState(false);
-    // const [opensDetailCompany, setOpensDetailCompany] = React.useState(false);
     const [opensDeleteCompany, setOpensDeleteCompany] = React.useState(false);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -93,7 +91,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setAnchorEl(null);
     };
 
-    // Employees
+    //! Employees
     const handleOpenEditModal = () => {
         setOpens(true);
         handleClose();
@@ -128,7 +126,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         }, 500);
     };
 
-    // Warehouses
+    //! Warehouses
     const handleOpenEditItemModal = () => {
         setOpensEditItem(true);
         handleClose();
@@ -163,16 +161,13 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         }, 500);
     };
 
-    // Companies
+    //! Companies
     const handleOpenEditCompanyModal = () => {
         setOpensEditCompany(true);
         handleClose();
         setSearchParams("edit-company");
     };
-    // const handleOpenDetailCompanyModal = () => {
-    //     setOpensDetailCompany(true);
-    //     handleClose();
-    // };
+
     const handleOpenDeleteCompanyModal = () => {
         setOpensDeleteCompany(true);
         handleClose();
@@ -184,7 +179,6 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             setSearchParams("");
         }, 500);
     };
-    // const handleCloseDetailCompanyModal = () => setOpensDetailCompany(false);
     const handleCloseDeleteCompanyModal = () => {
         setOpensDeleteCompany(false);
         setTimeout(() => {
