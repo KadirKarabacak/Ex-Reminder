@@ -2,7 +2,7 @@ import { Button, Checkbox, Paper, TextField } from "@mui/material";
 import Heading from "../Heading";
 import { useForm } from "react-hook-form";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { createUserWithEmailAndPasswordQuery } from "../../Api/userController";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -108,9 +108,18 @@ export default function RegisterForm() {
     const { errors, isSubmitting } = formState;
     const navigate = useNavigate();
     const currentLanguage = i18n.language;
+    const [searchParams, setSearchParams] = useSearchParams();
 
-    const handleOpen = () => setOpen(true);
-    const handleClose = () => setOpen(false);
+    const handleOpen = () => {
+        setOpen(true);
+        setSearchParams("privacy-policy");
+    };
+    const handleClose = () => {
+        setOpen(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
 
     async function onSubmit() {
         const { email, password } = getValues();
@@ -327,7 +336,7 @@ export default function RegisterForm() {
                     </StyledButtonContainer>
                 </Paper>
             </form>
-            {open && (
+            {searchParams.has("privacy-policy") && (
                 <ConfidentialityAgreementModal
                     open={open}
                     handleClose={handleClose}
