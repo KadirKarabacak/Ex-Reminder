@@ -1,6 +1,4 @@
 # `TODO:`
-01- ❌ After updated user, navigate to Home page *[ It doesnt update avatar ]*
-02- use MUI table for homepage
 03- ✅ Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
 04- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
 05- ✅ Add forgot password to the login page and send reset password email // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#send_a_password_reset_email
@@ -13,12 +11,11 @@
 12- ✅ For every row in the table add vertical button menu fo CRUD // import MoreVertIcon from '@mui/icons-material/MoreVert';
 13- ✅ Add notifications button to the header
 14- ✅ Add change language feature into application interface somewhere in settings route or header
-15- Translate homepage features
 16- 🟡 Fix employees sort feature // Components\TableHeads\EmployeeTableHead.tsx // Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
 17- ✅ Make tables Toolbars reusable
 18- ✅ Implement add employee feature by modal and form submit 
 19- ✅ fix datepicker error
-20- Before data reach, show spinner on employees route
+20- ✅ Before data reach, show spinner on employees route
 21- ✅ Try to get employee id's from getEmployees to able to update each employee
 22- There is a bug on closing edit employee modal, fix animation
 23- ✅ Add deleting employee feature with modal like delete user
@@ -34,8 +31,12 @@
 34- On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
 35- On reset password form, if the email doesnt exist user trying to reset the password, display error "The email does not exist"
 36- On deployed version .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused this class is changing and labels in textfields still blue not brand-500, fix it with more spesific way
-37- On the browser tab, add current route's name in the title like "Ex Reminder | Login"
- 
+37- ✅ On the browser tab, add current route's name in the title like "Ex Reminder | Login"
+38- ✅ On add company modal, change phones as --> https://github.com/viclafouch/mui-tel-input
+39- On companies page Manager Name is not sortable because of nested object, try to fix.
+40- ✅ On companies page on edit situation phone numbers doesnt fill input fields as default value, try to fix.
+41- ✅ On edit agreement in edit modal Budget comes wrong, formatCurrency doesnt work true for bigger moneys
+
 ### FEATURES ###
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
@@ -55,3 +56,4 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 # Depo / Stoklar ✅
 Şirketin mevcut ürün listesi - sayıları - fiyatlandırması - sipariş verme - [ Sipariş verme yetkisi belirli kullanıcılarda olmalıdır ]
 [ Ürün adı, ürün adedi, ürün alış fiyatı, ürün satış fiyatı, ürün açıklaması, ürün id ]
+
