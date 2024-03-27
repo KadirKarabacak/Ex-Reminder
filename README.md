@@ -22,6 +22,7 @@ This project is a project that I started to create in order to use all my experi
 -   Date-fns
 -   jsPDF
 -   react-csv
+-   Framer-motion
 
 <p align="left"> 
 <img src="https://techstack-generator.vercel.app/react-icon.svg" alt="icon" width="45" height="45" />
@@ -82,6 +83,16 @@ This project is a project that I started to create in order to use all my experi
 -   I created data entries such as item name, amount, purchase price, sale price and item description.
 -   I placed an update button at the end of each row where each item is located in the table to update the added items and correct or complete any incorrect or missing information. Through these buttons, I directed the user to the item update modal and automatically filled the fields to be filled in the modal with the existing information entered for the selected item.
 
+## `Companies`
+
+-   I created a table structure and route where the user or the company can keep the records of the companies and companies that the user or the company does business with. I created a button in the toolbar section of this table to add new companies and through this button I directed the user to the modal window where they can enter the information of the company they want to add.
+-   As in my other tables, I created a button group for each company in the last cell of the table row. I created modal windows where they can edit and delete the data of each added company.
+-   At the same time, unlike my other tables, I created an operations page for each company in the companies route. On the operations page, I created all the detailed information about the company as well as a button to add new agreements for an agreement to be made with the company. I placed each added agreement at the bottom of the operations page and created an edit and delete properties for each agreement.
+
+## `Filtering`
+
+-   I created an input field in the toolbar of each of my tables and through this input, I enabled the user to search and filter the data by the name of the content in the table.
+
 ## `English & Turkish Language Support`
 
 -   I handled all the fields in my project with the useTranslation hook provided by **i18next** and provided English - Turkish language support for all of them. I enabled the user to change the language at any time, either just before logging in on the login page or by accessing the header section throughout the application.
@@ -113,6 +124,7 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 -   Date-fns
 -   jsPDF
 -   react-csv
+-   Framer-motion
 
 ## `Giriş [ Kimlik Doğrulama & Yetkilendirme ]`
 
@@ -161,6 +173,16 @@ Bu projem şu ana kadar öğrendiğim tüm tecrübelerimi kullanmak, bilgilerime
 -   Kullanıcılara, depolarına yeni bir malzeme ekleme için tablomun Toolbar kısmında bir Malzeme Ekle butonu oluşturdum ve kullanıcıyı malzeme bilgilerini girebileceği modal yapısına yönlendirdim.
 -   Malzeme ismi, miktar, alış fiyatı, satış fiyatı, ve malzeme açıklaması gibi veri girişleri oluşturdum.
 -   Eklenmiş malzemeleri güncelleyebilmek ve varsa yanlış yada eksik girilen bilgilerin düzeltilmesi veya tamamlanması için tabloda her malzemenin bulunduğu satır sonuna bir güncelleme butonu yerleştirdim. Kullanıcıyı bu butonlar aracılığı ile malzeme güncelleme modalına yönlendirdim ve modal içerisinde doldurulacak alanları seçilen malzeme için girilmiş mevcut bilgiler ile otomatik olarak doldurdum.
+
+## `Şirketler`
+
+-   Kullanıcının veya şirketin birlikte iş yaptığı firma ve şirketlerin kayıtlarını tutabileceği bir tablo yapısı ve route'ı oluşturdum. Bu tablonun toolbar kısmına yeni şirket ekleyebilmek için bir buton oluşturdum ve bu buton aracılığı ile kullanıcıyı eklemek istedikleri firmanın bilgilerini girebilecekleri modal penceresine yönlendirdim.
+-   Diğer tablolarımda da olduğu gibi her şirket için tablo satırının son hücresinde bir buton grubu oluşturdum. Eklenmiş her bir şirketin verilerini düzenleyebilecekleri, silebilecekleri modal penceleri oluşturdum.
+-   Aynı zamanda diğer tablolarımdan farklı olarak şirketler route'ında her bir şirket için bir operations sayfası oluşturdum. Operations sayfasında şirket hakkındaki tüm detaylı bilgilerin yanısıra şirket ile yapılacak bir anlaşma için yeni anlaşmalar ekleyebilecekleri bir buton oluşturdum. Eklenen herbir anlaşmayı operations sayfasının alt kısmına yerleştirdim ve herbir anlaşma için bir düzenleme ve silme özellikleri oluşturdum.
+
+## `Filtreleme`
+
+-   Her bir tablomun toolbar kısmına bir input alanı oluşturdum ve bu input vasıtasıyla kullanıcının tablo içerisinde içeriğin ismine göre arama yapabilmesine ve verilerini filtreleyebilmesine olanak sağladım.
 
 ## `İngilizce & Türkçe Dil Desteği`
 
