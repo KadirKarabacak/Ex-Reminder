@@ -48,6 +48,7 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
         return employee.job_title;
     });
 
+    //! Make unique job titles
     function transformData(arr: string[] | undefined) {
         const counts = arr?.reduce((acc: any, curr) => {
             if (acc[curr]) {
