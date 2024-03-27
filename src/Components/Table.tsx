@@ -75,9 +75,11 @@ const StyledParagraph = styled.span`
 export default function CustomTable({
     CustomToolbar,
     data,
+    searchText,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
+    searchText: string;
 }) {
     const { pathname } = useLocation();
     const [order, setOrder] = React.useState<Order>("asc");
@@ -93,6 +95,7 @@ export default function CustomTable({
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
+    const [filteredData, setFilteredData] = React.useState(data || []);
     const { t } = useTranslation();
 
     const handleRequestSort = (
@@ -147,13 +150,43 @@ export default function CustomTable({
 
     const isSelected = (id: number) => selected.indexOf(id) !== -1;
 
+    React.useEffect(() => {
+        if (data) setFilteredData(data);
+    }, [data]);
+
+    React.useEffect(() => {
+        if (searchText && pathname === "/employees")
+            setFilteredData(
+                data.filter((el: any) =>
+                    el.full_name
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase())
+                )
+            );
+        if (searchText && pathname === "/warehouse")
+            setFilteredData(
+                data.filter((el: any) =>
+                    el.itemName.toLowerCase().includes(searchText.toLowerCase())
+                )
+            );
+        if (searchText && pathname === "/companies")
+            setFilteredData(
+                data.filter((el: any) =>
+                    el.companyName
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase())
+                )
+            );
+        if (!searchText.length) setFilteredData(data);
+    }, [searchText, pathname]);
+
     const visibleRows = React.useMemo(
         () =>
-            stableSort(data || [], getComparator(order, orderBy)).slice(
+            stableSort(filteredData || [], getComparator(order, orderBy)).slice(
                 page * rowsPerPage,
                 page * rowsPerPage + rowsPerPage
             ),
-        [order, orderBy, page, rowsPerPage, data]
+        [order, orderBy, page, rowsPerPage, filteredData]
     );
 
     return (
@@ -193,7 +226,7 @@ export default function CustomTable({
                                 orderBy={orderBy}
                                 onSelectAllClick={handleSelectAllClick}
                                 onRequestSort={handleRequestSort}
-                                rowCount={data?.length || 0}
+                                rowCount={filteredData?.length || 0}
                             />
                         )}
                         {pathname === "/warehouse" && (
@@ -203,7 +236,7 @@ export default function CustomTable({
                                 orderBy={orderBy}
                                 onSelectAllClick={handleSelectAllClick}
                                 onRequestSort={handleRequestSort}
-                                rowCount={data?.length || 0}
+                                rowCount={filteredData?.length || 0}
                             />
                         )}
                         {pathname === "/companies" && (
@@ -213,7 +246,7 @@ export default function CustomTable({
                                 orderBy={orderBy}
                                 onSelectAllClick={handleSelectAllClick}
                                 onRequestSort={handleRequestSort}
-                                rowCount={data?.length || 0}
+                                rowCount={filteredData?.length || 0}
                             />
                         )}
                         <TableBody>
@@ -271,7 +304,7 @@ export default function CustomTable({
                 <TablePagination
                     rowsPerPageOptions={[10, 25, 50]}
                     component="div"
-                    count={data?.length || 0}
+                    count={filteredData?.length || 0}
                     rowsPerPage={rowsPerPage}
                     page={page}
                     onPageChange={handleChangePage}
