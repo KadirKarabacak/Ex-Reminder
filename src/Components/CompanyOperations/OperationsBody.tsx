@@ -95,7 +95,7 @@ export default function OperationsBody({
                 >
                     <StyledTitle>{t("Company Name")}</StyledTitle>
                     <StyledDescription>
-                        {currentCompany?.companyName || t("Not Spesified")}
+                        {currentCompany?.companyName || t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -108,7 +108,7 @@ export default function OperationsBody({
                 >
                     <StyledTitle>{t("Company Address")}</StyledTitle>
                     <StyledDescription>
-                        {currentCompany?.companyAddress || t("Not Spesified")}
+                        {currentCompany?.companyAddress || t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -122,7 +122,7 @@ export default function OperationsBody({
                 >
                     <StyledTitle>{t("Company Email")}</StyledTitle>
                     <StyledDescription>
-                        {currentCompany?.companyEmail || t("Not Spesified")}
+                        {currentCompany?.companyEmail || t("Not spesified")}
                     </StyledDescription>
                 </Grid>
 
@@ -136,7 +136,7 @@ export default function OperationsBody({
                 >
                     <StyledTitle>{t("Company Phone")}</StyledTitle>
                     <StyledDescription>
-                        {currentCompany?.companyPhone || t("Not Spesified")}
+                        {currentCompany?.companyPhone || t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -149,7 +149,7 @@ export default function OperationsBody({
                 >
                     <StyledTitle>{t("Company Create Date")}</StyledTitle>
                     <StyledDescription>
-                        {currentCompany?.createdAt || t("Not Spesified")}
+                        {currentCompany?.createdAt || t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -162,7 +162,7 @@ export default function OperationsBody({
                 >
                     <StyledTitle>{t("Company Website")}</StyledTitle>
                     <StyledDescription>
-                        {currentCompany?.companyWebsite || t("Not Spesified")}
+                        {currentCompany?.companyWebsite || t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -178,7 +178,7 @@ export default function OperationsBody({
                     <StyledTitle>{t("Manager Name")}</StyledTitle>
                     <StyledDescription>
                         {currentCompany?.companyManager?.managerName ||
-                            t("Not Spesified")}
+                            t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -192,7 +192,7 @@ export default function OperationsBody({
                     <StyledTitle>{t("Manager Phone")}</StyledTitle>
                     <StyledDescription>
                         {currentCompany?.companyManager?.managerPhone ||
-                            t("Not Spesified")}
+                            t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
@@ -208,7 +208,7 @@ export default function OperationsBody({
                     <StyledTitle>{t("Manager Email")}</StyledTitle>
                     <StyledDescription>
                         {currentCompany?.companyManager?.managerEmail ||
-                            t("Not Spesified")}
+                            t("Not spesified")}
                     </StyledDescription>
                 </Grid>
                 <Grid
