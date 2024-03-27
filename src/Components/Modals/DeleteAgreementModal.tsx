@@ -93,9 +93,7 @@ export default function DeleteAgreementModal({
                             id="transition-modal-description"
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                         >
-                            {t(
-                                "Deleted companies also lose their 'Agreements' and"
-                            )}{" "}
+                            {t("Deleted agreements")}{" "}
                             <strong>{t("cannot be brought back")}</strong>
                             {t(", are you sure you want to delete")}
                             <StyledSpan>
