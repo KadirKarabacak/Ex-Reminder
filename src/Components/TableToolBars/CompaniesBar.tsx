@@ -1,4 +1,4 @@
-import { Button, Toolbar, Typography } from "@mui/material";
+import { Button, TextField, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import styled from "styled-components";
@@ -9,7 +9,39 @@ const StyledToolBar = styled(Toolbar)`
     border-top-right-radius: 5px;
 `;
 
-export function CompaniesToolBar() {
+const StyledTextField = styled(TextField)`
+    width: 20%;
+    & div + p {
+        font-size: 1rem;
+    }
+    & label {
+        color: var(--color-grey-400);
+        font-size: 1.2rem;
+    }
+    & div > input {
+        color: var(--color-grey-800);
+        font-size: 1.3rem;
+        padding: 1.3rem;
+
+        &:disabled {
+            background-color: var(--color-grey-300);
+        }
+    }
+    & div > fieldset {
+        border-color: var(--color-grey-500);
+    }
+    &:hover > div > fieldset {
+        border-color: var(--color-brand-600) !important;
+    }
+`;
+
+export function CompaniesToolBar({
+    searchText,
+    setSearchText,
+}: {
+    searchText: any;
+    setSearchText: any;
+}) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -36,6 +68,11 @@ export function CompaniesToolBar() {
                 >
                     {t("Companies")}
                 </Typography>
+                <StyledTextField
+                    value={searchText}
+                    onChange={e => setSearchText(e.target.value)}
+                    placeholder="Search Company by Name"
+                />
                 <Button
                     onClick={handleOpen}
                     sx={{

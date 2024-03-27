@@ -1,9 +1,42 @@
-import { Button, Toolbar, Typography } from "@mui/material";
+import { Button, TextField, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import AddItemModal from "../Modals/AddItemModal";
+import styled from "styled-components";
 
-export function WarehouseToolBar() {
+const StyledTextField = styled(TextField)`
+    width: 20%;
+    & div + p {
+        font-size: 1rem;
+    }
+    & label {
+        color: var(--color-grey-400);
+        font-size: 1.2rem;
+    }
+    & div > input {
+        color: var(--color-grey-800);
+        font-size: 1.3rem;
+        padding: 1.3rem;
+
+        &:disabled {
+            background-color: var(--color-grey-300);
+        }
+    }
+    & div > fieldset {
+        border-color: var(--color-grey-500);
+    }
+    &:hover > div > fieldset {
+        border-color: var(--color-brand-600) !important;
+    }
+`;
+
+export function WarehouseToolBar({
+    searchText,
+    setSearchText,
+}: {
+    searchText: any;
+    setSearchText: any;
+}) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
@@ -15,7 +48,7 @@ export function WarehouseToolBar() {
                 sx={{
                     pl: { sm: 3 },
                     pr: { xs: 1, sm: 2 },
-                    gap: "1rem",
+                    gap: "1.5rem",
                 }}
             >
                 <Typography
@@ -30,6 +63,11 @@ export function WarehouseToolBar() {
                 >
                     {t("Warehouses")}
                 </Typography>
+                <StyledTextField
+                    value={searchText}
+                    onChange={e => setSearchText(e.target.value)}
+                    placeholder="Search Item by Name"
+                />
                 <Button
                     onClick={handleOpen}
                     sx={{
