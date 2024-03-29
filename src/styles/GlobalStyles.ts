@@ -146,6 +146,7 @@ button {
 
 *:disabled {
   cursor: not-allowed;
+  
 }
 
 input:disabled, label:disabled {
@@ -154,11 +155,11 @@ input:disabled, label:disabled {
 }
 
 
-textarea:focus,
+/* textarea:focus,
 select:focus {
   outline: 2px solid var(--color-brand-600);
   outline-offset: -1px;
-}
+} */
 
 /* Parent selector, finally 😃 */
 button:has(svg) {
@@ -225,11 +226,19 @@ svg{
   color: var(--color-brand-500)!important;
 }
 
+.css-1eq3xk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused {
+  color: var(--color-brand-500)!important;
+}
+
+
 .Mui-disabled{
   background-color: var(--color-grey-200)!important;
   color: var(--color-grey-400)!important;
   cursor: not-allowed;
+  -webkit-text-fill-color: var(--color-grey-400)!important;
 }
+
+
 
 .MuiPickersArrowSwitcher-root .MuiButtonBase-root .MuiSvgIcon-root{
   color: #101010!important;
@@ -237,6 +246,14 @@ svg{
 
 .MuiPickersCalendarHeader-labelContainer .MuiButtonBase-root svg{
   color: #101010!important;
+}
+
+.MuiOutlinedInput-notchedOutline{
+  border-color: var(--color-grey-500)!important;
+}
+
+.MuiPaper-root .MuiList-root .MuiMenuItem-root{
+  font-size: 1.2rem!important;
 }
 
 `;
