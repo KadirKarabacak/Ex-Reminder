@@ -15,6 +15,7 @@ import {
     Companies,
     DeleteAgreementTypes,
     DeleteCompanyTypes,
+    Sales,
     UpdateAgreementTypes,
     UpdateCompanyTypes,
 } from "../Interfaces/User";
@@ -274,3 +275,66 @@ export const useDeleteAgreement = function () {
     });
     return { mutateAsync, isPending };
 };
+
+//! Add Sale to Company
+const addSale = async function (
+    sale: object,
+    selectedCompany: string | undefined,
+    userId: string | undefined
+) {
+    await addDoc(
+        collection(db, `users/${userId}/companies/${selectedCompany}/sales`),
+        sale
+    );
+    await addDoc(collection(db, `users/${userId}/accounting`), sale);
+};
+
+//! Add Sale to Company Query
+export const useAddSale = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (data: {
+            sale: object;
+            selectedCompany: string | undefined;
+        }) => addSale(data.sale, data.selectedCompany, auth?.currentUser?.uid),
+        onSuccess: () => {
+            toast.success(i18n.t("New Sale added successfully"));
+            queryClient.invalidateQueries({ queryKey: ["sales"] });
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("There was an error adding the Sale"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
+
+//! Get Sales by companyId
+const getSales = async (
+    userId: string | undefined,
+    companyId: string | undefined
+) => {
+    const querySnapShot = await getDocs(
+        collection(db, `users/${userId}/companies/${companyId}/sales`)
+    );
+
+    const sales: Sales[] = [];
+    querySnapShot.forEach(doc => {
+        const saleData = doc.data() as Sales;
+        sales.push({
+            ...saleData,
+            id: doc.id,
+        });
+    });
+
+    return sales;
+};
+
+//! Get Sales by companyId Query
+export function useGetSales(companyId: string) {
+    const { data, isLoading } = useQuery({
+        queryKey: ["companies"],
+        queryFn: () => getSales(auth?.currentUser?.uid, companyId),
+    });
+    return { data, isLoading };
+}
