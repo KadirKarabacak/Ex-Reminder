@@ -59,9 +59,10 @@ export function EmployeeToolBar({
                 <Typography
                     sx={{
                         marginRight: "auto",
-                        color: "var(--color-indigo-700)",
-                        fontSize: "2rem",
+                        color: "var(--color-green-lighter)",
+                        fontSize: "2.4rem",
                         fontWeight: "bold",
+                        borderBottom: "3px solid var(--color-green-new)",
                     }}
                     variant="subtitle1"
                     component="div"
