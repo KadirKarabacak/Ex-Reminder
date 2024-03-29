@@ -15,6 +15,8 @@ import WarehouseTableRow from "./TableRows/WarehouseTableRow";
 import { CompanyTableHead } from "./TableHeads/CompanyTableHead";
 import CompanyTableRow from "./TableRows/CompanyTableRow";
 import { useLocation } from "react-router-dom";
+import { SalesTableHead } from "./TableHeads/SalesTableHead";
+import SalesTableRow from "./TableRows/SalesTableRow";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -249,6 +251,16 @@ export default function CustomTable({
                                 rowCount={filteredData?.length || 0}
                             />
                         )}
+                        {pathname.includes("/companies/") && (
+                            <SalesTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={filteredData?.length || 0}
+                            />
+                        )}
                         <TableBody>
                             {pathname === "/employees" &&
                                 visibleRows?.map((row, index) => {
@@ -289,6 +301,22 @@ export default function CustomTable({
 
                                     return (
                                         <CompanyTableRow
+                                            isItemSelected={isItemSelected}
+                                            handleClick={handleClick}
+                                            key={index}
+                                            index={index}
+                                            labelId={labelId}
+                                            row={row}
+                                        />
+                                    );
+                                })}
+                            {pathname.includes("/companies/") &&
+                                visibleRows?.map((row, index) => {
+                                    const isItemSelected = isSelected(index);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+
+                                    return (
+                                        <SalesTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
