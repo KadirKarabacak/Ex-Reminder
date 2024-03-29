@@ -11,13 +11,13 @@
 12- ✅ For every row in the table add vertical button menu fo CRUD // import MoreVertIcon from '@mui/icons-material/MoreVert';
 13- ✅ Add notifications button to the header
 14- ✅ Add change language feature into application interface somewhere in settings route or header
-16- 🟡 Fix employees sort feature // Components\TableHeads\EmployeeTableHead.tsx // Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
+16- ✅ Fix employees sort feature // Components\TableHeads\EmployeeTableHead.tsx // Türkçeye geçtiğinde orderBy "full_name" gelirken col "isim" geliyor ve sortlama direction'u düzgün çalışmıyor
 17- ✅ Make tables Toolbars reusable
 18- ✅ Implement add employee feature by modal and form submit 
 19- ✅ fix datepicker error
 20- ✅ Before data reach, show spinner on employees route
 21- ✅ Try to get employee id's from getEmployees to able to update each employee
-22- There is a bug on closing edit employee modal, fix animation
+22- ✅ There is a bug on closing edit employee modal, fix animation
 23- ✅ Add deleting employee feature with modal like delete user
 25- ✅ Check add employe date feature and compare with edit, add new feature if needed
 26- ✅ Control edit employee with empty date
@@ -29,20 +29,26 @@
 32- ✅ On employees page, below the table add total salaries, average salary, average age, add how many Game Developer is there like [ Game Developer x3 ], Add a pie chart for that
 33- ✅ Make Warehouse table sortable
 34- On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
-35- On reset password form, if the email doesnt exist user trying to reset the password, display error "The email does not exist"
+35- ❌ On reset password form, if the email doesnt exist user trying to reset the password, display error "The email does not exist" (Can't complate cuz before authenticated can't access users)
 36- On deployed version .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused this class is changing and labels in textfields still blue not brand-500, fix it with more spesific way
 37- ✅ On the browser tab, add current route's name in the title like "Ex Reminder | Login"
 38- ✅ On add company modal, change phones as --> https://github.com/viclafouch/mui-tel-input
 39- On companies page Manager Name is not sortable because of nested object, try to fix.
 40- ✅ On companies page on edit situation phone numbers doesnt fill input fields as default value, try to fix.
 41- ✅ On edit agreement in edit modal Budget comes wrong, formatCurrency doesnt work true for bigger moneys
+42- ✅ On companies add "Make Sale" button to buttongroup. In this modal, check items and companies. Only sell if the item and company is exist. After the sell is happen, drop that info to Accounting page. Satışlar hem "accounting" route'una eklenecek, hemde satış yapılan company'nin altındaki "sales" route'una
+43- Also add "Add Agreement" button in buttongroup too.
+44- In add Company modal the text field which contains address, make it opens map with leaflet
+45- In "Home" route add Big map which contains Warehouses, Companies, Offices and Dealers location pins
+46- On operations route, in sales table make "Sale Date" is default sorted and make table filterable based on date with input
+47- Warehouse > On add new item check the item is already exist in table or not, then allow to add item.
+48- Add "Meetings" route which contains the company's old meeting's details like "Meeting Decisions", "Meeting Content", "Meeting Participants", "Meeting Date",
+49- Companies > Operations > Add Delete & Edit Sale feature. It also need to change Accounting Records too
+
 
 ### FEATURES ###
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
-
-# Personel Yönetim Paneli: ✅
-Çalışanların bilgilerini / maaşlarını ve performanslarını yönetmek için bir panel oluştur.
 
 # Harita Tabanlı İşlevsellik ✅
 Firebase Firestore veya Realtime Database'den alınan konum verilerini harita üzerinde göster. Satış noktalarını, ofisleri veya müşteri konumlarını harita üzerinde gösterme.
@@ -57,3 +63,5 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 Şirketin mevcut ürün listesi - sayıları - fiyatlandırması - sipariş verme - [ Sipariş verme yetkisi belirli kullanıcılarda olmalıdır ]
 [ Ürün adı, ürün adedi, ürün alış fiyatı, ürün satış fiyatı, ürün açıklaması, ürün id ]
 
+# Personel Yönetim Paneli: ✅
+Çalışanların bilgilerini / maaşlarını ve performanslarını yönetmek için bir panel oluştur.
