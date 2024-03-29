@@ -137,7 +137,7 @@ export interface Warehouses {
     itemAmount?: number;
     itemId?: string;
     itemName: string;
-    itemSalePrice?: number;
+    itemSalePrice?: any;
     itemPurchasePrice?: number;
     purchasePrice?: number;
     itemDescription?: string;
@@ -183,6 +183,16 @@ export interface Agreements {
     agreementParties: string;
     createdAt: string;
     agreementId?: string;
+}
+
+export interface Sales {
+    saleItemId: string;
+    saleItemAmount: number;
+    saleItemPrice: number;
+    saleCompanyId: string;
+    saleDescription: string;
+    saleCreatedAt: string;
+    id?: string;
 }
 
 export interface UpdateAgreementTypes {
