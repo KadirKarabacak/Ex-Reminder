@@ -6,6 +6,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { Divider, IconButton } from "@mui/material";
 import { DeleteOutline, MoreVert } from "@mui/icons-material";
+import PostAddIcon from "@mui/icons-material/PostAdd";
 import EditEmployeeModal from "./Modals/EditEmployeeModal";
 import DeleteEmployeeModal from "./Modals/DeleteEmployeeModal";
 import { ButtonGroupTypes } from "../Interfaces/User";
@@ -18,6 +19,7 @@ import EditCompanyModal from "./Modals/EditCompanyModal";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import DeleteCompanyModal from "./Modals/DeleteCompanyModal";
+import AddSaleModal from "./Modals/AddSaleModal";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -47,7 +49,6 @@ const StyledMenu = styled((props: MenuProps) => (
         },
         "& .MuiMenuItem-root": {
             fontSize: "1.2rem",
-            fontWeight: "bold",
             "& .MuiSvgIcon-root": {
                 fontSize: 18,
                 color: theme.palette.text.secondary,
@@ -83,6 +84,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     // Companies
     const [opensEditCompany, setOpensEditCompany] = React.useState(false);
     const [opensDeleteCompany, setOpensDeleteCompany] = React.useState(false);
+    const [opensAddSale, setOpensAddSale] = React.useState(false);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -185,6 +187,17 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             setSearchParams("");
         }, 500);
     };
+    const handleOpenAddSaleModal = () => {
+        setOpensAddSale(true);
+        handleClose();
+        setSearchParams("make-sale");
+    };
+    const handleCloseAddSaleModal = () => {
+        setOpensAddSale(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 500);
+    };
 
     const handleOperationsClick = () => {
         setSearchParams(row.id);
@@ -216,6 +229,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     {tableName === "employee" && row?.full_name}
                     {tableName === "warehouse" && row?.itemName}
                     {tableName === "company" && row?.companyName}
+                    {tableName === "sales" && row?.saleCreatedAt}
                 </MenuItem>
                 <Divider sx={{ marginTop: "0!important" }} />
 
@@ -235,6 +249,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                         </MenuItem>
                     </div>
                 )}
+
                 {tableName === "warehouse" && (
                     <div>
                         <MenuItem
@@ -260,6 +275,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                         </MenuItem>
                     </div>
                 )}
+
                 {tableName === "company" && (
                     <div>
                         <MenuItem
@@ -274,9 +290,30 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                             {t("Operations")}
                         </MenuItem>
                         <MenuItem
+                            onClick={handleOpenAddSaleModal}
+                            disableRipple
+                        >
+                            <PostAddIcon />
+                            {t("Make Sale")}
+                        </MenuItem>
+                        <MenuItem
                             onClick={handleOpenDeleteCompanyModal}
                             disableRipple
                         >
+                            <DeleteOutline />
+                            {t("Delete")}
+                        </MenuItem>
+                    </div>
+                )}
+
+                {tableName === "sales" && (
+                    <div>
+                        <MenuItem disableRipple>
+                            <EditIcon />
+                            {t("Edit")}
+                        </MenuItem>
+
+                        <MenuItem disableRipple>
                             <DeleteOutline />
                             {t("Delete")}
                         </MenuItem>
@@ -351,6 +388,14 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     handleClose={handleCloseDeleteCompanyModal}
                     id={row.id}
                     row={row}
+                />
+            )}
+            {searchParams.has("make-sale") && (
+                <AddSaleModal
+                    open={opensAddSale}
+                    handleClose={handleCloseAddSaleModal}
+                    row={row}
+                    tableName={tableName}
                 />
             )}
         </div>
