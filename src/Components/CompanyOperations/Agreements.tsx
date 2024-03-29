@@ -88,7 +88,7 @@ export default function Agreements({
                 item
                 xs={4}
                 sx={{
-                    border: "1px solid var(--color-grey-300)",
+                    border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
                     borderTopLeftRadius: "5px",
                 }}
@@ -102,7 +102,7 @@ export default function Agreements({
                 item
                 xs={4}
                 sx={{
-                    border: "1px solid var(--color-grey-300)",
+                    border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
                 }}
             >
@@ -115,7 +115,7 @@ export default function Agreements({
                 item
                 xs={4}
                 sx={{
-                    border: "1px solid var(--color-grey-300)",
+                    border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
                     borderTopRightRadius: "5px",
                 }}
@@ -129,7 +129,7 @@ export default function Agreements({
                 item
                 xs={4}
                 sx={{
-                    border: "1px solid var(--color-grey-300)",
+                    border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
                     borderBottomLeftRadius: "5px",
                 }}
@@ -143,7 +143,7 @@ export default function Agreements({
                 item
                 xs={4}
                 sx={{
-                    border: "1px solid var(--color-grey-300)",
+                    border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
                 }}
             >
@@ -156,7 +156,7 @@ export default function Agreements({
                 item
                 xs={4}
                 sx={{
-                    border: "1px solid var(--color-grey-300)",
+                    border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
                     borderBottomRightRadius: "5px",
                 }}
@@ -186,6 +186,7 @@ export default function Agreements({
                         padding: "1rem 2rem",
                         fontSize: "1.1rem",
                         alignSelf: "flex-start",
+                        fontWeight: "bold",
                         "&:hover": {
                             backgroundColor: "var(--color-grey-700)",
                             transform: "translateY(-2px)",
@@ -207,6 +208,7 @@ export default function Agreements({
                         padding: "1rem 2rem",
                         fontSize: "1.1rem",
                         alignSelf: "flex-start",
+                        fontWeight: "bold",
                         "&:hover": {
                             backgroundColor: "var(--color-red-800)",
                             transform: "translateY(-2px)",
