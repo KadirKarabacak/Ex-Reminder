@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import AddAgreementModal from "../Modals/AddAgreementModal";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -11,8 +12,7 @@ const StyledToolBar = styled(Toolbar)`
 `;
 
 const StyledSpan = styled.span`
-    color: var(--color-green-new);
-    font-size: 3.5rem;
+    color: var(--color-grey-800);
     border-left: 2px solid var(--color-grey-500);
     padding-left: 8px;
 `;
@@ -38,9 +38,10 @@ export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
                 <Typography
                     sx={{
                         marginRight: "auto",
-                        color: "var(--color-grey-800)",
-                        fontSize: "3rem",
+                        color: "var(--color-green-lighter)",
+                        fontSize: "2.4rem",
                         fontWeight: "bold",
+                        borderBottom: "3px solid var(--color-green-new)",
                     }}
                     variant="subtitle1"
                     component="div"
@@ -51,16 +52,15 @@ export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
                 <Button
                     onClick={handleOpenAgreement}
                     sx={{
-                        backgroundColor: "var(--color-grey-800)",
-                        color: "var(--color-grey-50)",
+                        backgroundColor: "var(--color-green-lighter)",
+                        color: "#f5f3f3",
                         transition: "all .3s",
                         padding: "1rem 2rem",
-                        fontSize: "1rem",
+                        fontSize: "1.1rem",
                         alignSelf: "center",
                         fontWeight: "bold",
                         "&:hover": {
-                            backgroundColor: "var(--color-grey-700)",
-                            color: "var(--color-grey-100)",
+                            backgroundColor: "var(--color-green-new)",
                             transform: "translateY(-2px)",
                         },
                         "&:active": {
@@ -85,6 +85,9 @@ export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
                         border: "1px solid var(--color-grey-500)",
                         backgroundColor: "var(--color-grey-100)",
                         fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "5px",
                         "&:hover": {
                             backgroundColor: "var(--color-grey-200)",
                             transform: "translateY(-2px)",
@@ -96,7 +99,7 @@ export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
                     }}
                     variant="outlined"
                 >
-                    {t("Back to Companies")}
+                    <ArrowBackIcon /> {t("Back to Companies")}
                 </Button>
             </StyledToolBar>
             <AddAgreementModal
