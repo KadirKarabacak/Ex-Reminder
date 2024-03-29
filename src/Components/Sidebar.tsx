@@ -7,6 +7,7 @@ import { Tooltip, Zoom } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { WarehouseOutlined } from "@mui/icons-material";
 import BusinessIcon from "@mui/icons-material/Business";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -79,6 +80,16 @@ function Sidebar() {
                 <StyledNavLink to="/">
                     <HomeIcon sx={iconStyle} />
                     {t("Home")}
+                </StyledNavLink>
+            </Tooltip>
+            <Tooltip
+                TransitionComponent={Zoom}
+                title={t("Accounting")}
+                placement="right"
+            >
+                <StyledNavLink to="/accounting">
+                    <AccountBalanceWalletIcon sx={iconStyle} />
+                    {t("Accounting")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
