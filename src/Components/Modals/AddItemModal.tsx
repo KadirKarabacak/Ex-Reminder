@@ -14,8 +14,9 @@ import { ModalTypes } from "../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 
 import React from "react";
-import { useAddItem } from "../../Api/warehouseController";
+import { useAddItem, useGetWarehouse } from "../../Api/warehouseController";
 import { formatCurrency, formatDate } from "../../Utils/utils";
+import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -38,6 +39,7 @@ const StyledButtonContainer = styled.div`
 
 const StyledTextField = styled(TextField)`
     width: 100%;
+
     & div + p {
         font-size: 1rem;
     }
@@ -78,6 +80,7 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
         formState: { errors },
     } = useForm();
     const { isPending: isAdding, mutate: addItem } = useAddItem();
+    const { data: items } = useGetWarehouse();
 
     async function onSubmit() {
         const {
@@ -93,9 +96,16 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
         if (itemPurchasePrice)
             formattedPurchase = formatCurrency(itemPurchasePrice);
 
+        const isItemExist = items?.find(
+            item =>
+                item.itemName.toLowerCase().replaceAll(" ", "") ===
+                itemName.toLowerCase().replaceAll(" ", "")
+        );
+
+        if (isItemExist) return toast.error("Item already exists in storage");
         const newItem = {
-            itemName,
-            itemAmount,
+            itemName: itemName.slice(0, 1).toUpperCase() + itemName.slice(1),
+            itemAmount: +itemAmount || 1,
             itemSalePrice: itemSalePrice ? formattedSale : "",
             itemPurchasePrice: itemPurchasePrice ? formattedPurchase : "",
             itemDescription,
@@ -138,10 +148,10 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Item Name")}</StyledTitle>
+                                <StyledTitle>{t("Item Name*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    label={t("Item Name")}
+                                    placeholder={t("Item Name")}
                                     {...register("itemName", {
                                         required: t("Item Name is required"),
                                     })}
@@ -153,12 +163,19 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Item Amount")}</StyledTitle>
+                                <StyledTitle>{t("Item Amount*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    label={t("Item Amount")}
-                                    {...register("itemAmount")}
+                                    placeholder={t("Item Amount")}
+                                    {...register("itemAmount", {
+                                        required: t("Item Amount is required"),
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemAmount)}
+                                    helperText={
+                                        (errors?.itemAmount
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -167,7 +184,7 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    label={t("Item Price")}
+                                    placeholder={t("Item Sale Price")}
                                     {...register("itemSalePrice")}
                                     type="number"
                                 />
@@ -178,7 +195,7 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    label={t("Item Price")}
+                                    placeholder={t("Item Purchase Price")}
                                     {...register("itemPurchasePrice")}
                                     type="number"
                                 />
@@ -189,7 +206,7 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    label={t("Item Description")}
+                                    placeholder={t("Item Description")}
                                     {...register("itemDescription")}
                                 />
                             </Grid>
