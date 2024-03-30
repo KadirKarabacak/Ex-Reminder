@@ -22,7 +22,7 @@ import {
     UpdateUserPasswordTypes,
 } from "../Interfaces/User";
 import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
 
