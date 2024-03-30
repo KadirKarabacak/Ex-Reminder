@@ -5,18 +5,20 @@ import TableContainer from "@mui/material/TableContainer";
 import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
+// import styled from "styled-components";
+// import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
+import { Companies, EmployeeData, Sales, Warehouses } from "../Interfaces/User";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
-import styled from "styled-components";
-import { useTranslation } from "react-i18next";
-import { Companies, EmployeeData, Warehouses } from "../Interfaces/User";
 import { WarehouseTableHead } from "./TableHeads/WarehouseTableHead";
+import { CompanyTableHead } from "./TableHeads/CompanyTableHead";
+import { SalesTableHead } from "./TableHeads/SalesTableHead";
+import { AccountingTableHead } from "./TableHeads/AccountingTableHead";
 import EmployeeTableRow from "./TableRows/EmployeeTableRow";
 import WarehouseTableRow from "./TableRows/WarehouseTableRow";
-import { CompanyTableHead } from "./TableHeads/CompanyTableHead";
 import CompanyTableRow from "./TableRows/CompanyTableRow";
-import { useLocation } from "react-router-dom";
-import { SalesTableHead } from "./TableHeads/SalesTableHead";
 import SalesTableRow from "./TableRows/SalesTableRow";
+import AccountingTableRow from "./TableRows/AccountingTableRow";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -64,15 +66,13 @@ function stableSort<T>(
     return stabilizedThis.map(el => el[0]);
 }
 
-const StyledParagraph = styled.span`
-    font-size: 2rem;
-    color: var(--color-grey-800);
-    width: 100%;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-`;
+// const StyledParagraph = styled.span`
+//     font-size: 2rem;
+//     color: var(--color-grey-800);
+//     position: absolute;
+//     left: 50%;
+//     transform: translate(-50%, -50%);
+// `;
 
 export default function CustomTable({
     CustomToolbar,
@@ -86,23 +86,29 @@ export default function CustomTable({
     const { pathname } = useLocation();
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<
-        keyof EmployeeData | keyof Warehouses | keyof Companies
+        keyof EmployeeData | keyof Warehouses | keyof Companies | keyof Sales
     >(
         pathname === "/employees"
             ? "full_name"
             : pathname === "/warehouse"
             ? "itemName"
+            : pathname === "/accounting"
+            ? "saleCompanyName"
             : "companyName"
     );
     const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [filteredData, setFilteredData] = React.useState(data || []);
-    const { t } = useTranslation();
+    // const { t } = useTranslation();
 
     const handleRequestSort = (
         _event: React.MouseEvent<unknown>,
-        property: keyof EmployeeData | keyof Warehouses | keyof Companies
+        property:
+            | keyof EmployeeData
+            | keyof Warehouses
+            | keyof Companies
+            | keyof Sales
     ) => {
         const isAsc = orderBy === property && order === "asc";
         setOrder(isAsc ? "desc" : "asc");
@@ -179,6 +185,22 @@ export default function CustomTable({
                         .includes(searchText.toLowerCase())
                 )
             );
+        if (searchText && pathname.includes("/companies/"))
+            setFilteredData(
+                data.filter((el: any) =>
+                    el.saleCreatedAt
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase())
+                )
+            );
+        if (searchText && pathname === "/accounting")
+            setFilteredData(
+                data.filter((el: any) =>
+                    el.saleCompanyName
+                        .toLowerCase()
+                        .includes(searchText.toLowerCase())
+                )
+            );
         if (!searchText.length) setFilteredData(data);
     }, [searchText, pathname]);
 
@@ -199,11 +221,20 @@ export default function CustomTable({
                 justifyContent: "center",
             }}
         >
-            {!visibleRows.length && (
-                <StyledParagraph>
-                    {t("There is no data to display")}
+            {/* {!visibleRows.length && (
+                <StyledParagraph
+                    style={{
+                        width: pathname.includes("/companies/")
+                            ? "auto"
+                            : "100%",
+                        top: pathname.includes("/companies/") ? "45%" : "50%",
+                    }}
+                >
+                    {searchText.length > 0
+                        ? t("No matching results found for your search")
+                        : t("There is no data to display")}
                 </StyledParagraph>
-            )}
+            )} */}
             <Paper
                 sx={{
                     width: "100%",
@@ -261,12 +292,22 @@ export default function CustomTable({
                                 rowCount={filteredData?.length || 0}
                             />
                         )}
+                        {pathname === "/accounting" && (
+                            <AccountingTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={filteredData?.length || 0}
+                            />
+                        )}
+
                         <TableBody>
                             {pathname === "/employees" &&
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
                                     return (
                                         <EmployeeTableRow
                                             isItemSelected={isItemSelected}
@@ -282,7 +323,6 @@ export default function CustomTable({
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
                                     return (
                                         <WarehouseTableRow
                                             isItemSelected={isItemSelected}
@@ -298,7 +338,6 @@ export default function CustomTable({
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
                                     return (
                                         <CompanyTableRow
                                             isItemSelected={isItemSelected}
@@ -314,9 +353,23 @@ export default function CustomTable({
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
                                     const labelId = `enhanced-table-checkbox-${index}`;
-
                                     return (
                                         <SalesTableRow
+                                            isItemSelected={isItemSelected}
+                                            handleClick={handleClick}
+                                            key={index}
+                                            index={index}
+                                            labelId={labelId}
+                                            row={row}
+                                        />
+                                    );
+                                })}
+                            {pathname === "/accounting" &&
+                                visibleRows?.map((row, index) => {
+                                    const isItemSelected = isSelected(index);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    return (
+                                        <AccountingTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
