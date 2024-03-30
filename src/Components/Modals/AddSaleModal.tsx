@@ -5,7 +5,6 @@ import {
     Fade,
     FormControl,
     Grid,
-    InputLabel,
     MenuItem,
     Modal,
     Select,
@@ -15,11 +14,10 @@ import {
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useGetWarehouse } from "../../Api/warehouseController";
 import { useAddSale, useGetCompanies } from "../../Api/companyController";
-import { formatCurrency, formatDate } from "../../Utils/utils";
-import { styled as muiStyled } from "@mui/system";
+import { formatDate } from "../../Utils/utils";
 import { useNavigate } from "react-router-dom";
 
 const StyledBox = styled(Box)`
@@ -66,13 +64,24 @@ const StyledTextField = styled(TextField)`
     }
 `;
 
-const StyledSelect = muiStyled(Select)`
+const StyledSelect = styled(Select)`
     && {
         font-size: 1.3rem;
-        color: white;
+        color: var(--color-grey-800);
 
-        
-      }
+        & > fieldset {
+            border-color: var(--color-grey-500);
+        }
+
+        &:hover > fieldset {
+            border-color: var(--color-brand-600) !important;
+        }
+
+        &:disabled {
+            background-color: transparent !important;
+            cursor: not-allowed;
+        }
+    }
 `;
 
 const StyledTitle = styled.h4`
@@ -85,6 +94,11 @@ const StyledSpan = styled.span`
     color: var(--color-green-lighter);
     border-left: 2px solid var(--color-grey-500);
     padding-left: 8px;
+`;
+
+const StyledMenuItem = styled(MenuItem)`
+    border-bottom: 1px solid #efefef !important;
+    background-color: transparent !important;
 `;
 
 const itemGuarantees = ["Yes", "No"];
@@ -106,26 +120,47 @@ export default function AddSaleModal({
     const [selectedGuarantee, setSelectedGuarantee] = useState("No");
     const [selectedGuaranteeTime, setSelectedGuaranteeTime] = useState("");
     const { t } = useTranslation();
-    const { handleSubmit, register, getValues, clearErrors, reset } = useForm();
+    const {
+        handleSubmit,
+        register,
+        getValues,
+        clearErrors,
+        reset,
+        formState: { errors },
+    } = useForm();
     const { isPending: isAdding, mutateAsync: addSale } = useAddSale();
     const { data: companies } = useGetCompanies();
     const { data: items } = useGetWarehouse();
     const navigate = useNavigate();
+    const findItem = items?.find(item => item.id === selectedItem);
+    const id = findItem?.id;
+    const findCompany = companies?.find(
+        company => company.id === selectedCompany
+    );
 
     async function onSubmit() {
         const { itemAmount, itemSalePrice, saleDescription } = getValues();
 
         const sale = {
             saleItemId: selectedItem,
+            saleItemName: findItem?.itemName,
             saleItemAmount: itemAmount,
-            saleItemPrice: itemSalePrice ? formatCurrency(itemSalePrice) : "",
+            saleItemPrice: itemSalePrice || "",
             saleCompanyId: selectedCompany || row.id,
+            saleCompanyName: findCompany?.companyName,
             saleGuarantee: selectedGuarantee,
             saleGuaranteeTime: selectedGuaranteeTime,
             saleDescription,
             saleCreatedAt: formatDate(new Date()),
         };
-        await addSale({ sale, selectedCompany });
+
+        const item = {
+            ...findItem,
+            itemAmount:
+                findItem?.itemAmount && findItem?.itemAmount - itemAmount,
+        };
+
+        await addSale({ sale, selectedCompany, item, id });
         navigate(`/companies/${selectedCompany || row.id}`);
         onCloseModal();
     }
@@ -141,9 +176,11 @@ export default function AddSaleModal({
     }
 
     useEffect(() => {
-        if (tableName === "company") setSelectedCompany(row.id);
+        tableName === "company"
+            ? setSelectedCompany(row.id)
+            : setSelectedCompany("");
         if (selectedGuarantee === "No") setSelectedGuaranteeTime("");
-    }, [selectedGuarantee]);
+    }, [selectedGuarantee, row?.id]);
 
     return (
         <Modal
@@ -179,20 +216,12 @@ export default function AddSaleModal({
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Select Item")}</StyledTitle>
+                                <StyledTitle>{t("Select Item*")}</StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
-                                    <InputLabel
-                                        sx={{
-                                            color: "var(--color-grey-800)",
-                                            fontSize: "1.3rem",
-                                        }}
-                                        id="selectedItemLabel"
-                                    >
-                                        {"Select Item"}
-                                    </InputLabel>
                                     <StyledSelect
                                         required
                                         disabled={isAdding}
+                                        displayEmpty
                                         labelId="selectedItemLabel"
                                         id="selectedItem"
                                         value={selectedItem}
@@ -202,40 +231,47 @@ export default function AddSaleModal({
                                             )
                                         }
                                     >
+                                        <StyledMenuItem
+                                            sx={{
+                                                backgroundColor:
+                                                    "transparent!important",
+                                            }}
+                                            disabled
+                                            disableRipple
+                                            value=""
+                                        >
+                                            {t("Select Item")}
+                                        </StyledMenuItem>
                                         {items &&
                                             items.map((item, i) => (
-                                                <MenuItem
+                                                <StyledMenuItem
+                                                    disabled={
+                                                        item.itemAmount === 0
+                                                    }
                                                     sx={{
-                                                        borderBottom:
-                                                            "1px solid #efefef",
+                                                        backgroundColor:
+                                                            "transparent!important",
                                                     }}
                                                     disableRipple
                                                     key={i}
                                                     value={item.id}
                                                 >
-                                                    {item.itemName}
-                                                </MenuItem>
+                                                    {`${item.itemName} x${
+                                                        item.itemAmount || 0
+                                                    }`}
+                                                </StyledMenuItem>
                                             ))}
                                     </StyledSelect>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Select Company")}</StyledTitle>
+                                <StyledTitle>
+                                    {t("Select Company*")}
+                                </StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
-                                    {tableName !== "company" && (
-                                        <InputLabel
-                                            sx={{
-                                                color: "var(--color-grey-800)",
-                                                fontSize: "1.3rem",
-                                            }}
-                                            id="selectedCompanyLabel"
-                                        >
-                                            {"Select Company"}
-                                        </InputLabel>
-                                    )}
-
                                     <StyledSelect
                                         required
+                                        displayEmpty
                                         disabled={
                                             isAdding || tableName === "company"
                                         }
@@ -248,40 +284,80 @@ export default function AddSaleModal({
                                             )
                                         }
                                     >
+                                        <StyledMenuItem
+                                            sx={{
+                                                backgroundColor:
+                                                    "transparent!important",
+                                            }}
+                                            disabled
+                                            disableRipple
+                                            value=""
+                                        >
+                                            {t("Select Company")}
+                                        </StyledMenuItem>
                                         {companies &&
                                             companies.map((company, i) => (
-                                                <MenuItem
-                                                    sx={{
-                                                        borderBottom:
-                                                            "1px solid #efefef",
-                                                    }}
+                                                <StyledMenuItem
                                                     disableRipple
                                                     key={i}
                                                     value={company.id}
                                                 >
                                                     {company.companyName}
-                                                </MenuItem>
+                                                </StyledMenuItem>
                                             ))}
                                     </StyledSelect>
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Item Amount")}</StyledTitle>
+                                <StyledTitle>{t("Item Amount*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    label={t("Item Amount")}
-                                    {...register("itemAmount")}
+                                    placeholder={t("Item Amount")}
+                                    {...register("itemAmount", {
+                                        required: t("Item amount is required"),
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item amount must be minimum 1"
+                                            ),
+                                        },
+                                        validate: value => {
+                                            return (
+                                                (findItem?.itemAmount &&
+                                                    value <=
+                                                        findItem?.itemAmount) ||
+                                                t(
+                                                    "Item Amount must be less or equal to the amount"
+                                                )
+                                            );
+                                        },
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemAmount)}
+                                    helperText={
+                                        (errors?.itemAmount
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Item Sale Price")}
+                                    {t("Item Sale Price*")}
                                 </StyledTitle>
                                 <StyledTextField
-                                    label={t("Item Sale Price")}
-                                    {...register("itemSalePrice")}
+                                    disabled={isAdding}
+                                    placeholder={t("Item Sale Price")}
+                                    {...register("itemSalePrice", {
+                                        required: t(
+                                            "Item sale price is required"
+                                        ),
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemSalePrice)}
+                                    helperText={
+                                        (errors?.itemSalePrice
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
 
@@ -289,15 +365,6 @@ export default function AddSaleModal({
                             <Grid item xs={6}>
                                 <StyledTitle>{t("Item Guarantee")}</StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
-                                    {/* <InputLabel
-                                        sx={{
-                                            color: "var(--color-grey-800)",
-                                            fontSize: "1.3rem",
-                                        }}
-                                        id="selectedGuaranteeLabel"
-                                    >
-                                        {"Select Guarantee"}
-                                    </InputLabel> */}
                                     <StyledSelect
                                         disabled={isAdding}
                                         labelId="selectedGuaranteeLabel"
@@ -330,16 +397,8 @@ export default function AddSaleModal({
                                     {t("Item Guarantee Time")}
                                 </StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
-                                    <InputLabel
-                                        sx={{
-                                            color: "var(--color-grey-500)",
-                                            fontSize: "1.3rem",
-                                        }}
-                                        id="selectedGuaranteeTimeLabel"
-                                    >
-                                        {"Select Guarantee Time"}
-                                    </InputLabel>
                                     <StyledSelect
+                                        displayEmpty
                                         required
                                         disabled={
                                             isAdding ||
@@ -354,6 +413,17 @@ export default function AddSaleModal({
                                             )
                                         }
                                     >
+                                        <StyledMenuItem
+                                            sx={{
+                                                backgroundColor:
+                                                    "transparent!important",
+                                            }}
+                                            disabled
+                                            disableRipple
+                                            value=""
+                                        >
+                                            {t("Select Guarantee Time")}
+                                        </StyledMenuItem>
                                         {itemGuaranteeTimes.map((time, i) => (
                                             <MenuItem
                                                 sx={{
