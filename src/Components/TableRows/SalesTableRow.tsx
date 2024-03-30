@@ -1,8 +1,8 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
-import { useGetCompanies } from "../../Api/companyController";
 import { useGetWarehouse } from "../../Api/warehouseController";
+import { formatCurrency } from "../../Utils/utils";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -18,14 +18,8 @@ export default function SalesTableRow({
     labelId,
     row,
 }: TableRowTypes) {
-    const { data: companies } = useGetCompanies();
     const { data: items } = useGetWarehouse();
-
-    const companyNameById = companies?.find(
-        company => company.id === row.saleCompanyId
-    );
-
-    const itemNameById = items?.find(item => item.id === row.saleItemId);
+    const itemById = items?.find(item => item.id === row.saleItemId);
 
     return (
         <TableRow
@@ -52,26 +46,17 @@ export default function SalesTableRow({
                     }}
                 />
             </TableCell>
-            {/* <TableCell
-                component="th"
-                id={labelId}
-                scope="row"
-                padding="none"
-                sx={TableCellStyles}
-            >
-                {companyNameById?.companyName || "-"}
-            </TableCell> */}
             <TableCell align="right" sx={TableCellStyles}>
                 {row.saleCreatedAt || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {itemNameById?.itemName || "-"}
+                {itemById?.itemName || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {row.saleItemAmount || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.saleItemPrice || "-"}
+                {formatCurrency(row.saleItemPrice) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {row.saleDescription || "-"}
