@@ -25,7 +25,7 @@
 28- On update user display name and avatar, fix header to automatically reflect changes
 29- ✅ ON DELETE IT DELETES WRONG EMPLOYEE
 30- ✅ On item detail, show profit which calculated from "(itemPrice - purchasePrice)* itemAmount"
-31- The item user trying to add, if already exists in table (compare with name, lowercase both of them) return an error
+31- ✅ The item user trying to add, if already exists in table (compare with name, lowercase both of them) return an error
 32- ✅ On employees page, below the table add total salaries, average salary, average age, add how many Game Developer is there like [ Game Developer x3 ], Add a pie chart for that
 33- ✅ Make Warehouse table sortable
 34- On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
@@ -37,13 +37,21 @@
 40- ✅ On companies page on edit situation phone numbers doesnt fill input fields as default value, try to fix.
 41- ✅ On edit agreement in edit modal Budget comes wrong, formatCurrency doesnt work true for bigger moneys
 42- ✅ On companies add "Make Sale" button to buttongroup. In this modal, check items and companies. Only sell if the item and company is exist. After the sell is happen, drop that info to Accounting page. Satışlar hem "accounting" route'una eklenecek, hemde satış yapılan company'nin altındaki "sales" route'una
-43- Also add "Add Agreement" button in buttongroup too.
+43- ✅ Also add "Add Agreement" button in buttongroup too.
 44- In add Company modal the text field which contains address, make it opens map with leaflet
 45- In "Home" route add Big map which contains Warehouses, Companies, Offices and Dealers location pins
-46- On operations route, in sales table make "Sale Date" is default sorted and make table filterable based on date with input
-47- Warehouse > On add new item check the item is already exist in table or not, then allow to add item.
+46- ✅ On operations route, in sales table make "Sale Date" is default sorted and make table filterable based on date with input
+47- ✅ Warehouse > On add new item check the item is already exist in table or not, then allow to add item.
 48- Add "Meetings" route which contains the company's old meeting's details like "Meeting Decisions", "Meeting Content", "Meeting Participants", "Meeting Date",
 49- Companies > Operations > Add Delete & Edit Sale feature. It also need to change Accounting Records too
+50- ✅ Companies > Make Sale On Sale selecting items add their amount next to select itemlist, not allow user to write more amount than item has. Also on sale remove items from warehouse list as sold
+51- ✅ Companies > After filtered by Search, it makes sale to wrong company
+52- ✅ Accounting > Sorting | Filtering companyName and itemName works wrong cuz of sorting by their id's. Try to fix.
+53- Warehouse > On Toolbar add "Item Order" feature which contains current items, and on selecting that item, updates it's amount.
+54- Edit Item modal > add editing item name to header
+55- Add Item modal > fix purchasePrice and salePrice placeholders, also convert labels to placeholders
+56- DeleteSaleModal > Allow user to avoid to delete sale from Accounting and only delete in sales, or delete both of the places
+57- Add Agreement from row make default parties as "userDisplayName" & "companyName" in that row
 
 
 ### FEATURES ###
