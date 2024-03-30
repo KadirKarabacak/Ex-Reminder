@@ -4,7 +4,11 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { EditCompanyModalTypes } from "../../Interfaces/User";
 import { auth } from "../../Api/firebase";
-import { useDeleteCompany } from "../../Api/companyController";
+import {
+    useDeleteCompany,
+    useGetAgreements,
+} from "../../Api/companyController";
+import { remainingTime } from "../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -42,9 +46,21 @@ export default function DeleteCompanyModal({
     const { handleSubmit } = useForm();
     const { mutateAsync: deleteCompany, isPending: isDeleting } =
         useDeleteCompany();
+    const { data: agreements } = useGetAgreements(id);
     const { currentUser } = auth;
     const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
+    const filteredCompanyAgreements = agreements
+        ?.filter(agreement => agreement.companyId === id)
+        .filter(
+            agreement =>
+                remainingTime(agreement.agreementEndDate) !==
+                "Agreement is expired"
+        );
+    // const isNotExpiredAgreement = filteredCompanyAgreements?.filter(
+    //     agreement =>
+    //         remainingTime(agreement.agreementEndDate) !== "Agreement is expired"
+    // );
 
     async function onSubmit() {
         await deleteCompany({ id, userId });
@@ -76,20 +92,39 @@ export default function DeleteCompanyModal({
                             id="transition-modal-title"
                             variant="h3"
                             component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                            sx={{
+                                fontWeight: "bold",
+                                letterSpacing: "0.80px",
+                            }}
                         >
-                            {t(`Delete Company`)}
+                            {t(`Delete Company`)}{" "}
+                            <StyledSpan
+                                style={{
+                                    fontSize: "3.1rem",
+                                    borderLeft:
+                                        "2px solid var(--color-grey-500)",
+                                    paddingLeft: "8px",
+                                }}
+                            >
+                                {row.companyName}
+                            </StyledSpan>
                         </Typography>
                         <Typography
                             id="transition-modal-description"
-                            sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
                         >
-                            {t(
-                                "Deleted companies also lose their 'Agreements' and"
-                            )}{" "}
-                            <strong>{t("cannot be brought back")}</strong>
-                            {t(", are you sure you want to delete")}
-                            <StyledSpan>{row.companyName}</StyledSpan> ?
+                            {filteredCompanyAgreements &&
+                            filteredCompanyAgreements.length > 0
+                                ? `${row.companyName} has ${
+                                      filteredCompanyAgreements.length
+                                  } ${
+                                      filteredCompanyAgreements.length > 1
+                                          ? t("agreements are")
+                                          : t("agreement is")
+                                  } not expired yet. Deleting this company can lead to wrong situations in your company. `
+                                : null}
+                            {t("Are you sure you want to delete")}
+                            <StyledSpan>{row.companyName}?</StyledSpan>
                         </Typography>
 
                         <StyledButtonContainer>
