@@ -15,10 +15,12 @@ import {
     Companies,
     DeleteAgreementTypes,
     DeleteCompanyTypes,
+    DeleteSaleTypes,
     Sales,
     UpdateAgreementTypes,
     UpdateCompanyTypes,
 } from "../Interfaces/User";
+import { updateItem } from "./warehouseController";
 
 //! Get All Companies
 const getCompanies = async (userId: string | undefined) => {
@@ -236,7 +238,7 @@ export const useUpdateAgreement = function () {
     return { mutateAsync, isPending };
 };
 
-//! Delete Employee
+//! Delete Agreement
 const deleteAgreement = async function ({
     agreementId,
     userId,
@@ -256,7 +258,7 @@ const deleteAgreement = async function ({
     }
 };
 
-//! Delete employee query
+//! Delete agreement query
 export const useDeleteAgreement = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -280,13 +282,23 @@ export const useDeleteAgreement = function () {
 const addSale = async function (
     sale: object,
     selectedCompany: string | undefined,
-    userId: string | undefined
+    userId: string | undefined,
+    item: object,
+    id: string | undefined
 ) {
     await addDoc(
         collection(db, `users/${userId}/companies/${selectedCompany}/sales`),
-        sale
+        {
+            ...sale,
+            saleId: id,
+        }
     );
-    await addDoc(collection(db, `users/${userId}/accounting`), sale);
+    await addDoc(collection(db, `users/${userId}/accounting`), {
+        ...sale,
+        saleId: id,
+    });
+
+    await updateItem({ item, id, userId });
 };
 
 //! Add Sale to Company Query
@@ -296,7 +308,16 @@ export const useAddSale = function () {
         mutationFn: async (data: {
             sale: object;
             selectedCompany: string | undefined;
-        }) => addSale(data.sale, data.selectedCompany, auth?.currentUser?.uid),
+            item: any;
+            id: string | undefined;
+        }) =>
+            addSale(
+                data.sale,
+                data.selectedCompany,
+                auth?.currentUser?.uid,
+                data.item,
+                data.id
+            ),
         onSuccess: () => {
             toast.success(i18n.t("New Sale added successfully"));
             queryClient.invalidateQueries({ queryKey: ["sales"] });
@@ -338,3 +359,46 @@ export function useGetSales(companyId: string) {
     });
     return { data, isLoading };
 }
+
+//! Delete Sales
+const deleteSales = async function ({
+    id,
+    userId,
+    companyId,
+    saleToDeleteId,
+}: DeleteSaleTypes) {
+    const refCompany = doc(
+        db,
+        `users/${userId}/companies/${companyId}/sales`,
+        id
+    );
+    const refAccounting = doc(db, `users/${userId}/accounting`, saleToDeleteId);
+    try {
+        await deleteDoc(refCompany);
+
+        //! If user don't want to delete sale from accounting, return before delete next line
+        await deleteDoc(refAccounting);
+    } catch (err) {
+        console.error(err);
+    }
+};
+
+//! Delete Sales Query
+export const useDeleteSales = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: DeleteSaleTypes) =>
+            await deleteSales(variables),
+        onSuccess: () => {
+            toast.success(
+                i18n.t("Sale successfully deleted from company and accounting")
+            );
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(i18n.t("An error occurred while deleting the Sale"));
+        },
+    });
+    return { mutateAsync, isPending };
+};
