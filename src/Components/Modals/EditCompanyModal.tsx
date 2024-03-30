@@ -107,7 +107,9 @@ const StyledTelInput = styled(MuiTelInput)`
 `;
 
 const StyledSpan = styled.span`
-    color: var(--color-brand-500);
+    color: var(--color-green-lighter);
+    padding-left: 8px;
+    border-left: 2px solid var(--color-grey-500);
 `;
 
 export default function EditCompanyModal({
@@ -196,7 +198,7 @@ export default function EditCompanyModal({
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Company Name")}</StyledTitle>
+                                <StyledTitle>{t("Company Name*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
                                     variant="filled"
@@ -323,9 +325,19 @@ export default function EditCompanyModal({
                                     disabled={isPending}
                                     variant="filled"
                                     label={t("Manager Email")}
-                                    {...register("managerEmail")}
+                                    {...register("managerEmail", {
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: t("Invalid email"),
+                                        },
+                                    })}
                                     defaultValue={
                                         row?.companyManager?.managerEmail
+                                    }
+                                    error={Boolean(errors?.managerEmail)}
+                                    helperText={
+                                        (errors?.managerEmail
+                                            ?.message as React.ReactNode) || ""
                                     }
                                 />
                             </Grid>

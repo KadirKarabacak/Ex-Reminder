@@ -105,8 +105,9 @@ const StyledDatePicker = styled(DatePicker)`
 `;
 
 const StyledSpan = styled.span`
-    color: var(--color-brand-500);
-    margin-left: 6px;
+    color: var(--color-green-lighter);
+    padding-left: 8px;
+    border-left: 2px solid var(--color-grey-500);
 `;
 
 const minDate = min([new Date(2000, 1, 1)]);
@@ -204,7 +205,7 @@ export default function EditEmployeeModal({
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t(`Edit Employee`)}
+                            {t(`Edit Employee `)}
                             <StyledSpan>{row.full_name}</StyledSpan>
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>

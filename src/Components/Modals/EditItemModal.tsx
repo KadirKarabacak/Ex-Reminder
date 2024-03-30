@@ -77,6 +77,12 @@ const StyledTitle = styled.h4`
     margin-bottom: 0.9rem;
 `;
 
+const StyledSpan = styled.span`
+    color: var(--color-green-lighter);
+    border-left: 2px solid var(--color-grey-500);
+    padding-left: 8px;
+`;
+
 export default function EditItemModal({
     open,
     handleClose,
@@ -113,7 +119,7 @@ export default function EditItemModal({
 
         const item = {
             itemName,
-            itemAmount,
+            itemAmount: +itemAmount,
             itemSalePrice: itemSalePrice ? formattedSale : "",
             itemPurchasePrice: itemPurchasePrice ? formattedPurchase : "",
             itemDescription,
@@ -152,11 +158,12 @@ export default function EditItemModal({
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t("Edit Item")}
+                            {t("Edit Item")}{" "}
+                            <StyledSpan> {row?.itemName}</StyledSpan>
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Item Name")}</StyledTitle>
+                                <StyledTitle>{t("Item Name*")}</StyledTitle>
                                 <StyledTextField
                                     variant="filled"
                                     disabled={isUpdating}
@@ -173,14 +180,21 @@ export default function EditItemModal({
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Item Amount")}</StyledTitle>
+                                <StyledTitle>{t("Item Amount*")}</StyledTitle>
                                 <StyledTextField
                                     variant="filled"
                                     disabled={isUpdating}
-                                    defaultValue={row?.itemAmount}
+                                    defaultValue={row?.itemAmount || ""}
                                     label={t("Item Amount")}
-                                    {...register("itemAmount")}
+                                    {...register("itemAmount", {
+                                        required: t("Item Amount is required"),
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemAmount)}
+                                    helperText={
+                                        (errors?.itemAmount
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={6}>
