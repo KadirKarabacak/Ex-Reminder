@@ -17,7 +17,7 @@ const Stats = styled.div`
 `;
 
 const StyledTitle = styled.h3`
-    color: var(--color-brand-500);
+    color: var(--color-green-lighter);
     align-self: center;
     margin-bottom: 0.9rem;
 `;
