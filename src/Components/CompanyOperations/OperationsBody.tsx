@@ -335,12 +335,6 @@ export default function OperationsBody({
                         </Button>
                     </Grid>
 
-                    {/* {!items.length &&
-                        t("There are no Agreements yet. Try to Add new one.")}
-                    {items.length > 0 &&
-                        !isExpanded &&
-                        t("Expand Agreements to see them")} */}
-
                     {isExpanded && (
                         <Reorder.Group
                             style={{
