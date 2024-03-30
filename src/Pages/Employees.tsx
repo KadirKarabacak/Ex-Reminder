@@ -44,7 +44,6 @@ export default function Employees() {
     const animationProps = useSpring(springOptions);
     const { data, isLoading } = useGetEmployees();
     const [searchText, setSearchText] = useState("");
-
     const { t } = useTranslation();
 
     if (isLoading)
