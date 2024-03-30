@@ -10,88 +10,93 @@ import {
 } from "recharts";
 import styled from "styled-components";
 import { useDarkMode } from "../Contexts/DarkModeContext";
-import { format } from "date-fns";
+import { useTranslation } from "react-i18next";
 
 const StyledChartTitle = styled.h2`
     font-size: 3rem;
     color: var(--color-grey-800);
     font-weight: bold;
     text-align: left;
+    margin-bottom: 3rem;
 `;
 
-export type RandomData = {
-    name: string;
-    sales: string;
-    profit: string;
-    createdAt: string;
-};
+// export type RandomData = {
+//     name: string;
+//     sales: string;
+//     profit: string;
+//     createdAt: string;
+// };
 
-export const data: RandomData[] = [
-    {
-        name: "Nolan Acevedo",
-        sales: "$24.58",
-        profit: "100",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Porter Green",
-        sales: "$49.15",
-        profit: "200",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Russell Benson",
-        sales: "$82.16",
-        profit: "300",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Francesca Lamb",
-        sales: "$73.07",
-        profit: "400",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Marsden Terrell",
-        sales: "$44.25",
-        profit: "700",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Marsden Terrell",
-        sales: "$44.25",
-        profit: "700",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Francesca Lamb",
-        sales: "$73.07",
-        profit: "400",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-    {
-        name: "Marsden Terrell",
-        sales: "$44.25",
-        profit: "700",
-        createdAt: format(new Date(), "MMM dd"),
-    },
-];
+// export const data: RandomData[] = [
+//     {
+//         name: "Nolan Acevedo",
+//         sales: "$24.58",
+//         profit: "100",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Porter Green",
+//         sales: "$49.15",
+//         profit: "200",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Russell Benson",
+//         sales: "$82.16",
+//         profit: "300",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Francesca Lamb",
+//         sales: "$73.07",
+//         profit: "400",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Marsden Terrell",
+//         sales: "$44.25",
+//         profit: "700",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Marsden Terrell",
+//         sales: "$44.25",
+//         profit: "700",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Francesca Lamb",
+//         sales: "$73.07",
+//         profit: "400",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+//     {
+//         name: "Marsden Terrell",
+//         sales: "$44.25",
+//         profit: "700",
+//         createdAt: format(new Date(), "MMM dd"),
+//     },
+// ];
 
-export default function Chart() {
+export default function Chart({ data }: any) {
     const { isDarkMode } = useDarkMode();
+    const { t } = useTranslation();
 
     const colors = isDarkMode
         ? {
               sales: { stroke: "#4f46e5", fill: "#4f46e5" },
-              profit: { stroke: "#22c55e", fill: "#22c55e" },
-              text: "#e5e7eb",
-              background: "#18212f",
+              profit: {
+                  stroke: "var(--color-green-lighter)",
+                  fill: "var(--color-green-lighter)",
+              },
+              text: "var(--color-grey-700)",
+              background: "var(--color-grey-100)",
           }
         : {
               sales: { stroke: "#4f46e5", fill: "#c7d2fe" },
               profit: { stroke: "#16a34a", fill: "#dcfce7" },
-              text: "#374151",
-              background: "#fff",
+              text: "var(--color-grey-700)",
+              background: "var(--color-grey-100)",
           };
 
     return (
@@ -108,7 +113,7 @@ export default function Chart() {
                     width: "100%",
                     mb: 2,
                     backgroundColor: "transparent",
-                    maxWidth: "95%",
+                    maxWidth: "100%",
                     height: "max-content",
                     boxShadow: "var(--shadow-md)",
                     p: "2rem",
@@ -116,21 +121,21 @@ export default function Chart() {
                     flexDirection: "column",
                 }}
             >
-                <StyledChartTitle>Annual sales</StyledChartTitle>
+                <StyledChartTitle>{t("Annual Sales")}</StyledChartTitle>
                 <ResponsiveContainer height={300} width="100%">
                     {/* Give data to AreaChart Component */}
                     <AreaChart data={data}>
                         <XAxis
-                            dataKey="createdAt"
+                            dataKey="saleCreatedAt"
                             tick={{ fill: colors.text }}
                             tickLine={{ stroke: colors.text }}
                         />
                         <YAxis
-                            unit="$"
+                            unit="₺"
                             tick={{ fill: colors.text }}
                             tickLine={{ stroke: colors.text }}
                         />
-                        <CartesianGrid strokeDasharray="4" />
+                        <CartesianGrid strokeDasharray="6" />
                         <Tooltip
                             contentStyle={{
                                 backgroundColor: colors.background,
@@ -138,22 +143,29 @@ export default function Chart() {
                         />
                         {/* Changes the tooltip styling */}
                         <Area
-                            dataKey="sales"
-                            type="monotone"
-                            stroke={colors.sales?.stroke}
-                            fill={colors.sales?.fill}
-                            strokeWidth={2}
-                            name="Sales"
-                            unit="$"
-                        />
-                        <Area
-                            dataKey="profit"
+                            dataKey="saleItemPrice"
                             type="monotone"
                             stroke={colors.profit?.stroke}
                             fill={colors.profit?.fill}
                             strokeWidth={2}
-                            name="Profit"
-                            unit="$"
+                            name="Sale Price"
+                            unit="₺"
+                        />
+                        <Area
+                            dataKey="saleItemName"
+                            type="monotone"
+                            stroke={colors.text}
+                            fill={colors.text}
+                            strokeWidth={2}
+                            name="Sold Item"
+                        />
+                        <Area
+                            dataKey="saleItemAmount"
+                            type="monotone"
+                            stroke={colors.text}
+                            fill={colors.text}
+                            strokeWidth={2}
+                            name="Item Amount"
                         />
                     </AreaChart>
                 </ResponsiveContainer>
