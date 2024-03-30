@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { auth } from "../../Api/firebase";
 import { useDeleteAgreement } from "../../Api/companyController";
 import { Agreements, Companies } from "../../Interfaces/User";
+import { remainingTime } from "../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -54,6 +55,7 @@ export default function DeleteAgreementModal({
     const userId = currentUser?.uid;
     const companyId = currentCompany.id;
     const { agreementId } = agreement;
+    const remainingAgreementTime = remainingTime(agreement.agreementEndDate);
 
     async function onSubmit() {
         await deleteAgreement({ agreementId, userId, companyId });
@@ -91,11 +93,18 @@ export default function DeleteAgreementModal({
                         </Typography>
                         <Typography
                             id="transition-modal-description"
-                            sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
                         >
-                            {t("Deleted agreements")}{" "}
-                            <strong>{t("cannot be brought back")}</strong>
-                            {t(", are you sure you want to delete")}
+                            {remainingAgreementTime !== "Agreement is expired"
+                                ? t(
+                                      `This agreement's end date is ${
+                                          agreement.agreementEndDate
+                                      }. Agreement still has ${remainingTime(
+                                          agreement.agreementEndDate
+                                      )} time to expire. Deleting this agreement can lead to wrong situations in your company. `
+                                  )
+                                : null}
+                            {t("Are you sure you want to delete")}
                             <StyledSpan>
                                 {agreement.agreementContent}
                             </StyledSpan>{" "}
