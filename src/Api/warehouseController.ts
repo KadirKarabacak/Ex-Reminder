@@ -63,12 +63,16 @@ export const useAddItem = function () {
 
 interface UpdateItemTypes {
     item: object;
-    id: string;
+    id: any;
     userId: string | undefined;
 }
 
 //! Update Item
-const updateItem = async function ({ item, id, userId }: UpdateItemTypes) {
+export const updateItem = async function ({
+    item,
+    id,
+    userId,
+}: UpdateItemTypes) {
     const ref = doc(db, `users/${userId}/warehouse`, id);
     await updateDoc(ref, item);
 };
