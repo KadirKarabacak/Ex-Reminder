@@ -12,7 +12,6 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { formatCurrency, parseCurrency } from "../../Utils/utils";
 import { EditEmployeeModalTypes } from "../../Interfaces/User";
-// import ExportButton from "../ExportButton";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -34,7 +33,7 @@ const StyledButtonContainer = styled.div`
 `;
 
 const StyledTitle = styled.h4`
-    color: var(--color-brand-500);
+    color: var(--color-green-lighter);
     align-self: flex-start;
     margin-bottom: 0.9rem;
 `;
@@ -59,32 +58,6 @@ export default function DetailItemModal({
     function onCloseModal() {
         handleClose(open);
     }
-
-    // const data = [{ ...row }];
-
-    // const ExcelData = data.map(value => {
-    //     return {
-    //         full_name: value?.full_name,
-    //         job_title: value?.job_title,
-    //         department: value?.department,
-    //         email: value?.email,
-    //         age: value?.age,
-    //         salary: value?.salary,
-    //         hire_date: value?.hire_date,
-    //     };
-    // });
-
-    // const PdfBody = data.map(value => {
-    //     return [
-    //         value?.full_name,
-    //         value?.job_title,
-    //         value?.department,
-    //         value?.email,
-    //         value?.age,
-    //         value?.salary,
-    //         value?.hire_date,
-    //     ];
-    // });
 
     const isValues = row.itemSalePrice !== "" && row.itemPurchasePrice !== "";
     const profit = isValues
@@ -115,12 +88,21 @@ export default function DetailItemModal({
                         component="h1"
                         sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                     >
-                        {t(`Item Detail`) + " " + row.itemName}
+                        {t(`Item Detail `)}
+                        <StyledSpan
+                            style={{
+                                borderLeft: "2px solid var(--color-grey-500)",
+                                paddingLeft: "6px",
+                                fontSize: "2.5rem",
+                            }}
+                            color="var(--color-green-lighter)"
+                        >
+                            {row?.itemName}
+                        </StyledSpan>
                     </Typography>
                     <Grid container spacing={2} sx={{ mt: "2rem" }}>
                         <Grid item xs={4}>
                             <StyledTitle>{t("Name of item")}</StyledTitle>
-
                             <StyledDescription>
                                 {row.itemName || t("Not spesified")}
                             </StyledDescription>
@@ -168,15 +150,7 @@ export default function DetailItemModal({
                             </StyledTitle>
                             <StyledDescription>
                                 {(
-                                    <StyledSpan
-                                        color={
-                                            profit > 0
-                                                ? "#1F994D"
-                                                : profit < 0
-                                                ? "#CA1212"
-                                                : "var(--color-grey-600)"
-                                        }
-                                    >
+                                    <StyledSpan>
                                         {" "}
                                         {formatCurrency(profit)}
                                     </StyledSpan>
@@ -213,56 +187,6 @@ export default function DetailItemModal({
                     </Grid>
 
                     <StyledButtonContainer>
-                        {/* <ExportButton
-                            title={t("Employee Details")}
-                            excel={{
-                                headers: [
-                                    {
-                                        label: t("Full Name"),
-                                        key: "full_name",
-                                    },
-                                    {
-                                        label: t("Job Title"),
-                                        key: "job_title",
-                                    },
-                                    {
-                                        label: t("Department"),
-                                        key: "department",
-                                    },
-                                    {
-                                        label: t("Email"),
-                                        key: "email",
-                                    },
-                                    {
-                                        label: t("Age"),
-                                        key: "age",
-                                    },
-                                    {
-                                        label: t("Salary"),
-                                        key: "salary",
-                                    },
-                                    {
-                                        label: t("Hire Date"),
-                                        key: "hire_date",
-                                    },
-                                ],
-                                data: ExcelData,
-                            }}
-                            pdf={{
-                                head: [
-                                    [
-                                        t("Full Name"),
-                                        t("Job Title"),
-                                        t("Department"),
-                                        t("Email"),
-                                        t("Age"),
-                                        t("Salary"),
-                                        t("Hire Date"),
-                                    ],
-                                ],
-                                body: PdfBody,
-                            }}
-                        /> */}
                         <Button
                             onClick={onCloseModal}
                             sx={{
