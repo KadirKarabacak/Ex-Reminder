@@ -78,7 +78,11 @@ export interface EnhancedTableProps {
     numSelected: number;
     onRequestSort: (
         event: React.MouseEvent<unknown>,
-        property: keyof EmployeeData | keyof Warehouses | keyof Companies
+        property:
+            | keyof EmployeeData
+            | keyof Warehouses
+            | keyof Companies
+            | keyof Sales
     ) => void;
     onSelectAllClick: (event: React.ChangeEvent<HTMLInputElement>) => void;
     order: Order;
@@ -133,6 +137,13 @@ export interface DeleteAgreementTypes {
     companyId: string | undefined;
 }
 
+export interface DeleteSaleTypes {
+    id: any;
+    userId: string | undefined;
+    companyId: string | undefined;
+    saleToDeleteId: any;
+}
+
 export interface Warehouses {
     itemAmount?: number;
     itemId?: string;
@@ -183,16 +194,22 @@ export interface Agreements {
     agreementParties: string;
     createdAt: string;
     agreementId?: string;
+    companyId?: string;
 }
 
 export interface Sales {
     saleItemId: string;
+    saleItemName: string;
     saleItemAmount: number;
     saleItemPrice: number;
     saleCompanyId: string;
+    saleCompanyName: string;
     saleDescription: string;
     saleCreatedAt: string;
+    saleGuarantee: string;
+    saleGuaranteeTime: string;
     id?: string;
+    saleId?: string | undefined;
 }
 
 export interface UpdateAgreementTypes {
