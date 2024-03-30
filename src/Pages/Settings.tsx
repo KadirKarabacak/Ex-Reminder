@@ -12,7 +12,6 @@ const StyledSettings = styled.main`
     text-align: center;
     display: flex;
     flex-direction: column;
-
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
 `;
