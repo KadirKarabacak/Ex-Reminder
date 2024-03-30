@@ -54,7 +54,7 @@ const addEmployee = async function (
 //! Add new employee Query
 export const useAddEmployee = function () {
     const queryClient = useQueryClient();
-    const { mutate, isPending } = useMutation({
+    const { mutateAsync, isPending } = useMutation({
         mutationFn: (employee: object) =>
             addEmployee(employee, auth?.currentUser?.uid),
         onSuccess: () => {
@@ -66,7 +66,7 @@ export const useAddEmployee = function () {
             toast.error(i18n.t("There was an error adding the employee"));
         },
     });
-    return { mutate, isPending };
+    return { mutateAsync, isPending };
 };
 
 //! Update Employee
