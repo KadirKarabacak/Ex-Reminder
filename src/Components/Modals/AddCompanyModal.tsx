@@ -92,6 +92,9 @@ const StyledTelInput = styled(MuiTelInput)`
     }
 `;
 
+const webRegex =
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+
 export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     const { t } = useTranslation();
     const { mutate, isPending } = useAddCompany();
@@ -172,10 +175,10 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Company Name")}</StyledTitle>
+                                <StyledTitle>{t("Company Name*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Company Name")}
+                                    placeholder={t("Company Name")}
                                     {...register("companyName", {
                                         required: t("Company Name is required"),
                                     })}
@@ -192,7 +195,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Company Address")}
+                                    placeholder={t("Company Address")}
                                     {...register("companyAddress")}
                                     error={Boolean(errors?.companyAddress)}
                                     helperText={
@@ -211,7 +214,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Company Phone")}</StyledTitle>
                                 <StyledTelInput
-                                    label={t("Company Phone")}
+                                    placeholder={t("Company Phone")}
                                     preferredCountries={["TR", "GB", "US"]}
                                     defaultCountry={
                                         currentLanguage === "tr-TR"
@@ -226,7 +229,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Company Email")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Company Email"
+                                    placeholder="Company Email"
                                     {...register("companyEmail", {
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
@@ -246,8 +249,20 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Company Website")}
-                                    {...register("companyWebsite")}
+                                    placeholder={t("Company Website")}
+                                    {...register("companyWebsite", {
+                                        pattern: {
+                                            value: webRegex,
+                                            message: t(
+                                                "Website must start with https://"
+                                            ),
+                                        },
+                                    })}
+                                    error={Boolean(errors?.companyWebsite)}
+                                    helperText={
+                                        (errors?.companyWebsite
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -261,14 +276,14 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Manager Name")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Manager Name")}
+                                    placeholder={t("Manager Name")}
                                     {...register("managerName")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Manager Phone")}</StyledTitle>
                                 <StyledTelInput
-                                    label={t("Manager Phone")}
+                                    placeholder={t("Manager Phone")}
                                     preferredCountries={["TR", "GB", "US"]}
                                     defaultCountry={
                                         currentLanguage === "tr-TR"
@@ -283,7 +298,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Manager Email")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Manager Email")}
+                                    placeholder={t("Manager Email")}
                                     {...register("managerEmail")}
                                 />
                             </Grid>
