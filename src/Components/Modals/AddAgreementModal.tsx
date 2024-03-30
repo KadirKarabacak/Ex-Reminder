@@ -29,13 +29,13 @@ const StyledBox = styled(Box)`
     background-color: var(--color-grey-100);
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    padding: 4rem 4rem 3rem;
+    padding: 5rem 4rem 5rem;
     border-radius: 5px;
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
     justify-content: center;
 `;
 
@@ -71,7 +71,7 @@ const StyledTitle = styled.h4`
 `;
 
 const StyledSpan = styled.span`
-    color: var(--color-brand-500);
+    color: var(--color-green-lighter);
     font-size: 3rem;
     border-left: 2px solid var(--color-grey-500);
     padding-left: 8px;
@@ -156,6 +156,7 @@ export default function AddAgreementModal({
             agreementStartDate: formatDate(agreementStart),
             agreementEndDate: formatDate(agreementEnd),
             createdAt: formatDate(new Date()),
+            companyId,
         };
         if (errorMessage) return toast.error(errorMessage);
         if (isDateBefore)
@@ -202,11 +203,11 @@ export default function AddAgreementModal({
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Agreement Content")}
+                                    {t("Agreement Content*")}
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Agreement Content")}
+                                    placeholder={t("Agreement Content")}
                                     {...register("agreementContent", {
                                         required: t(
                                             "Agreement Content is required"
@@ -226,7 +227,7 @@ export default function AddAgreementModal({
                                 <StyledTextField
                                     disabled={isPending}
                                     type="number"
-                                    label={t("Agreement Budget")}
+                                    placeholder={t("Agreement Budget")}
                                     {...register("agreementBudget")}
                                     error={Boolean(errors?.agreementBudget)}
                                     helperText={
@@ -244,12 +245,12 @@ export default function AddAgreementModal({
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>
-                                    {t("Parties to the Agreement")}
+                                    {t("Parties of Agreement")}
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
                                     type="text"
-                                    label={t("Parties to the Agreement")}
+                                    placeholder="Company A & Company B"
                                     {...register("agreementParties")}
                                 />
                             </Grid>
@@ -296,13 +297,6 @@ export default function AddAgreementModal({
                                         },
                                     }}
                                     minDate={minDate}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
                                 />
                             </Grid>
                         </Grid>
