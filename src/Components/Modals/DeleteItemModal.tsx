@@ -74,9 +74,23 @@ export default function DeleteItemModal({
                             id="transition-modal-title"
                             variant="h3"
                             component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                            sx={{
+                                fontWeight: "bold",
+                                letterSpacing: "0.80px",
+                                mb: "3rem",
+                            }}
                         >
                             {t(`Delete Item`)}
+                            <StyledSpan
+                                style={{
+                                    fontSize: "3rem",
+                                    borderLeft:
+                                        "2px solid var(--color-grey-500)",
+                                    paddingLeft: "8px",
+                                }}
+                            >
+                                {row.itemName}
+                            </StyledSpan>
                         </Typography>
                         <Typography
                             id="transition-modal-description"
@@ -85,7 +99,7 @@ export default function DeleteItemModal({
                             {t("Deleted items")}{" "}
                             <strong>{t("cannot be brought back")}</strong>
                             {t(", are you sure you want to delete")}
-                            <StyledSpan>{row.itemName}</StyledSpan>
+                            <StyledSpan>{row.itemName}?</StyledSpan>
                         </Typography>
 
                         <StyledButtonContainer>
