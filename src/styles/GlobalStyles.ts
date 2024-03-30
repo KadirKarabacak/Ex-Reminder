@@ -105,6 +105,7 @@ const GlobalStyles = createGlobalStyle`
 
   --color-green-new: #1F994D;
   --color-green-lighter: #25b35b;
+  --color-white-soft: #FBFAF5;
 }
 
 *,
@@ -248,12 +249,16 @@ svg{
   color: #101010!important;
 }
 
-.MuiOutlinedInput-notchedOutline{
+/* .MuiOutlinedInput-notchedOutline{
   border-color: var(--color-grey-500)!important;
-}
+} */
 
 .MuiPaper-root .MuiList-root .MuiMenuItem-root{
   font-size: 1.2rem!important;
+}
+
+.MuiList-root {
+  max-height: 29rem;
 }
 
 `;
