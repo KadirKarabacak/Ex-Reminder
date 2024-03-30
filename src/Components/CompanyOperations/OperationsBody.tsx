@@ -67,7 +67,7 @@ export default function OperationsBody({
         setIsExpanded(true);
     }, [agreements]);
 
-    if (isLoading)
+    if (isLoading || isLoadingSales)
         return (
             <FullPage>
                 <InfinitySpin color="var(--color-grey-800)" />
@@ -263,6 +263,7 @@ export default function OperationsBody({
                     >
                         <CustomTable
                             searchText={searchText}
+                            data={sales}
                             CustomToolbar={
                                 <SalesToolBar
                                     currentCompany={currentCompany}
@@ -270,10 +271,10 @@ export default function OperationsBody({
                                     setSearchText={setSearchText}
                                 />
                             }
-                            data={sales}
                         />
                     </Grid>
                 ) : null}
+
                 <Grid
                     container
                     spacing={2}
