@@ -30,14 +30,13 @@ const ChartBox = styled.div`
 `;
 
 const COLORSLIGHT = [
-    "#4E479F",
-    "#716BB0",
-    "#4338CA",
-    "#3B6F4A",
-    "#77768A",
-    "#5B898A",
-    "#133EE6",
-    "#5DAE00",
+    "var(--color-green-lighter)",
+    "var(--color-green-new)",
+    "var(--color-brand-500)",
+    "#176b2f",
+    "#ec8524",
+    "#32d0d3",
+    "#2b4fe0",
     "",
     "",
 ];
