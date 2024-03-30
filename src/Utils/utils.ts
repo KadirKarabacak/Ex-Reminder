@@ -1,4 +1,4 @@
-import { differenceInDays } from "date-fns";
+import { differenceInDays, differenceInHours } from "date-fns";
 import i18n from "../i18n";
 
 export const extractFileName = (file: any) => {
@@ -35,11 +35,18 @@ export function remainingTime(endDate: string) {
 
     // Calculate the difference between the dates in days
     const difference = differenceInDays(parsedEndDate, new Date());
+    const differenceHours = differenceInHours(parsedEndDate, new Date());
 
     // Calculate remaining Years, months and days
     const years = Math.floor(difference / 365);
     const months = Math.floor((difference % 365) / 30);
     const days = difference % 30;
+
+    if (years === 0 && months === 0 && days === 0)
+        return `${differenceHours} hours remaining`;
+
+    if (years === 0 && months === 0 && days === 0 && differenceHours === 0)
+        return `Agreement is expired`;
 
     return `${years > 0 ? years + i18n.t(" years ") : ""}${
         months > 0 ? months + i18n.t(" months ") : ""
