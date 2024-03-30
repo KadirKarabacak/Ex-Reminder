@@ -12,6 +12,9 @@ import DeleteUserModal from "../Modals/DeleteUserModal";
 import UpdateEmailModal from "../Modals/UpdateEmailModal";
 import UpdatePasswordModal from "../Modals/UpdatePasswordModal";
 import { useTranslation } from "react-i18next";
+import EmailIcon from "@mui/icons-material/Email";
+import LockOpenIcon from "@mui/icons-material/LockOpen";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 const StyledTitle = styled.h4`
     color: var(--color-grey-600);
@@ -20,6 +23,8 @@ const StyledTitle = styled.h4`
 `;
 
 const StyledTextField = styled(TextField)`
+    max-width: 50%;
+    margin-bottom: 1rem !important;
     & div + p {
         font-size: 1rem;
     }
@@ -158,7 +163,6 @@ export default function SettingForm() {
                     <StyledTextField
                         disabled={isPending}
                         placeholder={t("Display Name")}
-                        sx={{ minWidth: "100%", mb: "1rem" }}
                         variant="outlined"
                         {...register("displayName")}
                     />
@@ -213,16 +217,15 @@ export default function SettingForm() {
                         <Button
                             disabled={isPending}
                             sx={{
-                                backgroundColor: "var(--color-grey-800)",
-                                color: "var(--color-grey-50)",
+                                backgroundColor: "var(--color-green-lighter)",
+                                color: "var(--color-white-soft)",
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
                                 fontSize: "1.1rem",
                                 alignSelf: "center",
                                 fontWeight: "bold",
                                 "&:hover": {
-                                    backgroundColor: "var(--color-grey-600)",
-                                    color: "var(--color-grey-100)",
+                                    backgroundColor: "var(--color-green-new)",
                                     transform: "translateY(-2px)",
                                 },
                                 "&:active": {
@@ -289,10 +292,13 @@ export default function SettingForm() {
                         backgroundColor: "var(--color-grey-800)",
                         color: "var(--color-grey-50)",
                         transition: "all .3s",
-                        padding: "1.1rem 2.5rem",
+                        padding: "1.1rem 3rem",
                         fontSize: "1.1rem",
                         alignSelf: "flex-start",
                         fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "center",
+                        gap: "0.5rem",
                         mb: "1rem",
                         "&:hover": {
                             backgroundColor: "var(--color-grey-600)",
@@ -308,6 +314,12 @@ export default function SettingForm() {
                     }}
                     variant="contained"
                 >
+                    <EmailIcon
+                        sx={{
+                            color: "var(--color-grey-300)",
+                            fontSize: "2rem",
+                        }}
+                    />{" "}
                     {t("Update Email")}
                 </Button>
 
@@ -324,6 +336,9 @@ export default function SettingForm() {
                         fontSize: "1.1rem",
                         alignSelf: "flex-start",
                         fontWeight: "bold",
+                        display: "flex",
+                        alignItems: "flex-end",
+                        gap: "0.5rem",
                         mb: "1rem",
                         "&:hover": {
                             backgroundColor: "var(--color-grey-600)",
@@ -339,6 +354,12 @@ export default function SettingForm() {
                     }}
                     variant="contained"
                 >
+                    <LockOpenIcon
+                        sx={{
+                            color: "var(--color-grey-300)",
+                            fontSize: "2rem",
+                        }}
+                    />{" "}
                     {t("Update password")}
                 </Button>
             </Paper>
@@ -371,10 +392,14 @@ export default function SettingForm() {
                             backgroundColor: "var(--color-red-700)",
                             color: "white",
                             transition: "all .3s",
-                            padding: "1rem 3rem",
+                            padding: "1rem 2rem",
                             fontSize: "1.1rem",
                             alignSelf: "flex-start",
                             fontWeight: "bold",
+                            display: "flex",
+                            alignItems: "flex-end",
+                            gap: "0.5rem",
+
                             "&:hover": {
                                 backgroundColor: "var(--color-red-800)",
                                 transform: "translateY(-2px)",
@@ -386,6 +411,12 @@ export default function SettingForm() {
                         variant="contained"
                         onClick={handleOpenModal}
                     >
+                        <DeleteOutlineIcon
+                            sx={{
+                                color: "var(--color-white-soft)",
+                                fontSize: "2rem",
+                            }}
+                        />{" "}
                         {t("Delete Account")}
                     </Button>
                 </Paper>
