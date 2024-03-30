@@ -87,7 +87,7 @@ const StyledTitle = styled.h4`
 `;
 
 const StyledSpan = styled.span`
-    color: var(--color-brand-500);
+    color: var(--color-green-lighter);
     font-size: 3rem;
     border-left: 2px solid var(--color-grey-500);
     padding-left: 8px;
@@ -285,13 +285,13 @@ export default function EditAgreementModal({
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>
-                                    {t("Parties to the Agreement")}
+                                    {t("Parties of Agreement")}
                                 </StyledTitle>
                                 <StyledTextField
                                     variant="filled"
                                     disabled={isPending}
                                     type="text"
-                                    label={t("Parties to the Agreement")}
+                                    label={t("Parties of Agreement")}
                                     {...register("agreementParties")}
                                     defaultValue={agreement.agreementParties}
                                 />
@@ -315,7 +315,7 @@ export default function EditAgreementModal({
                                         textField: {
                                             helperText: errorMessage,
                                             variant: "filled",
-                                            label: "Agreement Start Date",
+                                            label: t("Agreement Start Date"),
                                         },
                                     }}
                                     minDate={minDate}
@@ -339,7 +339,7 @@ export default function EditAgreementModal({
                                         textField: {
                                             helperText: errorMessage,
                                             variant: "filled",
-                                            label: "Agreement End Date",
+                                            label: t("Agreement End Date"),
                                         },
                                     }}
                                     minDate={minDate}

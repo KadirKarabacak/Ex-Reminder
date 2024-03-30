@@ -94,15 +94,30 @@ export default function DeleteEmployeeModal({
                                 {row.full_name}
                             </StyledSpan>
                         </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
-                        >
-                            {t("Deleted employees")}{" "}
-                            <strong>{t("cannot be brought back")}</strong>
-                            {t(", are you sure you want to delete")}
-                            <StyledSpan>{row.full_name}?</StyledSpan>
-                        </Typography>
+                        {currentLanguage === "en-EN" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            >
+                                {t("Deleted employees")}{" "}
+                                <strong>{t("cannot be brought back")}</strong>
+                                {t(", are you sure you want to delete")}
+                                <StyledSpan>{row.full_name}?</StyledSpan>
+                            </Typography>
+                        )}
+                        {currentLanguage === "tr-TR" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            >
+                                {t("Silinen çalışanlar")}{" "}
+                                <strong>{t("geri getirilemezler.")}</strong>
+                                <StyledSpan>{row.full_name}</StyledSpan>
+                                {t(
+                                    " isimli çalışanı silmek istiğinize emin misiniz?"
+                                )}
+                            </Typography>
+                        )}
 
                         <StyledButtonContainer>
                             <Button

@@ -250,7 +250,7 @@ export default function AddAgreementModal({
                                 <StyledTextField
                                     disabled={isPending}
                                     type="text"
-                                    placeholder="Company A & Company B"
+                                    placeholder={t("Company A & Company B")}
                                     {...register("agreementParties")}
                                 />
                             </Grid>

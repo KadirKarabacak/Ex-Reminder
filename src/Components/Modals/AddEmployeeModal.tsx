@@ -93,7 +93,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
     const [hireTime, setHireTime] = useState(new Date());
     const [error, setError] = useState<DateValidationError>(null);
     const { t } = useTranslation();
-    const { mutate, isPending } = useAddEmployee();
+    const { mutateAsync: addEmployee, isPending } = useAddEmployee();
 
     const errorMessage = React.useMemo(() => {
         switch (error) {
@@ -139,7 +139,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
         };
         if (errorMessage)
             return toast.error("Before submit you must enter a valid date");
-        mutate(newEmployee);
+        await addEmployee(newEmployee);
         onCloseModal();
     }
 

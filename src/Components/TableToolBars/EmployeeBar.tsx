@@ -72,7 +72,7 @@ export function EmployeeToolBar({
                 <StyledTextField
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}
-                    placeholder="Search Employee by Name"
+                    placeholder={t("Search Employee by Name")}
                 />
                 <Button
                     onClick={handleOpen}

@@ -76,7 +76,7 @@ export function CompaniesToolBar({
                 <StyledTextField
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}
-                    placeholder="Search Company by Name"
+                    placeholder={t("Search Company by Name")}
                 />
                 <Button
                     onClick={handleOpen}

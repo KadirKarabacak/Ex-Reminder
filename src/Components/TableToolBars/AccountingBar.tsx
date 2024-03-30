@@ -72,7 +72,7 @@ export function AccountingToolBar({
                 <StyledTextField
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}
-                    placeholder="Search Sales by Company Name"
+                    placeholder={t("Search Sales by Company Name")}
                 />
                 <Button
                     onClick={handleOpenMakeSale}

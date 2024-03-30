@@ -67,7 +67,7 @@ export function WarehouseToolBar({
                 <StyledTextField
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}
-                    placeholder="Search Item by Name"
+                    placeholder={t("Search Item by Name")}
                 />
                 <Button
                     onClick={handleOpen}

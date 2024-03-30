@@ -229,7 +229,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Company Email")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder="Company Email"
+                                    placeholder={t("Company Email")}
                                     {...register("companyEmail", {
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,

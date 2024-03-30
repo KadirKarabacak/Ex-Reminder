@@ -19,6 +19,7 @@ import { useGetWarehouse } from "../../Api/warehouseController";
 import { useAddSale, useGetCompanies } from "../../Api/companyController";
 import { formatDate } from "../../Utils/utils";
 import { useNavigate } from "react-router-dom";
+import i18n from "../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -101,9 +102,6 @@ const StyledMenuItem = styled(MenuItem)`
     background-color: transparent !important;
 `;
 
-const itemGuarantees = ["Yes", "No"];
-const itemGuaranteeTimes = ["1 Year", "2 Year"];
-
 export default function AddSaleModal({
     open,
     handleClose,
@@ -115,9 +113,12 @@ export default function AddSaleModal({
     tableName?: string;
     row?: any;
 }) {
+    const currentLangueage = i18n.language;
     const [selectedItem, setSelectedItem] = useState("");
     const [selectedCompany, setSelectedCompany] = useState("");
-    const [selectedGuarantee, setSelectedGuarantee] = useState("No");
+    const [selectedGuarantee, setSelectedGuarantee] = useState(
+        currentLangueage === "en-EN" ? "No" : "Hayır"
+    );
     const [selectedGuaranteeTime, setSelectedGuaranteeTime] = useState("");
     const { t } = useTranslation();
     const {
@@ -137,6 +138,9 @@ export default function AddSaleModal({
     const findCompany = companies?.find(
         company => company.id === selectedCompany
     );
+
+    const itemGuarantees = [t("Yes"), t("No")];
+    const itemGuaranteeTimes = [t("1 Year"), t("2 Year")];
 
     async function onSubmit() {
         const { itemAmount, itemSalePrice, saleDescription } = getValues();
@@ -171,7 +175,7 @@ export default function AddSaleModal({
         reset();
         setSelectedItem("");
         tableName !== "company" && setSelectedCompany("");
-        setSelectedGuarantee("No");
+        setSelectedGuarantee(t("No"));
         setSelectedGuaranteeTime("");
     }
 
@@ -179,7 +183,8 @@ export default function AddSaleModal({
         tableName === "company"
             ? setSelectedCompany(row.id)
             : setSelectedCompany("");
-        if (selectedGuarantee === "No") setSelectedGuaranteeTime("");
+        if (selectedGuarantee === "No" || selectedGuarantee === "Hayır")
+            setSelectedGuaranteeTime("");
     }, [selectedGuarantee, row?.id]);
 
     return (
@@ -314,7 +319,7 @@ export default function AddSaleModal({
                                     disabled={isAdding}
                                     placeholder={t("Item Amount")}
                                     {...register("itemAmount", {
-                                        required: t("Item amount is required"),
+                                        required: t("Item Amount is required"),
                                         min: {
                                             value: 1,
                                             message: t(
@@ -402,7 +407,8 @@ export default function AddSaleModal({
                                         required
                                         disabled={
                                             isAdding ||
-                                            selectedGuarantee !== "Yes"
+                                            selectedGuarantee === "No" ||
+                                            selectedGuarantee === "Hayır"
                                         }
                                         labelId="selectedGuaranteeTimeLabel"
                                         id="selectedGuaranteeTime"
@@ -447,9 +453,14 @@ export default function AddSaleModal({
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
-                                    defaultValue={`Sell Item (Item Name)x (Item Amount) to "(Company)" at ${formatDate(
-                                        new Date()
-                                    )}`}
+                                    placeholder={t("Sale Description")}
+                                    defaultValue={
+                                        t(
+                                            `Sell Item (Item Name)x (Item Amount) to (Company) at `
+                                        ) +
+                                        " " +
+                                        `${formatDate(new Date())}`
+                                    }
                                     {...register("saleDescription")}
                                 />
                             </Grid>

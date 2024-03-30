@@ -89,27 +89,57 @@ export default function DeleteAgreementModal({
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t(`Delete Agreement`)}
-                        </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
-                        >
-                            {remainingAgreementTime !== "Agreement is expired"
-                                ? t(
-                                      `This agreement's end date is ${
-                                          agreement.agreementEndDate
-                                      }. Agreement still has ${remainingTime(
-                                          agreement.agreementEndDate
-                                      )} time to expire. Deleting this agreement can lead to wrong situations in your company. `
-                                  )
-                                : null}
-                            {t("Are you sure you want to delete")}
-                            <StyledSpan>
+                            {t(`Delete Agreement`)}{" "}
+                            <StyledSpan
+                                style={{
+                                    fontSize: "3rem",
+                                    borderLeft:
+                                        "2px solid var(--color-grey-500)",
+                                    paddingLeft: "8px",
+                                }}
+                            >
                                 {agreement.agreementContent}
-                            </StyledSpan>{" "}
-                            ?
+                            </StyledSpan>
                         </Typography>
+                        {currentLanguage === "en-EN" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
+                            >
+                                {remainingAgreementTime !==
+                                "Agreement is expired"
+                                    ? t(
+                                          `This agreement's end date is ${
+                                              agreement.agreementEndDate
+                                          }. Agreement still has ${remainingTime(
+                                              agreement.agreementEndDate
+                                          )} time to expire. Deleting this agreement can lead to wrong situations in your company. `
+                                      )
+                                    : null}
+                                {t("Are you sure you want to delete")}
+                                <StyledSpan>
+                                    {agreement.agreementContent}
+                                </StyledSpan>{" "}
+                                ?
+                            </Typography>
+                        )}
+                        {currentLanguage === "tr-TR" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
+                            >
+                                {remainingAgreementTime !==
+                                "Anlaşma süresi doldu"
+                                    ? `Bu anlaşmanın bitiş tarihi ${
+                                          agreement.agreementEndDate
+                                      }. Anlaşmanın bitmesine hala ${remainingTime(
+                                          agreement.agreementEndDate
+                                      )} var. Bu anlaşmanın silinmesi şirketinizde yanlış durumlara yol açabilir. ${
+                                          agreement.agreementContent
+                                      } içerikli anlaşmayı silmek istediğinize emin misiniz?`
+                                    : t("Are you sure you want to delete")}
+                            </Typography>
+                        )}
 
                         <StyledButtonContainer>
                             <Button

@@ -30,6 +30,7 @@ export function parseDateFromString(dateString: String) {
 }
 
 export function remainingTime(endDate: string) {
+    const currentLanguage = i18n.language;
     // Parse Dates back to Date format
     const parsedEndDate = parseDateFromString(endDate);
 
@@ -43,12 +44,18 @@ export function remainingTime(endDate: string) {
     const days = difference % 30;
 
     if (years === 0 && months === 0 && days === 0)
-        return `${differenceHours} hours remaining`;
+        return currentLanguage === "en-EN"
+            ? `${differenceHours} hours`
+            : `${differenceHours} saat`;
+    // return `${differenceHours} hours remaining`;
 
     if (years === 0 && months === 0 && days === 0 && differenceHours === 0)
-        return `Agreement is expired`;
+        return currentLanguage === "en-EN"
+            ? `Agreement is expired`
+            : `Anlaşma süresi doldu`;
+    // return `Agreement is expired`;
 
     return `${years > 0 ? years + i18n.t(" years ") : ""}${
         months > 0 ? months + i18n.t(" months ") : ""
-    }${days > 0 ? days + i18n.t(" days ") : ""}remaining`;
+    }${days > 0 ? days + i18n.t(" days ") : ""}`;
 }

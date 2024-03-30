@@ -6,6 +6,7 @@ import { EditEmployeeModalTypes } from "../../Interfaces/User";
 import { useDeleteSales } from "../../Api/companyController";
 import { auth } from "../../Api/firebase";
 import { useGetAccounting } from "../../Api/accountingController";
+import i18n from "../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -44,6 +45,7 @@ export default function DeleteSaleModal({
     const { isPending: isDeleting, mutateAsync: deleteSales } =
         useDeleteSales();
     const { currentUser } = auth;
+    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
     const companyId = row.saleCompanyId;
     const { data: accountings } = useGetAccounting();
@@ -84,19 +86,38 @@ export default function DeleteSaleModal({
                         >
                             {t(`Delete Sale`)}
                         </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
-                        >
-                            {t(
-                                "Deleted sales cannot be brought back, are you sure you want to delete"
-                            )}
-                            <StyledSpan>{row.saleCreatedAt}</StyledSpan>{" "}
-                            {t(" dated sale to")}
-                            <StyledSpan>
-                                {row.saleCompanyName} ?
-                            </StyledSpan>{" "}
-                        </Typography>
+                        {currentLanguage === "en-EN" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            >
+                                Deleted sales cannot be brought back, are you
+                                sure you want to delete
+                                <StyledSpan>
+                                    {row.saleCreatedAt}
+                                </StyledSpan>{" "}
+                                dated sale to
+                                <StyledSpan>
+                                    {row.saleCompanyName} ?
+                                </StyledSpan>{" "}
+                            </Typography>
+                        )}
+                        {currentLanguage === "tr-TR" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            >
+                                Silinen satış bilgileri geri getirilemez ve
+                                muhasebe kayıtlarınızdan da silinir.
+                                <StyledSpan>
+                                    {row.saleCreatedAt}
+                                </StyledSpan>{" "}
+                                tarihli{" "}
+                                <StyledSpan>{row.saleCompanyName}</StyledSpan>{" "}
+                                şirketine yapılan satışı silmek istediğinize
+                                emin misiniz?
+                            </Typography>
+                        )}
 
                         <StyledButtonContainer>
                             <Button

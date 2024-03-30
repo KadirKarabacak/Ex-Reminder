@@ -50,17 +50,22 @@ export default function DeleteCompanyModal({
     const { currentUser } = auth;
     const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
-    const filteredCompanyAgreements = agreements
-        ?.filter(agreement => agreement.companyId === id)
-        .filter(
-            agreement =>
-                remainingTime(agreement.agreementEndDate) !==
-                "Agreement is expired"
-        );
-    // const isNotExpiredAgreement = filteredCompanyAgreements?.filter(
-    //     agreement =>
-    //         remainingTime(agreement.agreementEndDate) !== "Agreement is expired"
-    // );
+    const filteredCompanyAgreements =
+        currentLanguage === "en-EN"
+            ? agreements
+                  ?.filter(agreement => agreement.companyId === id)
+                  .filter(
+                      agreement =>
+                          remainingTime(agreement.agreementEndDate) !==
+                          t("Agreement is expired")
+                  )
+            : agreements
+                  ?.filter(agreement => agreement.companyId === id)
+                  .filter(
+                      agreement =>
+                          remainingTime(agreement.agreementEndDate) !==
+                          t("Anlaşma süresi doldu")
+                  );
 
     async function onSubmit() {
         await deleteCompany({ id, userId });
@@ -109,23 +114,38 @@ export default function DeleteCompanyModal({
                                 {row.companyName}
                             </StyledSpan>
                         </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
-                        >
-                            {filteredCompanyAgreements &&
-                            filteredCompanyAgreements.length > 0
-                                ? `${row.companyName} has ${
-                                      filteredCompanyAgreements.length
-                                  } ${
-                                      filteredCompanyAgreements.length > 1
-                                          ? t("agreements are")
-                                          : t("agreement is")
-                                  } not expired yet. Deleting this company can lead to wrong situations in your company. `
-                                : null}
-                            {t("Are you sure you want to delete")}
-                            <StyledSpan>{row.companyName}?</StyledSpan>
-                        </Typography>
+                        {currentLanguage === "en-EN" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
+                            >
+                                {filteredCompanyAgreements &&
+                                filteredCompanyAgreements.length > 0
+                                    ? `${row.companyName} has ${
+                                          filteredCompanyAgreements.length
+                                      } ${
+                                          filteredCompanyAgreements.length > 1
+                                              ? t("agreements are")
+                                              : t("agreement is")
+                                      } not expired yet. Deleting this company can lead to wrong situations in your company. `
+                                    : t(
+                                          "Deleted company and company-owned data cannot be retrieved. "
+                                      )}
+                                {t("Are you sure you want to delete")}
+                                <StyledSpan>{row.companyName}?</StyledSpan>
+                            </Typography>
+                        )}
+                        {currentLanguage === "tr-TR" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
+                            >
+                                {filteredCompanyAgreements &&
+                                filteredCompanyAgreements.length > 0
+                                    ? `${row.companyName} şirketi ${filteredCompanyAgreements.length} süresi bitmemiş anlaşmaya sahip. Bu şirketi silmek şirketiniz için yanlış durumlara yol açabilir. Yine de silmek istediğinize emin misiniz?`
+                                    : `Silinen şirket ve şirket üzerine kayıtlı veriler geri getirilemezler. ${row.companyName} isimli şirketi silmek istediğinize emin misiniz?`}
+                            </Typography>
+                        )}
 
                         <StyledButtonContainer>
                             <Button

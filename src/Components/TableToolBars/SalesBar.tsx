@@ -82,7 +82,7 @@ export function SalesToolBar({
                 <StyledTextField
                     value={searchText}
                     onChange={e => setSearchText(e.target.value)}
-                    placeholder="Search Sale by Date"
+                    placeholder={t("Search Sale by Date")}
                 />
                 {/* <Button
                     onClick={handleOpen}

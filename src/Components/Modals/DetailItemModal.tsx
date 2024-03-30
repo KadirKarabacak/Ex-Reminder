@@ -86,13 +86,16 @@ export default function DetailItemModal({
                         id="transition-modal-title"
                         variant="h4"
                         component="h1"
-                        sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                        sx={{
+                            fontWeight: "bold",
+                            letterSpacing: "0.80px",
+                        }}
                     >
-                        {t(`Item Detail `)}
+                        {t(`Item Detail`)}{" "}
                         <StyledSpan
                             style={{
                                 borderLeft: "2px solid var(--color-grey-500)",
-                                paddingLeft: "6px",
+                                paddingLeft: "8px",
                                 fontSize: "2.5rem",
                             }}
                             color="var(--color-green-lighter)"

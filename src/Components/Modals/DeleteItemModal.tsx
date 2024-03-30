@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { EditEmployeeModalTypes } from "../../Interfaces/User";
 import { auth } from "../../Api/firebase";
 import { useDeleteItem } from "../../Api/warehouseController";
+import i18n from "../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -43,6 +44,7 @@ export default function DeleteItemModal({
     const { isPending: isDeleting, mutateAsync: deleteItem } = useDeleteItem();
     const { currentUser } = auth;
     const userId = currentUser?.uid;
+    const currentLanguage = i18n.language;
 
     async function onSubmit() {
         await deleteItem({ id, userId });
@@ -92,15 +94,30 @@ export default function DeleteItemModal({
                                 {row.itemName}
                             </StyledSpan>
                         </Typography>
-                        <Typography
-                            id="transition-modal-description"
-                            sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
-                        >
-                            {t("Deleted items")}{" "}
-                            <strong>{t("cannot be brought back")}</strong>
-                            {t(", are you sure you want to delete")}
-                            <StyledSpan>{row.itemName}?</StyledSpan>
-                        </Typography>
+                        {currentLanguage === "en-EN" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            >
+                                {t("Deleted items")}{" "}
+                                <strong>{t("cannot be brought back")}</strong>
+                                {t(", are you sure you want to delete")}
+                                <StyledSpan>{row.itemName}?</StyledSpan>
+                            </Typography>
+                        )}
+                        {currentLanguage === "tr-TR" && (
+                            <Typography
+                                id="transition-modal-description"
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            >
+                                {t("Silinen malzemelere")}{" "}
+                                <strong>{t("geri getirilemezler.")}</strong>
+                                <StyledSpan>{row.itemName}</StyledSpan>
+                                {t(
+                                    " isimli malzemeyi silmek istediğinize emin misiniz?"
+                                )}
+                            </Typography>
+                        )}
 
                         <StyledButtonContainer>
                             <Button
