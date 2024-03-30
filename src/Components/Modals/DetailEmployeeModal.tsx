@@ -34,7 +34,7 @@ const StyledButtonContainer = styled.div`
 `;
 
 const StyledTitle = styled.h4`
-    color: var(--color-brand-500);
+    color: var(--color-green-new);
     align-self: flex-start;
     margin-bottom: 0.9rem;
 `;
@@ -43,6 +43,12 @@ const StyledDescription = styled.h5`
     color: var(--color-grey-600);
     align-self: flex-start;
     margin-bottom: 0.9rem;
+`;
+
+const StyledSpan = styled.span`
+    color: var(--color-green-lighter);
+    padding-left: 8px;
+    border-left: 2px solid var(--color-grey-500);
 `;
 
 export default function DetailEmployeeModal({
@@ -104,7 +110,8 @@ export default function DetailEmployeeModal({
                         component="h1"
                         sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                     >
-                        {t(`Employee Detail`) + " " + row.full_name}
+                        {t(`Employee Detail `)}{" "}
+                        <StyledSpan>{row.full_name}</StyledSpan>
                     </Typography>
                     <Grid container spacing={2} sx={{ mt: "2rem" }}>
                         <Grid item xs={4}>
