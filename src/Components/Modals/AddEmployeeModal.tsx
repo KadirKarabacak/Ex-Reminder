@@ -176,10 +176,10 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Full Name")}</StyledTitle>
+                                <StyledTitle>{t("Full Name*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Full Name")}
+                                    placeholder={t("Full Name")}
                                     {...register("fullName", {
                                         required: t("Full Name is required"),
                                     })}
@@ -194,7 +194,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Job Title")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Job Title")}
+                                    placeholder={t("Job Title*")}
                                     {...register("jobTitle", {
                                         required: t("Job Title is required"),
                                     })}
@@ -213,10 +213,10 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Department")}</StyledTitle>
+                                <StyledTitle>{t("Department*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Department")}
+                                    placeholder={t("Department")}
                                     {...register("department", {
                                         required: t(
                                             "Department name is required"
@@ -233,9 +233,8 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>Email</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label="Email"
+                                    placeholder="Email"
                                     {...register("email", {
-                                        required: t("Email is required"),
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                             message: t("Invalid email"),
@@ -259,7 +258,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Age")}
+                                    placeholder={t("Age")}
                                     {...register("age")}
                                 />
                             </Grid>
@@ -267,12 +266,12 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 <StyledTitle>{t("Salary")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    label={t("Salary")}
+                                    placeholder={t("Salary")}
                                     {...register("salary")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>{t("Hire Date")}</StyledTitle>
+                                <StyledTitle>{t("Hire Date*")}</StyledTitle>
                                 <StyledDatePicker
                                     format="dd/MM/yyyy"
                                     disabled={isPending}
