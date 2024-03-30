@@ -76,9 +76,23 @@ export default function DeleteEmployeeModal({
                             id="transition-modal-title"
                             variant="h3"
                             component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                            sx={{
+                                fontWeight: "bold",
+                                letterSpacing: "0.80px",
+                                mb: "3rem",
+                            }}
                         >
-                            {t(`Delete Employee`)}
+                            {t(`Delete Employee `)}{" "}
+                            <StyledSpan
+                                style={{
+                                    fontSize: "3rem",
+                                    borderLeft:
+                                        "2px solid var(--color-grey-500)",
+                                    paddingLeft: "8px",
+                                }}
+                            >
+                                {row.full_name}
+                            </StyledSpan>
                         </Typography>
                         <Typography
                             id="transition-modal-description"
@@ -87,7 +101,7 @@ export default function DeleteEmployeeModal({
                             {t("Deleted employees")}{" "}
                             <strong>{t("cannot be brought back")}</strong>
                             {t(", are you sure you want to delete")}
-                            <StyledSpan>{row.full_name}</StyledSpan> ?
+                            <StyledSpan>{row.full_name}?</StyledSpan>
                         </Typography>
 
                         <StyledButtonContainer>
