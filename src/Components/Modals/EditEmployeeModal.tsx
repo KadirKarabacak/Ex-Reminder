@@ -277,7 +277,6 @@ export default function EditEmployeeModal({
                                     label="Email"
                                     defaultValue={row.email}
                                     {...register("email", {
-                                        required: t("Email is required"),
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                             message: t("Invalid email"),
@@ -300,21 +299,47 @@ export default function EditEmployeeModal({
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
+                                    type="number"
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.age}
                                     label={t("Age")}
-                                    {...register("age")}
+                                    {...register("age", {
+                                        min: {
+                                            value: 16,
+                                            message: t(
+                                                "Age must be greater than 16"
+                                            ),
+                                        },
+                                    })}
+                                    error={Boolean(errors?.age)}
+                                    helperText={
+                                        (errors?.age
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Salary")}</StyledTitle>
                                 <StyledTextField
+                                    type="number"
                                     disabled={isUpdating}
                                     variant="filled"
                                     defaultValue={row.salary}
                                     label={t("Salary")}
-                                    {...register("salary")}
+                                    {...register("salary", {
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Salary must be greater than 1"
+                                            ),
+                                        },
+                                    })}
+                                    error={Boolean(errors?.salary)}
+                                    helperText={
+                                        (errors?.salary
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={4}>
