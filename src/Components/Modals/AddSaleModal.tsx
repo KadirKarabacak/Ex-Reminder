@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { useGetWarehouse } from "../../Api/warehouseController";
 import { useAddSale, useGetCompanies } from "../../Api/companyController";
-import { formatDate } from "../../Utils/utils";
+import { formatDate, parseCurrency } from "../../Utils/utils";
 import { useNavigate } from "react-router-dom";
 import i18n from "../../i18n";
 
@@ -120,6 +120,7 @@ export default function AddSaleModal({
         currentLangueage === "en-EN" ? "No" : "Hayır"
     );
     const [selectedGuaranteeTime, setSelectedGuaranteeTime] = useState("");
+    const [price, setPrice] = useState<any>();
     const { t } = useTranslation();
     const {
         handleSubmit,
@@ -138,7 +139,6 @@ export default function AddSaleModal({
     const findCompany = companies?.find(
         company => company.id === selectedCompany
     );
-
     const itemGuarantees = [t("Yes"), t("No")];
     const itemGuaranteeTimes = [t("1 Year"), t("2 Year")];
 
@@ -186,6 +186,14 @@ export default function AddSaleModal({
         if (selectedGuarantee === "No" || selectedGuarantee === "Hayır")
             setSelectedGuaranteeTime("");
     }, [selectedGuarantee, row?.id]);
+
+    useEffect(() => {
+        if (findItem) {
+            findItem.itemSalePrice !== ""
+                ? setPrice(parseCurrency(findItem?.itemSalePrice))
+                : setPrice(0);
+        }
+    }, [findItem, setPrice]);
 
     return (
         <Modal
@@ -350,13 +358,14 @@ export default function AddSaleModal({
                                     {t("Item Sale Price*")}
                                 </StyledTitle>
                                 <StyledTextField
-                                    disabled={isAdding}
+                                    disabled
                                     placeholder={t("Item Sale Price")}
                                     {...register("itemSalePrice", {
                                         required: t(
                                             "Item sale price is required"
                                         ),
                                     })}
+                                    value={+price || 0}
                                     type="number"
                                     error={Boolean(errors?.itemSalePrice)}
                                     helperText={
