@@ -148,7 +148,7 @@ export interface Warehouses {
     itemAmount?: number;
     itemId?: string;
     itemName: string;
-    itemSalePrice?: any;
+    itemSalePrice?: string;
     itemPurchasePrice?: number;
     purchasePrice?: number;
     itemDescription?: string;
