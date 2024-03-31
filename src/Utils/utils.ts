@@ -20,7 +20,7 @@ export function formatCurrency(value: string | number) {
     }).format(value as number);
 }
 
-export function parseCurrency(value: string) {
+export function parseCurrency(value: any) {
     return parseFloat(value.slice(1).replaceAll(".", ""));
 }
 
