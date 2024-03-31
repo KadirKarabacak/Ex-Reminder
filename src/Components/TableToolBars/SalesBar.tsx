@@ -1,36 +1,11 @@
-import { TextField, Toolbar, Typography } from "@mui/material";
+import { Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import SearchInput from "../SearchInput";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
-`;
-
-const StyledTextField = styled(TextField)`
-    width: 20%;
-    & div + p {
-        font-size: 1rem;
-    }
-    & label {
-        color: var(--color-grey-400);
-        font-size: 1.2rem;
-    }
-    & div > input {
-        color: var(--color-grey-800);
-        font-size: 1.3rem;
-        padding: 1.3rem;
-
-        &:disabled {
-            background-color: var(--color-grey-300);
-        }
-    }
-    & div > fieldset {
-        border-color: var(--color-grey-500);
-    }
-    &:hover > div > fieldset {
-        border-color: var(--color-green-new) !important;
-    }
 `;
 
 const StyledSpan = styled.span`
@@ -79,10 +54,10 @@ export function SalesToolBar({
                     {t("Sales")}{" "}
                     <StyledSpan>{currentCompany.companyName}</StyledSpan>
                 </Typography>
-                <StyledTextField
-                    value={searchText}
-                    onChange={e => setSearchText(e.target.value)}
-                    placeholder={t("Search Sale by Date")}
+                <SearchInput
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    label={t("Search Sale by Date")}
                 />
                 {/* <Button
                     onClick={handleOpen}
