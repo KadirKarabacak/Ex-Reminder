@@ -10,12 +10,12 @@ import {
     Typography,
 } from "@mui/material";
 import styled from "styled-components";
-import { auth } from "../../Api/firebase";
+import { auth } from "../../../Api/firebase";
 import { useForm } from "react-hook-form";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
-import { ModalTypes } from "../../Interfaces/User";
-import { useUpdateUserPassword } from "../../Api/userController";
+import { ModalTypes } from "../../../Interfaces/User";
+import { useUpdateUserPassword } from "../../../Api/userController";
 import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`

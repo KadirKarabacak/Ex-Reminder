@@ -1,7 +1,7 @@
 import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { ModalTypes } from "../../Interfaces/User";
+import { ModalTypes } from "../../../Interfaces/User";
 
 const StyledBox = styled(Box)`
     position: absolute;

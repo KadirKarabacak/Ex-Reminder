@@ -11,13 +11,13 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { EditCompanyModalTypes } from "../../Interfaces/User";
+import { EditCompanyModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
-import { formatDate } from "../../Utils/utils";
-import { useUpdateCompany } from "../../Api/companyController";
-import { auth } from "../../Api/firebase";
-import i18n from "../../i18n";
+import { formatDate } from "../../../Utils/utils";
+import { useUpdateCompany } from "../../../Api/companyController";
+import { auth } from "../../../Api/firebase";
+import i18n from "../../../i18n";
 import { MuiTelInput } from "mui-tel-input";
 
 const StyledBox = styled(Box)`

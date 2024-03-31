@@ -2,13 +2,10 @@ import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { EditCompanyModalTypes } from "../../Interfaces/User";
-import { auth } from "../../Api/firebase";
-import {
-    useDeleteCompany,
-    useGetAgreements,
-} from "../../Api/companyController";
-import { remainingTime } from "../../Utils/utils";
+import { auth } from "../../../Api/firebase";
+import { useDeleteAgreement } from "../../../Api/companyController";
+import { Agreements, Companies } from "../../../Interfaces/User";
+import { remainingTime } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -36,44 +33,37 @@ const StyledSpan = styled.span`
     font-weight: bold;
 `;
 
-export default function DeleteCompanyModal({
+interface DeleteAgreementTypes {
+    agreement: Agreements;
+    open: boolean;
+    handleClose: () => void;
+    currentCompany: Companies;
+}
+
+export default function DeleteAgreementModal({
+    agreement,
     open,
     handleClose,
-    id,
-    row,
-}: EditCompanyModalTypes) {
+    currentCompany,
+}: DeleteAgreementTypes) {
     const { t, i18n } = useTranslation();
     const { handleSubmit } = useForm();
-    const { mutateAsync: deleteCompany, isPending: isDeleting } =
-        useDeleteCompany();
-    const { data: agreements } = useGetAgreements(id);
+    const { mutateAsync: deleteAgreement, isPending: isDeleting } =
+        useDeleteAgreement();
     const { currentUser } = auth;
     const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
-    const filteredCompanyAgreements =
-        currentLanguage === "en-EN"
-            ? agreements
-                  ?.filter(agreement => agreement.companyId === id)
-                  .filter(
-                      agreement =>
-                          remainingTime(agreement.agreementEndDate) !==
-                          t("Agreement is expired")
-                  )
-            : agreements
-                  ?.filter(agreement => agreement.companyId === id)
-                  .filter(
-                      agreement =>
-                          remainingTime(agreement.agreementEndDate) !==
-                          t("Anlaşma süresi doldu")
-                  );
+    const companyId = currentCompany.id;
+    const { agreementId } = agreement;
+    const remainingAgreementTime = remainingTime(agreement.agreementEndDate);
 
     async function onSubmit() {
-        await deleteCompany({ id, userId });
+        await deleteAgreement({ agreementId, userId, companyId });
         onCloseModal();
     }
 
     function onCloseModal() {
-        handleClose(open);
+        handleClose();
     }
 
     return (
@@ -97,53 +87,57 @@ export default function DeleteCompanyModal({
                             id="transition-modal-title"
                             variant="h3"
                             component="h1"
-                            sx={{
-                                fontWeight: "bold",
-                                letterSpacing: "0.80px",
-                            }}
+                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t(`Delete Company`)}{" "}
+                            {t(`Delete Agreement`)}{" "}
                             <StyledSpan
                                 style={{
-                                    fontSize: "3.1rem",
+                                    fontSize: "3rem",
                                     borderLeft:
                                         "2px solid var(--color-grey-500)",
                                     paddingLeft: "8px",
                                 }}
                             >
-                                {row.companyName}
+                                {agreement.agreementContent}
                             </StyledSpan>
                         </Typography>
                         {currentLanguage === "en-EN" && (
                             <Typography
                                 id="transition-modal-description"
-                                sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
+                                sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
                             >
-                                {filteredCompanyAgreements &&
-                                filteredCompanyAgreements.length > 0
-                                    ? `${row.companyName} has ${
-                                          filteredCompanyAgreements.length
-                                      } ${
-                                          filteredCompanyAgreements.length > 1
-                                              ? t("agreements are")
-                                              : t("agreement is")
-                                      } not expired yet. Deleting this company can lead to wrong situations in your company. `
-                                    : t(
-                                          "Deleted company and company-owned data cannot be retrieved. "
-                                      )}
+                                {remainingAgreementTime !==
+                                "Agreement is expired"
+                                    ? t(
+                                          `This agreement's end date is ${
+                                              agreement.agreementEndDate
+                                          }. Agreement still has ${remainingTime(
+                                              agreement.agreementEndDate
+                                          )} time to expire. Deleting this agreement can lead to wrong situations in your company. `
+                                      )
+                                    : null}
                                 {t("Are you sure you want to delete")}
-                                <StyledSpan>{row.companyName}?</StyledSpan>
+                                <StyledSpan>
+                                    {agreement.agreementContent}
+                                </StyledSpan>{" "}
+                                ?
                             </Typography>
                         )}
                         {currentLanguage === "tr-TR" && (
                             <Typography
                                 id="transition-modal-description"
-                                sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
+                                sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
                             >
-                                {filteredCompanyAgreements &&
-                                filteredCompanyAgreements.length > 0
-                                    ? `${row.companyName} şirketi ${filteredCompanyAgreements.length} süresi bitmemiş anlaşmaya sahip. Bu şirketi silmek şirketiniz için yanlış durumlara yol açabilir. Yine de silmek istediğinize emin misiniz?`
-                                    : `Silinen şirket ve şirket üzerine kayıtlı veriler geri getirilemezler. ${row.companyName} isimli şirketi silmek istediğinize emin misiniz?`}
+                                {remainingAgreementTime !==
+                                "Anlaşma süresi doldu"
+                                    ? `Bu anlaşmanın bitiş tarihi ${
+                                          agreement.agreementEndDate
+                                      }. Anlaşmanın bitmesine hala ${remainingTime(
+                                          agreement.agreementEndDate
+                                      )} var. Bu anlaşmanın silinmesi şirketinizde yanlış durumlara yol açabilir. ${
+                                          agreement.agreementContent
+                                      } içerikli anlaşmayı silmek istediğinize emin misiniz?`
+                                    : t("Are you sure you want to delete")}
                             </Typography>
                         )}
 

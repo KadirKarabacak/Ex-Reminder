@@ -7,22 +7,22 @@ import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import { Divider, IconButton } from "@mui/material";
 import { DeleteOutline, MoreVert } from "@mui/icons-material";
 import PostAddIcon from "@mui/icons-material/PostAdd";
-import EditEmployeeModal from "./Modals/EditEmployeeModal";
-import DeleteEmployeeModal from "./Modals/DeleteEmployeeModal";
+import EditEmployeeModal from "./Modals/Employees/EditEmployeeModal";
+import DeleteEmployeeModal from "./Modals/Employees/DeleteEmployeeModal";
 import { ButtonGroupTypes } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
-import DetailEmployeeModal from "./Modals/DetailEmployeeModal";
-import EditItemModal from "./Modals/EditItemModal";
-import DetailItemModal from "./Modals/DetailItemModal";
-import DeleteItemModal from "./Modals/DeleteItemModal";
-import EditCompanyModal from "./Modals/EditCompanyModal";
+import DetailEmployeeModal from "./Modals/Employees/DetailEmployeeModal";
+import EditItemModal from "./Modals/Warehouses/EditItemModal";
+import DetailItemModal from "./Modals/Warehouses/DetailItemModal";
+import DeleteItemModal from "./Modals/Warehouses/DeleteItemModal";
+import EditCompanyModal from "./Modals/Companies/EditCompanyModal";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import DeleteCompanyModal from "./Modals/DeleteCompanyModal";
-import AddSaleModal from "./Modals/AddSaleModal";
+import DeleteCompanyModal from "./Modals/Companies/DeleteCompanyModal";
+import AddSaleModal from "./Modals/Sales/AddSaleModal";
 import HandshakeIcon from "@mui/icons-material/Handshake";
-import AddAgreementModal from "./Modals/AddAgreementModal";
-import DeleteSaleModal from "./Modals/DeleteSaleModal";
+import AddAgreementModal from "./Modals/Agreements/AddAgreementModal";
+import DeleteSaleModal from "./Modals/Sales/DeleteSaleModal";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu

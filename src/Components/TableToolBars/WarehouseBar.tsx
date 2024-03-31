@@ -1,7 +1,7 @@
 import { Button, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import AddItemModal from "../Modals/AddItemModal";
+import AddItemModal from "../Modals/Warehouses/AddItemModal";
 import SearchInput from "../SearchInput";
 
 export function WarehouseToolBar({

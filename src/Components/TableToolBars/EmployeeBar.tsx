@@ -1,7 +1,7 @@
 import { Button, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
-import AddEmployeeModal from "../Modals/AddEmployeeModal";
+import AddEmployeeModal from "../Modals/Employees/AddEmployeeModal";
 import styled from "styled-components";
 import SearchInput from "../SearchInput";
 

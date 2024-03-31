@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import AddAgreementModal from "../Modals/AddAgreementModal";
+import AddAgreementModal from "../Modals/Agreements/AddAgreementModal";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 
 const StyledToolBar = styled(Toolbar)`

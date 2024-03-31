@@ -2,10 +2,9 @@ import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { auth } from "../../Api/firebase";
-import { useDeleteAgreement } from "../../Api/companyController";
-import { Agreements, Companies } from "../../Interfaces/User";
-import { remainingTime } from "../../Utils/utils";
+import { EditEmployeeModalTypes } from "../../../Interfaces/User";
+import { auth } from "../../../Api/firebase";
+import { useDeleteEmployee } from "../../../Api/employeeController";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -33,37 +32,27 @@ const StyledSpan = styled.span`
     font-weight: bold;
 `;
 
-interface DeleteAgreementTypes {
-    agreement: Agreements;
-    open: boolean;
-    handleClose: () => void;
-    currentCompany: Companies;
-}
-
-export default function DeleteAgreementModal({
-    agreement,
+export default function DeleteEmployeeModal({
     open,
     handleClose,
-    currentCompany,
-}: DeleteAgreementTypes) {
+    id,
+    row,
+}: EditEmployeeModalTypes) {
     const { t, i18n } = useTranslation();
     const { handleSubmit } = useForm();
-    const { mutateAsync: deleteAgreement, isPending: isDeleting } =
-        useDeleteAgreement();
+    const { mutateAsync: deleteEmployee, isPending: isDeleting } =
+        useDeleteEmployee();
     const { currentUser } = auth;
     const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
-    const companyId = currentCompany.id;
-    const { agreementId } = agreement;
-    const remainingAgreementTime = remainingTime(agreement.agreementEndDate);
 
     async function onSubmit() {
-        await deleteAgreement({ agreementId, userId, companyId });
+        await deleteEmployee({ id, userId });
         onCloseModal();
     }
 
     function onCloseModal() {
-        handleClose();
+        handleClose(open);
     }
 
     return (
@@ -87,9 +76,13 @@ export default function DeleteAgreementModal({
                             id="transition-modal-title"
                             variant="h3"
                             component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                            sx={{
+                                fontWeight: "bold",
+                                letterSpacing: "0.80px",
+                                mb: "3rem",
+                            }}
                         >
-                            {t(`Delete Agreement`)}{" "}
+                            {t(`Delete Employee `)}{" "}
                             <StyledSpan
                                 style={{
                                     fontSize: "3rem",
@@ -98,46 +91,31 @@ export default function DeleteAgreementModal({
                                     paddingLeft: "8px",
                                 }}
                             >
-                                {agreement.agreementContent}
+                                {row.full_name}
                             </StyledSpan>
                         </Typography>
                         {currentLanguage === "en-EN" && (
                             <Typography
                                 id="transition-modal-description"
-                                sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                             >
-                                {remainingAgreementTime !==
-                                "Agreement is expired"
-                                    ? t(
-                                          `This agreement's end date is ${
-                                              agreement.agreementEndDate
-                                          }. Agreement still has ${remainingTime(
-                                              agreement.agreementEndDate
-                                          )} time to expire. Deleting this agreement can lead to wrong situations in your company. `
-                                      )
-                                    : null}
-                                {t("Are you sure you want to delete")}
-                                <StyledSpan>
-                                    {agreement.agreementContent}
-                                </StyledSpan>{" "}
-                                ?
+                                {t("Deleted employees")}{" "}
+                                <strong>{t("cannot be brought back")}</strong>
+                                {t(", are you sure you want to delete")}
+                                <StyledSpan>{row.full_name}?</StyledSpan>
                             </Typography>
                         )}
                         {currentLanguage === "tr-TR" && (
                             <Typography
                                 id="transition-modal-description"
-                                sx={{ margin: "3rem 0", fontSize: "1.4rem" }}
+                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                             >
-                                {remainingAgreementTime !==
-                                "Anlaşma süresi doldu"
-                                    ? `Bu anlaşmanın bitiş tarihi ${
-                                          agreement.agreementEndDate
-                                      }. Anlaşmanın bitmesine hala ${remainingTime(
-                                          agreement.agreementEndDate
-                                      )} var. Bu anlaşmanın silinmesi şirketinizde yanlış durumlara yol açabilir. ${
-                                          agreement.agreementContent
-                                      } içerikli anlaşmayı silmek istediğinize emin misiniz?`
-                                    : t("Are you sure you want to delete")}
+                                {t("Silinen çalışanlar")}{" "}
+                                <strong>{t("geri getirilemezler.")}</strong>
+                                <StyledSpan>{row.full_name}</StyledSpan>
+                                {t(
+                                    " isimli çalışanı silmek istiğinize emin misiniz?"
+                                )}
                             </Typography>
                         )}
 

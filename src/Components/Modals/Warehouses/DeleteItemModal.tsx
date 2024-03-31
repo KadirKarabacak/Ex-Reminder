@@ -2,9 +2,10 @@ import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { EditEmployeeModalTypes } from "../../Interfaces/User";
-import { auth } from "../../Api/firebase";
-import { useDeleteEmployee } from "../../Api/employeeController";
+import { EditEmployeeModalTypes } from "../../../Interfaces/User";
+import { auth } from "../../../Api/firebase";
+import { useDeleteItem } from "../../../Api/warehouseController";
+import i18n from "../../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -32,22 +33,21 @@ const StyledSpan = styled.span`
     font-weight: bold;
 `;
 
-export default function DeleteEmployeeModal({
+export default function DeleteItemModal({
     open,
     handleClose,
     id,
     row,
 }: EditEmployeeModalTypes) {
-    const { t, i18n } = useTranslation();
+    const { t } = useTranslation();
     const { handleSubmit } = useForm();
-    const { mutateAsync: deleteEmployee, isPending: isDeleting } =
-        useDeleteEmployee();
+    const { isPending: isDeleting, mutateAsync: deleteItem } = useDeleteItem();
     const { currentUser } = auth;
-    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
+    const currentLanguage = i18n.language;
 
     async function onSubmit() {
-        await deleteEmployee({ id, userId });
+        await deleteItem({ id, userId });
         onCloseModal();
     }
 
@@ -82,7 +82,7 @@ export default function DeleteEmployeeModal({
                                 mb: "3rem",
                             }}
                         >
-                            {t(`Delete Employee `)}{" "}
+                            {t(`Delete Item`)}
                             <StyledSpan
                                 style={{
                                     fontSize: "3rem",
@@ -91,7 +91,7 @@ export default function DeleteEmployeeModal({
                                     paddingLeft: "8px",
                                 }}
                             >
-                                {row.full_name}
+                                {row.itemName}
                             </StyledSpan>
                         </Typography>
                         {currentLanguage === "en-EN" && (
@@ -99,10 +99,10 @@ export default function DeleteEmployeeModal({
                                 id="transition-modal-description"
                                 sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                             >
-                                {t("Deleted employees")}{" "}
+                                {t("Deleted items")}{" "}
                                 <strong>{t("cannot be brought back")}</strong>
                                 {t(", are you sure you want to delete")}
-                                <StyledSpan>{row.full_name}?</StyledSpan>
+                                <StyledSpan>{row.itemName}?</StyledSpan>
                             </Typography>
                         )}
                         {currentLanguage === "tr-TR" && (
@@ -110,11 +110,11 @@ export default function DeleteEmployeeModal({
                                 id="transition-modal-description"
                                 sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                             >
-                                {t("Silinen çalışanlar")}{" "}
+                                {t("Silinen malzemelere")}{" "}
                                 <strong>{t("geri getirilemezler.")}</strong>
-                                <StyledSpan>{row.full_name}</StyledSpan>
+                                <StyledSpan>{row.itemName}</StyledSpan>
                                 {t(
-                                    " isimli çalışanı silmek istiğinize emin misiniz?"
+                                    " isimli malzemeyi silmek istediğinize emin misiniz?"
                                 )}
                             </Typography>
                         )}
@@ -126,10 +126,7 @@ export default function DeleteEmployeeModal({
                                     backgroundColor: "var(--color-red-700)",
                                     color: "white",
                                     transition: "all .3s",
-                                    padding:
-                                        currentLanguage === "en-EN"
-                                            ? "1rem 2rem"
-                                            : "1rem 3rem",
+                                    padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
@@ -152,10 +149,7 @@ export default function DeleteEmployeeModal({
                                 sx={{
                                     color: "var(--color-grey-800)",
                                     transition: "all .3s",
-                                    padding:
-                                        currentLanguage === "en-EN"
-                                            ? "1rem 2rem"
-                                            : "1rem 3rem",
+                                    padding: "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
                                     backgroundColor: "var(--color-grey-100)",

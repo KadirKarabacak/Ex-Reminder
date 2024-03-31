@@ -10,9 +10,8 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "../../Utils/utils";
-import { EditEmployeeModalTypes } from "../../Interfaces/User";
-import ExportButton from "../ExportButton";
+import { formatCurrency, parseCurrency } from "../../../Utils/utils";
+import { EditEmployeeModalTypes } from "../../../Interfaces/User";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -34,7 +33,7 @@ const StyledButtonContainer = styled.div`
 `;
 
 const StyledTitle = styled.h4`
-    color: var(--color-green-new);
+    color: var(--color-green-lighter);
     align-self: flex-start;
     margin-bottom: 0.9rem;
 `;
@@ -46,12 +45,10 @@ const StyledDescription = styled.h5`
 `;
 
 const StyledSpan = styled.span`
-    color: var(--color-green-lighter);
-    padding-left: 8px;
-    border-left: 2px solid var(--color-grey-500);
+    color: ${props => props.color};
 `;
 
-export default function DetailEmployeeModal({
+export default function DetailItemModal({
     open,
     handleClose,
     row,
@@ -62,31 +59,12 @@ export default function DetailEmployeeModal({
         handleClose(open);
     }
 
-    const data = [{ ...row }];
-
-    const ExcelData = data.map(value => {
-        return {
-            full_name: value?.full_name,
-            job_title: value?.job_title,
-            department: value?.department,
-            email: value?.email,
-            age: value?.age,
-            salary: value?.salary,
-            hire_date: value?.hire_date,
-        };
-    });
-
-    const PdfBody = data.map(value => {
-        return [
-            value?.full_name,
-            value?.job_title,
-            value?.department,
-            value?.email,
-            value?.age,
-            value?.salary,
-            value?.hire_date,
-        ];
-    });
+    const isValues = row.itemSalePrice !== "" && row.itemPurchasePrice !== "";
+    const profit = isValues
+        ? (parseCurrency(row.itemSalePrice) -
+              parseCurrency(row.itemPurchasePrice)) *
+          (row.itemAmount || 1)
+        : 0;
 
     return (
         <Modal
@@ -106,19 +84,30 @@ export default function DetailEmployeeModal({
                 <StyledBox>
                     <Typography
                         id="transition-modal-title"
-                        variant="h3"
+                        variant="h4"
                         component="h1"
-                        sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                        sx={{
+                            fontWeight: "bold",
+                            letterSpacing: "0.80px",
+                        }}
                     >
-                        {t(`Employee Detail `)}{" "}
-                        <StyledSpan>{row.full_name}</StyledSpan>
+                        {t(`Item Detail`)}{" "}
+                        <StyledSpan
+                            style={{
+                                borderLeft: "2px solid var(--color-grey-500)",
+                                paddingLeft: "8px",
+                                fontSize: "2.5rem",
+                            }}
+                            color="var(--color-green-lighter)"
+                        >
+                            {row?.itemName}
+                        </StyledSpan>
                     </Typography>
                     <Grid container spacing={2} sx={{ mt: "2rem" }}>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Name of employee")}</StyledTitle>
-
+                            <StyledTitle>{t("Name of item")}</StyledTitle>
                             <StyledDescription>
-                                {row.full_name || t("Not spesified")}
+                                {row.itemName || t("Not spesified")}
                             </StyledDescription>
                             <Divider
                                 orientation="vertical"
@@ -130,15 +119,15 @@ export default function DetailEmployeeModal({
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Job Title")}</StyledTitle>
+                            <StyledTitle>{t("Item Amount")}</StyledTitle>
                             <StyledDescription>
-                                {row.job_title || t("Not spesified")}
+                                {row.itemAmount || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Department")}</StyledTitle>
+                            <StyledTitle>{t("Sale Price")}</StyledTitle>
                             <StyledDescription>
-                                {row.department || t("Not spesified")}
+                                {row.itemSalePrice || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={12}>
@@ -149,22 +138,32 @@ export default function DetailEmployeeModal({
                             />
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>Email</StyledTitle>
+                            <StyledTitle>{t("Purchase Price")}</StyledTitle>
                             <StyledDescription>
-                                {row.email || t("Not spesified")}
+                                {row.itemPurchasePrice || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Age")}</StyledTitle>
+                            <StyledTitle>
+                                {profit > 0
+                                    ? t("Profit")
+                                    : profit < 0
+                                    ? t("Loss")
+                                    : t("Profit | Loss")}
+                            </StyledTitle>
                             <StyledDescription>
-                                {row.age || t("Not spesified")}
+                                {(
+                                    <StyledSpan>
+                                        {" "}
+                                        {formatCurrency(profit)}
+                                    </StyledSpan>
+                                ) || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Salary")}</StyledTitle>
+                            <StyledTitle>{t("Created At")}</StyledTitle>
                             <StyledDescription>
-                                {formatCurrency(row.salary) ||
-                                    t("Not spesified")}
+                                {row.createdAt || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={12}>
@@ -176,9 +175,9 @@ export default function DetailEmployeeModal({
                         </Grid>
 
                         <Grid item xs={4}>
-                            <StyledTitle>{t("Hire Date")}</StyledTitle>
+                            <StyledTitle>{t("Item Description")}</StyledTitle>
                             <StyledDescription>
-                                {row.hire_date || t("Not spesified")}
+                                {row.itemDescription || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
                         <Grid item xs={12}>
@@ -191,56 +190,6 @@ export default function DetailEmployeeModal({
                     </Grid>
 
                     <StyledButtonContainer>
-                        <ExportButton
-                            title={t("Employee Details")}
-                            excel={{
-                                headers: [
-                                    {
-                                        label: t("Full Name"),
-                                        key: "full_name",
-                                    },
-                                    {
-                                        label: t("Job Title"),
-                                        key: "job_title",
-                                    },
-                                    {
-                                        label: t("Department"),
-                                        key: "department",
-                                    },
-                                    {
-                                        label: t("Email"),
-                                        key: "email",
-                                    },
-                                    {
-                                        label: t("Age"),
-                                        key: "age",
-                                    },
-                                    {
-                                        label: t("Salary"),
-                                        key: "salary",
-                                    },
-                                    {
-                                        label: t("Hire Date"),
-                                        key: "hire_date",
-                                    },
-                                ],
-                                data: ExcelData,
-                            }}
-                            pdf={{
-                                head: [
-                                    [
-                                        t("Full Name"),
-                                        t("Job Title"),
-                                        t("Department"),
-                                        t("Email"),
-                                        t("Age"),
-                                        t("Salary"),
-                                        t("Hire Date"),
-                                    ],
-                                ],
-                                body: PdfBody,
-                            }}
-                        />{" "}
                         <Button
                             onClick={onCloseModal}
                             sx={{

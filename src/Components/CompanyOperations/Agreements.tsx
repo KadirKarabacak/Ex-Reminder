@@ -3,9 +3,9 @@ import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import { remainingTime } from "../../Utils/utils";
 import { useState } from "react";
-import EditAgreementModal from "../Modals/EditAgreementModal";
+import EditAgreementModal from "../Modals/Agreements/EditAgreementModal";
 import { useSearchParams } from "react-router-dom";
-import DeleteAgreementModal from "../Modals/DeleteAgreementModal";
+import DeleteAgreementModal from "../Modals/Agreements/DeleteAgreementModal";
 
 const StyledDivider = styled(Divider)`
     color: var(--color-green-lighter);

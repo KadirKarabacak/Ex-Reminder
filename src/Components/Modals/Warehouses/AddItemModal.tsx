@@ -10,12 +10,12 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { ModalTypes } from "../../Interfaces/User";
+import { ModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 
 import React from "react";
-import { useAddItem, useGetWarehouse } from "../../Api/warehouseController";
-import { formatCurrency, formatDate } from "../../Utils/utils";
+import { useAddItem, useGetWarehouse } from "../../../Api/warehouseController";
+import { formatCurrency, formatDate } from "../../../Utils/utils";
 import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`

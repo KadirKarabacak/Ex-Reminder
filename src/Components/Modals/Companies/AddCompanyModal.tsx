@@ -11,14 +11,13 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { ModalTypes } from "../../Interfaces/User";
+import { ModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
-import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
 import React, { useState } from "react";
-import { formatDate } from "../../Utils/utils";
-import { min } from "date-fns";
-import toast from "react-hot-toast";
-import { useAddEmployee } from "../../Api/employeeController";
+import { formatDate } from "../../../Utils/utils";
+import { useAddCompany } from "../../../Api/companyController";
+import { MuiTelInput } from "mui-tel-input";
+import i18n from "../../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -64,51 +63,44 @@ const StyledTextField = styled(TextField)`
     }
 `;
 
-const minDate = min([new Date(2000, 1, 1)]);
-
 const StyledTitle = styled.h4`
     color: var(--color-grey-800);
     align-self: flex-start;
     margin-bottom: 0.9rem;
 `;
 
-const StyledDatePicker = styled(DatePicker)`
+const StyledTelInput = styled(MuiTelInput)`
     width: 100%;
+
+    & label {
+        color: var(--color-grey-400);
+        font-size: 1.2rem;
+    }
 
     & > div {
         color: var(--color-grey-800);
         font-size: 1.3rem;
+        padding-left: 10px;
+    }
 
-        &:hover > fieldset {
-            border-color: var(--color-brand-600) !important;
-        }
+    & > div > fieldset {
+        border-color: var(--color-grey-500);
+    }
 
-        & > fieldset {
-            border-color: var(--color-grey-500);
-        }
+    &:hover > div > fieldset {
+        border-color: var(--color-brand-600) !important;
     }
 `;
 
-export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
-    const [hireTime, setHireTime] = useState(new Date());
-    const [error, setError] = useState<DateValidationError>(null);
+const webRegex =
+    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+
+export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     const { t } = useTranslation();
-    const { mutateAsync: addEmployee, isPending } = useAddEmployee();
-
-    const errorMessage = React.useMemo(() => {
-        switch (error) {
-            case "minDate": {
-                return t("Date cannot be before 10/06/2000");
-            }
-            case "invalidDate": {
-                return t("Your date is not valid");
-            }
-
-            default: {
-                return "";
-            }
-        }
-    }, [error]);
+    const { mutate, isPending } = useAddCompany();
+    const [companyPhone, setCompanyPhone] = useState("");
+    const [managerPhone, setManagerPhone] = useState("");
+    const currentLanguage = i18n.language;
 
     const {
         handleSubmit,
@@ -116,30 +108,34 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
         getValues,
         clearErrors,
         reset,
-        setValue,
         formState: { errors },
     } = useForm();
 
     async function onSubmit() {
-        const { fullName, jobTitle, department, email, age, salary, hireDate } =
-            getValues();
-        let date;
-        hireDate !== undefined
-            ? (date = formatDate(hireDate))
-            : (date = formatDate(hireTime));
-        const newEmployee = {
-            full_name: fullName,
-            job_title: jobTitle,
-            department,
-            email,
-            age,
-            salary,
-            hire_date: date,
+        const {
+            companyName,
+            companyAddress,
+            companyEmail,
+            companyWebsite,
+            managerName,
+            managerEmail,
+        } = getValues();
+
+        const newCompany = {
+            companyName,
+            companyAddress,
+            companyPhone: companyPhone,
+            companyEmail,
+            companyWebsite,
+            companyManager: {
+                managerName,
+                managerPhone: managerPhone,
+                managerEmail,
+            },
             createdAt: formatDate(new Date()),
         };
-        if (errorMessage)
-            return toast.error("Before submit you must enter a valid date");
-        await addEmployee(newEmployee);
+
+        mutate(newCompany);
         onCloseModal();
     }
 
@@ -147,6 +143,9 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
         handleClose(open);
         clearErrors();
         reset();
+
+        setCompanyPhone("");
+        setManagerPhone("");
     }
 
     return (
@@ -172,35 +171,35 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t("Add New Employee")}
+                            {t("Add New Company")}
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Full Name*")}</StyledTitle>
+                                <StyledTitle>{t("Company Name*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Full Name")}
-                                    {...register("fullName", {
-                                        required: t("Full Name is required"),
+                                    placeholder={t("Company Name")}
+                                    {...register("companyName", {
+                                        required: t("Company Name is required"),
                                     })}
-                                    error={Boolean(errors?.fullName)}
+                                    error={Boolean(errors?.companyName)}
                                     helperText={
-                                        (errors?.fullName
+                                        (errors?.companyName
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Job Title*")}</StyledTitle>
+                                <StyledTitle>
+                                    {t("Company Address")}
+                                </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Job Title")}
-                                    {...register("jobTitle", {
-                                        required: t("Job Title is required"),
-                                    })}
-                                    error={Boolean(errors?.jobTitle)}
+                                    placeholder={t("Company Address")}
+                                    {...register("companyAddress")}
+                                    error={Boolean(errors?.companyAddress)}
                                     helperText={
-                                        (errors?.jobTitle
+                                        (errors?.companyAddress
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
@@ -212,37 +211,56 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                     }}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
-                                <StyledTitle>{t("Department*")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Department")}
-                                    {...register("department", {
-                                        required: t(
-                                            "Department name is required"
-                                        ),
-                                    })}
-                                    error={Boolean(errors?.department)}
-                                    helperText={
-                                        (errors?.department
-                                            ?.message as React.ReactNode) || ""
+                            <Grid item xs={4}>
+                                <StyledTitle>{t("Company Phone")}</StyledTitle>
+                                <StyledTelInput
+                                    placeholder={t("Company Phone")}
+                                    preferredCountries={["TR", "GB", "US"]}
+                                    defaultCountry={
+                                        currentLanguage === "tr-TR"
+                                            ? "TR"
+                                            : "GB"
                                     }
+                                    value={companyPhone}
+                                    onChange={value => setCompanyPhone(value)}
                                 />
                             </Grid>
-                            <Grid item xs={6}>
-                                <StyledTitle>Email</StyledTitle>
+                            <Grid item xs={4}>
+                                <StyledTitle>{t("Company Email")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder="Email"
-                                    {...register("email", {
+                                    placeholder={t("Company Email")}
+                                    {...register("companyEmail", {
                                         pattern: {
                                             value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
                                             message: t("Invalid email"),
                                         },
                                     })}
-                                    error={Boolean(errors?.email)}
+                                    error={Boolean(errors?.companyEmail)}
                                     helperText={
-                                        (errors?.email
+                                        (errors?.companyEmail
+                                            ?.message as React.ReactNode) || ""
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <StyledTitle>
+                                    {t("Company Website")}
+                                </StyledTitle>
+                                <StyledTextField
+                                    disabled={isPending}
+                                    placeholder={t("Company Website")}
+                                    {...register("companyWebsite", {
+                                        pattern: {
+                                            value: webRegex,
+                                            message: t(
+                                                "Website must start with https://"
+                                            ),
+                                        },
+                                    })}
+                                    error={Boolean(errors?.companyWebsite)}
+                                    helperText={
+                                        (errors?.companyWebsite
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
@@ -255,41 +273,33 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>{t("Age")}</StyledTitle>
+                                <StyledTitle>{t("Manager Name")}</StyledTitle>
                                 <StyledTextField
-                                    type="number"
                                     disabled={isPending}
-                                    placeholder={t("Age")}
-                                    {...register("age")}
+                                    placeholder={t("Manager Name")}
+                                    {...register("managerName")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>{t("Salary")}</StyledTitle>
-                                <StyledTextField
-                                    type="number"
-                                    disabled={isPending}
-                                    placeholder={t("Salary")}
-                                    {...register("salary")}
+                                <StyledTitle>{t("Manager Phone")}</StyledTitle>
+                                <StyledTelInput
+                                    placeholder={t("Manager Phone")}
+                                    preferredCountries={["TR", "GB", "US"]}
+                                    defaultCountry={
+                                        currentLanguage === "tr-TR"
+                                            ? "TR"
+                                            : "GB"
+                                    }
+                                    value={managerPhone}
+                                    onChange={value => setManagerPhone(value)}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>{t("Hire Date*")}</StyledTitle>
-                                <StyledDatePicker
-                                    format="dd/MM/yyyy"
+                                <StyledTitle>{t("Manager Email")}</StyledTitle>
+                                <StyledTextField
                                     disabled={isPending}
-                                    onChange={(date: any) => {
-                                        setValue("hireDate", date);
-                                        setHireTime(date);
-                                    }}
-                                    value={hireTime}
-                                    defaultValue={new Date()}
-                                    onError={newError => setError(newError)}
-                                    slotProps={{
-                                        textField: {
-                                            helperText: errorMessage,
-                                        },
-                                    }}
-                                    minDate={minDate}
+                                    placeholder={t("Manager Email")}
+                                    {...register("managerEmail")}
                                 />
                             </Grid>
                         </Grid>
@@ -317,7 +327,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Add Employee")}
+                                {t("Add Company")}
                             </Button>
                             <Button
                                 disabled={isPending}

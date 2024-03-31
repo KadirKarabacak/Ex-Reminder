@@ -11,14 +11,14 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
+import { ModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
-// import { MuiTelInput } from "mui-tel-input";
-import { add, isBefore, min } from "date-fns";
 import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
-import { useAddAgreement } from "../../Api/companyController";
-import { formatCurrency, formatDate } from "../../Utils/utils";
+import React, { useState } from "react";
+import { formatDate } from "../../../Utils/utils";
+import { min } from "date-fns";
 import toast from "react-hot-toast";
+import { useAddEmployee } from "../../../Api/employeeController";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -29,13 +29,13 @@ const StyledBox = styled(Box)`
     background-color: var(--color-grey-100);
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    padding: 5rem 4rem 5rem;
+    padding: 4rem 4rem 3rem;
     border-radius: 5px;
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
     justify-content: center;
 `;
 
@@ -64,17 +64,12 @@ const StyledTextField = styled(TextField)`
     }
 `;
 
+const minDate = min([new Date(2000, 1, 1)]);
+
 const StyledTitle = styled.h4`
     color: var(--color-grey-800);
     align-self: flex-start;
     margin-bottom: 0.9rem;
-`;
-
-const StyledSpan = styled.span`
-    color: var(--color-green-lighter);
-    font-size: 3rem;
-    border-left: 2px solid var(--color-grey-500);
-    padding-left: 8px;
 `;
 
 const StyledDatePicker = styled(DatePicker)`
@@ -94,27 +89,11 @@ const StyledDatePicker = styled(DatePicker)`
     }
 `;
 
-const minDate = min([new Date(2000, 1, 1)]);
-
-interface AgreementModalTypes {
-    open: boolean;
-    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
-    currentCompany: any;
-}
-
-export default function AddAgreementModal({
-    open,
-    handleClose,
-    currentCompany,
-}: AgreementModalTypes) {
-    const { t } = useTranslation();
-    const [agreementStart, setAgreementStart] = useState(new Date());
-    const [agreementEnd, setAgreementEnd] = useState(
-        add(new Date(), { months: 1 })
-    );
+export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
+    const [hireTime, setHireTime] = useState(new Date());
     const [error, setError] = useState<DateValidationError>(null);
-    const { mutateAsync: addAgreement, isPending } = useAddAgreement();
-    const companyId = currentCompany?.id;
+    const { t } = useTranslation();
+    const { mutateAsync: addEmployee, isPending } = useAddEmployee();
 
     const errorMessage = React.useMemo(() => {
         switch (error) {
@@ -140,29 +119,27 @@ export default function AddAgreementModal({
         setValue,
         formState: { errors },
     } = useForm();
-    const isDateBefore = isBefore(agreementEnd, agreementStart);
 
     async function onSubmit() {
-        const { agreementContent, agreementParties, agreementBudget } =
+        const { fullName, jobTitle, department, email, age, salary, hireDate } =
             getValues();
-
-        let budget;
-        if (agreementBudget) budget = formatCurrency(agreementBudget);
-
-        const agreement = {
-            agreementContent,
-            agreementParties,
-            agreementBudget: budget || "",
-            agreementStartDate: formatDate(agreementStart),
-            agreementEndDate: formatDate(agreementEnd),
+        let date;
+        hireDate !== undefined
+            ? (date = formatDate(hireDate))
+            : (date = formatDate(hireTime));
+        const newEmployee = {
+            full_name: fullName,
+            job_title: jobTitle,
+            department,
+            email,
+            age,
+            salary,
+            hire_date: date,
             createdAt: formatDate(new Date()),
-            companyId,
         };
-        if (errorMessage) return toast.error(errorMessage);
-        if (isDateBefore)
-            return toast.error(t("End Date cannot be before Start Date"));
-        await addAgreement({ agreement, companyId });
-        //! BİR ANLAŞMA BELGESİ VAR İSE KULLANICININ ONU SİSTEME YÜKLEMESİNE İZİN VER
+        if (errorMessage)
+            return toast.error("Before submit you must enter a valid date");
+        await addEmployee(newEmployee);
         onCloseModal();
     }
 
@@ -191,47 +168,81 @@ export default function AddAgreementModal({
                     <StyledBox>
                         <Typography
                             id="transition-modal-title"
-                            variant="h3"
+                            variant="h2"
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t("Add Agreement with")}{" "}
-                            <StyledSpan>
-                                {currentCompany.companyName}
-                            </StyledSpan>
+                            {t("Add New Employee")}
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>
-                                    {t("Agreement Content*")}
-                                </StyledTitle>
+                                <StyledTitle>{t("Full Name*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Agreement Content")}
-                                    {...register("agreementContent", {
-                                        required: t(
-                                            "Agreement Content is required"
-                                        ),
+                                    placeholder={t("Full Name")}
+                                    {...register("fullName", {
+                                        required: t("Full Name is required"),
                                     })}
-                                    error={Boolean(errors?.agreementContent)}
+                                    error={Boolean(errors?.fullName)}
                                     helperText={
-                                        (errors?.agreementContent
+                                        (errors?.fullName
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>
-                                    {t("Agreement Budget")}
-                                </StyledTitle>
+                                <StyledTitle>{t("Job Title*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    type="number"
-                                    placeholder={t("Agreement Budget")}
-                                    {...register("agreementBudget")}
-                                    error={Boolean(errors?.agreementBudget)}
+                                    placeholder={t("Job Title")}
+                                    {...register("jobTitle", {
+                                        required: t("Job Title is required"),
+                                    })}
+                                    error={Boolean(errors?.jobTitle)}
                                     helperText={
-                                        (errors?.agreementBudget
+                                        (errors?.jobTitle
+                                            ?.message as React.ReactNode) || ""
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <StyledTitle>{t("Department*")}</StyledTitle>
+                                <StyledTextField
+                                    disabled={isPending}
+                                    placeholder={t("Department")}
+                                    {...register("department", {
+                                        required: t(
+                                            "Department name is required"
+                                        ),
+                                    })}
+                                    error={Boolean(errors?.department)}
+                                    helperText={
+                                        (errors?.department
+                                            ?.message as React.ReactNode) || ""
+                                    }
+                                />
+                            </Grid>
+                            <Grid item xs={6}>
+                                <StyledTitle>Email</StyledTitle>
+                                <StyledTextField
+                                    disabled={isPending}
+                                    placeholder="Email"
+                                    {...register("email", {
+                                        pattern: {
+                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            message: t("Invalid email"),
+                                        },
+                                    })}
+                                    error={Boolean(errors?.email)}
+                                    helperText={
+                                        (errors?.email
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
@@ -244,51 +255,33 @@ export default function AddAgreementModal({
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>
-                                    {t("Parties of Agreement")}
-                                </StyledTitle>
+                                <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
+                                    type="number"
                                     disabled={isPending}
-                                    type="text"
-                                    placeholder={t("Company A & Company B")}
-                                    {...register("agreementParties")}
-                                />
-                            </Grid>
-
-                            <Grid item xs={4}>
-                                <StyledTitle>
-                                    {t("Agreement Start Date")}
-                                </StyledTitle>
-                                <StyledDatePicker
-                                    disabled={isPending}
-                                    format="dd/MM/yyyy"
-                                    onChange={(date: any) => {
-                                        setValue("agreementStartDate", date);
-                                        setAgreementStart(date);
-                                    }}
-                                    value={agreementStart}
-                                    defaultValue={new Date()}
-                                    onError={newError => setError(newError)}
-                                    slotProps={{
-                                        textField: {
-                                            helperText: errorMessage,
-                                        },
-                                    }}
-                                    minDate={minDate}
+                                    placeholder={t("Age")}
+                                    {...register("age")}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>
-                                    {t("Agreement End Date")}
-                                </StyledTitle>
-                                <StyledDatePicker
+                                <StyledTitle>{t("Salary")}</StyledTitle>
+                                <StyledTextField
+                                    type="number"
                                     disabled={isPending}
+                                    placeholder={t("Salary")}
+                                    {...register("salary")}
+                                />
+                            </Grid>
+                            <Grid item xs={4}>
+                                <StyledTitle>{t("Hire Date*")}</StyledTitle>
+                                <StyledDatePicker
                                     format="dd/MM/yyyy"
+                                    disabled={isPending}
                                     onChange={(date: any) => {
-                                        setValue("agreementEndDate", date);
-                                        setAgreementEnd(date);
+                                        setValue("hireDate", date);
+                                        setHireTime(date);
                                     }}
-                                    value={agreementEnd}
+                                    value={hireTime}
                                     defaultValue={new Date()}
                                     onError={newError => setError(newError)}
                                     slotProps={{
@@ -324,7 +317,7 @@ export default function AddAgreementModal({
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Complate Agreement")}
+                                {t("Add Employee")}
                             </Button>
                             <Button
                                 disabled={isPending}

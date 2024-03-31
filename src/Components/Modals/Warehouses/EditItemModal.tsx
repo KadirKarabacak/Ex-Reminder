@@ -10,12 +10,16 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { EditItemModalTypes } from "../../Interfaces/User";
+import { EditItemModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import React from "react";
-import { useUpdateItem } from "../../Api/warehouseController";
-import { formatCurrency, formatDate, parseCurrency } from "../../Utils/utils";
-import { auth } from "../../Api/firebase";
+import { useUpdateItem } from "../../../Api/warehouseController";
+import {
+    formatCurrency,
+    formatDate,
+    parseCurrency,
+} from "../../../Utils/utils";
+import { auth } from "../../../Api/firebase";
 
 const StyledBox = styled(Box)`
     position: absolute;

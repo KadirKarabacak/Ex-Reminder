@@ -11,13 +11,14 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { ModalTypes } from "../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import React, { useState } from "react";
-import { formatDate } from "../../Utils/utils";
-import { useAddCompany } from "../../Api/companyController";
-import { MuiTelInput } from "mui-tel-input";
-import i18n from "../../i18n";
+// import { MuiTelInput } from "mui-tel-input";
+import { add, isBefore, min } from "date-fns";
+import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
+import { useAddAgreement } from "../../../Api/companyController";
+import { formatCurrency, formatDate } from "../../../Utils/utils";
+import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -28,13 +29,13 @@ const StyledBox = styled(Box)`
     background-color: var(--color-grey-100);
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-    padding: 4rem 4rem 3rem;
+    padding: 5rem 4rem 5rem;
     border-radius: 5px;
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
-    margin-top: 2rem;
+    margin-top: 3rem;
     justify-content: center;
 `;
 
@@ -69,38 +70,66 @@ const StyledTitle = styled.h4`
     margin-bottom: 0.9rem;
 `;
 
-const StyledTelInput = styled(MuiTelInput)`
-    width: 100%;
+const StyledSpan = styled.span`
+    color: var(--color-green-lighter);
+    font-size: 3rem;
+    border-left: 2px solid var(--color-grey-500);
+    padding-left: 8px;
+`;
 
-    & label {
-        color: var(--color-grey-400);
-        font-size: 1.2rem;
-    }
+const StyledDatePicker = styled(DatePicker)`
+    width: 100%;
 
     & > div {
         color: var(--color-grey-800);
         font-size: 1.3rem;
-        padding-left: 10px;
-    }
 
-    & > div > fieldset {
-        border-color: var(--color-grey-500);
-    }
+        &:hover > fieldset {
+            border-color: var(--color-brand-600) !important;
+        }
 
-    &:hover > div > fieldset {
-        border-color: var(--color-brand-600) !important;
+        & > fieldset {
+            border-color: var(--color-grey-500);
+        }
     }
 `;
 
-const webRegex =
-    /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
+const minDate = min([new Date(2000, 1, 1)]);
 
-export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
+interface AgreementModalTypes {
+    open: boolean;
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+    currentCompany: any;
+}
+
+export default function AddAgreementModal({
+    open,
+    handleClose,
+    currentCompany,
+}: AgreementModalTypes) {
     const { t } = useTranslation();
-    const { mutate, isPending } = useAddCompany();
-    const [companyPhone, setCompanyPhone] = useState("");
-    const [managerPhone, setManagerPhone] = useState("");
-    const currentLanguage = i18n.language;
+    const [agreementStart, setAgreementStart] = useState(new Date());
+    const [agreementEnd, setAgreementEnd] = useState(
+        add(new Date(), { months: 1 })
+    );
+    const [error, setError] = useState<DateValidationError>(null);
+    const { mutateAsync: addAgreement, isPending } = useAddAgreement();
+    const companyId = currentCompany?.id;
+
+    const errorMessage = React.useMemo(() => {
+        switch (error) {
+            case "minDate": {
+                return t("Date cannot be before 10/06/2000");
+            }
+            case "invalidDate": {
+                return t("Your date is not valid");
+            }
+
+            default: {
+                return "";
+            }
+        }
+    }, [error]);
 
     const {
         handleSubmit,
@@ -108,34 +137,32 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
         getValues,
         clearErrors,
         reset,
+        setValue,
         formState: { errors },
     } = useForm();
+    const isDateBefore = isBefore(agreementEnd, agreementStart);
 
     async function onSubmit() {
-        const {
-            companyName,
-            companyAddress,
-            companyEmail,
-            companyWebsite,
-            managerName,
-            managerEmail,
-        } = getValues();
+        const { agreementContent, agreementParties, agreementBudget } =
+            getValues();
 
-        const newCompany = {
-            companyName,
-            companyAddress,
-            companyPhone: companyPhone,
-            companyEmail,
-            companyWebsite,
-            companyManager: {
-                managerName,
-                managerPhone: managerPhone,
-                managerEmail,
-            },
+        let budget;
+        if (agreementBudget) budget = formatCurrency(agreementBudget);
+
+        const agreement = {
+            agreementContent,
+            agreementParties,
+            agreementBudget: budget || "",
+            agreementStartDate: formatDate(agreementStart),
+            agreementEndDate: formatDate(agreementEnd),
             createdAt: formatDate(new Date()),
+            companyId,
         };
-
-        mutate(newCompany);
+        if (errorMessage) return toast.error(errorMessage);
+        if (isDateBefore)
+            return toast.error(t("End Date cannot be before Start Date"));
+        await addAgreement({ agreement, companyId });
+        //! BİR ANLAŞMA BELGESİ VAR İSE KULLANICININ ONU SİSTEME YÜKLEMESİNE İZİN VER
         onCloseModal();
     }
 
@@ -143,9 +170,6 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
         handleClose(open);
         clearErrors();
         reset();
-
-        setCompanyPhone("");
-        setManagerPhone("");
     }
 
     return (
@@ -167,39 +191,47 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                     <StyledBox>
                         <Typography
                             id="transition-modal-title"
-                            variant="h2"
+                            variant="h3"
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t("Add New Company")}
+                            {t("Add Agreement with")}{" "}
+                            <StyledSpan>
+                                {currentCompany.companyName}
+                            </StyledSpan>
                         </Typography>
                         <Grid container spacing={2} sx={{ mt: "1rem" }}>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Company Name*")}</StyledTitle>
+                                <StyledTitle>
+                                    {t("Agreement Content*")}
+                                </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Company Name")}
-                                    {...register("companyName", {
-                                        required: t("Company Name is required"),
+                                    placeholder={t("Agreement Content")}
+                                    {...register("agreementContent", {
+                                        required: t(
+                                            "Agreement Content is required"
+                                        ),
                                     })}
-                                    error={Boolean(errors?.companyName)}
+                                    error={Boolean(errors?.agreementContent)}
                                     helperText={
-                                        (errors?.companyName
+                                        (errors?.agreementContent
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Company Address")}
+                                    {t("Agreement Budget")}
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Company Address")}
-                                    {...register("companyAddress")}
-                                    error={Boolean(errors?.companyAddress)}
+                                    type="number"
+                                    placeholder={t("Agreement Budget")}
+                                    {...register("agreementBudget")}
+                                    error={Boolean(errors?.agreementBudget)}
                                     helperText={
-                                        (errors?.companyAddress
+                                        (errors?.agreementBudget
                                             ?.message as React.ReactNode) || ""
                                     }
                                 />
@@ -209,97 +241,62 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                     sx={{
                                         borderColor: "var(--color-grey-200)",
                                     }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Company Phone")}</StyledTitle>
-                                <StyledTelInput
-                                    placeholder={t("Company Phone")}
-                                    preferredCountries={["TR", "GB", "US"]}
-                                    defaultCountry={
-                                        currentLanguage === "tr-TR"
-                                            ? "TR"
-                                            : "GB"
-                                    }
-                                    value={companyPhone}
-                                    onChange={value => setCompanyPhone(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Company Email")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Company Email")}
-                                    {...register("companyEmail", {
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: t("Invalid email"),
-                                        },
-                                    })}
-                                    error={Boolean(errors?.companyEmail)}
-                                    helperText={
-                                        (errors?.companyEmail
-                                            ?.message as React.ReactNode) || ""
-                                    }
                                 />
                             </Grid>
                             <Grid item xs={4}>
                                 <StyledTitle>
-                                    {t("Company Website")}
+                                    {t("Parties of Agreement")}
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Company Website")}
-                                    {...register("companyWebsite", {
-                                        pattern: {
-                                            value: webRegex,
-                                            message: t(
-                                                "Website must start with https://"
-                                            ),
-                                        },
-                                    })}
-                                    error={Boolean(errors?.companyWebsite)}
-                                    helperText={
-                                        (errors?.companyWebsite
-                                            ?.message as React.ReactNode) || ""
-                                    }
+                                    type="text"
+                                    placeholder={t("Company A & Company B")}
+                                    {...register("agreementParties")}
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
+
+                            <Grid item xs={4}>
+                                <StyledTitle>
+                                    {t("Agreement Start Date")}
+                                </StyledTitle>
+                                <StyledDatePicker
+                                    disabled={isPending}
+                                    format="dd/MM/yyyy"
+                                    onChange={(date: any) => {
+                                        setValue("agreementStartDate", date);
+                                        setAgreementStart(date);
                                     }}
+                                    value={agreementStart}
+                                    defaultValue={new Date()}
+                                    onError={newError => setError(newError)}
+                                    slotProps={{
+                                        textField: {
+                                            helperText: errorMessage,
+                                        },
+                                    }}
+                                    minDate={minDate}
                                 />
                             </Grid>
                             <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Name")}</StyledTitle>
-                                <StyledTextField
+                                <StyledTitle>
+                                    {t("Agreement End Date")}
+                                </StyledTitle>
+                                <StyledDatePicker
                                     disabled={isPending}
-                                    placeholder={t("Manager Name")}
-                                    {...register("managerName")}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Phone")}</StyledTitle>
-                                <StyledTelInput
-                                    placeholder={t("Manager Phone")}
-                                    preferredCountries={["TR", "GB", "US"]}
-                                    defaultCountry={
-                                        currentLanguage === "tr-TR"
-                                            ? "TR"
-                                            : "GB"
-                                    }
-                                    value={managerPhone}
-                                    onChange={value => setManagerPhone(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Email")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Manager Email")}
-                                    {...register("managerEmail")}
+                                    format="dd/MM/yyyy"
+                                    onChange={(date: any) => {
+                                        setValue("agreementEndDate", date);
+                                        setAgreementEnd(date);
+                                    }}
+                                    value={agreementEnd}
+                                    defaultValue={new Date()}
+                                    onError={newError => setError(newError)}
+                                    slotProps={{
+                                        textField: {
+                                            helperText: errorMessage,
+                                        },
+                                    }}
+                                    minDate={minDate}
                                 />
                             </Grid>
                         </Grid>
@@ -327,7 +324,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Add Company")}
+                                {t("Complate Agreement")}
                             </Button>
                             <Button
                                 disabled={isPending}

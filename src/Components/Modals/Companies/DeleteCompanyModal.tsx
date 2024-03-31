@@ -2,10 +2,13 @@ import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { EditEmployeeModalTypes } from "../../Interfaces/User";
-import { auth } from "../../Api/firebase";
-import { useDeleteItem } from "../../Api/warehouseController";
-import i18n from "../../i18n";
+import { EditCompanyModalTypes } from "../../../Interfaces/User";
+import { auth } from "../../../Api/firebase";
+import {
+    useDeleteCompany,
+    useGetAgreements,
+} from "../../../Api/companyController";
+import { remainingTime } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -33,21 +36,39 @@ const StyledSpan = styled.span`
     font-weight: bold;
 `;
 
-export default function DeleteItemModal({
+export default function DeleteCompanyModal({
     open,
     handleClose,
     id,
     row,
-}: EditEmployeeModalTypes) {
-    const { t } = useTranslation();
+}: EditCompanyModalTypes) {
+    const { t, i18n } = useTranslation();
     const { handleSubmit } = useForm();
-    const { isPending: isDeleting, mutateAsync: deleteItem } = useDeleteItem();
+    const { mutateAsync: deleteCompany, isPending: isDeleting } =
+        useDeleteCompany();
+    const { data: agreements } = useGetAgreements(id);
     const { currentUser } = auth;
-    const userId = currentUser?.uid;
     const currentLanguage = i18n.language;
+    const userId = currentUser?.uid;
+    const filteredCompanyAgreements =
+        currentLanguage === "en-EN"
+            ? agreements
+                  ?.filter(agreement => agreement.companyId === id)
+                  .filter(
+                      agreement =>
+                          remainingTime(agreement.agreementEndDate) !==
+                          t("Agreement is expired")
+                  )
+            : agreements
+                  ?.filter(agreement => agreement.companyId === id)
+                  .filter(
+                      agreement =>
+                          remainingTime(agreement.agreementEndDate) !==
+                          t("Anlaşma süresi doldu")
+                  );
 
     async function onSubmit() {
-        await deleteItem({ id, userId });
+        await deleteCompany({ id, userId });
         onCloseModal();
     }
 
@@ -79,43 +100,50 @@ export default function DeleteItemModal({
                             sx={{
                                 fontWeight: "bold",
                                 letterSpacing: "0.80px",
-                                mb: "3rem",
                             }}
                         >
-                            {t(`Delete Item`)}
+                            {t(`Delete Company`)}{" "}
                             <StyledSpan
                                 style={{
-                                    fontSize: "3rem",
+                                    fontSize: "3.1rem",
                                     borderLeft:
                                         "2px solid var(--color-grey-500)",
                                     paddingLeft: "8px",
                                 }}
                             >
-                                {row.itemName}
+                                {row.companyName}
                             </StyledSpan>
                         </Typography>
                         {currentLanguage === "en-EN" && (
                             <Typography
                                 id="transition-modal-description"
-                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                                sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
                             >
-                                {t("Deleted items")}{" "}
-                                <strong>{t("cannot be brought back")}</strong>
-                                {t(", are you sure you want to delete")}
-                                <StyledSpan>{row.itemName}?</StyledSpan>
+                                {filteredCompanyAgreements &&
+                                filteredCompanyAgreements.length > 0
+                                    ? `${row.companyName} has ${
+                                          filteredCompanyAgreements.length
+                                      } ${
+                                          filteredCompanyAgreements.length > 1
+                                              ? t("agreements are")
+                                              : t("agreement is")
+                                      } not expired yet. Deleting this company can lead to wrong situations in your company. `
+                                    : t(
+                                          "Deleted company and company-owned data cannot be retrieved. "
+                                      )}
+                                {t("Are you sure you want to delete")}
+                                <StyledSpan>{row.companyName}?</StyledSpan>
                             </Typography>
                         )}
                         {currentLanguage === "tr-TR" && (
                             <Typography
                                 id="transition-modal-description"
-                                sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                                sx={{ margin: "3rem 0", fontSize: "1.5rem" }}
                             >
-                                {t("Silinen malzemelere")}{" "}
-                                <strong>{t("geri getirilemezler.")}</strong>
-                                <StyledSpan>{row.itemName}</StyledSpan>
-                                {t(
-                                    " isimli malzemeyi silmek istediğinize emin misiniz?"
-                                )}
+                                {filteredCompanyAgreements &&
+                                filteredCompanyAgreements.length > 0
+                                    ? `${row.companyName} şirketi ${filteredCompanyAgreements.length} süresi bitmemiş anlaşmaya sahip. Bu şirketi silmek şirketiniz için yanlış durumlara yol açabilir. Yine de silmek istediğinize emin misiniz?`
+                                    : `Silinen şirket ve şirket üzerine kayıtlı veriler geri getirilemezler. ${row.companyName} isimli şirketi silmek istediğinize emin misiniz?`}
                             </Typography>
                         )}
 
@@ -126,7 +154,10 @@ export default function DeleteItemModal({
                                     backgroundColor: "var(--color-red-700)",
                                     color: "white",
                                     transition: "all .3s",
-                                    padding: "1rem 3rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 2rem"
+                                            : "1rem 3rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
@@ -149,7 +180,10 @@ export default function DeleteItemModal({
                                 sx={{
                                     color: "var(--color-grey-800)",
                                     transition: "all .3s",
-                                    padding: "1rem 3rem",
+                                    padding:
+                                        currentLanguage === "en-EN"
+                                            ? "1rem 2rem"
+                                            : "1rem 3rem",
                                     fontSize: "1.1rem",
                                     border: "1px solid var(--color-grey-500)",
                                     backgroundColor: "var(--color-grey-100)",

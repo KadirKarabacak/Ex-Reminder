@@ -5,8 +5,6 @@ import TableContainer from "@mui/material/TableContainer";
 import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-// import styled from "styled-components";
-// import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { Companies, EmployeeData, Sales, Warehouses } from "../Interfaces/User";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
@@ -65,14 +63,6 @@ function stableSort<T>(
     });
     return stabilizedThis.map(el => el[0]);
 }
-
-// const StyledParagraph = styled.span`
-//     font-size: 2rem;
-//     color: var(--color-grey-800);
-//     position: absolute;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-// `;
 
 export default function CustomTable({
     CustomToolbar,
@@ -221,20 +211,6 @@ export default function CustomTable({
                 justifyContent: "center",
             }}
         >
-            {/* {!visibleRows.length && (
-                <StyledParagraph
-                    style={{
-                        width: pathname.includes("/companies/")
-                            ? "auto"
-                            : "100%",
-                        top: pathname.includes("/companies/") ? "45%" : "50%",
-                    }}
-                >
-                    {searchText.length > 0
-                        ? t("No matching results found for your search")
-                        : t("There is no data to display")}
-                </StyledParagraph>
-            )} */}
             <Paper
                 sx={{
                     width: "100%",

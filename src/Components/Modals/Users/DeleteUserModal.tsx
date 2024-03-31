@@ -7,17 +7,15 @@ import {
     InputAdornment,
     Modal,
     OutlinedInput,
-    TextField,
     Typography,
 } from "@mui/material";
 import styled from "styled-components";
-import { auth } from "../../Api/firebase";
+import { ModalTypes } from "../../../Interfaces/User";
+import { auth } from "../../../Api/firebase";
+import { useDeleteUserAccount } from "../../../Api/userController";
 import { useForm } from "react-hook-form";
-import toast from "react-hot-toast";
-import { useUpdateUserEmail } from "../../Api/userController";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import React from "react";
-import { ModalTypes } from "../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`
@@ -37,35 +35,6 @@ const StyledButtonContainer = styled.div`
     gap: 1.5rem;
     margin-top: 1rem;
     justify-content: center;
-`;
-
-const StyledTitle = styled.h4`
-    color: var(--color-grey-800);
-    align-self: flex-start;
-    margin-bottom: 0.7rem;
-`;
-
-const StyledTextField = styled(TextField)`
-    & div + p {
-        font-size: 1rem;
-    }
-    & label {
-        color: var(--color-grey-800);
-    }
-    & div > input {
-        color: var(--color-grey-800);
-        font-size: 1.3rem;
-
-        &:disabled {
-            background-color: var(--color-grey-300);
-        }
-    }
-    & div > fieldset {
-        border-color: var(--color-grey-500);
-    }
-    &:hover > div > fieldset {
-        border-color: var(--color-brand-600) !important;
-    }
 `;
 
 const StyledInput = styled(OutlinedInput)`
@@ -89,41 +58,32 @@ const StyledInput = styled(OutlinedInput)`
     }
 `;
 
+const StyledTitle = styled.h4`
+    color: var(--color-grey-800);
+    align-self: flex-start;
+    margin-bottom: 0.7rem;
+`;
+
 const StyledErrorMessage = styled.p`
     font-size: 1.3rem;
     color: var(--color-red-700);
     margin-bottom: 1rem;
 `;
 
-export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
+export default function DeleteUserModal({ open, handleClose }: ModalTypes) {
     const [showPassword, setShowPassword] = React.useState(false);
     const { t } = useTranslation();
-
     const { currentUser } = auth;
+    const userId = currentUser?.uid;
     const {
         handleSubmit,
         register,
         getValues,
-        clearErrors,
-        reset,
         formState: { errors },
+        clearErrors,
     } = useForm();
-    const { mutateAsync: updateEmail, isPending: isUpdating } =
-        useUpdateUserEmail();
-
-    async function onSubmitEmail() {
-        const { email, password } = getValues();
-        if (email.length > 0) {
-            if (currentUser?.email === email)
-                return toast.error(t("Current email is already in use"));
-            await updateEmail({ currentUser, email, password });
-        }
-        reset({
-            email: "",
-            password: "",
-        });
-        onCloseModal();
-    }
+    const { mutate: deleteUser, isPending: isDeleting } =
+        useDeleteUserAccount();
 
     const handleClickShowPassword = () => setShowPassword(show => !show);
     const handleMouseDownPassword = (
@@ -132,10 +92,14 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
         event.preventDefault();
     };
 
+    function onDelete() {
+        const { password } = getValues();
+        deleteUser({ currentUser, password, userId });
+    }
+
     function onCloseModal() {
         handleClose(open);
         clearErrors();
-        reset();
     }
 
     return (
@@ -153,7 +117,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
             }}
         >
             <Fade in={open}>
-                <form onSubmit={handleSubmit(onSubmitEmail)}>
+                <form onSubmit={handleSubmit(onDelete)}>
                     <StyledBox>
                         <Typography
                             id="transition-modal-title"
@@ -161,51 +125,22 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                             component="h1"
                             sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
                         >
-                            {t("Update email")}
+                            {t("Delete user")}
                         </Typography>
                         <Typography
                             id="transition-modal-description"
                             sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
                         >
-                            {t(
-                                "For the email update, we will send a confirmation mail to your new email account."
-                            )}{" "}
+                            {t("Deleted users")}{" "}
                             <strong style={{ color: "var(--color-red-700)" }}>
-                                {t(
-                                    "Make sure you have access to the new email address."
-                                )}
+                                {" "}
+                                {t("cannot be brought back")}
                             </strong>
+                            {t(", are you sure you want to delete?")}
                         </Typography>
-                        <StyledTitle>{t("Your Email")}</StyledTitle>
-                        <StyledTextField
-                            disabled
-                            defaultValue={currentUser?.email}
-                            sx={{ width: "100%", mb: "1rem" }}
-                            variant="outlined"
-                        />
-                        <StyledTitle>{t("New Email")}</StyledTitle>
-                        <StyledTextField
-                            disabled={isUpdating}
-                            placeholder={t("test@example.com")}
-                            sx={{ width: "100%", mb: "0.5rem" }}
-                            variant="outlined"
-                            {...register("email", {
-                                required: t("New email is required"),
-                                pattern: {
-                                    value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                    message: t("Invalid email"),
-                                },
-                            })}
-                            error={Boolean(errors?.email)}
-                        />
-                        <StyledErrorMessage>
-                            {errors?.email
-                                ? (errors.email.message as React.ReactNode)
-                                : ""}
-                        </StyledErrorMessage>
                         <StyledTitle>{t("Password")}</StyledTitle>
                         <StyledInput
-                            disabled={isUpdating}
+                            disabled={isDeleting}
                             {...register("password", {
                                 required: t("Password is required"),
                             })}
@@ -237,18 +172,17 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                         </StyledErrorMessage>
                         <StyledButtonContainer>
                             <Button
-                                disabled={isUpdating}
+                                disabled={isDeleting}
                                 sx={{
-                                    backgroundColor: "var(--color-grey-800)",
-                                    color: "var(--color-grey-50)",
+                                    backgroundColor: "var(--color-red-800)",
+                                    color: "white",
                                     transition: "all .3s",
                                     padding: "1rem 2rem",
                                     fontSize: "1.1rem",
                                     alignSelf: "flex-start",
                                     fontWeight: "bold",
                                     "&:hover": {
-                                        backgroundColor:
-                                            "var(--color-grey-700)",
+                                        backgroundColor: "var(--color-red-700)",
                                         transform: "translateY(-2px)",
                                     },
                                     "&:active": {
@@ -258,10 +192,10 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Send Verification Mail")}
+                                {t("Delete Account")}
                             </Button>
                             <Button
-                                disabled={isUpdating}
+                                disabled={isDeleting}
                                 onClick={onCloseModal}
                                 sx={{
                                     color: "var(--color-grey-800)",

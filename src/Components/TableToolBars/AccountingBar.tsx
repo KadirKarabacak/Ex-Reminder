@@ -2,7 +2,7 @@ import { Button, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import styled from "styled-components";
-import AddSaleModal from "../Modals/AddSaleModal";
+import AddSaleModal from "../Modals/Sales/AddSaleModal";
 import SearchInput from "../SearchInput";
 
 const StyledToolBar = styled(Toolbar)`

@@ -15,11 +15,11 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
-import { useGetWarehouse } from "../../Api/warehouseController";
-import { useAddSale, useGetCompanies } from "../../Api/companyController";
-import { formatDate, parseCurrency } from "../../Utils/utils";
+import { useGetWarehouse } from "../../../Api/warehouseController";
+import { useAddSale, useGetCompanies } from "../../../Api/companyController";
+import { formatDate, parseCurrency } from "../../../Utils/utils";
 import { useNavigate } from "react-router-dom";
-import i18n from "../../i18n";
+import i18n from "../../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;

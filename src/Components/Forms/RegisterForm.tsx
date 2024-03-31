@@ -7,7 +7,7 @@ import { createUserWithEmailAndPasswordQuery } from "../../Api/userController";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
-import ConfidentialityAgreementModal from "../Modals/ConfidentialityAgreementModal";
+import ConfidentialityAgreementModal from "../Modals/Register/ConfidentialityAgreementModal";
 
 const StyledLogo = styled.img`
     width: 17rem;

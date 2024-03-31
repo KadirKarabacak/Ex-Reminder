@@ -2,11 +2,11 @@ import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import { EditEmployeeModalTypes } from "../../Interfaces/User";
-import { useDeleteSales } from "../../Api/companyController";
-import { auth } from "../../Api/firebase";
-import { useGetAccounting } from "../../Api/accountingController";
-import i18n from "../../i18n";
+import { EditEmployeeModalTypes } from "../../../Interfaces/User";
+import { useDeleteSales } from "../../../Api/companyController";
+import { auth } from "../../../Api/firebase";
+import { useGetAccounting } from "../../../Api/accountingController";
+import i18n from "../../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
