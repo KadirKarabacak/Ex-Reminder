@@ -191,10 +191,10 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                                 />
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Job Title")}</StyledTitle>
+                                <StyledTitle>{t("Job Title*")}</StyledTitle>
                                 <StyledTextField
                                     disabled={isPending}
-                                    placeholder={t("Job Title*")}
+                                    placeholder={t("Job Title")}
                                     {...register("jobTitle", {
                                         required: t("Job Title is required"),
                                     })}
@@ -257,6 +257,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
+                                    type="number"
                                     disabled={isPending}
                                     placeholder={t("Age")}
                                     {...register("age")}
@@ -265,6 +266,7 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Salary")}</StyledTitle>
                                 <StyledTextField
+                                    type="number"
                                     disabled={isPending}
                                     placeholder={t("Salary")}
                                     {...register("salary")}
