@@ -110,10 +110,8 @@ const deleteCompany = async function ({ id, userId }: DeleteCompanyTypes) {
     const ref = doc(db, `users/${userId}/companies`, id);
     try {
         await deleteDoc(ref);
-        return true;
     } catch (err) {
         console.error(err);
-        return false;
     }
 };
 
@@ -320,7 +318,7 @@ export const useAddSale = function () {
             ),
         onSuccess: () => {
             toast.success(i18n.t("New Sale added successfully"));
-            queryClient.invalidateQueries({ queryKey: ["sales"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -366,6 +364,7 @@ const deleteSales = async function ({
     userId,
     companyId,
     saleToDeleteId,
+    deleteOption,
 }: DeleteSaleTypes) {
     const refCompany = doc(
         db,
@@ -375,11 +374,21 @@ const deleteSales = async function ({
     const refAccounting = doc(db, `users/${userId}/accounting`, saleToDeleteId);
     try {
         await deleteDoc(refCompany);
-
+        if (
+            deleteOption === "Keep in Accounting" ||
+            deleteOption === "Muhasebede Tut"
+        )
+            return toast.success(
+                i18n.t("Sale successfully deleted from company")
+            );
         //! If user don't want to delete sale from accounting, return before delete next line
         await deleteDoc(refAccounting);
+        toast.success(
+            i18n.t("Sale successfully deleted from company and accounting")
+        );
     } catch (err) {
         console.error(err);
+        toast.error(i18n.t("An error occurred while deleting the Sale"));
     }
 };
 
@@ -390,14 +399,10 @@ export const useDeleteSales = function () {
         mutationFn: async (variables: DeleteSaleTypes) =>
             await deleteSales(variables),
         onSuccess: () => {
-            toast.success(
-                i18n.t("Sale successfully deleted from company and accounting")
-            );
             queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
-            toast.error(i18n.t("An error occurred while deleting the Sale"));
         },
     });
     return { mutateAsync, isPending };
