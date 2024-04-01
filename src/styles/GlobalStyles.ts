@@ -82,7 +82,7 @@ const GlobalStyles = createGlobalStyle`
 
     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.4);
     --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.3);
-    --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.4);
+    --shadow-lg: 0 2rem 3.2rem rgba(0, 0, 0, 0.4);
 
     --image-grayscale: 10%;
     --image-opacity: 90%;
@@ -196,6 +196,10 @@ svg{
   color: var(--color-grey-800);
 }
 
+/* ::selection{
+  color: var(--color-green-lighter);
+} */
+
 .Mui-active{
   color:  var(--color-grey-800)!important;
 }
@@ -238,8 +242,6 @@ svg{
   cursor: not-allowed;
   -webkit-text-fill-color: var(--color-grey-400)!important;
 }
-
-
 
 .MuiPickersArrowSwitcher-root .MuiButtonBase-root .MuiSvgIcon-root{
   color: #101010!important;
