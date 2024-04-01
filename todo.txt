@@ -1,4 +1,5 @@
-# `TODO:`
+# `TODO:` -------------------- "✅": Complated || "❌": No way to fix || "🟡": Do that Later
+
 03- ✅ Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
 04- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
 05- ✅ Add forgot password to the login page and send reset password email // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#send_a_password_reset_email
@@ -47,11 +48,16 @@
 50- ✅ Companies > Make Sale On Sale selecting items add their amount next to select itemlist, not allow user to write more amount than item has. Also on sale remove items from warehouse list as sold
 51- ✅ Companies > After filtered by Search, it makes sale to wrong company
 52- ✅ Accounting > Sorting | Filtering companyName and itemName works wrong cuz of sorting by their id's. Try to fix.
-53- Warehouse > On Toolbar add "Item Order" feature which contains current items, and on selecting that item, updates it's amount.
-54- Edit Item modal > add editing item name to header
-55- Add Item modal > fix purchasePrice and salePrice placeholders, also convert labels to placeholders
-56- DeleteSaleModal > Allow user to avoid to delete sale from Accounting and only delete in sales, or delete both of the places
-57- Add Agreement from row make default parties as "userDisplayName" & "companyName" in that row
+53- 🟡 Warehouse > On Toolbar add "Item Order" feature which contains current items, and on selecting that item, updates it's amount.
+54- ✅ Edit Item modal > add editing item name to header
+55- ✅ Add Item modal > fix purchasePrice and salePrice placeholders, also convert labels to placeholders
+56- ✅ DeleteSaleModal > Allow user to avoid to delete sale from Accounting and only delete in sales, or delete both of the places
+57- ✅ Add Agreement from row make default parties as "userDisplayName" & "companyName" in that row
+58- 🟡 Add shortcuts to routes
+59- 🟡 For items add itemcodes
+60- On making sale, when item selected autofill sale price with item price, watch every field in sale and auto fill sale description with selections
+61- Accounting > Make Sale is not adding to company's own sales table. Only adding to accounting table
+
 
 
 ### FEATURES ###
