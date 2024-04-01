@@ -18,6 +18,7 @@ import { formatDate } from "../../../Utils/utils";
 import { useAddCompany } from "../../../Api/companyController";
 import { MuiTelInput } from "mui-tel-input";
 import i18n from "../../../i18n";
+import { emailRegex } from "../../../Constants/constant";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -232,7 +233,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                     placeholder={t("Company Email")}
                                     {...register("companyEmail", {
                                         pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                            value: emailRegex,
                                             message: t("Invalid email"),
                                         },
                                     })}
@@ -254,7 +255,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         pattern: {
                                             value: webRegex,
                                             message: t(
-                                                "Website must start with https://"
+                                                "Website must be in the following format https://www.example.com"
                                             ),
                                         },
                                     })}
@@ -299,7 +300,17 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                 <StyledTextField
                                     disabled={isPending}
                                     placeholder={t("Manager Email")}
-                                    {...register("managerEmail")}
+                                    {...register("managerEmail", {
+                                        pattern: {
+                                            value: emailRegex,
+                                            message: t("Invalid email"),
+                                        },
+                                    })}
+                                    error={Boolean(errors?.managerEmail)}
+                                    helperText={
+                                        (errors?.managerEmail
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                         </Grid>
