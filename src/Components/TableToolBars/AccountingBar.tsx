@@ -4,6 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import AddSaleModal from "../Modals/Sales/AddSaleModal";
 import SearchInput from "../SearchInput";
+import { useSearchParams } from "react-router-dom";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -18,9 +19,18 @@ export function AccountingToolBar({
     setSearchText: any;
 }) {
     const { t } = useTranslation();
+    const [searchParams, setSearchParams] = useSearchParams();
     const [openMakeSale, setOpenMakeSale] = useState(false);
-    const handleOpenMakeSale = () => setOpenMakeSale(true);
-    const handleCloseMakeSale = () => setOpenMakeSale(false);
+    const handleOpenMakeSale = () => {
+        setOpenMakeSale(true);
+        setSearchParams("accounting-add-sale");
+    };
+    const handleCloseMakeSale = () => {
+        setOpenMakeSale(false);
+        setTimeout(() => {
+            setSearchParams(``);
+        }, 400);
+    };
 
     return (
         <>
@@ -74,10 +84,12 @@ export function AccountingToolBar({
                     {t("Make Sale")}
                 </Button>
             </StyledToolBar>
-            <AddSaleModal
-                handleClose={handleCloseMakeSale}
-                open={openMakeSale}
-            />
+            {searchParams.has("accounting-add-sale") && (
+                <AddSaleModal
+                    handleClose={handleCloseMakeSale}
+                    open={openMakeSale}
+                />
+            )}
         </>
     );
 }

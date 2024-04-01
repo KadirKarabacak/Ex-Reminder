@@ -5,6 +5,7 @@ import styled from "styled-components";
 import AddCompanyModal from "../Modals/Companies/AddCompanyModal";
 import AddSaleModal from "../Modals/Sales/AddSaleModal";
 import SearchInput from "../SearchInput";
+import { useSearchParams } from "react-router-dom";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -21,10 +22,19 @@ export function CompaniesToolBar({
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
     const [openMakeSale, setOpenMakeSale] = useState(false);
+    const [searchParams, setSearchParams] = useSearchParams();
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
-    const handleOpenMakeSale = () => setOpenMakeSale(true);
-    const handleCloseMakeSale = () => setOpenMakeSale(false);
+    const handleOpenMakeSale = () => {
+        setOpenMakeSale(true);
+        setSearchParams("make-sale");
+    };
+    const handleCloseMakeSale = () => {
+        setOpenMakeSale(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 350);
+    };
 
     return (
         <>
@@ -104,10 +114,12 @@ export function CompaniesToolBar({
                 </Button>
             </StyledToolBar>
             <AddCompanyModal handleClose={handleClose} open={open} />
-            <AddSaleModal
-                handleClose={handleCloseMakeSale}
-                open={openMakeSale}
-            />
+            {searchParams.has("make-sale") && (
+                <AddSaleModal
+                    handleClose={handleCloseMakeSale}
+                    open={openMakeSale}
+                />
+            )}
         </>
     );
 }
