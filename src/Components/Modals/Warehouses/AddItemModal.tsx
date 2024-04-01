@@ -15,7 +15,7 @@ import { useTranslation } from "react-i18next";
 
 import React from "react";
 import { useAddItem, useGetWarehouse } from "../../../Api/warehouseController";
-import { formatCurrency, formatDate } from "../../../Utils/utils";
+import { formatDate } from "../../../Utils/utils";
 import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`
@@ -90,11 +90,6 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
             itemSalePrice,
             itemPurchasePrice,
         } = getValues();
-        let formattedSale;
-        let formattedPurchase;
-        if (itemSalePrice) formattedSale = formatCurrency(itemSalePrice);
-        if (itemPurchasePrice)
-            formattedPurchase = formatCurrency(itemPurchasePrice);
 
         const isItemExist = items?.find(
             item =>
@@ -106,8 +101,8 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
         const newItem = {
             itemName: itemName.slice(0, 1).toUpperCase() + itemName.slice(1),
             itemAmount: +itemAmount || 1,
-            itemSalePrice: itemSalePrice ? formattedSale : "",
-            itemPurchasePrice: itemPurchasePrice ? formattedPurchase : "",
+            itemSalePrice: +itemSalePrice,
+            itemPurchasePrice: +itemPurchasePrice,
             itemDescription,
             createdAt: formatDate(new Date()),
         };
@@ -180,13 +175,28 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Item Sale Price")}
+                                    {t("Item Sale Price*")}
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled={isAdding}
                                     placeholder={t("Item Sale Price")}
-                                    {...register("itemSalePrice")}
+                                    {...register("itemSalePrice", {
+                                        required: t(
+                                            "Item sale price is required"
+                                        ),
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item sale price must be minimum 1"
+                                            ),
+                                        },
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemSalePrice)}
+                                    helperText={
+                                        (errors?.itemSalePrice
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={6}>
