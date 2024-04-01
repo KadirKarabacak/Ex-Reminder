@@ -1,4 +1,4 @@
-import { differenceInDays, differenceInHours } from "date-fns";
+import { addYears, differenceInDays, differenceInHours } from "date-fns";
 import i18n from "../i18n";
 
 export const extractFileName = (file: any) => {
@@ -58,4 +58,12 @@ export function remainingTime(endDate: string) {
     return `${years > 0 ? years + i18n.t(" years ") : ""}${
         months > 0 ? months + i18n.t(" months ") : ""
     }${days > 0 ? days + i18n.t(" days ") : ""}`;
+}
+
+// Start Date : saleCreatedAt --- Guarantee Time : selectedGuaranteeTime (1 Year, 2 Year | 1 Yıl, 2 Yıl)
+export function calcGuaranteeExpireDate(
+    startDate: Date,
+    guaranteeTime: number
+) {
+    return addYears(startDate, guaranteeTime);
 }
