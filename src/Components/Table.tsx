@@ -17,6 +17,7 @@ import WarehouseTableRow from "./TableRows/WarehouseTableRow";
 import CompanyTableRow from "./TableRows/CompanyTableRow";
 import SalesTableRow from "./TableRows/SalesTableRow";
 import AccountingTableRow from "./TableRows/AccountingTableRow";
+import { useDarkMode } from "../Contexts/DarkModeContext";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -74,6 +75,7 @@ export default function CustomTable({
     searchText: string;
 }) {
     const { pathname } = useLocation();
+    const { isDarkMode } = useDarkMode();
     const [order, setOrder] = React.useState<Order>("asc");
     const [orderBy, setOrderBy] = React.useState<
         keyof EmployeeData | keyof Warehouses | keyof Companies | keyof Sales
@@ -90,7 +92,6 @@ export default function CustomTable({
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [filteredData, setFilteredData] = React.useState(data || []);
-    // const { t } = useTranslation();
 
     const handleRequestSort = (
         _event: React.MouseEvent<unknown>,
@@ -217,7 +218,9 @@ export default function CustomTable({
                     mb: 2,
                     backgroundColor: "transparent",
                     height: "max-content",
-                    boxShadow: "var(--shadow-md)",
+                    boxShadow: isDarkMode
+                        ? "var(--shadow-md)"
+                        : "var(--shadow-lg)",
                 }}
             >
                 {CustomToolbar}

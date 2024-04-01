@@ -17,6 +17,8 @@ const StyledSidebar = styled.aside`
     grid-row: 1 / -1;
     display: flex;
     flex-direction: column;
+    z-index: 1001;
+    box-shadow: var(--shadow-lg);
 `;
 
 const StyledNavLink = styled(NavLink)`

@@ -29,6 +29,8 @@ const StyledHeader = styled.header`
     gap: 2.4rem;
     align-items: center;
     justify-content: flex-end;
+    z-index: 1000;
+    box-shadow: var(--shadow-md);
 `;
 
 const StyledList = styled.ul`
