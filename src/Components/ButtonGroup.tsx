@@ -118,19 +118,19 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpens(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleCloseDeleteModal = () => {
         setOpensDelete(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleCloseDetailModal = () => {
         setOpensDetail(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
 
     //! Warehouses
@@ -153,19 +153,19 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensEditItem(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleCloseDetailItemModal = () => {
         setOpensDetailItem(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleCloseDeleteItemModal = () => {
         setOpensDeleteItem(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
 
     //! Companies & Sales
@@ -184,20 +184,24 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensEditCompany(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleCloseDeleteCompanyModal = () => {
         setOpensDeleteCompany(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleOpenAddSaleModal = () => {
         setOpensAddSale(true);
         handleClose();
+        setSearchParams(`add-sale`);
     };
     const handleCloseAddSaleModal = () => {
         setOpensAddSale(false);
+        setTimeout(() => {
+            setSearchParams(``);
+        }, 400);
     };
 
     const handleOperationsClick = () => {
@@ -213,7 +217,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensAddAgreement(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
     const handleOpenDeleteSaleModal = () => {
         setOpensDeleteSale(true);
@@ -224,7 +228,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensDeleteSale(false);
         setTimeout(() => {
             setSearchParams("");
-        }, 350);
+        }, 400);
     };
 
     return (
@@ -436,17 +440,21 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     row={row}
                 />
             )}
-            <AddSaleModal
-                open={opensAddSale}
-                handleClose={handleCloseAddSaleModal}
-                row={row}
-                tableName={tableName}
-            />
-            <AddAgreementModal
-                open={opensAddAgreement}
-                handleClose={handleCloseAddAgreementModal}
-                currentCompany={row}
-            />
+            {searchParams.has("add-sale") && (
+                <AddSaleModal
+                    open={opensAddSale}
+                    handleClose={handleCloseAddSaleModal}
+                    row={row}
+                    tableName={tableName}
+                />
+            )}
+            {searchParams.has("add-agreement") && (
+                <AddAgreementModal
+                    open={opensAddAgreement}
+                    handleClose={handleCloseAddAgreementModal}
+                    currentCompany={row}
+                />
+            )}
             {searchParams.has("delete-sale") && (
                 <DeleteSaleModal
                     id={row.id}
