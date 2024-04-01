@@ -19,6 +19,7 @@ import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
 import { useAddAgreement } from "../../../Api/companyController";
 import { formatCurrency, formatDate } from "../../../Utils/utils";
 import toast from "react-hot-toast";
+import { auth } from "../../../Api/firebase";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -115,6 +116,7 @@ export default function AddAgreementModal({
     const [error, setError] = useState<DateValidationError>(null);
     const { mutateAsync: addAgreement, isPending } = useAddAgreement();
     const companyId = currentCompany?.id;
+    const { currentUser } = auth;
 
     const errorMessage = React.useMemo(() => {
         switch (error) {
@@ -250,6 +252,7 @@ export default function AddAgreementModal({
                                 <StyledTextField
                                     disabled={isPending}
                                     type="text"
+                                    defaultValue={`${currentUser?.displayName} & ${currentCompany?.companyName}`}
                                     placeholder={t("Company A & Company B")}
                                     {...register("agreementParties")}
                                 />
