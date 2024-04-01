@@ -11,6 +11,7 @@ import {
 import { Typography } from "@mui/material";
 import { Employee } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
+import { useDarkMode } from "../Contexts/DarkModeContext";
 
 const ChartBox = styled.div`
     /* Box */
@@ -29,20 +30,31 @@ const ChartBox = styled.div`
     }
 `;
 
+const COLORSDARK = [
+    "var(--color-green-lighter)",
+    "#fab319",
+    "#ea5827",
+    "#f8f7e9",
+    "#32d0d3",
+    "#2b4fe0",
+    "#8d9c80",
+    "",
+];
+
 const COLORSLIGHT = [
     "var(--color-green-lighter)",
-    "var(--color-green-new)",
-    "var(--color-brand-500)",
-    "#176b2f",
+    "#363e38",
+    "#fab319",
     "#ec8524",
     "#32d0d3",
     "#2b4fe0",
-    "",
+    "#8d9c80",
     "",
 ];
 
 export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
     const { t } = useTranslation();
+    const { isDarkMode } = useDarkMode();
     const jobTitles = data?.map((employee: Employee) => {
         return employee.job_title;
     });
@@ -100,7 +112,9 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
                     >
                         {jobs?.map((_, i) => (
                             <Cell
-                                fill={COLORSLIGHT[i]}
+                                fill={
+                                    isDarkMode ? COLORSDARK[i] : COLORSLIGHT[i]
+                                }
                                 stroke="var(--color-grey-100)"
                                 key={`cell${i}`}
                             />
