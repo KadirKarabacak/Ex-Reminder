@@ -1,6 +1,7 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
+import { formatCurrency } from "../../Utils/utils";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -54,10 +55,10 @@ export default function WarehouseTableRow({
                 {row.itemAmount || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.itemSalePrice || "-"}
+                {formatCurrency(row.itemSalePrice) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.itemPurchasePrice || "-"}
+                {formatCurrency(row.itemPurchasePrice) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {row.itemDescription || "-"}
