@@ -17,9 +17,7 @@ import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { useGetWarehouse } from "../../../Api/warehouseController";
 import { useAddSale, useGetCompanies } from "../../../Api/companyController";
-import { formatDate, parseCurrency } from "../../../Utils/utils";
-import { useNavigate } from "react-router-dom";
-import i18n from "../../../i18n";
+import { calcGuaranteeExpireDate, formatDate } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -113,14 +111,11 @@ export default function AddSaleModal({
     tableName?: string;
     row?: any;
 }) {
-    const currentLangueage = i18n.language;
     const [selectedItem, setSelectedItem] = useState("");
     const [selectedCompany, setSelectedCompany] = useState("");
-    const [selectedGuarantee, setSelectedGuarantee] = useState(
-        currentLangueage === "en-EN" ? "No" : "Hayır"
-    );
+    const [selectedGuarantee, setSelectedGuarantee] = useState(0);
     const [selectedGuaranteeTime, setSelectedGuaranteeTime] = useState("");
-    const [price, setPrice] = useState<any>();
+    const [findPrice, setFindPrice] = useState<any>();
     const { t } = useTranslation();
     const {
         handleSubmit,
@@ -133,28 +128,38 @@ export default function AddSaleModal({
     const { isPending: isAdding, mutateAsync: addSale } = useAddSale();
     const { data: companies } = useGetCompanies();
     const { data: items } = useGetWarehouse();
-    const navigate = useNavigate();
     const findItem = items?.find(item => item.id === selectedItem);
     const id = findItem?.id;
     const findCompany = companies?.find(
         company => company.id === selectedCompany
     );
-    const itemGuarantees = [t("Yes"), t("No")];
-    const itemGuaranteeTimes = [t("1 Year"), t("2 Year")];
+    const itemGuarantees = [
+        { label: t("Yes"), value: 1 },
+        { label: t("No"), value: 0 },
+    ];
+    const itemGuaranteeTimes = [
+        { label: t("1 Year"), value: 1 },
+        { label: t("2 Year"), value: 2 },
+    ];
+    const guaranteeExpire =
+        selectedGuarantee === 1 &&
+        calcGuaranteeExpireDate(new Date(), +selectedGuaranteeTime);
 
     async function onSubmit() {
-        const { itemAmount, itemSalePrice, saleDescription } = getValues();
+        const { itemAmount, saleDescription } = getValues();
 
         const sale = {
             saleItemId: selectedItem,
             saleItemName: findItem?.itemName,
             saleItemAmount: itemAmount,
-            saleItemPrice: itemSalePrice || "",
+            saleItemPrice: findPrice || "",
             saleCompanyId: selectedCompany || row.id,
             saleCompanyName: findCompany?.companyName,
-            saleGuarantee: selectedGuarantee,
+            saleGuarantee: selectedGuarantee ? true : false,
             saleGuaranteeTime: selectedGuaranteeTime,
+            saleGuaranteeEndTime: formatDate(guaranteeExpire),
             saleDescription,
+            totalSalePrice: findPrice * itemAmount,
             saleCreatedAt: formatDate(new Date()),
         };
 
@@ -165,7 +170,6 @@ export default function AddSaleModal({
         };
 
         await addSale({ sale, selectedCompany, item, id });
-        navigate(`/companies/${selectedCompany || row.id}`);
         onCloseModal();
     }
 
@@ -175,25 +179,18 @@ export default function AddSaleModal({
         reset();
         setSelectedItem("");
         tableName !== "company" && setSelectedCompany("");
-        setSelectedGuarantee(t("No"));
+        setSelectedGuarantee(0);
         setSelectedGuaranteeTime("");
     }
 
     useEffect(() => {
-        tableName === "company"
-            ? setSelectedCompany(row.id)
-            : setSelectedCompany("");
-        if (selectedGuarantee === "No" || selectedGuarantee === "Hayır")
-            setSelectedGuaranteeTime("");
-    }, [selectedGuarantee, row?.id]);
+        tableName === "company" && setSelectedCompany(row.id);
+        if (findItem) setFindPrice(findItem.itemSalePrice);
+    }, [row?.id, findItem]);
 
     useEffect(() => {
-        if (findItem) {
-            findItem.itemSalePrice !== ""
-                ? setPrice(parseCurrency(findItem?.itemSalePrice))
-                : setPrice(0);
-        }
-    }, [findItem, setPrice]);
+        if (selectedGuarantee === 0) setSelectedGuaranteeTime("");
+    }, [selectedGuarantee]);
 
     return (
         <Modal
@@ -360,12 +357,8 @@ export default function AddSaleModal({
                                 <StyledTextField
                                     disabled
                                     placeholder={t("Item Sale Price")}
-                                    {...register("itemSalePrice", {
-                                        required: t(
-                                            "Item sale price is required"
-                                        ),
-                                    })}
-                                    value={+price || 0}
+                                    {...register("itemSalePrice")}
+                                    value={findPrice || 0}
                                     type="number"
                                     error={Boolean(errors?.itemSalePrice)}
                                     helperText={
@@ -386,7 +379,7 @@ export default function AddSaleModal({
                                         value={selectedGuarantee}
                                         onChange={e =>
                                             setSelectedGuarantee(
-                                                e.target.value as string
+                                                e.target.value as number
                                             )
                                         }
                                     >
@@ -398,9 +391,9 @@ export default function AddSaleModal({
                                                 }}
                                                 disableRipple
                                                 key={i}
-                                                value={guarantee}
+                                                value={guarantee.value}
                                             >
-                                                {guarantee}
+                                                {guarantee.label}
                                             </MenuItem>
                                         ))}
                                     </StyledSelect>
@@ -415,9 +408,7 @@ export default function AddSaleModal({
                                         displayEmpty
                                         required
                                         disabled={
-                                            isAdding ||
-                                            selectedGuarantee === "No" ||
-                                            selectedGuarantee === "Hayır"
+                                            isAdding || selectedGuarantee === 0
                                         }
                                         labelId="selectedGuaranteeTimeLabel"
                                         id="selectedGuaranteeTime"
@@ -447,9 +438,9 @@ export default function AddSaleModal({
                                                 }}
                                                 disableRipple
                                                 key={i}
-                                                value={time}
+                                                value={time.value}
                                             >
-                                                {time}
+                                                {time.label}
                                             </MenuItem>
                                         ))}
                                     </StyledSelect>
