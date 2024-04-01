@@ -2,6 +2,7 @@ import { Checkbox, TableCell, TableRow } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
 import { formatCurrency } from "../../Utils/utils";
+import { useTranslation } from "react-i18next";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -17,6 +18,7 @@ export default function AccountingTableRow({
     labelId,
     row,
 }: TableRowTypes) {
+    const { t } = useTranslation();
     return (
         <TableRow
             hover
@@ -61,7 +63,7 @@ export default function AccountingTableRow({
                 {formatCurrency(row.saleItemPrice) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.saleGuaratee || "-"}
+                {row.saleGuarantee ? t("Yes") : t("No") || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 <ButtonGroup tableName="accounting" row={row} />
