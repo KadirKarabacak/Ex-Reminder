@@ -14,11 +14,7 @@ import { EditItemModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import React from "react";
 import { useUpdateItem } from "../../../Api/warehouseController";
-import {
-    formatCurrency,
-    formatDate,
-    parseCurrency,
-} from "../../../Utils/utils";
+import { formatDate } from "../../../Utils/utils";
 import { auth } from "../../../Api/firebase";
 
 const StyledBox = styled(Box)`
@@ -115,17 +111,12 @@ export default function EditItemModal({
             itemSalePrice,
             itemPurchasePrice,
         } = getValues();
-        let formattedSale;
-        let formattedPurchase;
-        if (itemSalePrice) formattedSale = formatCurrency(itemSalePrice);
-        if (itemPurchasePrice)
-            formattedPurchase = formatCurrency(itemPurchasePrice);
 
         const item = {
             itemName,
             itemAmount: +itemAmount,
-            itemSalePrice: itemSalePrice ? formattedSale : "",
-            itemPurchasePrice: itemPurchasePrice ? formattedPurchase : "",
+            itemSalePrice: +itemSalePrice,
+            itemPurchasePrice: +itemPurchasePrice,
             itemDescription,
             editedAt: formatDate(new Date()),
         };
@@ -207,11 +198,7 @@ export default function EditItemModal({
                                 </StyledTitle>
                                 <StyledTextField
                                     variant="filled"
-                                    defaultValue={
-                                        row?.itemSalePrice
-                                            ? parseCurrency(row?.itemSalePrice)
-                                            : ""
-                                    }
+                                    defaultValue={row?.itemSalePrice || ""}
                                     disabled={isUpdating}
                                     label={t("Item Sale Price")}
                                     {...register("itemSalePrice")}
@@ -225,13 +212,7 @@ export default function EditItemModal({
                                 <StyledTextField
                                     variant="filled"
                                     disabled={isUpdating}
-                                    defaultValue={
-                                        row?.itemPurchasePrice
-                                            ? parseCurrency(
-                                                  row?.itemPurchasePrice
-                                              )
-                                            : ""
-                                    }
+                                    defaultValue={row?.itemPurchasePrice || ""}
                                     label={t("Item Purchase Price")}
                                     {...register("itemPurchasePrice")}
                                     type="number"
