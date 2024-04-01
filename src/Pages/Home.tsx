@@ -1,24 +1,55 @@
 import styled from "styled-components";
-import { animated, useSpring } from "react-spring";
-import { springOptions } from "../Constants/constant";
+import {
+    MapContainer,
+    Marker,
+    Popup,
+    TileLayer,
+    useMapEvents,
+} from "react-leaflet";
+import { useState } from "react";
 
 const StyledHome = styled.main`
     width: 100%;
     min-height: 60rem;
-    background-color: var(--color-grey-100);
-    text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    padding-top: 1rem;
-    border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-sm);
+    height: calc(100dvh - 6.5rem);
 `;
 
-const AnimatedStyledHome = animated(StyledHome);
+//
+function findMyLocation() {
+    const [position, setPosition] = useState<any>(null);
+    const map = useMapEvents({
+        click() {
+            map.locate();
+        },
+        locationfound(e) {
+            setPosition(e.latlng);
+            map.flyTo(e.latlng, map.getZoom());
+        },
+    });
+
+    return position === null ? null : (
+        <Marker position={position}>
+            <Popup>You are here</Popup>
+        </Marker>
+    );
+}
 
 export default function Home() {
-    const animationProps = useSpring(springOptions);
-
-    return <AnimatedStyledHome style={animationProps}>Home</AnimatedStyledHome>;
+    return (
+        <StyledHome>
+            <MapContainer
+                style={{ height: "100%" }}
+                center={[37.797069, 29.0292515]}
+                zoom={11}
+            >
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <Marker position={[51.505, -0.09]}>
+                    <Popup></Popup>
+                </Marker>
+            </MapContainer>
+        </StyledHome>
+    );
 }
