@@ -61,8 +61,12 @@ export default function Accounting() {
                 data={data}
                 searchText={searchText}
             />
-            <Chart data={data} />
-            <AccountingDetails />
+            {data?.length ? (
+                <>
+                    <Chart data={data} />
+                    <AccountingDetails />
+                </>
+            ) : null}
         </AnimatedStyledAccounting>
     );
 }
