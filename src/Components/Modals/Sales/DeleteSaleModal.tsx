@@ -1,4 +1,14 @@
-import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
+import {
+    Backdrop,
+    Box,
+    Button,
+    Fade,
+    FormControl,
+    MenuItem,
+    Modal,
+    Select,
+    Typography,
+} from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -7,6 +17,7 @@ import { useDeleteSales } from "../../../Api/companyController";
 import { auth } from "../../../Api/firebase";
 import { useGetAccounting } from "../../../Api/accountingController";
 import i18n from "../../../i18n";
+import { useState } from "react";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -34,6 +45,31 @@ const StyledSpan = styled.span`
     font-weight: bold;
 `;
 
+const StyledSelect = styled(Select)`
+    && {
+        font-size: 1.3rem;
+        color: var(--color-grey-800);
+
+        & > fieldset {
+            border-color: var(--color-grey-500);
+        }
+
+        &:hover > fieldset {
+            border-color: var(--color-brand-600) !important;
+        }
+
+        &:disabled {
+            background-color: transparent !important;
+            cursor: not-allowed;
+        }
+    }
+`;
+
+const StyledMenuItem = styled(MenuItem)`
+    border-bottom: 1px solid #efefef !important;
+    background-color: transparent !important;
+`;
+
 export default function DeleteSaleModal({
     open,
     handleClose,
@@ -41,11 +77,16 @@ export default function DeleteSaleModal({
     row,
 }: EditEmployeeModalTypes) {
     const { t } = useTranslation();
+    const currentLanguage = i18n.language;
+    const [deleteOption, setDeleteOption] = useState<any>(
+        currentLanguage === "en-EN"
+            ? "Delete from Accounting"
+            : "Muhasebeden Sil"
+    );
     const { handleSubmit } = useForm();
     const { isPending: isDeleting, mutateAsync: deleteSales } =
         useDeleteSales();
     const { currentUser } = auth;
-    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
     const companyId = row.saleCompanyId;
     const { data: accountings } = useGetAccounting();
@@ -53,13 +94,24 @@ export default function DeleteSaleModal({
     const saleToDeleteId = saleToDelete?.id;
 
     async function onSubmit() {
-        await deleteSales({ id, userId, companyId, saleToDeleteId });
+        await deleteSales({
+            id,
+            userId,
+            companyId,
+            saleToDeleteId,
+            deleteOption,
+        });
         onCloseModal();
     }
 
     function onCloseModal() {
         handleClose(open);
     }
+
+    const deleteOptions =
+        currentLanguage === "en-EN"
+            ? [t("Delete from Accounting"), t("Keep in Accounting")]
+            : [t("Muhasebeden Sil"), t("Muhasebede Tut")];
 
     return (
         <Modal
@@ -100,6 +152,10 @@ export default function DeleteSaleModal({
                                 <StyledSpan>
                                     {row.saleCompanyName} ?
                                 </StyledSpan>{" "}
+                                The delete operation will also delete the sales
+                                record from the accounting table by default. If
+                                you do not want it to be deleted, you can use
+                                the following options.
                             </Typography>
                         )}
                         {currentLanguage === "tr-TR" && (
@@ -115,9 +171,48 @@ export default function DeleteSaleModal({
                                 tarihli{" "}
                                 <StyledSpan>{row.saleCompanyName}</StyledSpan>{" "}
                                 şirketine yapılan satışı silmek istediğinize
-                                emin misiniz?
+                                emin misiniz? Silme işleminin satış kaydını
+                                muhasebe tablosundan da silmesini istemiyorsanız
+                                aşağıdaki seçenekleri kullanabilirsiniz.
                             </Typography>
                         )}
+                        <FormControl sx={{ width: "50%" }}>
+                            <StyledSelect
+                                required
+                                displayEmpty
+                                labelId="selectedItemLabel"
+                                id="selectedItem"
+                                onChange={e => {
+                                    setDeleteOption(e.target.value);
+                                }}
+                                value={deleteOption}
+                            >
+                                <StyledMenuItem
+                                    sx={{
+                                        backgroundColor:
+                                            "transparent!important",
+                                    }}
+                                    disabled
+                                    disableRipple
+                                    value=""
+                                >
+                                    {t("Select Option")}
+                                </StyledMenuItem>
+                                {deleteOptions.map((option, i) => (
+                                    <StyledMenuItem
+                                        sx={{
+                                            backgroundColor:
+                                                "transparent!important",
+                                        }}
+                                        disableRipple
+                                        key={i}
+                                        value={option}
+                                    >
+                                        {option}
+                                    </StyledMenuItem>
+                                ))}
+                            </StyledSelect>
+                        </FormControl>
 
                         <StyledButtonContainer>
                             <Button
