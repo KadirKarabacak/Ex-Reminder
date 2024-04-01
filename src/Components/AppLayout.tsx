@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
@@ -11,12 +11,6 @@ const StyledAppLayout = styled.div`
     height: 100vh;
 `;
 
-const Main = styled.main`
-    background-color: var(--color-grey-50);
-    padding: 3.5rem;
-    overflow-y: scroll;
-`;
-
 const Container = styled.div`
     max-width: 100%;
     /* margin: 0 auto; */
@@ -25,18 +19,32 @@ const Container = styled.div`
     gap: 3.2rem;
 `;
 
+// const Main = styled.main`
+//     background-color: var(--color-grey-50);
+//     padding: ${props => (props.pathname === "/" ? "0" : "3.5rem")};
+//     overflow-y: scroll;
+// `;
+
 // Parent Route
 function AppLayout() {
+    const { pathname } = useLocation();
+    console.log(pathname);
     return (
         <ProtectedRoute>
             <StyledAppLayout>
                 <Header />
                 <Sidebar />
-                <Main>
+                <main
+                    style={{
+                        backgroundColor: "var(--color-grey-50)",
+                        padding: pathname === "/" ? "0" : "3.5rem",
+                        overflowY: "scroll",
+                    }}
+                >
                     <Container>
                         <Outlet />
                     </Container>
-                </Main>
+                </main>
             </StyledAppLayout>
         </ProtectedRoute>
     );
