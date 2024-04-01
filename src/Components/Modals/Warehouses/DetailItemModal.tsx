@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { formatCurrency, parseCurrency } from "../../../Utils/utils";
+import { formatCurrency } from "../../../Utils/utils";
 import { EditEmployeeModalTypes } from "../../../Interfaces/User";
 
 const StyledBox = styled(Box)`
@@ -59,11 +59,9 @@ export default function DetailItemModal({
         handleClose(open);
     }
 
-    const isValues = row.itemSalePrice !== "" && row.itemPurchasePrice !== "";
+    const isValues = row.itemSalePrice !== 0 && row.itemPurchasePrice !== 0;
     const profit = isValues
-        ? (parseCurrency(row.itemSalePrice) -
-              parseCurrency(row.itemPurchasePrice)) *
-          (row.itemAmount || 1)
+        ? (row.itemSalePrice - row.itemPurchasePrice) * (row.itemAmount || 1)
         : 0;
 
     return (
