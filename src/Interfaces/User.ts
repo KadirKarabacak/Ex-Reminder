@@ -142,6 +142,7 @@ export interface DeleteSaleTypes {
     userId: string | undefined;
     companyId: string | undefined;
     saleToDeleteId: any;
+    deleteOption: string;
 }
 
 export interface Warehouses {
