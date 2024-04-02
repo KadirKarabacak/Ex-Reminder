@@ -1,5 +1,6 @@
 import { addYears, differenceInDays, differenceInHours } from "date-fns";
 import i18n from "../i18n";
+import { API_KEY } from "../Constants/constant";
 
 export const extractFileName = (file: any) => {
     return file ? file?.name?.slice(0, 25) + "..." : "";
@@ -66,4 +67,28 @@ export function calcGuaranteeExpireDate(
     guaranteeTime: number
 ) {
     return addYears(startDate, guaranteeTime);
+}
+
+export function reverseGeocode(lat: any, lng: any) {
+    try {
+        fetch(
+            `https://geocode.maps.co/reverse?lat=${lat}&lon=${lng}&api_key=${API_KEY}`
+        )
+            .then(response => response.json())
+            .then(data => data)
+            .catch(err => console.log(err));
+    } catch (err) {
+        console.log(err);
+    }
+}
+
+export function forwardGeocode(address: any) {
+    try {
+        fetch(`https://geocode.maps.co/search?q=${address}&api_key=${API_KEY}`)
+            .then(response => response.json())
+            .then(data => data)
+            .catch(err => console.log(err));
+    } catch (err) {
+        console.log(err);
+    }
 }
