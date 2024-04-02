@@ -51,7 +51,8 @@ export default function CompanyTableRow({
                 {row.companyName || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.companyAddress || "-"}
+                {`${row.companyAddress.province} / ${row.companyAddress.district}` ||
+                    "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {row.companyPhone || "-"}
