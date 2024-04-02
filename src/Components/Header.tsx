@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Zoom from "@mui/material/Zoom";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
@@ -30,7 +30,6 @@ const StyledHeader = styled.header`
     align-items: center;
     justify-content: flex-end;
     z-index: 1000;
-    box-shadow: var(--shadow-md);
 `;
 
 const StyledList = styled.ul`
@@ -125,6 +124,7 @@ function Header() {
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const { currentUser } = auth;
     const { t, i18n } = useTranslation();
+    const { pathname } = useLocation();
 
     const handleChangeLang = (e: string) => {
         i18n.changeLanguage(e);
@@ -137,7 +137,11 @@ function Header() {
     }, []);
 
     return (
-        <StyledHeader>
+        <StyledHeader
+            style={{
+                boxShadow: pathname === "/" ? "var(--shadow-md)" : "none",
+            }}
+        >
             <StyledList>
                 <StyledUserInfo>
                     <StyledListItem>
