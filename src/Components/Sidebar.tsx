@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
 import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
@@ -18,7 +18,6 @@ const StyledSidebar = styled.aside`
     display: flex;
     flex-direction: column;
     z-index: 1001;
-    box-shadow: var(--shadow-lg);
 `;
 
 const StyledNavLink = styled(NavLink)`
@@ -68,8 +67,13 @@ const iconStyle = {
 
 function Sidebar() {
     const { t } = useTranslation();
+    const { pathname } = useLocation();
     return (
-        <StyledSidebar>
+        <StyledSidebar
+            style={{
+                boxShadow: pathname === "/" ? "var(--shadow-md)" : "none",
+            }}
+        >
             <StyledImg
                 src="../../EX_REMINDER-green.png"
                 alt="Ex_REMINDER logo"
