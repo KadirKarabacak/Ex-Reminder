@@ -28,7 +28,6 @@ const Container = styled.div`
 // Parent Route
 function AppLayout() {
     const { pathname } = useLocation();
-    console.log(pathname);
     return (
         <ProtectedRoute>
             <StyledAppLayout>
