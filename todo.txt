@@ -55,8 +55,10 @@
 57- ✅ Add Agreement from row make default parties as "userDisplayName" & "companyName" in that row
 58- 🟡 Add shortcuts to routes
 59- 🟡 For items add itemcodes
-60- On making sale, when item selected autofill sale price with item price, watch every field in sale and auto fill sale description with selections
-61- Accounting > Make Sale is not adding to company's own sales table. Only adding to accounting table
+60- ✅ On making sale, when item selected autofill sale price with item price, watch every field in sale and auto fill sale description with selections
+61- ✅ Accounting > Make Sale is not adding to company's own sales table. Only adding to accounting table
+62- Companies > Edit Company Modal > On editing address add address modal
+63- Companies > Tablerow address sort is wrong
 
 
 
