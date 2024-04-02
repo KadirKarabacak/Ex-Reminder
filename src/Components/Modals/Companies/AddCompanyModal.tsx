@@ -19,6 +19,8 @@ import { useAddCompany } from "../../../Api/companyController";
 import { MuiTelInput } from "mui-tel-input";
 import i18n from "../../../i18n";
 import { emailRegex } from "../../../Constants/constant";
+import AddAddressModal from "./AddAddressModal";
+import { useSearchParams } from "react-router-dom";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -96,12 +98,34 @@ const StyledTelInput = styled(MuiTelInput)`
 const webRegex =
     /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/;
 
+const AddressDataDefaults = {
+    province: "",
+    district: "",
+    neighbourhood: "",
+    street: "",
+    doorNumber: "",
+};
+
 export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     const { t } = useTranslation();
     const { mutate, isPending } = useAddCompany();
     const [companyPhone, setCompanyPhone] = useState("");
     const [managerPhone, setManagerPhone] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams("");
+    const [addressData, setAddressData] = useState(AddressDataDefaults);
     const currentLanguage = i18n.language;
+
+    const [opensAddressModal, setOpensAddressModal] = useState(false);
+    const handleOpenAddressModal = () => {
+        setOpensAddressModal(true);
+        setSearchParams("address-modal");
+    };
+    const handleCloseAddressModal = () => {
+        setOpensAddressModal(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 400);
+    };
 
     const {
         handleSubmit,
@@ -115,7 +139,6 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     async function onSubmit() {
         const {
             companyName,
-            companyAddress,
             companyEmail,
             companyWebsite,
             managerName,
@@ -124,7 +147,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
 
         const newCompany = {
             companyName,
-            companyAddress,
+            companyAddress: addressData,
             companyPhone: companyPhone,
             companyEmail,
             companyWebsite,
@@ -147,228 +170,278 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
 
         setCompanyPhone("");
         setManagerPhone("");
+        setAddressData(AddressDataDefaults);
     }
 
     return (
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={onCloseModal}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
-            }}
-        >
-            <Fade in={open}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <StyledBox>
-                        <Typography
-                            id="transition-modal-title"
-                            variant="h2"
-                            component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
-                        >
-                            {t("Add New Company")}
-                        </Typography>
-                        <Grid container spacing={2} sx={{ mt: "1rem" }}>
-                            <Grid item xs={6}>
-                                <StyledTitle>{t("Company Name*")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Company Name")}
-                                    {...register("companyName", {
-                                        required: t("Company Name is required"),
-                                    })}
-                                    error={Boolean(errors?.companyName)}
-                                    helperText={
-                                        (errors?.companyName
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <StyledTitle>
-                                    {t("Company Address")}
-                                </StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Company Address")}
-                                    {...register("companyAddress")}
-                                    error={Boolean(errors?.companyAddress)}
-                                    helperText={
-                                        (errors?.companyAddress
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Company Phone")}</StyledTitle>
-                                <StyledTelInput
-                                    placeholder={t("Company Phone")}
-                                    preferredCountries={["TR", "GB", "US"]}
-                                    defaultCountry={
-                                        currentLanguage === "tr-TR"
-                                            ? "TR"
-                                            : "GB"
-                                    }
-                                    value={companyPhone}
-                                    onChange={value => setCompanyPhone(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Company Email")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Company Email")}
-                                    {...register("companyEmail", {
-                                        pattern: {
-                                            value: emailRegex,
-                                            message: t("Invalid email"),
-                                        },
-                                    })}
-                                    error={Boolean(errors?.companyEmail)}
-                                    helperText={
-                                        (errors?.companyEmail
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>
-                                    {t("Company Website")}
-                                </StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Company Website")}
-                                    {...register("companyWebsite", {
-                                        pattern: {
-                                            value: webRegex,
-                                            message: t(
-                                                "Website must be in the following format https://www.example.com"
+        <>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={onCloseModal}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                <Fade in={open}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <StyledBox>
+                            <Typography
+                                id="transition-modal-title"
+                                variant="h2"
+                                component="h1"
+                                sx={{
+                                    fontWeight: "bold",
+                                    letterSpacing: "0.80px",
+                                }}
+                            >
+                                {t("Add New Company")}
+                            </Typography>
+                            <Grid container spacing={2} sx={{ mt: "1rem" }}>
+                                <Grid item xs={6}>
+                                    <StyledTitle>
+                                        {t("Company Name*")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        placeholder={t("Company Name")}
+                                        {...register("companyName", {
+                                            required: t(
+                                                "Company Name is required"
                                             ),
-                                        },
-                                    })}
-                                    error={Boolean(errors?.companyWebsite)}
-                                    helperText={
-                                        (errors?.companyWebsite
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                />
+                                        })}
+                                        error={Boolean(errors?.companyName)}
+                                        helperText={
+                                            (errors?.companyName
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <StyledTitle>
+                                        {t("Company Address")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        onClick={handleOpenAddressModal}
+                                        disabled={isPending}
+                                        placeholder={t("Company Address")}
+                                        value={
+                                            addressData.province !== ""
+                                                ? `${
+                                                      addressData.province || ""
+                                                  } / ${
+                                                      addressData.district || ""
+                                                  }`
+                                                : ""
+                                        }
+                                        error={Boolean(errors?.companyAddress)}
+                                        helperText={
+                                            (errors?.companyAddress
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Company Phone")}
+                                    </StyledTitle>
+                                    <StyledTelInput
+                                        placeholder={t("Company Phone")}
+                                        preferredCountries={["TR", "GB", "US"]}
+                                        defaultCountry={
+                                            currentLanguage === "tr-TR"
+                                                ? "TR"
+                                                : "GB"
+                                        }
+                                        value={companyPhone}
+                                        onChange={value =>
+                                            setCompanyPhone(value)
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Company Email")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        placeholder={t("Company Email")}
+                                        {...register("companyEmail", {
+                                            pattern: {
+                                                value: emailRegex,
+                                                message: t("Invalid email"),
+                                            },
+                                        })}
+                                        error={Boolean(errors?.companyEmail)}
+                                        helperText={
+                                            (errors?.companyEmail
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Company Website")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        placeholder={t("Company Website")}
+                                        {...register("companyWebsite", {
+                                            pattern: {
+                                                value: webRegex,
+                                                message: t(
+                                                    "Website must be in the following format https://www.example.com"
+                                                ),
+                                            },
+                                        })}
+                                        error={Boolean(errors?.companyWebsite)}
+                                        helperText={
+                                            (errors?.companyWebsite
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Manager Name")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        placeholder={t("Manager Name")}
+                                        {...register("managerName")}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Manager Phone")}
+                                    </StyledTitle>
+                                    <StyledTelInput
+                                        placeholder={t("Manager Phone")}
+                                        preferredCountries={["TR", "GB", "US"]}
+                                        defaultCountry={
+                                            currentLanguage === "tr-TR"
+                                                ? "TR"
+                                                : "GB"
+                                        }
+                                        value={managerPhone}
+                                        onChange={value =>
+                                            setManagerPhone(value)
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Manager Email")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        placeholder={t("Manager Email")}
+                                        {...register("managerEmail", {
+                                            pattern: {
+                                                value: emailRegex,
+                                                message: t("Invalid email"),
+                                            },
+                                        })}
+                                        error={Boolean(errors?.managerEmail)}
+                                        helperText={
+                                            (errors?.managerEmail
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                    />
+                                </Grid>
                             </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Name")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Manager Name")}
-                                    {...register("managerName")}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Phone")}</StyledTitle>
-                                <StyledTelInput
-                                    placeholder={t("Manager Phone")}
-                                    preferredCountries={["TR", "GB", "US"]}
-                                    defaultCountry={
-                                        currentLanguage === "tr-TR"
-                                            ? "TR"
-                                            : "GB"
-                                    }
-                                    value={managerPhone}
-                                    onChange={value => setManagerPhone(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Email")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    placeholder={t("Manager Email")}
-                                    {...register("managerEmail", {
-                                        pattern: {
-                                            value: emailRegex,
-                                            message: t("Invalid email"),
-                                        },
-                                    })}
-                                    error={Boolean(errors?.managerEmail)}
-                                    helperText={
-                                        (errors?.managerEmail
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
 
-                        <StyledButtonContainer>
-                            <Button
-                                disabled={isPending}
-                                sx={{
-                                    backgroundColor: "var(--color-grey-800)",
-                                    color: "var(--color-grey-50)",
-                                    transition: "all .3s",
-                                    padding: "1rem 2rem",
-                                    fontSize: "1.1rem",
-                                    alignSelf: "flex-start",
-                                    fontWeight: "bold",
-                                    "&:hover": {
+                            <StyledButtonContainer>
+                                <Button
+                                    disabled={isPending}
+                                    sx={{
                                         backgroundColor:
-                                            "var(--color-grey-700)",
-                                        transform: "translateY(-2px)",
-                                    },
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                    },
-                                }}
-                                type="submit"
-                                variant="contained"
-                            >
-                                {t("Add Company")}
-                            </Button>
-                            <Button
-                                disabled={isPending}
-                                onClick={onCloseModal}
-                                sx={{
-                                    color: "var(--color-grey-800)",
-                                    transition: "all .3s",
-                                    padding: "1rem 3rem",
-                                    fontSize: "1.1rem",
-                                    border: "1px solid var(--color-grey-500)",
-                                    backgroundColor: "var(--color-grey-100)",
-                                    fontWeight: "bold",
-                                    "&:hover": {
+                                            "var(--color-grey-800)",
+                                        color: "var(--color-grey-50)",
+                                        transition: "all .3s",
+                                        padding: "1rem 2rem",
+                                        fontSize: "1.1rem",
+                                        alignSelf: "flex-start",
+                                        fontWeight: "bold",
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "var(--color-grey-700)",
+                                            transform: "translateY(-2px)",
+                                        },
+                                        "&:active": {
+                                            transform: "translateY(0)",
+                                        },
+                                    }}
+                                    type="submit"
+                                    variant="contained"
+                                >
+                                    {t("Add Company")}
+                                </Button>
+                                <Button
+                                    disabled={isPending}
+                                    onClick={onCloseModal}
+                                    sx={{
+                                        color: "var(--color-grey-800)",
+                                        transition: "all .3s",
+                                        padding: "1rem 3rem",
+                                        fontSize: "1.1rem",
+                                        border: "1px solid var(--color-grey-500)",
                                         backgroundColor:
-                                            "var(--color-grey-200)",
-                                        transform: "translateY(-2px)",
-                                        border: "1px solid var(--color-grey-800)",
-                                    },
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                    },
-                                }}
-                                variant="outlined"
-                            >
-                                {t("Cancel")}
-                            </Button>
-                        </StyledButtonContainer>
-                    </StyledBox>
-                </form>
-            </Fade>
-        </Modal>
+                                            "var(--color-grey-100)",
+                                        fontWeight: "bold",
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "var(--color-grey-200)",
+                                            transform: "translateY(-2px)",
+                                            border: "1px solid var(--color-grey-800)",
+                                        },
+                                        "&:active": {
+                                            transform: "translateY(0)",
+                                        },
+                                    }}
+                                    variant="outlined"
+                                >
+                                    {t("Cancel")}
+                                </Button>
+                            </StyledButtonContainer>
+                        </StyledBox>
+                    </form>
+                </Fade>
+            </Modal>
+            {searchParams.has("address-modal") && (
+                <AddAddressModal
+                    open={opensAddressModal}
+                    handleClose={handleCloseAddressModal}
+                    setAddressData={setAddressData}
+                    addressData={addressData}
+                />
+            )}
+        </>
     );
 }
