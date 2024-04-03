@@ -15,7 +15,7 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import Map from "../../Map/Map";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useGetCities } from "../../../Api/mapController";
 
 const StyledBox = styled(Box)`
@@ -90,12 +90,12 @@ export default function AddAddressModal({
     open,
     handleClose,
     setAddressData,
-    addressData,
-}: {
+}: // addressData,
+{
     open: boolean;
     handleClose: React.Dispatch<React.SetStateAction<boolean>>;
     setAddressData: React.Dispatch<React.SetStateAction<any>>;
-    addressData: any;
+    // addressData: any;
 }) {
     const { t } = useTranslation();
     const [province, setProvince] = useState<any>(null);
@@ -105,6 +105,7 @@ export default function AddAddressModal({
     const isAddressModal = pathname.includes("/companies");
     const [searchParams, setSearchParams] = useSearchParams();
     const { data, isLoading } = useGetCities();
+    // const { data: neighbourhoods } = useGetNeighbourhoods();
 
     const provinceOptions = !isLoading
         ? data.data.map((city: any) => city.name).sort()
@@ -119,6 +120,13 @@ export default function AddAddressModal({
               .find((city: any) => city.name === searchParams.get("province"))
               ?.districts.map((district: any) => district.name)
         : [];
+
+    // const neighborhoodOptions = district
+    //     ? neighbourhoods.data.filter((neighbourhood: any) => {
+    //           return neighbourhood.district === district;
+    //       })
+    //     : [];
+    // console.log(neighborhoodOptions);
 
     async function onSubmit(data: FieldValues) {
         setAddressData({ ...data, province, district });
