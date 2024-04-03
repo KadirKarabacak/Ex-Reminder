@@ -439,7 +439,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                     open={opensAddressModal}
                     handleClose={handleCloseAddressModal}
                     setAddressData={setAddressData}
-                    addressData={addressData}
+                    // addressData={addressData}
                 />
             )}
         </>
