@@ -1,6 +1,7 @@
 import { addYears, differenceInDays, differenceInHours } from "date-fns";
 import i18n from "../i18n";
 import { API_KEY } from "../Constants/constant";
+import { useQuery } from "@tanstack/react-query";
 
 export const extractFileName = (file: any) => {
     return file ? file?.name?.slice(0, 25) + "..." : "";
@@ -69,25 +70,27 @@ export function calcGuaranteeExpireDate(
     return addYears(startDate, guaranteeTime);
 }
 
-export function reverseGeocode(lat: any, lng: any) {
+export async function reverseGeocode(lat: any, lng: any) {
     try {
-        fetch(
+        const clickedAddress = await fetch(
             `https://geocode.maps.co/reverse?lat=${lat}&lon=${lng}&api_key=${API_KEY}`
-        )
-            .then(response => response.json())
-            .then(data => data)
-            .catch(err => console.log(err));
+        );
+        const data = await clickedAddress.json();
+        console.log(data.address);
+        return data.address;
     } catch (err) {
         console.log(err);
     }
 }
 
-export function forwardGeocode(address: any) {
+export async function forwardGeocode(address: any) {
     try {
-        fetch(`https://geocode.maps.co/search?q=${address}&api_key=${API_KEY}`)
-            .then(response => response.json())
-            .then(data => data)
-            .catch(err => console.log(err));
+        const clickedAddress = await fetch(
+            `https://geocode.maps.co/search?q=${address}&api_key=${API_KEY}`
+        );
+        const data = await clickedAddress.json();
+        console.log(data);
+        return data;
     } catch (err) {
         console.log(err);
     }
