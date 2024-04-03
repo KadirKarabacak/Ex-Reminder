@@ -1,9 +1,17 @@
 import { useEffect, useState } from "react";
-import { MapContainer, Marker, Popup, TileLayer, useMap } from "react-leaflet";
+import {
+    MapContainer,
+    Marker,
+    Popup,
+    TileLayer,
+    useMap,
+    useMapEvents,
+} from "react-leaflet";
 import FindLocationButton from "./FindLocationButton";
 import { LatLngExpression } from "leaflet";
 import { useGeolocation } from "../../Hooks/useGeolocation";
 import { ZoomControl } from "react-leaflet/ZoomControl";
+import { reverseGeocode } from "../../Utils/utils";
 
 const dummyCompanyCoords = [
     { lat: 30.7782272, lng: 20.0193408 },
@@ -16,6 +24,15 @@ const defaultCoords = {
     lng: 29.0752062,
 };
 
+function DetectClick({ setClickedPosition }: { setClickedPosition: any }) {
+    const map = useMapEvents({
+        click: event => {
+            setClickedPosition(event.latlng);
+        },
+    });
+    return null;
+}
+
 export default function Map({
     isAddressModal,
     selectedProvinceCoords,
@@ -24,7 +41,9 @@ export default function Map({
     selectedProvinceCoords?: any;
 }) {
     const [mapPosition, setMapPosition] = useState(defaultCoords);
+    const [clickedPosition, setClickedPosition] = useState<any>(null);
     const { position, getPosition, isLoading } = useGeolocation(null);
+    console.log(clickedPosition);
 
     useEffect(() => {
         position ? setMapPosition(position) : setMapPosition(defaultCoords);
@@ -39,10 +58,15 @@ export default function Map({
             : setMapPosition(defaultCoords);
     }, [selectedProvinceCoords]);
 
+    useEffect(() => {
+        if (clickedPosition)
+            reverseGeocode(clickedPosition.lat, clickedPosition.lng);
+    }, [clickedPosition]);
+
     return (
         <MapContainer
             style={{ height: "100%", position: "relative" }}
-            center={mapPosition as LatLngExpression}
+            center={clickedPosition || (mapPosition as LatLngExpression)}
             zoom={isAddressModal ? 13 : 8}
             minZoom={5}
             placeholder={<MapPlaceholder />}
@@ -66,9 +90,15 @@ export default function Map({
                     <Popup>{coords.lat + " - " + coords.lng}</Popup>
                 </Marker>
             ))}
+            {clickedPosition && (
+                <Marker position={clickedPosition}>
+                    <Popup>You clicked here</Popup>
+                </Marker>
+            )}
             {!isAddressModal && <FindLocationButton onClick={getPosition} />}
+            <DetectClick setClickedPosition={setClickedPosition} />
             <ZoomControl position="bottomright" />
-            <ChangeCenter position={mapPosition} />
+            <ChangeCenter position={clickedPosition || mapPosition} />
         </MapContainer>
     );
 }
