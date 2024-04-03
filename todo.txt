@@ -59,6 +59,8 @@
 61- ✅ Accounting > Make Sale is not adding to company's own sales table. Only adding to accounting table
 62- Companies > Edit Company Modal > On editing address add address modal
 63- Companies > Tablerow address sort is wrong
+64- Add Company > Address Modal > When user clicks the map, set input fields with geocoded data
+65- Home page > when user clicks find my location, it clicks map also, fix that
 
 
 
