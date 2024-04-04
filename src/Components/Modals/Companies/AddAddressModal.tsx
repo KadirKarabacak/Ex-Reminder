@@ -143,10 +143,19 @@ export default function AddAddressModal({
             province,
             district,
             neighbourhood,
-            companyCoordinates: {
-                lat: selectedProvinceCoords.latitude,
-                lng: selectedProvinceCoords.longitude,
-            },
+            companyCoordinates: clickedPosition
+                ? {
+                      lat: clickedPosition.lat,
+                      lng: clickedPosition.lng,
+                  }
+                : {
+                      lat: selectedProvinceCoords.latitude,
+                      lng: selectedProvinceCoords.longitude,
+                  },
+            // companyCoordinates: {
+            //     lat: selectedProvinceCoords.latitude,
+            //     lng: selectedProvinceCoords.longitude,
+            // },
         });
         onCloseModal();
     }
@@ -156,6 +165,7 @@ export default function AddAddressModal({
         clearErrors();
         reset();
         searchParams.delete("action");
+        searchParams.delete("state");
         setTimeout(() => {
             setSearchParams(searchParams);
         }, 400);
@@ -373,6 +383,11 @@ export default function AddAddressModal({
                                         }
                                         setClickedPosition={setClickedPosition}
                                         clickedPosition={clickedPosition}
+                                        findAddress={
+                                            findAddress
+                                                ? findAddress
+                                                : undefined
+                                        }
                                     />
                                 </Paper>
                             </Grid>
