@@ -1,6 +1,5 @@
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
-import HomeIcon from "@mui/icons-material/Home";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { Tooltip, Zoom } from "@mui/material";
@@ -8,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import { WarehouseOutlined } from "@mui/icons-material";
 import BusinessIcon from "@mui/icons-material/Business";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import MapIcon from "@mui/icons-material/Map";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -80,12 +80,12 @@ function Sidebar() {
             />
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Home")}
+                title={t("Map")}
                 placement="right"
             >
                 <StyledNavLink to="/">
-                    <HomeIcon sx={iconStyle} />
-                    {t("Home")}
+                    <MapIcon sx={iconStyle} />
+                    {t("Map")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
