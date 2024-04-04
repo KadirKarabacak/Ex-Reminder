@@ -269,7 +269,7 @@ svg{
 }
 
 .leaflet-popup-close-button{
-  color: var(--color-green-900)!important;
+  color: var(--color-grey-900)!important;
   font: 2rem DM Sans, sans serif !important;
 }
 
