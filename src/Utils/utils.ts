@@ -1,7 +1,6 @@
 import { addYears, differenceInDays, differenceInHours } from "date-fns";
 import i18n from "../i18n";
 import { API_KEY } from "../Constants/constant";
-import { useQuery } from "@tanstack/react-query";
 
 export const extractFileName = (file: any) => {
     return file ? file?.name?.slice(0, 25) + "..." : "";
@@ -76,7 +75,6 @@ export async function reverseGeocode(lat: any, lng: any) {
             `https://geocode.maps.co/reverse?lat=${lat}&lon=${lng}&api_key=${API_KEY}`
         );
         const data = await clickedAddress.json();
-        console.log(data.address);
         return data.address;
     } catch (err) {
         console.log(err);
