@@ -7,15 +7,16 @@ const StyledTitle = styled.span`
     font-size: 1.2rem;
     color: var(--color-green-lighter);
     font-weight: bold;
+    margin-right: 0.5rem;
 `;
 
 const StyledDescription = styled.span`
-    font-size: 1.1rem;
+    font-size: 1rem;
     color: var(--color-grey-800);
     text-transform: capitalize;
 `;
 
-export default function PopupContent({ company }: { company: any }) {
+export function PopupCompanyContent({ company }: { company: any }) {
     const { t } = useTranslation();
 
     return (
@@ -52,6 +53,52 @@ export default function PopupContent({ company }: { company: any }) {
                         {t("Move to operations")}
                     </Button>
                 </Link>
+            </Grid>
+        </Grid>
+    );
+}
+
+export function PopupClickedContent({ findAddress }: { findAddress: any }) {
+    const { t } = useTranslation();
+    return (
+        <Grid container spacing={1}>
+            <Grid item xs={12}>
+                <StyledTitle>{t("Province")}</StyledTitle>
+                <StyledDescription>
+                    {findAddress.city ||
+                        findAddress.province ||
+                        t("Not spesified")}
+                </StyledDescription>
+            </Grid>
+            <Grid item xs={12}>
+                <StyledTitle>{t("District")}</StyledTitle>
+                <StyledDescription>
+                    {findAddress.town || t("Not spesified")}
+                </StyledDescription>
+            </Grid>
+            <Grid item xs={12}>
+                <StyledTitle>{t("Neighbourhood")}</StyledTitle>
+                <StyledDescription>
+                    {findAddress.suburb || t("Not spesified")}
+                </StyledDescription>
+            </Grid>
+            <Grid item xs={12}>
+                <StyledTitle>{t("Road")}</StyledTitle>
+                <StyledDescription>
+                    {findAddress.road || t("Not spesified")}
+                </StyledDescription>
+            </Grid>
+            <Grid item xs={12}>
+                <StyledTitle>{t("Amenity")}</StyledTitle>
+                <StyledDescription>
+                    {findAddress.amenity || t("Not spesified")}
+                </StyledDescription>
+            </Grid>
+            <Grid item xs={12}>
+                <StyledTitle>{t("Post Code")}</StyledTitle>
+                <StyledDescription>
+                    {findAddress.postcode || t("Not spesified")}
+                </StyledDescription>
             </Grid>
         </Grid>
     );
