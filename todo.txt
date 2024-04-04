@@ -61,7 +61,9 @@
 63- Companies > Tablerow address sort & manager name sort is not working fix it
 64- ✅ Add Company > Address Modal > When user clicks the map, set input fields with geocoded data
 65- ✅ Home page > when user clicks find my location, it clicks map also, fix that
-66- Companies > Add company & Edit Company check url params on closing modals
+66- ✅ Companies > Add company & Edit Company check url params on closing modals
+67- ✅ Companies > Add Company > Address Modal > Map Click > Fix Popup Styling
+68- Tabloda 11 Sonuç varken 2. sayfadaki tek sonucu sildiğimde hata geliyor, eğer sayfada sonuç kalmadıysa sayfayı 1 geri getir.
 
 
 ### FEATURES ###
@@ -83,3 +85,10 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 
 # Personel Yönetim Paneli: ✅
 Çalışanların bilgilerini / maaşlarını ve performanslarını yönetmek için bir panel oluştur.
+
+# Home sayfası uygulama hakkında bilgi veren bir sayfa
+# Pricing kartları, kartlaradaki butonlardan ödeme aşamasına geçiş
+# Uygulama hakkında demo bir video olabilir
+#
+
+Slogan: Save Everything about your Company!
