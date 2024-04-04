@@ -129,8 +129,14 @@ export default function OperationsBody({
                     >
                         <StyledTitle>{t("Company Address")}</StyledTitle>
                         <StyledDescription>
-                            {currentCompany?.companyAddress ||
-                                t("Not spesified")}
+                            {`${
+                                currentCompany?.companyAddress.province || ""
+                            } / ${
+                                currentCompany?.companyAddress.district || ""
+                            } / ${
+                                currentCompany?.companyAddress.neighbourhood ||
+                                ""
+                            }` || t("Not spesified")}
                         </StyledDescription>
                     </Grid>
                     <Grid
@@ -184,7 +190,7 @@ export default function OperationsBody({
                     >
                         <StyledTitle>{t("Company Website")}</StyledTitle>
                         <StyledDescription>
-                            {(
+                            {currentCompany?.companyWebsite ? (
                                 <StyledLink
                                     href={`${
                                         currentCompany?.companyWebsite.startsWith(
@@ -205,7 +211,9 @@ export default function OperationsBody({
                                     />
                                     {currentCompany?.companyWebsite}{" "}
                                 </StyledLink>
-                            ) || t("Not spesified")}
+                            ) : (
+                                t("Not spesified")
+                            )}
                         </StyledDescription>
                     </Grid>
                     <Grid
