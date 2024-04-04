@@ -123,9 +123,6 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     };
     const handleCloseAddressModal = () => {
         setOpensAddressModal(false);
-        setTimeout(() => {
-            setSearchParams("");
-        }, 400);
     };
 
     const {
