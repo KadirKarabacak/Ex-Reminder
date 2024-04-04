@@ -173,7 +173,17 @@ export interface UpdateCompanyTypes {
 
 export interface Companies {
     companyName: string;
-    companyAddress: string;
+    companyAddress: {
+        companyCoordinates: {
+            lat: any;
+            lng: any;
+        };
+        district: string;
+        doorNumber: string;
+        neighbourhood: string;
+        province: string;
+        street: string;
+    };
     companyPhone: number | string;
     companyEmail: string;
     companyWebsite: string;
@@ -185,6 +195,7 @@ export interface Companies {
         managerEmail: string;
     };
     id?: string;
+    createdAt: string;
 }
 
 export interface Agreements {
