@@ -118,7 +118,8 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
     const [opensAddressModal, setOpensAddressModal] = useState(false);
     const handleOpenAddressModal = () => {
         setOpensAddressModal(true);
-        setSearchParams("address-modal");
+        searchParams.set("state", "add-address-modal");
+        setSearchParams(searchParams);
     };
     const handleCloseAddressModal = () => {
         setOpensAddressModal(false);
@@ -237,6 +238,9 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                                       addressData.province || ""
                                                   } / ${
                                                       addressData.district || ""
+                                                  } / ${
+                                                      addressData.neighbourhood ||
+                                                      ""
                                                   }`
                                                 : ""
                                         }
@@ -434,7 +438,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                     </form>
                 </Fade>
             </Modal>
-            {searchParams.has("address-modal") && (
+            {searchParams.has("state") && (
                 <AddAddressModal
                     open={opensAddressModal}
                     handleClose={handleCloseAddressModal}
