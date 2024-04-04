@@ -193,7 +193,7 @@ export default function CustomTable({
                 )
             );
         if (!searchText.length) setFilteredData(data);
-    }, [searchText, pathname]);
+    }, [searchText]);
 
     const visibleRows = React.useMemo(
         () =>
