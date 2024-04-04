@@ -13,12 +13,14 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { EditCompanyModalTypes } from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { formatDate } from "../../../Utils/utils";
 import { useUpdateCompany } from "../../../Api/companyController";
 import { auth } from "../../../Api/firebase";
 import i18n from "../../../i18n";
 import { MuiTelInput } from "mui-tel-input";
+import { useSearchParams } from "react-router-dom";
+import AddAddressModal from "./AddAddressModal";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -112,6 +114,14 @@ const StyledSpan = styled.span`
     border-left: 2px solid var(--color-grey-500);
 `;
 
+const AddressDataDefaults = {
+    province: "",
+    district: "",
+    neighbourhood: "",
+    street: "",
+    doorNumber: "",
+};
+
 export default function EditCompanyModal({
     open,
     handleClose,
@@ -121,12 +131,30 @@ export default function EditCompanyModal({
     const { t } = useTranslation();
     const { isPending, mutateAsync: updateCompany } = useUpdateCompany();
     const [companyPhone, setCompanyPhone] = useState(row?.companyPhone || "");
+    const [searchParams, setSearchParams] = useSearchParams();
     const [managerPhone, setManagerPhone] = useState(
         row?.companyManager?.managerPhone || ""
     );
+    const [addressData, setAddressData] = useState(AddressDataDefaults);
+    const [editedAddressData, setEditedAddressData] =
+        useState(AddressDataDefaults);
+
     const { currentUser } = auth;
     const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
+
+    const [opensAddressModal, setOpensAddressModal] = useState(false);
+    const handleOpenAddressModal = () => {
+        setOpensAddressModal(true);
+        searchParams.set("action", "address-modal");
+        setSearchParams(searchParams);
+    };
+    const handleCloseAddressModal = () => {
+        setOpensAddressModal(false);
+        setTimeout(() => {
+            searchParams.delete("action");
+        }, 400);
+    };
 
     const {
         handleSubmit,
@@ -140,7 +168,6 @@ export default function EditCompanyModal({
     async function onSubmit() {
         const {
             companyName,
-            companyAddress,
             companyEmail,
             companyWebsite,
             managerName,
@@ -149,7 +176,7 @@ export default function EditCompanyModal({
 
         const company = {
             companyName,
-            companyAddress,
+            companyAddress: addressData,
             companyPhone: companyPhone,
             companyEmail,
             companyWebsite,
@@ -170,239 +197,310 @@ export default function EditCompanyModal({
         reset();
     }
 
-    return (
-        <Modal
-            aria-labelledby="transition-modal-title"
-            aria-describedby="transition-modal-description"
-            open={open}
-            onClose={onCloseModal}
-            closeAfterTransition
-            slots={{ backdrop: Backdrop }}
-            slotProps={{
-                backdrop: {
-                    timeout: 500,
-                },
-            }}
-        >
-            <Fade in={open}>
-                <form onSubmit={handleSubmit(onSubmit)}>
-                    <StyledBox>
-                        <Typography
-                            id="transition-modal-title"
-                            variant="h2"
-                            component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
-                        >
-                            {t("Edit Company")}{" "}
-                            <StyledSpan>{row.companyName}</StyledSpan>
-                        </Typography>
-                        <Grid container spacing={2} sx={{ mt: "1rem" }}>
-                            <Grid item xs={6}>
-                                <StyledTitle>{t("Company Name*")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    variant="filled"
-                                    label={t("Company Name")}
-                                    {...register("companyName", {
-                                        required: t("Company Name is required"),
-                                    })}
-                                    error={Boolean(errors?.companyName)}
-                                    helperText={
-                                        (errors?.companyName
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                    defaultValue={row.companyName}
-                                />
-                            </Grid>
-                            <Grid item xs={6}>
-                                <StyledTitle>
-                                    {t("Company Address")}
-                                </StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    variant="filled"
-                                    label={t("Company Address")}
-                                    {...register("companyAddress")}
-                                    error={Boolean(errors?.companyAddress)}
-                                    helperText={
-                                        (errors?.companyAddress
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                    defaultValue={row.companyAddress}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Company Phone")}</StyledTitle>
-                                <StyledTelInput
-                                    label={t("Company Phone")}
-                                    variant="filled"
-                                    preferredCountries={["TR", "GB"]}
-                                    defaultCountry={
-                                        currentLanguage === "tr-TR"
-                                            ? "TR"
-                                            : "GB"
-                                    }
-                                    value={companyPhone}
-                                    onChange={value => setCompanyPhone(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Company Email")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    variant="filled"
-                                    label="Company Email"
-                                    {...register("companyEmail", {
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: t("Invalid email"),
-                                        },
-                                    })}
-                                    error={Boolean(errors?.companyEmail)}
-                                    helperText={
-                                        (errors?.companyEmail
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                    defaultValue={row.companyEmail}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>
-                                    {t("Company Website")}
-                                </StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    variant="filled"
-                                    label={t("Company Website")}
-                                    {...register("companyWebsite")}
-                                    defaultValue={row.companyWebsite}
-                                />
-                            </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Name")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    variant="filled"
-                                    label={t("Manager Name")}
-                                    {...register("managerName")}
-                                    defaultValue={
-                                        row?.companyManager?.managerName
-                                    }
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Phone")}</StyledTitle>
-                                <StyledTelInput
-                                    label={t("Manager Phone")}
-                                    variant="filled"
-                                    preferredCountries={["TR", "GB"]}
-                                    defaultCountry={
-                                        currentLanguage === "tr-TR"
-                                            ? "TR"
-                                            : "GB"
-                                    }
-                                    value={managerPhone}
-                                    onChange={value => setManagerPhone(value)}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
-                                <StyledTitle>{t("Manager Email")}</StyledTitle>
-                                <StyledTextField
-                                    disabled={isPending}
-                                    variant="filled"
-                                    label={t("Manager Email")}
-                                    {...register("managerEmail", {
-                                        pattern: {
-                                            value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                            message: t("Invalid email"),
-                                        },
-                                    })}
-                                    defaultValue={
-                                        row?.companyManager?.managerEmail
-                                    }
-                                    error={Boolean(errors?.managerEmail)}
-                                    helperText={
-                                        (errors?.managerEmail
-                                            ?.message as React.ReactNode) || ""
-                                    }
-                                />
-                            </Grid>
-                        </Grid>
+    useEffect(() => {
+        if (addressData.province !== "") setEditedAddressData(addressData);
+    }, [addressData.province]);
 
-                        <StyledButtonContainer>
-                            <Button
+    return (
+        <>
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                open={open}
+                onClose={onCloseModal}
+                closeAfterTransition
+                slots={{ backdrop: Backdrop }}
+                slotProps={{
+                    backdrop: {
+                        timeout: 500,
+                    },
+                }}
+            >
+                <Fade in={open}>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <StyledBox>
+                            <Typography
+                                id="transition-modal-title"
+                                variant="h2"
+                                component="h1"
                                 sx={{
-                                    backgroundColor: "var(--color-grey-800)",
-                                    color: "var(--color-grey-50)",
-                                    transition: "all .3s",
-                                    padding:
-                                        currentLanguage === "en-EN"
-                                            ? "1rem 3rem"
-                                            : "1rem 2rem",
-                                    fontSize: "1.1rem",
-                                    alignSelf: "flex-start",
                                     fontWeight: "bold",
-                                    "&:hover": {
-                                        backgroundColor:
-                                            "var(--color-grey-700)",
-                                        transform: "translateY(-2px)",
-                                    },
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                    },
+                                    letterSpacing: "0.80px",
                                 }}
-                                type="submit"
-                                variant="contained"
-                                disabled={isPending}
                             >
-                                {t("Edit")}
-                            </Button>
-                            <Button
-                                onClick={onCloseModal}
-                                sx={{
-                                    color: "var(--color-grey-800)",
-                                    transition: "all .3s",
-                                    padding:
-                                        currentLanguage === "en-EN"
-                                            ? "1rem 2rem"
-                                            : "1rem 3rem",
-                                    fontSize: "1.1rem",
-                                    border: "1px solid var(--color-grey-500)",
-                                    backgroundColor: "var(--color-grey-100)",
-                                    fontWeight: "bold",
-                                    "&:hover": {
+                                {t("Edit Company")}{" "}
+                                <StyledSpan>{row.companyName}</StyledSpan>
+                            </Typography>
+                            <Grid container spacing={2} sx={{ mt: "1rem" }}>
+                                <Grid item xs={6}>
+                                    <StyledTitle>
+                                        {t("Company Name*")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        variant="filled"
+                                        label={t("Company Name")}
+                                        {...register("companyName", {
+                                            required: t(
+                                                "Company Name is required"
+                                            ),
+                                        })}
+                                        error={Boolean(errors?.companyName)}
+                                        helperText={
+                                            (errors?.companyName
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                        defaultValue={row.companyName}
+                                    />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <StyledTitle>
+                                        {t("Company Address")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        variant="filled"
+                                        label={t("Company Address")}
+                                        onClick={handleOpenAddressModal}
+                                        error={Boolean(errors?.companyAddress)}
+                                        value={
+                                            editedAddressData.province !== ""
+                                                ? `${
+                                                      editedAddressData.province ||
+                                                      ""
+                                                  } / ${
+                                                      editedAddressData.district ||
+                                                      ""
+                                                  } / ${
+                                                      editedAddressData.neighbourhood ||
+                                                      ""
+                                                  }`
+                                                : row.companyAddress
+                                                      .province !== ""
+                                                ? `${
+                                                      row.companyAddress
+                                                          .province || ""
+                                                  } / ${
+                                                      row.companyAddress
+                                                          .district || ""
+                                                  } / ${
+                                                      row.companyAddress
+                                                          .neighbourhood || ""
+                                                  }`
+                                                : ""
+                                        }
+                                        helperText={
+                                            (errors?.companyAddress
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                        // defaultValue={
+
+                                        // }
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Company Phone")}
+                                    </StyledTitle>
+                                    <StyledTelInput
+                                        label={t("Company Phone")}
+                                        variant="filled"
+                                        preferredCountries={["TR", "GB"]}
+                                        defaultCountry={
+                                            currentLanguage === "tr-TR"
+                                                ? "TR"
+                                                : "GB"
+                                        }
+                                        value={companyPhone}
+                                        onChange={value =>
+                                            setCompanyPhone(value)
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Company Email")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        variant="filled"
+                                        label="Company Email"
+                                        {...register("companyEmail", {
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: t("Invalid email"),
+                                            },
+                                        })}
+                                        error={Boolean(errors?.companyEmail)}
+                                        helperText={
+                                            (errors?.companyEmail
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                        defaultValue={row.companyEmail}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Company Website")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        variant="filled"
+                                        label={t("Company Website")}
+                                        {...register("companyWebsite")}
+                                        defaultValue={row.companyWebsite}
+                                    />
+                                </Grid>
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Manager Name")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        variant="filled"
+                                        label={t("Manager Name")}
+                                        {...register("managerName")}
+                                        defaultValue={
+                                            row?.companyManager?.managerName
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Manager Phone")}
+                                    </StyledTitle>
+                                    <StyledTelInput
+                                        label={t("Manager Phone")}
+                                        variant="filled"
+                                        preferredCountries={["TR", "GB"]}
+                                        defaultCountry={
+                                            currentLanguage === "tr-TR"
+                                                ? "TR"
+                                                : "GB"
+                                        }
+                                        value={managerPhone}
+                                        onChange={value =>
+                                            setManagerPhone(value)
+                                        }
+                                    />
+                                </Grid>
+                                <Grid item xs={4}>
+                                    <StyledTitle>
+                                        {t("Manager Email")}
+                                    </StyledTitle>
+                                    <StyledTextField
+                                        disabled={isPending}
+                                        variant="filled"
+                                        label={t("Manager Email")}
+                                        {...register("managerEmail", {
+                                            pattern: {
+                                                value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                                message: t("Invalid email"),
+                                            },
+                                        })}
+                                        defaultValue={
+                                            row?.companyManager?.managerEmail
+                                        }
+                                        error={Boolean(errors?.managerEmail)}
+                                        helperText={
+                                            (errors?.managerEmail
+                                                ?.message as React.ReactNode) ||
+                                            ""
+                                        }
+                                    />
+                                </Grid>
+                            </Grid>
+
+                            <StyledButtonContainer>
+                                <Button
+                                    sx={{
                                         backgroundColor:
-                                            "var(--color-grey-200)",
-                                        transform: "translateY(-2px)",
-                                        border: "1px solid var(--color-grey-800)",
-                                    },
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                    },
-                                }}
-                                variant="outlined"
-                                disabled={isPending}
-                            >
-                                {t("Cancel")}
-                            </Button>
-                        </StyledButtonContainer>
-                    </StyledBox>
-                </form>
-            </Fade>
-        </Modal>
+                                            "var(--color-grey-800)",
+                                        color: "var(--color-grey-50)",
+                                        transition: "all .3s",
+                                        padding:
+                                            currentLanguage === "en-EN"
+                                                ? "1rem 3rem"
+                                                : "1rem 2rem",
+                                        fontSize: "1.1rem",
+                                        alignSelf: "flex-start",
+                                        fontWeight: "bold",
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "var(--color-grey-700)",
+                                            transform: "translateY(-2px)",
+                                        },
+                                        "&:active": {
+                                            transform: "translateY(0)",
+                                        },
+                                    }}
+                                    type="submit"
+                                    variant="contained"
+                                    disabled={isPending}
+                                >
+                                    {t("Edit")}
+                                </Button>
+                                <Button
+                                    onClick={onCloseModal}
+                                    sx={{
+                                        color: "var(--color-grey-800)",
+                                        transition: "all .3s",
+                                        padding:
+                                            currentLanguage === "en-EN"
+                                                ? "1rem 2rem"
+                                                : "1rem 3rem",
+                                        fontSize: "1.1rem",
+                                        border: "1px solid var(--color-grey-500)",
+                                        backgroundColor:
+                                            "var(--color-grey-100)",
+                                        fontWeight: "bold",
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "var(--color-grey-200)",
+                                            transform: "translateY(-2px)",
+                                            border: "1px solid var(--color-grey-800)",
+                                        },
+                                        "&:active": {
+                                            transform: "translateY(0)",
+                                        },
+                                    }}
+                                    variant="outlined"
+                                    disabled={isPending}
+                                >
+                                    {t("Cancel")}
+                                </Button>
+                            </StyledButtonContainer>
+                        </StyledBox>
+                    </form>
+                </Fade>
+            </Modal>
+            {searchParams.has("action") && (
+                <AddAddressModal
+                    open={opensAddressModal}
+                    handleClose={handleCloseAddressModal}
+                    setAddressData={setAddressData}
+                    // addressData={addressData}
+                />
+            )}
+        </>
     );
 }
