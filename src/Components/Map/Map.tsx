@@ -8,7 +8,7 @@ import DetectClick from "./DetectClick";
 import MapPlaceholder from "./MapPlaceholder";
 import ChangeCenter from "./ChangeCenter";
 import { useGetCompanies } from "../../Api/companyController";
-import PopupContent from "./PopupContent";
+import { PopupCompanyContent, PopupClickedContent } from "./PopupContent";
 
 export const defaultCoords = {
     lat: 39.9333302,
@@ -20,11 +20,13 @@ export default function Map({
     selectedProvinceCoords,
     setClickedPosition,
     clickedPosition,
+    findAddress,
 }: {
     isAddressModal?: boolean;
     selectedProvinceCoords?: any;
     setClickedPosition?: any;
     clickedPosition?: any;
+    findAddress?: any;
 }) {
     const [mapPosition, setMapPosition] = useState(defaultCoords);
     const { position, getPosition, isLoading } = useGeolocation(null);
@@ -66,9 +68,11 @@ export default function Map({
                     <Popup>You are here !</Popup>
                 </Marker>
             )}
-            {clickedPosition && isAddressModal && (
+            {clickedPosition && isAddressModal && findAddress && (
                 <Marker position={clickedPosition}>
-                    <Popup>You clicked here</Popup>
+                    <Popup>
+                        <PopupClickedContent findAddress={findAddress} />
+                    </Popup>
                 </Marker>
             )}
             {!clickedPosition &&
@@ -84,7 +88,7 @@ export default function Map({
                                 }
                             >
                                 <Popup>
-                                    <PopupContent company={company} />
+                                    <PopupCompanyContent company={company} />
                                 </Popup>
                             </Marker>
                         )
