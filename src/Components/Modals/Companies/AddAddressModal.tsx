@@ -15,8 +15,9 @@ import { FieldValues, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import Map from "../../Map/Map";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useGetCities } from "../../../Api/mapController";
+import { reverseGeocode } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -84,35 +85,50 @@ const StyledTitle = styled.h3`
     align-self: flex-start;
     margin-bottom: 0.3rem;
     font-weight: 300;
+    font-size: 1.2rem;
 `;
 
 export default function AddAddressModal({
     open,
     handleClose,
     setAddressData,
-}: // addressData,
-{
+}: {
     open: boolean;
     handleClose: React.Dispatch<React.SetStateAction<boolean>>;
     setAddressData: React.Dispatch<React.SetStateAction<any>>;
-    // addressData: any;
 }) {
     const { t } = useTranslation();
+    const { pathname } = useLocation();
+    const { data, isLoading } = useGetCities();
+    const { handleSubmit, register, clearErrors, reset } = useForm();
     const [province, setProvince] = useState<any>(null);
     const [district, setDistrict] = useState<any>(null);
-    const { handleSubmit, register, clearErrors, reset } = useForm();
-    const { pathname } = useLocation();
-    const isAddressModal = pathname.includes("/companies");
+    const [neighbourhood, setNeighbourhood] = useState<any>("");
+    const [clickedPosition, setClickedPosition] = useState<any>(null);
+    const [findAddress, setFindAddress] = useState<any>(null);
     const [searchParams, setSearchParams] = useSearchParams();
-    const { data, isLoading } = useGetCities();
-    // const { data: neighbourhoods } = useGetNeighbourhoods();
+    const isAddressModal = pathname.includes("/companies");
 
     const provinceOptions = !isLoading
-        ? data.data.map((city: any) => city.name).sort()
+        ? data.data
+              .map((city: any) => {
+                  const cityName =
+                      city.name.charAt(0).toUpperCase() === "İ"
+                          ? "I" + city.name.slice(1)
+                          : city.name;
+                  return cityName;
+              })
+              .sort()
         : [];
 
     const selectedProvinceCoords = province
-        ? data?.data?.find((city: any) => city.name === province).coordinates
+        ? data?.data?.find((city: any) => {
+              const cityName =
+                  city.name.charAt(0).toUpperCase() === "İ"
+                      ? "I" + city.name.slice(1)
+                      : city.name;
+              return cityName === province;
+          })?.coordinates
         : null;
 
     const districtOptions = !isLoading
@@ -121,15 +137,17 @@ export default function AddAddressModal({
               ?.districts.map((district: any) => district.name)
         : [];
 
-    // const neighborhoodOptions = district
-    //     ? neighbourhoods.data.filter((neighbourhood: any) => {
-    //           return neighbourhood.district === district;
-    //       })
-    //     : [];
-    // console.log(neighborhoodOptions);
-
     async function onSubmit(data: FieldValues) {
-        setAddressData({ ...data, province, district });
+        setAddressData({
+            ...data,
+            province,
+            district,
+            neighbourhood,
+            companyCoordinates: {
+                lat: selectedProvinceCoords.latitude,
+                lng: selectedProvinceCoords.longitude,
+            },
+        });
         onCloseModal();
     }
 
@@ -137,21 +155,62 @@ export default function AddAddressModal({
         handleClose(open);
         clearErrors();
         reset();
+        searchParams.delete("action");
+        setTimeout(() => {
+            setSearchParams(searchParams);
+        }, 400);
     }
 
+    //! Handle Field Changes
     function handleChangeProvince(e: any) {
         setProvince(e.target.outerText);
         searchParams.set("province", e.target.outerText);
         searchParams.delete("district");
         setSearchParams(searchParams);
         setDistrict(null);
+        setNeighbourhood("");
+        setClickedPosition(null);
     }
 
     function handleChangeDistrict(e: any) {
         setDistrict(e.target.outerText);
         searchParams.set("district", e.target.outerText);
+        setNeighbourhood("");
         setSearchParams(searchParams);
     }
+
+    function handleChangeNeighbourhood(e: any) {
+        setNeighbourhood(e.target.outerText);
+        searchParams.set("neighbourhood", e.target.outerText);
+        setSearchParams(searchParams);
+    }
+
+    //! Get Address by Map Click
+    useEffect(() => {
+        async function getAddressInfo() {
+            if (clickedPosition)
+                setFindAddress(
+                    await reverseGeocode(
+                        clickedPosition.lat,
+                        clickedPosition.lng
+                    )
+                );
+        }
+        getAddressInfo();
+    }, [clickedPosition]);
+
+    //! AutoFill inputs by clicked address
+    useEffect(() => {
+        if (findAddress) {
+            setProvince(findAddress.province || null);
+            setDistrict(findAddress.town || null);
+            setNeighbourhood(findAddress.suburb || "");
+            searchParams.set("province", findAddress.province || "");
+            searchParams.set("district", findAddress.town || "");
+            searchParams.set("neighbourhood", findAddress.suburb || "");
+            setSearchParams(searchParams);
+        }
+    }, [findAddress]);
 
     return (
         <Modal
@@ -208,6 +267,8 @@ export default function AddAddressModal({
                                                 <TextField
                                                     {...params}
                                                     label={t("Province")}
+                                                    variant="filled"
+                                                    required
                                                 />
                                             )}
                                         />
@@ -234,6 +295,8 @@ export default function AddAddressModal({
                                                 <TextField
                                                     {...params}
                                                     label={t("District")}
+                                                    variant="filled"
+                                                    required
                                                 />
                                             )}
                                         />
@@ -246,12 +309,34 @@ export default function AddAddressModal({
                                             flexDirection: "column",
                                         }}
                                     >
+                                        <StyledTitle>
+                                            {t("Neighbourhood")}
+                                        </StyledTitle>
+                                        <StyledTextField
+                                            label={t("Neighbourhood")}
+                                            value={neighbourhood}
+                                            variant="filled"
+                                            onChange={e =>
+                                                handleChangeNeighbourhood(e)
+                                            }
+                                        />
+                                    </Grid>
+                                    <Grid
+                                        item
+                                        xs={12}
+                                        sx={{
+                                            display: "flex",
+                                            flexDirection: "column",
+                                        }}
+                                    >
                                         <StyledTitle>{t("Street")}</StyledTitle>
                                         <StyledTextField
+                                            variant="filled"
                                             label={t("Street")}
                                             {...register("street")}
                                         />
                                     </Grid>
+
                                     <Grid
                                         item
                                         xs={12}
@@ -264,6 +349,7 @@ export default function AddAddressModal({
                                             {t("Door Number")}
                                         </StyledTitle>
                                         <StyledTextField
+                                            variant="filled"
                                             label={t("Door Number")}
                                             {...register("doorNumber")}
                                         />
@@ -277,7 +363,7 @@ export default function AddAddressModal({
                                         minHeight: "16rem",
                                         overflow: "hidden",
                                         backgroundColor: "var(--color-grey-50)",
-                                        height: "40rem",
+                                        height: "42rem",
                                     }}
                                 >
                                     <Map
@@ -285,6 +371,8 @@ export default function AddAddressModal({
                                         selectedProvinceCoords={
                                             selectedProvinceCoords
                                         }
+                                        setClickedPosition={setClickedPosition}
+                                        clickedPosition={clickedPosition}
                                     />
                                 </Paper>
                             </Grid>
