@@ -176,7 +176,10 @@ export default function EditCompanyModal({
 
         const company = {
             companyName,
-            companyAddress: addressData,
+            companyAddress:
+                editedAddressData.province !== ""
+                    ? editedAddressData
+                    : row.companyAddress,
             companyPhone: companyPhone,
             companyEmail,
             companyWebsite,
