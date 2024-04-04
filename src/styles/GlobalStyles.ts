@@ -263,6 +263,25 @@ svg{
   max-height: 29rem;
 }
 
+/* Örnek olarak Marker'ın stili */
+.leaflet-marker-icon {
+
+}
+
+.leaflet-popup-close-button{
+  color: var(--color-green-900)!important;
+  font: 2rem DM Sans, sans serif !important;
+}
+
+/* Örnek olarak Popup'ın stili */
+.leaflet-popup-content-wrapper {
+  background: var(--color-grey-100);
+}
+
+.leaflet-popup-tip{
+  background: var(--color-grey-100);
+}
+
 `;
 
 export default GlobalStyles;
