@@ -1,54 +1,41 @@
 import { useEffect, useState } from "react";
-import {
-    MapContainer,
-    Marker,
-    Popup,
-    TileLayer,
-    useMap,
-    useMapEvents,
-} from "react-leaflet";
+import { MapContainer, Marker, Popup, TileLayer } from "react-leaflet";
 import FindLocationButton from "./FindLocationButton";
 import { LatLngExpression } from "leaflet";
 import { useGeolocation } from "../../Hooks/useGeolocation";
 import { ZoomControl } from "react-leaflet/ZoomControl";
-import { reverseGeocode } from "../../Utils/utils";
+import DetectClick from "./DetectClick";
+import MapPlaceholder from "./MapPlaceholder";
+import ChangeCenter from "./ChangeCenter";
+import { useGetCompanies } from "../../Api/companyController";
+import PopupContent from "./PopupContent";
 
-const dummyCompanyCoords = [
-    { lat: 30.7782272, lng: 20.0193408 },
-    { lat: 15.7782272, lng: 18.0193408 },
-    { lat: 27.7782272, lng: 37.0193408 },
-];
-
-const defaultCoords = {
-    lat: 37.7768774,
-    lng: 29.0752062,
+export const defaultCoords = {
+    lat: 39.9333302,
+    lng: 32.8600926,
 };
-
-function DetectClick({ setClickedPosition }: { setClickedPosition: any }) {
-    const map = useMapEvents({
-        click: event => {
-            setClickedPosition(event.latlng);
-        },
-    });
-    return null;
-}
 
 export default function Map({
     isAddressModal,
     selectedProvinceCoords,
+    setClickedPosition,
+    clickedPosition,
 }: {
     isAddressModal?: boolean;
     selectedProvinceCoords?: any;
+    setClickedPosition?: any;
+    clickedPosition?: any;
 }) {
     const [mapPosition, setMapPosition] = useState(defaultCoords);
-    const [clickedPosition, setClickedPosition] = useState<any>(null);
     const { position, getPosition, isLoading } = useGeolocation(null);
-    console.log(clickedPosition);
+    const { data: companies } = useGetCompanies();
 
+    //! Geolocation
     useEffect(() => {
         position ? setMapPosition(position) : setMapPosition(defaultCoords);
     }, [position]);
 
+    //! Add Address Modal
     useEffect(() => {
         selectedProvinceCoords
             ? setMapPosition({
@@ -57,11 +44,6 @@ export default function Map({
               })
             : setMapPosition(defaultCoords);
     }, [selectedProvinceCoords]);
-
-    useEffect(() => {
-        if (clickedPosition)
-            reverseGeocode(clickedPosition.lat, clickedPosition.lng);
-    }, [clickedPosition]);
 
     return (
         <MapContainer
@@ -84,36 +66,36 @@ export default function Map({
                     <Popup>You are here !</Popup>
                 </Marker>
             )}
-
-            {dummyCompanyCoords.map((coords, i) => (
-                <Marker key={i} position={coords as LatLngExpression}>
-                    <Popup>{coords.lat + " - " + coords.lng}</Popup>
-                </Marker>
-            ))}
-            {clickedPosition && (
+            {clickedPosition && isAddressModal && (
                 <Marker position={clickedPosition}>
                     <Popup>You clicked here</Popup>
                 </Marker>
             )}
+            {!clickedPosition &&
+                !isAddressModal &&
+                companies?.map(
+                    (company, i) =>
+                        company.companyAddress.companyCoordinates && (
+                            <Marker
+                                riseOnHover
+                                key={i}
+                                position={
+                                    company?.companyAddress?.companyCoordinates
+                                }
+                            >
+                                <Popup>
+                                    <PopupContent company={company} />
+                                </Popup>
+                            </Marker>
+                        )
+                )}
             {!isAddressModal && <FindLocationButton onClick={getPosition} />}
-            <DetectClick setClickedPosition={setClickedPosition} />
+            <DetectClick
+                setClickedPosition={setClickedPosition}
+                isAddressModal={isAddressModal}
+            />
             <ZoomControl position="bottomright" />
             <ChangeCenter position={clickedPosition || mapPosition} />
         </MapContainer>
     );
-}
-
-function MapPlaceholder() {
-    return (
-        <p>
-            Map of Türkiye.{" "}
-            <noscript>You need to enable JavaScript to see this map.</noscript>
-        </p>
-    );
-}
-
-function ChangeCenter({ position }: { position: any }) {
-    const map = useMap();
-    map.setView(position);
-    return null;
 }
