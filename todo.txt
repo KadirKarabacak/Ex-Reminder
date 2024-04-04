@@ -57,11 +57,11 @@
 59- 🟡 For items add itemcodes
 60- ✅ On making sale, when item selected autofill sale price with item price, watch every field in sale and auto fill sale description with selections
 61- ✅ Accounting > Make Sale is not adding to company's own sales table. Only adding to accounting table
-62- Companies > Edit Company Modal > On editing address add address modal
-63- Companies > Tablerow address sort is wrong
-64- Add Company > Address Modal > When user clicks the map, set input fields with geocoded data
-65- Home page > when user clicks find my location, it clicks map also, fix that
-
+62- ✅ Companies > Edit Company Modal > On editing address add address modal
+63- Companies > Tablerow address sort & manager name sort is not working fix it
+64- ✅ Add Company > Address Modal > When user clicks the map, set input fields with geocoded data
+65- ✅ Home page > when user clicks find my location, it clicks map also, fix that
+66- Companies > Add company & Edit Company check url params on closing modals
 
 
 ### FEATURES ###
