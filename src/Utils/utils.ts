@@ -87,7 +87,6 @@ export async function forwardGeocode(address: any) {
             `https://geocode.maps.co/search?q=${address}&api_key=${API_KEY}`
         );
         const data = await clickedAddress.json();
-        console.log(data);
         return data;
     } catch (err) {
         console.log(err);
