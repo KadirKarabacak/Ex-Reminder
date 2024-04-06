@@ -62,10 +62,10 @@ export default function App() {
                     containerStyle={{ margin: "8px" }}
                     toastOptions={{
                         success: {
-                            duration: 10000,
+                            duration: 7000,
                         },
                         error: {
-                            duration: 10000,
+                            duration: 7000,
                         },
                         style: {
                             fontSize: "16px",
