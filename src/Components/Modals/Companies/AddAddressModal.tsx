@@ -152,10 +152,6 @@ export default function AddAddressModal({
                       lat: selectedProvinceCoords.latitude,
                       lng: selectedProvinceCoords.longitude,
                   },
-            // companyCoordinates: {
-            //     lat: selectedProvinceCoords.latitude,
-            //     lng: selectedProvinceCoords.longitude,
-            // },
         });
         onCloseModal();
     }
@@ -166,6 +162,9 @@ export default function AddAddressModal({
         reset();
         searchParams.delete("action");
         searchParams.delete("state");
+        searchParams.delete("province");
+        searchParams.delete("district");
+        searchParams.delete("neighbourhood");
         setTimeout(() => {
             setSearchParams(searchParams);
         }, 400);
@@ -190,8 +189,8 @@ export default function AddAddressModal({
     }
 
     function handleChangeNeighbourhood(e: any) {
-        setNeighbourhood(e.target.outerText);
-        searchParams.set("neighbourhood", e.target.outerText);
+        setNeighbourhood(e.target.value);
+        searchParams.set("neighbourhood", e.target.value);
         setSearchParams(searchParams);
     }
 
