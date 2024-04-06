@@ -251,10 +251,6 @@ svg{
   color: #101010!important;
 }
 
-/* .MuiOutlinedInput-notchedOutline{
-  border-color: var(--color-grey-500)!important;
-} */
-
 .MuiPaper-root .MuiList-root .MuiMenuItem-root{
   font-size: 1.2rem!important;
 }
@@ -280,6 +276,24 @@ svg{
 
 .leaflet-popup-tip{
   background: var(--color-grey-100);
+}
+
+.MuiDayCalendar-weekContainer > .Mui-selected{
+  background-color: var(--color-green-new)!important;
+}
+
+.MuiMultiSectionDigitalClockSection-root .Mui-selected{
+  background-color: var(--color-green-new)!important;
+}
+
+.MuiPickersLayout-actionBar > button {
+  background-color: var(--color-green-new);
+  color: var(--color-white-soft);
+}
+
+.MuiPickersLayout-actionBar > button:hover {
+  background-color: var(--color-green-lighter);
+  color: var(--color-white-soft);
 }
 
 `;
