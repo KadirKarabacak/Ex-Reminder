@@ -4,6 +4,7 @@ import {
     deleteDoc,
     doc,
     getDocs,
+    setDoc,
     updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
@@ -413,7 +414,13 @@ const addNegotiate = async function (
     userId: string | undefined,
     negotiate: object
 ) {
-    await addDoc(collection(db, `users/${userId}/negotiates`), negotiate);
+    const result = await addDoc(
+        collection(db, `users/${userId}/negotiates`),
+        negotiate
+    );
+    const negotiateId = result.id;
+    const updateDocData = { ...negotiate, negotiateId: negotiateId };
+    await setDoc(result, updateDocData);
 };
 
 //! Add Negotiate Query
