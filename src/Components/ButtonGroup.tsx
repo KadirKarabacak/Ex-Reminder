@@ -23,6 +23,8 @@ import AddSaleModal from "./Modals/Sales/AddSaleModal";
 import HandshakeIcon from "@mui/icons-material/Handshake";
 import AddAgreementModal from "./Modals/Agreements/AddAgreementModal";
 import DeleteSaleModal from "./Modals/Sales/DeleteSaleModal";
+import AddNegotiateModal from "./Modals/Companies/AddNegotiateModal";
+import MoreTimeIcon from "@mui/icons-material/MoreTime";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -90,6 +92,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     const [opensAddAgreement, setOpensAddAgreement] = React.useState(false);
     const [opensAddSale, setOpensAddSale] = React.useState(false);
     const [opensDeleteSale, setOpensDeleteSale] = React.useState(false);
+    const [opensNegotiate, setOpensNegotiate] = React.useState(false);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -174,7 +177,6 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         handleClose();
         setSearchParams("edit-company");
     };
-
     const handleOpenDeleteCompanyModal = () => {
         setOpensDeleteCompany(true);
         handleClose();
@@ -228,6 +230,19 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensDeleteSale(false);
         setTimeout(() => {
             setSearchParams("");
+        }, 400);
+    };
+    const handleOpenNegotiateModal = () => {
+        setOpensNegotiate(true);
+        handleClose();
+        searchParams.set("modal", "add-negotiate");
+        setSearchParams(searchParams);
+    };
+    const handleCloseNegotiateModal = () => {
+        setOpensNegotiate(false);
+        setTimeout(() => {
+            searchParams.delete("modal");
+            setSearchParams(searchParams);
         }, 400);
     };
 
@@ -331,6 +346,13 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                         >
                             <HandshakeIcon />
                             {t("Add Agreement")}
+                        </MenuItem>
+                        <MenuItem
+                            onClick={handleOpenNegotiateModal}
+                            disableRipple
+                        >
+                            <MoreTimeIcon />
+                            {t("Add Negotiate")}
                         </MenuItem>
                         <MenuItem
                             onClick={handleOpenDeleteCompanyModal}
@@ -461,6 +483,14 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     row={row}
                     open={opensDeleteSale}
                     handleClose={handleCloseDeleteSaleModal}
+                />
+            )}
+            {searchParams.has("modal") && (
+                <AddNegotiateModal
+                    id={row.id}
+                    row={row}
+                    open={opensNegotiate}
+                    handleClose={handleCloseNegotiateModal}
                 />
             )}
         </div>
