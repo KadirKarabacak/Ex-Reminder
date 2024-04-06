@@ -3,6 +3,8 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
+import { useGetNegotiates } from "../Api/companyController";
+import { auth } from "../Api/firebase";
 
 const StyledAppLayout = styled.div`
     display: grid;
@@ -19,15 +21,12 @@ const Container = styled.div`
     gap: 3.2rem;
 `;
 
-// const Main = styled.main`
-//     background-color: var(--color-grey-50);
-//     padding: ${props => (props.pathname === "/" ? "0" : "3.5rem")};
-//     overflow-y: scroll;
-// `;
-
 // Parent Route
 function AppLayout() {
     const { pathname } = useLocation();
+    const { currentUser } = auth;
+    const { data: negotiates } = useGetNegotiates(currentUser?.uid);
+
     return (
         <ProtectedRoute>
             <StyledAppLayout>
