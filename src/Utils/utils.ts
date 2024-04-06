@@ -14,6 +14,24 @@ export function formatDate(date: any) {
     return `${day}/${month}/${year}`;
 }
 
+export function formatDateAndTime(dateString: any = new Date()) {
+    const currentLanguage = i18n.language;
+    const options: any = {
+        year: "numeric",
+        day: "2-digit",
+        month: "long",
+        weekday: "long",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+    };
+
+    const date = new Date(dateString);
+    const formattedDate = date.toLocaleDateString(currentLanguage, options);
+
+    return formattedDate.replaceAll(",", "");
+}
+
 export function formatCurrency(value: string | number) {
     return new Intl.NumberFormat("tr", {
         style: "currency",
