@@ -75,6 +75,7 @@ export const createUserWithEmailAndPasswordQuery = async ({
             const ref = doc(db, "users", user.uid);
             await setDoc(ref, {
                 email: user.email,
+                createdAt: new Date(),
             });
             return true;
         }
