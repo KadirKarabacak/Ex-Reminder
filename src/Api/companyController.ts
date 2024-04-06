@@ -407,3 +407,47 @@ export const useDeleteSales = function () {
     });
     return { mutateAsync, isPending };
 };
+
+//! Add Negotiate
+const addNegotiate = async function (
+    userId: string | undefined,
+    negotiate: object
+) {
+    await addDoc(collection(db, `users/${userId}/negotiates`), negotiate);
+};
+
+//! Add Negotiate Query
+export function useAddNegotiate() {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: (variables: {
+            userId: string | undefined;
+            negotiate: object;
+        }) => addNegotiate(variables.userId, variables.negotiate),
+        onSuccess: () => {
+            queryClient.invalidateQueries();
+            toast.success(i18n.t("Negotiate added successfully"));
+        },
+        onError: () => {
+            toast.error(i18n.t("An error occurred while adding the Negotiate"));
+        },
+    });
+    return { mutateAsync, isPending };
+}
+
+const getNegotiates = async function (userId: string | undefined) {
+    const querySnapshot = await getDocs(
+        collection(db, `users/${userId}/negotiates`)
+    );
+    const negotiates = querySnapshot.docs.map(doc => doc.data());
+    return negotiates;
+};
+
+export function useGetNegotiates(userId: string | undefined) {
+    const { data, isLoading } = useQuery({
+        queryFn: () => getNegotiates(userId),
+        queryKey: ["negotiates"],
+    });
+
+    return { data, isLoading };
+}
