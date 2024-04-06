@@ -143,6 +143,7 @@ export default function AddNegotiateModal({
     row,
     id,
 }: EditEmployeeModalTypes) {
+    const { handleSubmit, register, getValues, clearErrors, reset } = useForm();
     const { t } = useTranslation();
     const [dateAndTime, setDateAndTime] = useState(new Date());
     const [alarm, setAlarm] = useState(1);
@@ -152,18 +153,9 @@ export default function AddNegotiateModal({
     const { data: companies } = useGetCompanies();
     const { currentUser } = auth;
     const userId = currentUser?.uid;
-
     const findCompany = companies?.find(
         company => company.id === selectedCompany
     );
-
-    const { handleSubmit, register, getValues, clearErrors, reset } = useForm();
-
-    function handleChangeDateAndTime(value: any) {
-        setDateAndTime(value);
-    }
-
-    // console.log(differenceInMinutes(dateAndTime, new Date()));
 
     async function onSubmit() {
         const { negotiateContent } = getValues();
@@ -175,10 +167,15 @@ export default function AddNegotiateModal({
             negotiateDateAndTime: dateAndTime,
             negotiateAlarm: alarm ? true : false,
             negotiateAlarmWarningTime: alarmWarningTime,
+            isAlarmDismissed: false,
         };
 
         await addNegotiate({ userId, negotiate });
         onCloseModal();
+    }
+
+    function handleChangeDateAndTime(value: any) {
+        setDateAndTime(value);
     }
 
     function onCloseModal() {
