@@ -1,37 +1,78 @@
-import React, { useState, useEffect } from "react";
+import { Button } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import CloseIcon from "@mui/icons-material/Close";
 
-function Alarm() {
-    const [alarmTime] = useState(new Date("2024-04-30T16:20:00"));
-    const [isAlarmActive, setIsAlarmActive] = useState(false);
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            const currentTime = new Date();
-            if (currentTime >= alarmTime) {
-                setIsAlarmActive(true);
-                clearInterval(interval);
-            }
-        }, 1000);
-        return () => clearInterval(interval);
-    }, [alarmTime]);
-
-    const handleDismissAlarm = () => {
-        setIsAlarmActive(false);
-    };
+export function Alarm({
+    handleDismissAlarm,
+    findNegotiatesToAlert,
+}: {
+    handleDismissAlarm: any;
+    findNegotiatesToAlert: any;
+}) {
+    const { t } = useTranslation();
 
     return (
-        <div>
-            {isAlarmActive && (
-                <div>
-                    <audio autoPlay>
-                        <source src="alarm-sound.mp3" type="audio/mpeg" />
-                        Your browser does not support the audio element.
-                    </audio>
-                    <div>Alarm çalıyor!</div>
-                    <button onClick={handleDismissAlarm}>Alarmı Kapat</button>
+        <>
+            {findNegotiatesToAlert?.map((neg: any, index: number) => (
+                <div
+                    key={index}
+                    style={{
+                        backgroundColor: "var(--color-grey-100)",
+                        padding: "1rem 2rem",
+                        borderRadius: "5px",
+                        boxShadow: "var(--shadow-md)",
+                        width: "30%",
+                    }}
+                >
+                    <div style={{ display: "flex", flexDirection: "column" }}>
+                        <audio autoPlay>
+                            <source src="alarm-sound.mp3" type="audio/mpeg" />
+                            {t(
+                                "Your browser does not support the audio element."
+                            )}
+                        </audio>
+                        <div
+                            style={{
+                                fontSize: "1.8rem",
+                                color: "var(--color-green-lighter)",
+                            }}
+                        >
+                            Negotiate with {neg.companyName} in{" "}
+                            {neg.negotiateAlarmWarningTime} hours!
+                        </div>
+                        <div style={{ marginBottom: "1rem" }}>
+                            {neg.negotiateContent}{" "}
+                        </div>
+                        <Button
+                            sx={{
+                                backgroundColor: "var(--color-red-700)",
+                                color: "white",
+                                transition: "all .3s",
+                                padding: "1rem 3rem",
+                                fontSize: "1rem",
+                                alignSelf: "center",
+                                fontWeight: "bold",
+                                display: "flex",
+                                alignItems: "flex-end",
+                                gap: "0.5rem",
+                                cursor: "pointer",
+                                "&:hover": {
+                                    backgroundColor: "var(--color-red-800)",
+                                    transform: "translateY(-2px)",
+                                },
+                                "&:active": {
+                                    transform: "translateY(0)",
+                                },
+                            }}
+                            variant="contained"
+                            onClick={() => handleDismissAlarm(neg.negotiateId)}
+                        >
+                            {t("Close")} <CloseIcon />
+                        </Button>
+                    </div>
                 </div>
-            )}
-        </div>
+            ))}
+        </>
     );
 }
 
