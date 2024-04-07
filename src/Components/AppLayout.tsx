@@ -29,9 +29,9 @@ function AppLayout() {
     const { pathname } = useLocation();
     const { currentUser } = auth;
     const { data: negotiates } = useGetNegotiates(currentUser?.uid);
-    const [toastId, setToastId] = useState("");
     const userId = currentUser?.uid;
     const { isPending, mutateAsync: updateNegotiate } = useUpdateNegotiate();
+    const [isAlarm, setIsAlarm] = useState(false);
 
     //! This must be in an useEffect maybe
     const findNegotiateToAlert = negotiates?.filter(neg => {
@@ -50,31 +50,20 @@ function AppLayout() {
         else return null;
     });
 
+    useEffect(() => {
+        if (findNegotiateToAlert && findNegotiateToAlert?.length > 0) {
+            setIsAlarm(true);
+        }
+    }, [findNegotiateToAlert?.length]);
+
     // ! Maybe i should remove this code from here to <Alarm />
     const handleDismissAlarm = (id: string) => {
-        toast.dismiss();
         const findNegotiate = negotiates?.find(neg => neg.negotiateId === id);
         const negotiate = { ...findNegotiate, isAlarmDismissed: true };
         updateNegotiate({ negotiate, id, userId });
+        setIsAlarm(false);
     };
-
     console.log(findNegotiateToAlert);
-
-    useEffect(() => {
-        if (
-            findNegotiateToAlert &&
-            findNegotiateToAlert?.length > 0 &&
-            !isPending
-        ) {
-            const alarmToast = toast.custom(
-                <Alarm
-                    findNegotiateToAlert={findNegotiateToAlert}
-                    handleDismissAlarm={handleDismissAlarm}
-                />
-            );
-            setToastId(alarmToast);
-        }
-    }, [negotiates, findNegotiateToAlert?.length]);
 
     return (
         <ProtectedRoute>
@@ -91,6 +80,13 @@ function AppLayout() {
                     <Container>
                         <Outlet />
                     </Container>
+                    {isAlarm &&
+                        findNegotiateToAlert?.map(neg => (
+                            <Alarm
+                                findNegotiateToAlert={neg}
+                                handleDismissAlarm={handleDismissAlarm}
+                            />
+                        ))}
                 </main>
             </StyledAppLayout>
         </ProtectedRoute>
