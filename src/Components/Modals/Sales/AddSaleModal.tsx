@@ -115,6 +115,7 @@ export default function AddSaleModal({
     const [selectedCompany, setSelectedCompany] = useState("");
     const [selectedGuarantee, setSelectedGuarantee] = useState(0);
     const [selectedGuaranteeTime, setSelectedGuaranteeTime] = useState("");
+    const [saleDescription, setSaleDescription] = useState("");
     const [findPrice, setFindPrice] = useState<any>();
     const { t } = useTranslation();
     const {
@@ -124,6 +125,7 @@ export default function AddSaleModal({
         clearErrors,
         reset,
         formState: { errors },
+        watch,
     } = useForm();
     const { isPending: isAdding, mutateAsync: addSale } = useAddSale();
     const { data: companies } = useGetCompanies();
@@ -144,9 +146,10 @@ export default function AddSaleModal({
     const guaranteeExpire =
         selectedGuarantee === 1 &&
         calcGuaranteeExpireDate(new Date(), +selectedGuaranteeTime);
+    const watchAmount = watch("itemAmount");
 
     async function onSubmit() {
-        const { itemAmount, saleDescription } = getValues();
+        const { itemAmount } = getValues();
 
         const sale = {
             saleItemId: selectedItem,
@@ -158,7 +161,7 @@ export default function AddSaleModal({
             saleGuarantee: selectedGuarantee ? true : false,
             saleGuaranteeTime: selectedGuaranteeTime,
             saleGuaranteeEndTime: formatDate(guaranteeExpire),
-            saleDescription,
+            saleDescription: saleDescription,
             totalSalePrice: findPrice * itemAmount,
             saleCreatedAt: formatDate(new Date()),
         };
@@ -183,6 +186,17 @@ export default function AddSaleModal({
         setSelectedGuaranteeTime("");
     }
 
+    const updateSaleDescription = () => {
+        // Diğer bilgileri kullanarak Sale Description'ı oluşturun
+        const newSaleDescription = `${t("Sell Item")} ${
+            findItem?.itemName || ""
+        } x${watchAmount || ""} ${t("to")} ${
+            findCompany?.companyName || ""
+        } ${t("at")} ${formatDate(new Date())}`;
+        // Sale Description state'ini güncelleyin
+        setSaleDescription(newSaleDescription);
+    };
+
     useEffect(() => {
         tableName === "company" && setSelectedCompany(row.id);
         if (findItem) setFindPrice(findItem.itemSalePrice);
@@ -191,6 +205,10 @@ export default function AddSaleModal({
     useEffect(() => {
         if (selectedGuarantee === 0) setSelectedGuaranteeTime("");
     }, [selectedGuarantee]);
+
+    useEffect(() => {
+        updateSaleDescription();
+    }, [findItem, watchAmount, findCompany]);
 
     return (
         <Modal
@@ -454,14 +472,18 @@ export default function AddSaleModal({
                                 <StyledTextField
                                     disabled={isAdding}
                                     placeholder={t("Sale Description")}
-                                    defaultValue={
-                                        t(
-                                            `Sell Item (Item Name)x (Item Amount) to (Company) at `
-                                        ) +
-                                        " " +
-                                        `${formatDate(new Date())}`
+                                    // defaultValue={
+                                    //     t(
+                                    //         `Sell Item (Item Name)x (Item Amount) to (Company) at `
+                                    //     ) +
+                                    //     " " +
+                                    //     `${formatDate(new Date())}`
+                                    // }
+                                    value={saleDescription}
+                                    onChange={e =>
+                                        setSaleDescription(e.target.value)
                                     }
-                                    {...register("saleDescription")}
+                                    // {...register("saleDescription")}
                                 />
                             </Grid>
                         </Grid>
