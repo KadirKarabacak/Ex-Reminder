@@ -14,7 +14,10 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useForm } from "react-hook-form";
-import { EditEmployeeModalTypes } from "../../../Interfaces/User";
+import {
+    EditEmployeeModalTypes,
+    NegotiateTypes,
+} from "../../../Interfaces/User";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers";
@@ -24,6 +27,7 @@ import {
 } from "../../../Api/companyController";
 import { auth } from "../../../Api/firebase";
 import i18n from "../../../i18n";
+import { add } from "date-fns";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -145,7 +149,9 @@ export default function AddNegotiateModal({
 }: EditEmployeeModalTypes) {
     const { handleSubmit, register, getValues, clearErrors, reset } = useForm();
     const { t } = useTranslation();
-    const [dateAndTime, setDateAndTime] = useState(new Date());
+    const [dateAndTime, setDateAndTime] = useState(
+        add(new Date(), { hours: 1 })
+    );
     const [alarm, setAlarm] = useState(1);
     const [alarmWarningTime, setAlarmWarningTime] = useState(1);
     const { mutateAsync: addNegotiate } = useAddNegotiate();
@@ -160,7 +166,7 @@ export default function AddNegotiateModal({
     async function onSubmit() {
         const { negotiateContent } = getValues();
 
-        const negotiate = {
+        const negotiate: NegotiateTypes = {
             companyName: findCompany?.companyName,
             companyId: findCompany?.id,
             negotiateContent,
