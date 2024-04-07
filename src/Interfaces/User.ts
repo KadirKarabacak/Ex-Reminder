@@ -232,3 +232,20 @@ export interface UpdateAgreementTypes {
     userId: string | undefined;
     companyId: string | undefined;
 }
+
+export interface UpdateNegotiateTypes {
+    negotiate: object;
+    id: string;
+    userId: string | undefined;
+}
+
+export interface NegotiateTypes {
+    companyName: any;
+    companyId: string;
+    negotiateContent: string;
+    negotiateDateAndTime: Date | string;
+    negotiateAlarm: boolean;
+    negotiateAlarmWarningTime: number;
+    isAlarmDismissed: boolean;
+    negotiateId: string;
+}
