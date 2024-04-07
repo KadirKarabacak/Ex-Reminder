@@ -241,11 +241,11 @@ export interface UpdateNegotiateTypes {
 
 export interface NegotiateTypes {
     companyName: any;
-    companyId: string;
+    companyId: any;
     negotiateContent: string;
     negotiateDateAndTime: Date | string;
     negotiateAlarm: boolean;
     negotiateAlarmWarningTime: number;
     isAlarmDismissed: boolean;
-    negotiateId: string;
+    negotiateId?: string;
 }
