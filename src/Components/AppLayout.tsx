@@ -7,7 +7,6 @@ import { useGetNegotiates, useUpdateNegotiate } from "../Api/companyController";
 import { auth } from "../Api/firebase";
 import { differenceInMinutes } from "date-fns";
 import { useEffect, useState } from "react";
-import toast from "react-hot-toast";
 import Alarm from "./Alarm";
 
 const StyledAppLayout = styled.div`
@@ -61,9 +60,8 @@ function AppLayout() {
         const findNegotiate = negotiates?.find(neg => neg.negotiateId === id);
         const negotiate = { ...findNegotiate, isAlarmDismissed: true };
         updateNegotiate({ negotiate, id, userId });
-        setIsAlarm(false);
+        !isPending && setIsAlarm(false);
     };
-    console.log(findNegotiateToAlert);
 
     return (
         <ProtectedRoute>
