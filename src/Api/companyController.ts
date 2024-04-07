@@ -17,9 +17,11 @@ import {
     DeleteAgreementTypes,
     DeleteCompanyTypes,
     DeleteSaleTypes,
+    NegotiateTypes,
     Sales,
     UpdateAgreementTypes,
     UpdateCompanyTypes,
+    UpdateNegotiateTypes,
 } from "../Interfaces/User";
 import { updateItem } from "./warehouseController";
 
@@ -412,7 +414,7 @@ export const useDeleteSales = function () {
 //! Add Negotiate
 const addNegotiate = async function (
     userId: string | undefined,
-    negotiate: object
+    negotiate: NegotiateTypes
 ) {
     const result = await addDoc(
         collection(db, `users/${userId}/negotiates`),
@@ -429,7 +431,7 @@ export function useAddNegotiate() {
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (variables: {
             userId: string | undefined;
-            negotiate: object;
+            negotiate: NegotiateTypes;
         }) => addNegotiate(variables.userId, variables.negotiate),
         onSuccess: () => {
             queryClient.invalidateQueries();
@@ -442,6 +444,7 @@ export function useAddNegotiate() {
     return { mutateAsync, isPending };
 }
 
+//! Get Negotiates
 const getNegotiates = async function (userId: string | undefined) {
     const querySnapshot = await getDocs(
         collection(db, `users/${userId}/negotiates`)
@@ -450,11 +453,40 @@ const getNegotiates = async function (userId: string | undefined) {
     return negotiates;
 };
 
+//! Get Negotiates Query
 export function useGetNegotiates(userId: string | undefined) {
     const { data, isLoading } = useQuery({
         queryFn: () => getNegotiates(userId),
         queryKey: ["negotiates"],
+        refetchInterval: 60000,
+        // refetchOnWindowFocus: false,
     });
 
     return { data, isLoading };
+}
+
+//! Update Negotiate
+const updateNegotiate = async function ({
+    negotiate,
+    id,
+    userId,
+}: UpdateNegotiateTypes) {
+    const ref = doc(db, `users/${userId}/negotiates`, id);
+    await updateDoc(ref, negotiate);
+};
+
+//! Update Negotiate Query
+export function useUpdateNegotiate() {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateNegotiateTypes) =>
+            await updateNegotiate(variables),
+        onSuccess: () => {
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err.message);
+        },
+    });
+    return { mutateAsync, isPending };
 }
