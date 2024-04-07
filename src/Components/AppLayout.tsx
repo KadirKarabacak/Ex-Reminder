@@ -3,7 +3,7 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
-import { useGetNegotiates } from "../Api/companyController";
+import { useGetNegotiates, useUpdateNegotiate } from "../Api/companyController";
 import { auth } from "../Api/firebase";
 import { differenceInMinutes } from "date-fns";
 import { useEffect, useState } from "react";
@@ -26,22 +26,15 @@ const Container = styled.div`
 
 // Parent Route
 function AppLayout() {
-    const [isAlarmActive, setIsAlarmActive] = useState(true);
     const { pathname } = useLocation();
     const { currentUser } = auth;
     const { data: negotiates } = useGetNegotiates(currentUser?.uid);
-
-    const formattedNegotiates = negotiates?.map(neg => {
-        return {
-            ...neg,
-            negotiateDateAndTime: new Date(
-                neg.negotiateDateAndTime.seconds * 1000
-            ),
-        };
-    });
+    const [toastId, setToastId] = useState("");
+    const userId = currentUser?.uid;
+    const { isPending, mutateAsync: updateNegotiate } = useUpdateNegotiate();
 
     //! This must be in an useEffect maybe
-    const findNegotiatesToAlert = formattedNegotiates?.filter(neg => {
+    const findNegotiateToAlert = negotiates?.filter(neg => {
         // ! If user don't want to alert, don't take negotiate
         if (!neg.negotiateAlarm) return;
 
@@ -49,38 +42,39 @@ function AppLayout() {
         const warnTime = neg.negotiateAlarmWarningTime * 60;
 
         // ! Calculate minutes left to negotiate
-        const diff = differenceInMinutes(neg.negotiateDateAndTime, new Date());
-
+        const diff = differenceInMinutes(
+            neg.negotiateDateAndTime.seconds * 1000,
+            new Date()
+        );
         if (diff <= warnTime && !neg.isAlarmDismissed) return neg;
         else return null;
     });
 
-    const handleDismissAlarm = negotiateId => {
-        setIsAlarmActive(false);
+    // ! Maybe i should remove this code from here to <Alarm />
+    const handleDismissAlarm = (id: string) => {
         toast.dismiss();
-
-        //! Here do updateDoc, and set neg.isAlarmDismissed to true
-        const negotiate = formattedNegotiates?.find(
-            neg => neg.negotiateId === negotiateId
-        );
+        const findNegotiate = negotiates?.find(neg => neg.negotiateId === id);
+        const negotiate = { ...findNegotiate, isAlarmDismissed: true };
+        updateNegotiate({ negotiate, id, userId });
     };
 
-    useEffect(() => {
-        if (findNegotiatesToAlert?.length) setIsAlarmActive(true);
-    }, [findNegotiatesToAlert]);
+    console.log(findNegotiateToAlert);
 
-    // useEffect(() => {
-    //     if (isAlarmActive)
-    //         toast.custom(
-    //             <Alarm
-    //                 findNegotiatesToAlert={findNegotiatesToAlert}
-    //                 handleDismissAlarm={handleDismissAlarm}
-    //             />,
-    //             {
-    //                 duration: isAlarmActive ? 999999999 : 0,
-    //             }
-    //         );
-    // }, [isAlarmActive]);
+    useEffect(() => {
+        if (
+            findNegotiateToAlert &&
+            findNegotiateToAlert?.length > 0 &&
+            !isPending
+        ) {
+            const alarmToast = toast.custom(
+                <Alarm
+                    findNegotiateToAlert={findNegotiateToAlert}
+                    handleDismissAlarm={handleDismissAlarm}
+                />
+            );
+            setToastId(alarmToast);
+        }
+    }, [negotiates, findNegotiateToAlert?.length]);
 
     return (
         <ProtectedRoute>
