@@ -28,6 +28,7 @@ import {
 import { auth } from "../../../Api/firebase";
 import i18n from "../../../i18n";
 import { add } from "date-fns";
+import { formatDateAndTime } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -154,8 +155,9 @@ export default function AddNegotiateModal({
     );
     const [alarm, setAlarm] = useState(1);
     const [alarmWarningTime, setAlarmWarningTime] = useState(1);
-    const { mutateAsync: addNegotiate } = useAddNegotiate();
+    const { mutateAsync: addNegotiate, isPending } = useAddNegotiate();
     const [selectedCompany, setSelectedCompany] = useState("");
+    const [negotiateDescription, setNegotiateDescription] = useState("");
     const { data: companies } = useGetCompanies();
     const { currentUser } = auth;
     const userId = currentUser?.uid;
@@ -169,7 +171,7 @@ export default function AddNegotiateModal({
         const negotiate: NegotiateTypes = {
             companyName: findCompany?.companyName,
             companyId: findCompany?.id,
-            negotiateContent,
+            negotiateContent: negotiateDescription,
             negotiateDateAndTime: dateAndTime,
             negotiateAlarm: alarm ? true : false,
             negotiateAlarmWarningTime: alarmWarningTime,
@@ -190,9 +192,24 @@ export default function AddNegotiateModal({
         reset();
     }
 
+    const updateNegotiateContent = () => {
+        // Diğer bilgileri kullanarak Sale Description'ı oluşturun
+        const newNegotiateDescription = t(
+            `We have a negotiate with ${row.companyName} on ${formatDateAndTime(
+                dateAndTime
+            )}`
+        );
+        // Sale Description state'ini güncelleyin
+        setNegotiateDescription(newNegotiateDescription);
+    };
+
     useEffect(() => {
         setSelectedCompany(row.id);
     }, [row?.id]);
+
+    useEffect(() => {
+        updateNegotiateContent();
+    }, [row.companyName, dateAndTime]);
 
     return (
         <Modal
@@ -295,6 +312,7 @@ export default function AddNegotiateModal({
                                     <StyledSelect
                                         required
                                         displayEmpty
+                                        disabled={isPending}
                                         labelId="selectedAlarmLabel"
                                         id="selectedAlarm"
                                         value={alarm}
@@ -337,6 +355,7 @@ export default function AddNegotiateModal({
                                     <StyledSelect
                                         required
                                         displayEmpty
+                                        disabled={isPending}
                                         labelId="selectedAlarmLabel"
                                         id="selectedAlarm"
                                         value={alarmWarningTime}
@@ -387,16 +406,19 @@ export default function AddNegotiateModal({
                                     {t("Negotiate Content")}
                                 </StyledTitle>
                                 <StyledTextField
-                                    // disabled={isPending}
+                                    disabled={isPending}
                                     placeholder={t("Negotiate Content")}
-                                    {...register("negotiateContent")}
+                                    value={negotiateDescription}
+                                    onChange={e =>
+                                        setNegotiateDescription(e.target.value)
+                                    }
                                 />
                             </Grid>
                         </Grid>
 
                         <StyledButtonContainer>
                             <Button
-                                // disabled={isPending}
+                                disabled={isPending}
                                 sx={{
                                     backgroundColor: "var(--color-grey-800)",
                                     color: "var(--color-grey-50)",
@@ -420,7 +442,7 @@ export default function AddNegotiateModal({
                                 {t("Add Negotiate")}
                             </Button>
                             <Button
-                                // disabled={isPending}
+                                disabled={isPending}
                                 onClick={onCloseModal}
                                 sx={{
                                     color: "var(--color-grey-800)",
