@@ -65,9 +65,10 @@
 67- ✅ Companies > Add Company > Address Modal > Map Click > Fix Popup Styling
 68- Tabloda 11 Sonuç varken 2. sayfadaki tek sonucu sildiğimde hata geliyor, eğer sayfada sonuç kalmadıysa sayfayı 1 geri getir.
 69- ✅ On register, add user createdAt date to expire their free version of application.
-70- Companies > Add Interview to a company, see all interviews, handle interview time and show user its near or interview time has passed
+70- Companies > Add negotiate to a company, see all negotiates, handle negotiate time and show user its near or negotiate time has passed
 71- After added a negotiate, handle that in applayout and every minute check any negotiate needs to alarm
 72- Map > The popup field which comes from by find my location button, fix content
+73- Allow user to select any alarm ringtone.
 
 ### FEATURES ###
 
