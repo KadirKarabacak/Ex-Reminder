@@ -81,6 +81,7 @@ function AppLayout() {
                     {isAlarm &&
                         findNegotiateToAlert?.map(neg => (
                             <Alarm
+                                key={neg.negotiateId}
                                 findNegotiateToAlert={neg}
                                 handleDismissAlarm={handleDismissAlarm}
                             />
