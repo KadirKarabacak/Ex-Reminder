@@ -122,33 +122,13 @@ const StyledMenuItem = styled(MenuItem)`
     background-color: transparent !important;
 `;
 
-const alarms = [
-    { label: i18n.t("Yes, alert me"), value: 1 },
-    { label: i18n.t("No, don't warn me."), value: 0 },
-];
-
-const warningTimes = [
-    { label: i18n.t("1 hour"), value: 1 },
-    { label: i18n.t("2 hour"), value: 2 },
-    { label: i18n.t("3 hour"), value: 3 },
-    { label: i18n.t("4 hour"), value: 4 },
-    { label: i18n.t("5 hour"), value: 5 },
-    { label: i18n.t("6 hour"), value: 6 },
-    { label: i18n.t("7 hour"), value: 7 },
-    { label: i18n.t("8 hour"), value: 8 },
-    { label: i18n.t("9 hour"), value: 9 },
-    { label: i18n.t("10 hour"), value: 10 },
-    { label: i18n.t("11 hour"), value: 11 },
-    { label: i18n.t("12 hour"), value: 12 },
-];
-
 export default function AddNegotiateModal({
     open,
     handleClose,
     row,
     id,
 }: EditEmployeeModalTypes) {
-    const { handleSubmit, register, getValues, clearErrors, reset } = useForm();
+    const { handleSubmit, clearErrors, reset } = useForm();
     const { t } = useTranslation();
     const [dateAndTime, setDateAndTime] = useState(
         add(new Date(), { hours: 1 })
@@ -160,14 +140,35 @@ export default function AddNegotiateModal({
     const [negotiateDescription, setNegotiateDescription] = useState("");
     const { data: companies } = useGetCompanies();
     const { currentUser } = auth;
+    const currentLanguage = i18n.language;
     const userId = currentUser?.uid;
     const findCompany = companies?.find(
         company => company.id === selectedCompany
     );
 
-    async function onSubmit() {
-        const { negotiateContent } = getValues();
+    const alarms = [
+        { label: t("Yes, alert me"), value: 1 },
+        { label: t("No, don't warn me"), value: 0 },
+    ];
 
+    const warningTimes = [
+        //! Handle this option
+        // { label: t("When the time comes"), value: 0 },
+        { label: t("1 hour left"), value: 1 },
+        { label: t("2 hour left"), value: 2 },
+        { label: t("3 hour left"), value: 3 },
+        { label: t("4 hour left"), value: 4 },
+        { label: t("5 hour left"), value: 5 },
+        { label: t("6 hour left"), value: 6 },
+        { label: t("7 hour left"), value: 7 },
+        { label: t("8 hour left"), value: 8 },
+        { label: t("9 hour left"), value: 9 },
+        { label: t("10 hour left"), value: 10 },
+        { label: t("11 hour left"), value: 11 },
+        { label: t("12 hour left"), value: 12 },
+    ];
+
+    async function onSubmit() {
         const negotiate: NegotiateTypes = {
             companyName: findCompany?.companyName,
             companyId: findCompany?.id,
@@ -193,13 +194,16 @@ export default function AddNegotiateModal({
     }
 
     const updateNegotiateContent = () => {
-        // Diğer bilgileri kullanarak Sale Description'ı oluşturun
-        const newNegotiateDescription = t(
-            `We have a negotiate with ${row.companyName} on ${formatDateAndTime(
-                dateAndTime
-            )}`
-        );
-        // Sale Description state'ini güncelleyin
+        const newNegotiateDescription =
+            currentLanguage === "en-EN"
+                ? t(
+                      `We have a negotiate with ${
+                          row.companyName
+                      } on ${formatDateAndTime(dateAndTime)}`
+                  )
+                : `${row.companyName} isimli şirket ile ${formatDateAndTime(
+                      dateAndTime
+                  )} tarihinde görüşmemiz var`;
         setNegotiateDescription(newNegotiateDescription);
     };
 
@@ -350,7 +354,9 @@ export default function AddNegotiateModal({
                                 </FormControl>
                             </Grid>
                             <Grid item xs={6}>
-                                <StyledTitle>{t("Alarm")}</StyledTitle>
+                                <StyledTitle>
+                                    {t("Alarm warning time")}
+                                </StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
                                     <StyledSelect
                                         required
