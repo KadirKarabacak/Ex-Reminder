@@ -5,7 +5,7 @@ import styled from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
 import { useGetNegotiates, useUpdateNegotiate } from "../Api/companyController";
 import { auth } from "../Api/firebase";
-import { differenceInMinutes } from "date-fns";
+import { differenceInMinutes, isBefore } from "date-fns";
 import { useEffect, useState } from "react";
 import Alarm from "./Alarm";
 
@@ -35,6 +35,8 @@ function AppLayout() {
     const findNegotiateToAlert = negotiates?.filter(neg => {
         // ! If user don't want to alert, don't take negotiate
         if (!neg.negotiateAlarm) return;
+        if (isBefore(neg.negotiateDateAndTime.seconds * 1000, new Date()))
+            return;
 
         // ! Alert time from user's selected hour
         const warnTime = neg.negotiateAlarmWarningTime * 60;
