@@ -32,7 +32,6 @@ function AppLayout() {
     const { isPending, mutateAsync: updateNegotiate } = useUpdateNegotiate();
     const [isAlarm, setIsAlarm] = useState(false);
 
-    //! This must be in an useEffect maybe
     const findNegotiateToAlert = negotiates?.filter(neg => {
         // ! If user don't want to alert, don't take negotiate
         if (!neg.negotiateAlarm) return;
@@ -55,7 +54,6 @@ function AppLayout() {
         }
     }, [findNegotiateToAlert?.length]);
 
-    // ! Maybe i should remove this code from here to <Alarm />
     const handleDismissAlarm = (id: string) => {
         const findNegotiate = negotiates?.find(neg => neg.negotiateId === id);
         const negotiate = { ...findNegotiate, isAlarmDismissed: true };
