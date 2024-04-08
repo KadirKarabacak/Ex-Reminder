@@ -9,19 +9,18 @@ import { alarmOptions } from "../Constants/constant";
 
 const StyledAlarm = styled.div`
     background-color: var(--color-grey-100);
-    padding: 1rem 2rem;
+    padding: 2rem;
     border-radius: 5px;
     box-shadow: var(--shadow-lg);
     width: 27%;
     position: absolute;
     top: 2rem;
     left: 40%;
-
     z-index: 1500;
     transition: all 0.3s;
 
     &:hover {
-        animation: none;
+        box-shadow: 0px 10px 100px var(--color-green-lighter);
     }
 `;
 
@@ -44,11 +43,11 @@ export function Alarm({
                 style={{
                     display: "flex",
                     flexDirection: "column",
-                    gap: "1rem",
+                    gap: "0.5rem",
                 }}
             >
                 <audio autoPlay>
-                    <source src="alarm-sound.mp3" type="audio/mpeg" />
+                    <source src="../../ringtone2.mp3" type="audio/mpeg" />
                     {t("Your browser does not support the audio element")}
                 </audio>
                 {currentLanguage === "en-EN" ? (
