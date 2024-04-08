@@ -7,7 +7,6 @@ export const springOptions = {
     config: {
         duration: 800,
         easing: easings.easeInOutBack,
-
         // easing: easings.easeInOutCirc,
     },
 };
@@ -15,11 +14,20 @@ export const springOptions = {
 export const mapSpringOptions = {
     from: { opacity: 0, transform: "translateY(15px)" },
     to: { opacity: 1, transform: "translateY(0)" },
-    leave: { opacity: 0, transform: "translateY(-20px)" },
+    leave: { opacity: 0, transform: "translateY(-15px)" },
     config: {
         duration: 500,
         // easing: easings.easeOutCubic,
         easing: easings.easeInOutQuad,
+    },
+};
+
+export const alarmOptions = {
+    from: { opacity: 0, transform: "translateY(-25px)", scale: 0.9 },
+    to: { opacity: 1, transform: "translateY(0)", scale: 1 },
+    config: {
+        duration: 200,
+        easing: easings.easeInOutCirc,
     },
 };
 
