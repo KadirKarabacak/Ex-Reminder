@@ -23,7 +23,7 @@ export function formatDateAndTime(dateString: any = new Date()) {
         weekday: "long",
         hour: "2-digit",
         minute: "2-digit",
-        hour12: false,
+        hour12: true,
     };
 
     const date = new Date(dateString);
