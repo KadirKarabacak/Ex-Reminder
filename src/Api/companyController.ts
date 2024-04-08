@@ -423,6 +423,7 @@ const addNegotiate = async function (
     const negotiateId = result.id;
     const updateDocData = { ...negotiate, negotiateId: negotiateId };
     await setDoc(result, updateDocData);
+    return updateDocData;
 };
 
 //! Add Negotiate Query
@@ -433,9 +434,18 @@ export function useAddNegotiate() {
             userId: string | undefined;
             negotiate: NegotiateTypes;
         }) => addNegotiate(variables.userId, variables.negotiate),
-        onSuccess: () => {
+        onSuccess: data => {
+            // TODO: Display spesific toast like `We will warn you when data.negotiateAlarmWarningTime hours left `
             queryClient.invalidateQueries();
-            toast.success(i18n.t("Negotiate added successfully"));
+            if (data.negotiateAlarm)
+                toast.success(
+                    i18n.t(
+                        `Negotiate added successfully. We will warn you when ${data.negotiateAlarmWarningTime} hours left.`
+                    )
+                );
+            else {
+                toast.success(i18n.t(`Negotiate added successfully.`));
+            }
         },
         onError: () => {
             toast.error(i18n.t("An error occurred while adding the Negotiate"));
@@ -459,7 +469,7 @@ export function useGetNegotiates(userId: string | undefined) {
         queryFn: () => getNegotiates(userId),
         queryKey: ["negotiates"],
         refetchInterval: 60000,
-        // refetchOnWindowFocus: false,
+        refetchOnWindowFocus: false,
     });
 
     return { data, isLoading };
