@@ -40,7 +40,7 @@ export function Alarm({
     const { t } = useTranslation();
 
     return (
-        <StyledAlarm key={findNegotiateToAlert.negotiateId}>
+        <StyledAlarm>
             <div
                 style={{
                     display: "flex",
