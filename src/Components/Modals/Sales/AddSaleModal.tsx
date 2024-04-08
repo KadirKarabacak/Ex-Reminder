@@ -18,6 +18,7 @@ import React, { useEffect, useState } from "react";
 import { useGetWarehouse } from "../../../Api/warehouseController";
 import { useAddSale, useGetCompanies } from "../../../Api/companyController";
 import { calcGuaranteeExpireDate, formatDate } from "../../../Utils/utils";
+import i18n from "../../../i18n";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -118,6 +119,7 @@ export default function AddSaleModal({
     const [saleDescription, setSaleDescription] = useState("");
     const [findPrice, setFindPrice] = useState<any>();
     const { t } = useTranslation();
+    const currentLanguage = i18n.language;
     const {
         handleSubmit,
         register,
@@ -135,6 +137,7 @@ export default function AddSaleModal({
     const findCompany = companies?.find(
         company => company.id === selectedCompany
     );
+
     const itemGuarantees = [
         { label: t("Yes"), value: 1 },
         { label: t("No"), value: 0 },
@@ -143,9 +146,11 @@ export default function AddSaleModal({
         { label: t("1 Year"), value: 1 },
         { label: t("2 Year"), value: 2 },
     ];
+
     const guaranteeExpire =
         selectedGuarantee === 1 &&
         calcGuaranteeExpireDate(new Date(), +selectedGuaranteeTime);
+
     const watchAmount = watch("itemAmount");
 
     async function onSubmit() {
@@ -187,13 +192,20 @@ export default function AddSaleModal({
     }
 
     const updateSaleDescription = () => {
-        // Diğer bilgileri kullanarak Sale Description'ı oluşturun
-        const newSaleDescription = `${t("Sell Item")} ${
-            findItem?.itemName || ""
-        } x${watchAmount || ""} ${t("to")} ${
-            findCompany?.companyName || ""
-        } ${t("at")} ${formatDate(new Date())}`;
-        // Sale Description state'ini güncelleyin
+        const newSaleDescription =
+            currentLanguage === "en-EN"
+                ? `${t("Sell Item")} ${findItem?.itemName || ""} x${
+                      watchAmount || ""
+                  } ${t("to")} ${findCompany?.companyName || ""} ${t(
+                      "at"
+                  )} ${formatDate(new Date())}`
+                : `${findItem?.itemName || ""} isimli üründen ${
+                      watchAmount || ""
+                  } adet ${
+                      findCompany?.companyName || ""
+                  } şirketine ${formatDate(
+                      new Date()
+                  )} tarihinde satış yapılmıştır.`;
         setSaleDescription(newSaleDescription);
     };
 
