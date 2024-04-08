@@ -1,34 +1,31 @@
 import { Button } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import CloseIcon from "@mui/icons-material/Close";
-import styled, { keyframes } from "styled-components";
 
-const shakeAnimation = keyframes`
-    0%, 100% {
-        transform: translateX(0);
-    }
-    50% {
-        transform: translateX(4px);
-    }
-`;
+import styled from "styled-components";
+import i18n from "../i18n";
+import CheckBoxIcon from "@mui/icons-material/CheckBox";
+import { animated, useSpring } from "react-spring";
+import { alarmOptions } from "../Constants/constant";
 
 const StyledAlarm = styled.div`
     background-color: var(--color-grey-100);
     padding: 1rem 2rem;
     border-radius: 5px;
-    box-shadow: var(--shadow-md);
-    width: 30%;
+    box-shadow: var(--shadow-lg);
+    width: 27%;
     position: absolute;
-    bottom: 1.5rem;
-    left: 1.5rem;
+    top: 2rem;
+    left: 40%;
+
     z-index: 1500;
-    animation: ${shakeAnimation} 2s ease-in-out infinite;
     transition: all 0.3s;
 
     &:hover {
         animation: none;
     }
 `;
+
+const AnimatedStyledAlarm = animated(StyledAlarm);
 
 export function Alarm({
     findNegotiateToAlert,
@@ -38,9 +35,11 @@ export function Alarm({
     handleDismissAlarm: any;
 }) {
     const { t } = useTranslation();
+    const currentLanguage = i18n.language;
+    const animationProps = useSpring(alarmOptions);
 
     return (
-        <StyledAlarm>
+        <AnimatedStyledAlarm style={animationProps}>
             <div
                 style={{
                     display: "flex",
@@ -50,34 +49,50 @@ export function Alarm({
             >
                 <audio autoPlay>
                     <source src="alarm-sound.mp3" type="audio/mpeg" />
-                    {t("Your browser does not support the audio element.")}
+                    {t("Your browser does not support the audio element")}
                 </audio>
-                <div
-                    style={{
-                        fontSize: "1.8rem",
-                        color: "var(--color-green-lighter)",
-                    }}
-                >
-                    Negotiate with {findNegotiateToAlert.companyName} in{" "}
-                    {findNegotiateToAlert.negotiateAlarmWarningTime} hours!
-                </div>
+                {currentLanguage === "en-EN" ? (
+                    <div
+                        style={{
+                            fontSize: "1.8rem",
+                            color: "var(--color-green-lighter)",
+                        }}
+                    >
+                        Negotiate with {findNegotiateToAlert.companyName} in{" "}
+                        {findNegotiateToAlert.negotiateAlarmWarningTime} hours!
+                    </div>
+                ) : (
+                    <div
+                        style={{
+                            fontSize: "1.8rem",
+                            color: "var(--color-green-lighter)",
+                        }}
+                    >
+                        {findNegotiateToAlert.companyName} şirketi ile
+                        görüşmenizin{" "}
+                        {findNegotiateToAlert.negotiateAlarmWarningTime} saati
+                        kaldı !
+                    </div>
+                )}
                 <div style={{ marginBottom: "1rem" }}>
                     {findNegotiateToAlert.negotiateContent}{" "}
                 </div>
                 <Button
                     sx={{
-                        backgroundColor: "var(--color-grey-600)",
-                        color: "var(--color-red-700)",
+                        backgroundColor: "var(--color-green-new)",
+                        color: "var(--color-white-soft)",
                         transition: "all .3s",
-                        padding: "1rem 3rem",
+                        padding: "1rem 2rem",
                         fontSize: "1.2rem",
                         fontWeight: "bold",
                         display: "flex",
                         alignItems: "center",
                         gap: "0.5rem",
                         cursor: "pointer",
+                        alignSelf: "center",
                         ":hover": {
-                            backgroundColor: "var(--color-grey-700)",
+                            backgroundColor: "var(--color-green-lighter)",
+                            transform: "translateY(-2px)",
                         },
                     }}
                     variant="contained"
@@ -85,16 +100,15 @@ export function Alarm({
                         handleDismissAlarm(findNegotiateToAlert.negotiateId);
                     }}
                 >
-                    {t("Close")}{" "}
-                    <CloseIcon
+                    {t("Okay")}
+                    <CheckBoxIcon
                         sx={{
-                            fontWeight: "bold",
-                            color: "var(--color-red-700)",
+                            color: "var(--color-white-soft)",
                         }}
                     />
                 </Button>
             </div>
-        </StyledAlarm>
+        </AnimatedStyledAlarm>
     );
 }
 
