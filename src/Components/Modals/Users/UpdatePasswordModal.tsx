@@ -130,15 +130,18 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                             id="transition-modal-title"
                             variant="h2"
                             component="h1"
-                            sx={{ fontWeight: "bold", letterSpacing: "0.80px" }}
+                            sx={{
+                                fontWeight: "bold",
+                                letterSpacing: "0.80px",
+                            }}
                         >
                             {t("Update Password")}
                         </Typography>
                         <Typography
                             id="transition-modal-description"
-                            sx={{ margin: "1.3rem 0", fontSize: "1.4rem" }}
+                            sx={{ margin: "2rem 0", fontSize: "1.4rem" }}
                         ></Typography>
-                        <StyledTitle>{t("Password")}</StyledTitle>
+                        <StyledTitle>{t("Old Password")}</StyledTitle>
                         <StyledInput
                             disabled={isUpdating}
                             {...register("password", {
@@ -151,7 +154,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                 },
                             })}
                             error={Boolean(errors?.password)}
-                            placeholder={t("Password")}
+                            placeholder={t("Old Password")}
                             id="outlined-adornment-password"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
@@ -230,7 +233,7 @@ export default function UpdatePasswordModal({ open, handleClose }: ModalTypes) {
                                     t("Passwords do not match"),
                             })}
                             error={Boolean(errors?.password)}
-                            placeholder="Repeat New password"
+                            placeholder={t("Repeat New Password")}
                             id="outlined-adornment-repeatpassword"
                             type={showPassword ? "text" : "password"}
                             endAdornment={
