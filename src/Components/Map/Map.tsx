@@ -60,8 +60,10 @@ export default function Map({
         >
             <TileLayer
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                url="https://a.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png"
-                errorTileUrl="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+                // url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
+                // url="https://tile.openstreetmap.org/{z}/{x}/{y}.png"
+                errorTileUrl="https://{s}.basemaps.cartocdn.com/rastertiles/voyager_labels_under/{z}/{x}/{y}{r}.png"
             />
             {position && !isLoading && (
                 <Marker position={mapPosition as LatLngExpression}>
