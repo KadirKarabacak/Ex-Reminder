@@ -69,6 +69,7 @@
 71- After added a negotiate, handle that in applayout and every minute check any negotiate needs to alarm
 72- Map > The popup field which comes from by find my location button, fix content
 73- Allow user to select any alarm ringtone.
+74- For add notifications, update every mutation to add a notification. Add a isReaded prop to objects, and allow user to mark notifications as readed
 
 ### FEATURES ###
 
