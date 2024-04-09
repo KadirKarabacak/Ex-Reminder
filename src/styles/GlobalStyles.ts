@@ -296,6 +296,10 @@ svg{
   color: var(--color-white-soft);
 }
 
+.recharts-curve{
+  fill: var(--color-green-new)!important;
+}
+
 `;
 
 export default GlobalStyles;
