@@ -1,7 +1,8 @@
 import { Paper } from "@mui/material";
 import { Box } from "@mui/system";
 
-export default function AccountingDetails() {
+export default function AccountingDetails({ data }: { data: any }) {
+    console.log(data);
     return (
         <Box
             sx={{
