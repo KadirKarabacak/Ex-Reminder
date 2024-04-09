@@ -1,6 +1,5 @@
-import { Button } from "@mui/material";
+import { Button, Tooltip, Zoom } from "@mui/material";
 import { useTranslation } from "react-i18next";
-
 import styled from "styled-components";
 import i18n from "../i18n";
 import CheckBoxIcon from "@mui/icons-material/CheckBox";
@@ -20,7 +19,7 @@ const StyledAlarm = styled.div`
     transition: all 0.3s;
 
     &:hover {
-        box-shadow: 0px 10px 100px var(--color-green-lighter);
+        box-shadow: 0px 2px 25px var(--color-green-lighter);
     }
 `;
 
@@ -76,36 +75,44 @@ export function Alarm({
                 <div style={{ marginBottom: "1rem" }}>
                     {findNegotiateToAlert.negotiateContent}{" "}
                 </div>
-                <Button
-                    sx={{
-                        backgroundColor: "var(--color-green-new)",
-                        color: "var(--color-white-soft)",
-                        transition: "all .3s",
-                        padding: "1rem 2rem",
-                        fontSize: "1.2rem",
-                        fontWeight: "bold",
-                        display: "flex",
-                        alignItems: "center",
-                        gap: "0.5rem",
-                        cursor: "pointer",
-                        alignSelf: "center",
-                        ":hover": {
-                            backgroundColor: "var(--color-green-lighter)",
-                            transform: "translateY(-2px)",
-                        },
-                    }}
-                    variant="contained"
-                    onClick={() => {
-                        handleDismissAlarm(findNegotiateToAlert.negotiateId);
-                    }}
+                <Tooltip
+                    TransitionComponent={Zoom}
+                    title={t("We never display again this alarm")}
+                    placement="bottom"
                 >
-                    {t("Okay")}
-                    <CheckBoxIcon
+                    <Button
                         sx={{
+                            backgroundColor: "var(--color-green-new)",
                             color: "var(--color-white-soft)",
+                            transition: "all .3s",
+                            padding: "1rem 2rem",
+                            fontSize: "1.2rem",
+                            fontWeight: "bold",
+                            display: "flex",
+                            alignItems: "center",
+                            gap: "0.5rem",
+                            cursor: "pointer",
+                            alignSelf: "center",
+                            ":hover": {
+                                backgroundColor: "var(--color-green-lighter)",
+                                transform: "translateY(-2px)",
+                            },
                         }}
-                    />
-                </Button>
+                        variant="contained"
+                        onClick={() => {
+                            handleDismissAlarm(
+                                findNegotiateToAlert.negotiateId
+                            );
+                        }}
+                    >
+                        {t("Got it")}
+                        <CheckBoxIcon
+                            sx={{
+                                color: "var(--color-white-soft)",
+                            }}
+                        />
+                    </Button>
+                </Tooltip>
             </div>
         </AnimatedStyledAlarm>
     );
