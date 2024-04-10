@@ -3,7 +3,7 @@ import { auth, db } from "./firebase";
 import { useQuery } from "@tanstack/react-query";
 import { Sales } from "../Interfaces/User";
 
-//! Get Accounting
+//: Get Accounting
 const getAccounting = async (userId: string | undefined) => {
     const querySnapShot = await getDocs(
         collection(db, `users/${userId}/accounting`)
@@ -21,7 +21,7 @@ const getAccounting = async (userId: string | undefined) => {
     return accounting;
 };
 
-//! Get Accounting Query
+//: Get Accounting Query
 export function useGetAccounting() {
     const { data, isLoading } = useQuery({
         queryKey: ["accounting", auth?.currentUser?.uid],
