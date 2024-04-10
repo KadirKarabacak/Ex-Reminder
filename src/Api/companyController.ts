@@ -4,7 +4,6 @@ import {
     deleteDoc,
     doc,
     getDocs,
-    setDoc,
     updateDoc,
 } from "firebase/firestore";
 import { auth, db } from "./firebase";
@@ -12,20 +11,12 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
 import {
-    Agreements,
     Companies,
-    DeleteAgreementTypes,
     DeleteCompanyTypes,
-    DeleteSaleTypes,
-    NegotiateTypes,
-    Sales,
-    UpdateAgreementTypes,
     UpdateCompanyTypes,
-    UpdateNegotiateTypes,
 } from "../Interfaces/User";
-import { updateItem } from "./warehouseController";
 
-//! Get All Companies
+//: Get All Companies
 const getCompanies = async (userId: string | undefined) => {
     const querySnapShot = await getDocs(
         collection(db, `users/${userId}/companies`)
@@ -43,7 +34,7 @@ const getCompanies = async (userId: string | undefined) => {
     return companies;
 };
 
-//! Get All Companies Query
+//: Get All Companies Query
 export function useGetCompanies() {
     const { data, isLoading } = useQuery({
         queryKey: ["companies", auth?.currentUser?.uid],
@@ -52,7 +43,7 @@ export function useGetCompanies() {
     return { data, isLoading };
 }
 
-//! Add new company
+//: Add new company
 const addCompany = async function (
     company: object,
     userId: string | undefined
@@ -60,7 +51,7 @@ const addCompany = async function (
     await addDoc(collection(db, `users/${userId}/companies`), company);
 };
 
-//! Add new company Query
+//: Add new company Query
 export const useAddCompany = function () {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -78,7 +69,7 @@ export const useAddCompany = function () {
     return { mutate, isPending };
 };
 
-//! Update Company
+//: Update Company
 const updateCompany = async function ({
     company,
     id,
@@ -88,7 +79,7 @@ const updateCompany = async function ({
     await updateDoc(ref, company);
 };
 
-//! Update Company Query
+//: Update Company Query
 export const useUpdateCompany = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -108,7 +99,7 @@ export const useUpdateCompany = function () {
     return { mutateAsync, isPending };
 };
 
-//! Delete Company
+//: Delete Company
 const deleteCompany = async function ({ id, userId }: DeleteCompanyTypes) {
     const ref = doc(db, `users/${userId}/companies`, id);
     try {
@@ -118,7 +109,7 @@ const deleteCompany = async function ({ id, userId }: DeleteCompanyTypes) {
     }
 };
 
-//! Delete Company query
+//: Delete Company query
 export const useDeleteCompany = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -135,368 +126,3 @@ export const useDeleteCompany = function () {
     });
     return { mutateAsync, isPending };
 };
-
-//! Add agreement to company
-const addAgreement = async function (
-    agreement: object,
-    companyId: string | undefined,
-    userId: string | undefined
-) {
-    await addDoc(
-        collection(db, `users/${userId}/companies/${companyId}/agreements`),
-        agreement
-    );
-};
-
-//! Add new agreement Query
-export const useAddAgreement = function () {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (data: {
-            agreement: object;
-            companyId: string | undefined;
-        }) =>
-            addAgreement(
-                data.agreement,
-                data.companyId,
-                auth?.currentUser?.uid
-            ),
-        onSuccess: () => {
-            toast.success(i18n.t("New Agreement added successfully"));
-            queryClient.invalidateQueries({ queryKey: ["agreements"] });
-        },
-        onError: err => {
-            console.log(err);
-            toast.error(i18n.t("There was an error adding the Agreement"));
-        },
-    });
-    return { mutateAsync, isPending };
-};
-
-//! Get Agreements
-const getAgreements = async (
-    userId: string | undefined,
-    companyId: string | undefined
-) => {
-    const querySnapShot = await getDocs(
-        collection(db, `users/${userId}/companies/${companyId}/agreements`)
-    );
-
-    const agreements: Agreements[] = [];
-    querySnapShot.forEach(doc => {
-        const agreementData = doc.data() as Agreements;
-        agreements.push({
-            ...agreementData,
-            agreementId: doc.id,
-        });
-    });
-    return agreements;
-};
-
-//! Get Agreements Query
-export const useGetAgreements = function (companyId: string | undefined) {
-    const { data, isLoading } = useQuery({
-        queryKey: ["agreements"],
-        queryFn: () => getAgreements(auth?.currentUser?.uid, companyId),
-    });
-    return { data, isLoading };
-};
-
-//! Update Agreement
-const updateAgreement = async function ({
-    editedAgreement,
-    companyId,
-    id,
-    userId,
-}: UpdateAgreementTypes) {
-    const ref = doc(
-        db,
-        `users/${userId}/companies/${companyId}/agreements`,
-        id
-    );
-    await updateDoc(ref, editedAgreement);
-};
-
-//! Update Agreement Query
-export const useUpdateAgreement = function () {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: UpdateAgreementTypes) => {
-            await updateAgreement(variables);
-            return;
-        },
-        onSuccess: () => {
-            toast.success(i18n.t("Agreement successfully edited"));
-            queryClient.invalidateQueries({ queryKey: ["agreements"] });
-        },
-        onError: err => {
-            console.log(err);
-            toast.error(
-                i18n.t("An error occurred while editing the Agreement")
-            );
-        },
-    });
-    return { mutateAsync, isPending };
-};
-
-//! Delete Agreement
-const deleteAgreement = async function ({
-    agreementId,
-    userId,
-    companyId,
-}: DeleteAgreementTypes) {
-    const ref = doc(
-        db,
-        `users/${userId}/companies/${companyId}/agreements`,
-        agreementId
-    );
-    try {
-        await deleteDoc(ref);
-        return true;
-    } catch (err) {
-        console.error(err);
-        return false;
-    }
-};
-
-//! Delete agreement query
-export const useDeleteAgreement = function () {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: DeleteAgreementTypes) =>
-            await deleteAgreement(variables),
-        onSuccess: () => {
-            toast.success(i18n.t("Agreement successfully deleted"));
-            queryClient.invalidateQueries({ queryKey: ["agreements"] });
-        },
-        onError: err => {
-            console.log(err);
-            toast.error(
-                i18n.t("An error occurred while deleting the Agreement")
-            );
-        },
-    });
-    return { mutateAsync, isPending };
-};
-
-//! Add Sale to Company
-const addSale = async function (
-    sale: object,
-    selectedCompany: string | undefined,
-    userId: string | undefined,
-    item: object,
-    id: string | undefined
-) {
-    await addDoc(
-        collection(db, `users/${userId}/companies/${selectedCompany}/sales`),
-        {
-            ...sale,
-            saleId: id,
-        }
-    );
-    await addDoc(collection(db, `users/${userId}/accounting`), {
-        ...sale,
-        saleId: id,
-    });
-
-    await updateItem({ item, id, userId });
-};
-
-//! Add Sale to Company Query
-export const useAddSale = function () {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (data: {
-            sale: object;
-            selectedCompany: string | undefined;
-            item: any;
-            id: string | undefined;
-        }) =>
-            addSale(
-                data.sale,
-                data.selectedCompany,
-                auth?.currentUser?.uid,
-                data.item,
-                data.id
-            ),
-        onSuccess: () => {
-            toast.success(i18n.t("New Sale added successfully"));
-            queryClient.invalidateQueries();
-        },
-        onError: err => {
-            console.log(err);
-            toast.error(i18n.t("There was an error adding the Sale"));
-        },
-    });
-    return { mutateAsync, isPending };
-};
-
-//! Get Sales by companyId
-const getSales = async (
-    userId: string | undefined,
-    companyId: string | undefined
-) => {
-    const querySnapShot = await getDocs(
-        collection(db, `users/${userId}/companies/${companyId}/sales`)
-    );
-
-    const sales: Sales[] = [];
-    querySnapShot.forEach(doc => {
-        const saleData = doc.data() as Sales;
-        sales.push({
-            ...saleData,
-            id: doc.id,
-        });
-    });
-
-    return sales;
-};
-
-//! Get Sales by companyId Query
-export function useGetSales(companyId: string) {
-    const { data, isLoading } = useQuery({
-        queryKey: ["companies"],
-        queryFn: () => getSales(auth?.currentUser?.uid, companyId),
-    });
-    return { data, isLoading };
-}
-
-//! Delete Sales
-const deleteSales = async function ({
-    id,
-    userId,
-    companyId,
-    saleToDeleteId,
-    deleteOption,
-}: DeleteSaleTypes) {
-    const refCompany = doc(
-        db,
-        `users/${userId}/companies/${companyId}/sales`,
-        id
-    );
-    const refAccounting = doc(db, `users/${userId}/accounting`, saleToDeleteId);
-    try {
-        await deleteDoc(refCompany);
-        if (
-            deleteOption === "Keep in Accounting" ||
-            deleteOption === "Muhasebede Tut"
-        )
-            return toast.success(
-                i18n.t("Sale successfully deleted from company")
-            );
-        //! If user don't want to delete sale from accounting, return before delete next line
-        await deleteDoc(refAccounting);
-        toast.success(
-            i18n.t("Sale successfully deleted from company and accounting")
-        );
-    } catch (err) {
-        console.error(err);
-        toast.error(i18n.t("An error occurred while deleting the Sale"));
-    }
-};
-
-//! Delete Sales Query
-export const useDeleteSales = function () {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: DeleteSaleTypes) =>
-            await deleteSales(variables),
-        onSuccess: () => {
-            queryClient.invalidateQueries();
-        },
-        onError: err => {
-            console.log(err);
-        },
-    });
-    return { mutateAsync, isPending };
-};
-
-//! Add Negotiate
-const addNegotiate = async function (
-    userId: string | undefined,
-    negotiate: NegotiateTypes
-) {
-    const result = await addDoc(
-        collection(db, `users/${userId}/negotiates`),
-        negotiate
-    );
-    const negotiateId = result.id;
-    const updateDocData = { ...negotiate, negotiateId: negotiateId };
-    await setDoc(result, updateDocData);
-    return updateDocData;
-};
-
-//! Add Negotiate Query
-export function useAddNegotiate() {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: (variables: {
-            userId: string | undefined;
-            negotiate: NegotiateTypes;
-        }) => addNegotiate(variables.userId, variables.negotiate),
-        onSuccess: data => {
-            // TODO: Display spesific toast like `We will warn you when data.negotiateAlarmWarningTime hours left `
-            queryClient.invalidateQueries();
-            if (data.negotiateAlarm)
-                toast.success(
-                    i18n.t(
-                        `Negotiate added successfully. We will warn you when ${data.negotiateAlarmWarningTime} hours left.`
-                    )
-                );
-            else {
-                toast.success(i18n.t(`Negotiate added successfully.`));
-            }
-        },
-        onError: () => {
-            toast.error(i18n.t("An error occurred while adding the Negotiate"));
-        },
-    });
-    return { mutateAsync, isPending };
-}
-
-//! Get Negotiates
-const getNegotiates = async function (userId: string | undefined) {
-    const querySnapshot = await getDocs(
-        collection(db, `users/${userId}/negotiates`)
-    );
-    const negotiates = querySnapshot.docs.map(doc => doc.data());
-    return negotiates;
-};
-
-//! Get Negotiates Query
-export function useGetNegotiates(userId: string | undefined) {
-    const { data, isLoading } = useQuery({
-        queryFn: () => getNegotiates(userId),
-        queryKey: ["negotiates"],
-        refetchInterval: 60000,
-        refetchOnWindowFocus: false,
-    });
-
-    return { data, isLoading };
-}
-
-//! Update Negotiate
-const updateNegotiate = async function ({
-    negotiate,
-    id,
-    userId,
-}: UpdateNegotiateTypes) {
-    const ref = doc(db, `users/${userId}/negotiates`, id);
-    await updateDoc(ref, negotiate);
-};
-
-//! Update Negotiate Query
-export function useUpdateNegotiate() {
-    const queryClient = useQueryClient();
-    const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: UpdateNegotiateTypes) =>
-            await updateNegotiate(variables),
-        onSuccess: () => {
-            queryClient.invalidateQueries();
-        },
-        onError: err => {
-            console.log(err.message);
-        },
-    });
-    return { mutateAsync, isPending };
-}
