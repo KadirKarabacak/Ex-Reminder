@@ -12,7 +12,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
 
-//! Get All Warehouse
+//: Get All Warehouse
 const getWarehouse = async (userId: string | undefined) => {
     const querySnapShot = await getDocs(
         collection(db, `users/${userId}/warehouse`)
@@ -30,7 +30,7 @@ const getWarehouse = async (userId: string | undefined) => {
     return warehouses;
 };
 
-//! Get All Warehouse Query
+//: Get All Warehouse Query
 export function useGetWarehouse() {
     const { data, isLoading } = useQuery({
         queryKey: ["warehouses", auth?.currentUser?.uid],
@@ -39,12 +39,12 @@ export function useGetWarehouse() {
     return { data, isLoading };
 }
 
-//! Add new item
+//: Add new item
 const addItem = async function (item: object, userId: string | undefined) {
     await addDoc(collection(db, `users/${userId}/warehouse`), item);
 };
 
-//! Add new item Query
+//: Add new item Query
 export const useAddItem = function () {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -67,7 +67,7 @@ interface UpdateItemTypes {
     userId: string | undefined;
 }
 
-//! Update Item
+//: Update Item
 export const updateItem = async function ({
     item,
     id,
@@ -77,7 +77,7 @@ export const updateItem = async function ({
     await updateDoc(ref, item);
 };
 
-//! Update Item Query
+//: Update Item Query
 export const useUpdateItem = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -97,7 +97,7 @@ export const useUpdateItem = function () {
     return { mutateAsync, isPending };
 };
 
-//! Delete Item
+//: Delete Item
 const deleteItem = async function ({ id, userId }: DeleteItemTypes) {
     const ref = doc(db, `users/${userId}/warehouse`, id);
     try {
@@ -109,7 +109,7 @@ const deleteItem = async function ({ id, userId }: DeleteItemTypes) {
     }
 };
 
-//! Delete Item query
+//: Delete Item query
 export const useDeleteItem = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({

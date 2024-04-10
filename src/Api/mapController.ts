@@ -1,5 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 
+//: Get Cities
 async function getCities() {
     try {
         const cities = await fetch(
@@ -12,6 +13,7 @@ async function getCities() {
     }
 }
 
+//: Get Cities Query
 export function useGetCities() {
     const { data, isLoading } = useQuery({
         queryFn: getCities,
@@ -20,6 +22,7 @@ export function useGetCities() {
     return { data, isLoading };
 }
 
+//: Get Neighbourhoods
 async function getNeighbourhoods() {
     try {
         const neighbourhoods = await fetch(
@@ -32,6 +35,7 @@ async function getNeighbourhoods() {
     }
 }
 
+//: Get Neighbourhoods Query
 export function useGetNeighbourhoods() {
     const { data, isLoading } = useQuery({
         queryFn: getNeighbourhoods,

@@ -26,7 +26,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
 
-//! Login
+//: Login
 export const signInWithEmailAndPasswordQuery = async ({
     email,
     password,
@@ -58,7 +58,7 @@ export const signInWithEmailAndPasswordQuery = async ({
     }
 };
 
-//! Create new user
+//: Create new user
 export const createUserWithEmailAndPasswordQuery = async ({
     email,
     password,
@@ -90,7 +90,7 @@ export const createUserWithEmailAndPasswordQuery = async ({
     return false;
 };
 
-//! Logout
+//: Logout
 export const logOut = async () => {
     signOut(auth)
         .then(() => {
@@ -102,7 +102,7 @@ export const logOut = async () => {
     return false;
 };
 
-//! Update user
+//: Update user
 const updateUser = async ({
     photoURL,
     displayName,
@@ -123,7 +123,7 @@ const updateUser = async ({
     }
 };
 
-//! Update user Query
+//: Update user Query
 export function useUpdateUser() {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -139,12 +139,12 @@ export function useUpdateUser() {
     return { mutate, isPending };
 }
 
-//! Reset Password [ Forgot Password ]
+//: Reset Password [ Forgot Password ]
 async function resetPasswordEmail(email: string) {
     await sendPasswordResetEmail(auth, email);
 }
 
-//! Reset Password Query [ Forgot Password ]
+//: Reset Password Query [ Forgot Password ]
 export function useResetPasswordEmail() {
     const queryClient = useQueryClient();
     const navigate = useNavigate();
@@ -162,7 +162,7 @@ export function useResetPasswordEmail() {
     return { mutate, isPending };
 }
 
-//! Delete user
+//: Delete user
 async function deleteUserAccount({
     currentUser,
     password,
@@ -179,7 +179,7 @@ async function deleteUserAccount({
     });
 }
 
-//! Delete user Query
+//: Delete user Query
 export function useDeleteUserAccount() {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
@@ -200,7 +200,7 @@ export function useDeleteUserAccount() {
     return { mutate, isPending };
 }
 
-//! Update user email
+//: Update user email
 export async function updateUserEmail(
     currentUser: any,
     email: string,
@@ -214,7 +214,7 @@ export async function updateUserEmail(
     await verifyBeforeUpdateEmail(currentUser, email);
 }
 
-//! Update user email Query
+//: Update user email Query
 export function useUpdateUserEmail() {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -238,7 +238,7 @@ export function useUpdateUserEmail() {
     return { mutateAsync, isPending };
 }
 
-//! Update user password
+//: Update user password
 export async function updateUserPassword({
     currentUser,
     password,
@@ -252,7 +252,7 @@ export async function updateUserPassword({
     await updatePassword(currentUser, newPassword);
 }
 
-//! Update user password Query
+//: Update user password Query
 export function useUpdateUserPassword() {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({

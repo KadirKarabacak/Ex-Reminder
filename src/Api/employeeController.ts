@@ -16,7 +16,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
 
-//! Get All Employees
+//: Get All Employees
 const getEmployees = async (userId: string | undefined) => {
     const querySnapShot = await getDocs(
         collection(db, `users/${userId}/employees`)
@@ -34,7 +34,7 @@ const getEmployees = async (userId: string | undefined) => {
     return employees;
 };
 
-//! Get All Employees Query
+//: Get All Employees Query
 export function useGetEmployees() {
     const { data, isLoading } = useQuery({
         queryKey: ["employees", auth?.currentUser?.uid],
@@ -43,7 +43,7 @@ export function useGetEmployees() {
     return { data, isLoading };
 }
 
-//! Add new employee
+//: Add new employee
 const addEmployee = async function (
     employee: object,
     userId: string | undefined
@@ -51,7 +51,7 @@ const addEmployee = async function (
     await addDoc(collection(db, `users/${userId}/employees`), employee);
 };
 
-//! Add new employee Query
+//: Add new employee Query
 export const useAddEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -69,7 +69,7 @@ export const useAddEmployee = function () {
     return { mutateAsync, isPending };
 };
 
-//! Update Employee
+//: Update Employee
 const updateEmployee = async function ({
     employee,
     id,
@@ -79,7 +79,7 @@ const updateEmployee = async function ({
     await updateDoc(ref, employee);
 };
 
-//! Update Employee Query
+//: Update Employee Query
 export const useUpdateEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
@@ -99,7 +99,7 @@ export const useUpdateEmployee = function () {
     return { mutateAsync, isPending };
 };
 
-//! Delete Employee
+//: Delete Employee
 const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
     const ref = doc(db, `users/${userId}/employees`, id);
     try {
@@ -111,7 +111,7 @@ const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
     }
 };
 
-//! Delete employee query
+//: Delete employee query
 export const useDeleteEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
