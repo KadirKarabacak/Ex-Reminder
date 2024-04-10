@@ -300,6 +300,10 @@ svg{
   fill: var(--color-green-new)!important;
 }
 
+.MuiBadge-badge{
+  font-size: 1rem!important;
+}
+
 `;
 
 export default GlobalStyles;
