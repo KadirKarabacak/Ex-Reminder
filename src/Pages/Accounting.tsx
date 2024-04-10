@@ -10,7 +10,6 @@ import { AccountingToolBar } from "../Components/TableToolBars/AccountingBar";
 import { InfinitySpin } from "react-loader-spinner";
 import Chart from "../Components/Chart";
 import AccountingDetails from "../Components/AccountingDetails";
-import { Grid } from "@mui/material";
 
 const StyledAccounting = styled.main`
     width: 100%;
@@ -39,6 +38,7 @@ export default function Accounting() {
     const animationProps = useSpring(springOptions);
     const [searchText, setSearchText] = useState("");
     const { data, isLoading } = useGetAccounting();
+    console.log(data);
 
     if (isLoading)
         return (
@@ -63,14 +63,10 @@ export default function Accounting() {
                 searchText={searchText}
             />
             {data?.length ? (
-                <Grid container spacing={2}>
-                    <Grid item xs={12} md={6}>
-                        <Chart data={data} />
-                    </Grid>
-                    <Grid item xs={12} md={6}>
-                        <AccountingDetails data={data} />
-                    </Grid>
-                </Grid>
+                <>
+                    <Chart data={data} />
+                    <AccountingDetails data={data} />
+                </>
             ) : null}
         </AnimatedStyledAccounting>
     );
