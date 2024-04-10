@@ -224,6 +224,7 @@ export interface Sales {
     saleGuaranteeTime: string;
     id?: string;
     saleId?: string | undefined;
+    totalSalePrice: number;
 }
 
 export interface UpdateAgreementTypes {
