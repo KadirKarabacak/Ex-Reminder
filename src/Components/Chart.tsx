@@ -89,13 +89,13 @@ export default function Chart({ data }: any) {
                   stroke: "var(--color-green-lighter)",
                   fill: "var(--color-green-lighter)",
               },
-              text: "var(--color-grey-700)",
+              text: "var(--color-grey-600)",
               background: "var(--color-grey-100)",
           }
         : {
               sales: { stroke: "#4f46e5", fill: "#c7d2fe" },
               profit: { stroke: "#16a34a", fill: "#dcfce7" },
-              text: "var(--color-grey-700)",
+              text: "var(--color-grey-600)",
               background: "var(--color-grey-100)",
           };
 
@@ -105,7 +105,6 @@ export default function Chart({ data }: any) {
                 width: "100%",
                 display: "flex",
                 justifyContent: "center",
-                paddingTop: "2rem",
             }}
         >
             <Paper
