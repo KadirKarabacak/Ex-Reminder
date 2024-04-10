@@ -23,7 +23,7 @@ import {
     parseDateFromString,
 } from "../../../Utils/utils";
 import toast from "react-hot-toast";
-import { useUpdateAgreement } from "../../../Api/companyController";
+import { useUpdateAgreement } from "../../../Api/agreementController";
 import { auth } from "../../../Api/firebase";
 
 const StyledBox = styled(Box)`

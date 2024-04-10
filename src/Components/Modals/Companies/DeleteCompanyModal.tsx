@@ -4,10 +4,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { EditCompanyModalTypes } from "../../../Interfaces/User";
 import { auth } from "../../../Api/firebase";
-import {
-    useDeleteCompany,
-    useGetAgreements,
-} from "../../../Api/companyController";
+import { useDeleteCompany } from "../../../Api/companyController";
+import { useGetAgreements } from "../../../Api/agreementController";
 import { remainingTime } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`

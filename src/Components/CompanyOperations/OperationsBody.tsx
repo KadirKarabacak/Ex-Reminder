@@ -1,7 +1,8 @@
 import { Button, Divider, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { useGetAgreements, useGetSales } from "../../Api/companyController";
+import { useGetSales } from "../../Api/saleController";
+import { useGetAgreements } from "../../Api/agreementController";
 import { useEffect, useState } from "react";
 import { Reorder } from "framer-motion";
 import { InfinitySpin } from "react-loader-spinner";

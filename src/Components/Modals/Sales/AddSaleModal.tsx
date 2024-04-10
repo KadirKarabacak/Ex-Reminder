@@ -16,7 +16,8 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import React, { useEffect, useState } from "react";
 import { useGetWarehouse } from "../../../Api/warehouseController";
-import { useAddSale, useGetCompanies } from "../../../Api/companyController";
+import { useGetCompanies } from "../../../Api/companyController";
+import { useAddSale } from "../../../Api/saleController";
 import { calcGuaranteeExpireDate, formatDate } from "../../../Utils/utils";
 import i18n from "../../../i18n";
 

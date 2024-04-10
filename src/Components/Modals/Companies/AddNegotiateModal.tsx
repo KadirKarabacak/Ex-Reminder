@@ -21,10 +21,8 @@ import {
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import { DateTimePicker } from "@mui/x-date-pickers";
-import {
-    useAddNegotiate,
-    useGetCompanies,
-} from "../../../Api/companyController";
+import { useGetCompanies } from "../../../Api/companyController";
+import { useAddNegotiate } from "../../../Api/negotiateController";
 import { auth } from "../../../Api/firebase";
 import i18n from "../../../i18n";
 import { add } from "date-fns";

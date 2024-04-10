@@ -3,7 +3,10 @@ import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
 import ProtectedRoute from "./ProtectedRoute";
-import { useGetNegotiates, useUpdateNegotiate } from "../Api/companyController";
+import {
+    useGetNegotiates,
+    useUpdateNegotiate,
+} from "../Api/negotiateController";
 import { auth } from "../Api/firebase";
 import { differenceInMinutes, isBefore } from "date-fns";
 import { useEffect, useState } from "react";

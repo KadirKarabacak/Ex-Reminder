@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { auth } from "../../../Api/firebase";
-import { useDeleteAgreement } from "../../../Api/companyController";
+import { useDeleteAgreement } from "../../../Api/agreementController";
 import { Agreements, Companies } from "../../../Interfaces/User";
 import { remainingTime } from "../../../Utils/utils";
 

@@ -16,7 +16,7 @@ import React, { useState } from "react";
 // import { MuiTelInput } from "mui-tel-input";
 import { add, isBefore, min } from "date-fns";
 import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
-import { useAddAgreement } from "../../../Api/companyController";
+import { useAddAgreement } from "../../../Api/agreementController";
 import { formatCurrency, formatDate } from "../../../Utils/utils";
 import toast from "react-hot-toast";
 import { auth } from "../../../Api/firebase";

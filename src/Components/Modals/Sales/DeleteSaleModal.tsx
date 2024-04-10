@@ -13,7 +13,7 @@ import styled from "styled-components";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { EditEmployeeModalTypes } from "../../../Interfaces/User";
-import { useDeleteSales } from "../../../Api/companyController";
+import { useDeleteSales } from "../../../Api/saleController";
 import { auth } from "../../../Api/firebase";
 import { useGetAccounting } from "../../../Api/accountingController";
 import i18n from "../../../i18n";
