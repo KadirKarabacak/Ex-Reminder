@@ -20,6 +20,7 @@ import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
+import Badge from "@mui/material/Badge";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -210,22 +211,24 @@ function Header() {
                     </StyledFormControl>
                 </StyledListItem>
                 <StyledListItem>
-                    <Tooltip
-                        TransitionComponent={Zoom}
-                        title={t("Notifications")}
-                    >
-                        <StyledButton
-                            sx={{
-                                fontSize: "2rem",
-                                minWidth: 0,
-                                p: "0.7rem",
-                            }}
-                            color="inherit"
-                            variant="text"
+                    <Badge badgeContent={1} color="success">
+                        <Tooltip
+                            TransitionComponent={Zoom}
+                            title={t("Notifications")}
                         >
-                            <NotificationsIcon sx={iconStyle} />
-                        </StyledButton>
-                    </Tooltip>
+                            <StyledButton
+                                sx={{
+                                    fontSize: "2rem",
+                                    minWidth: 0,
+                                    p: "0.7rem",
+                                }}
+                                color="inherit"
+                                variant="text"
+                            >
+                                <NotificationsIcon sx={iconStyle} />
+                            </StyledButton>
+                        </Tooltip>
+                    </Badge>
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip
