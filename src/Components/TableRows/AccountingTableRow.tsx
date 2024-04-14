@@ -1,4 +1,4 @@
-import { Checkbox, TableCell, TableRow } from "@mui/material";
+import { Checkbox, Chip, TableCell, TableRow } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
 import { formatCurrency } from "../../Utils/utils";
@@ -57,7 +57,11 @@ export default function AccountingTableRow({
                 {row.saleCreatedAt || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row?.saleItemName || "-"}
+                <Chip
+                    sx={{ fontSize: "1.2rem" }}
+                    label={row?.saleItemName || "-"}
+                    color="success"
+                />
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {formatCurrency(row.saleItemPrice) || "-"}
