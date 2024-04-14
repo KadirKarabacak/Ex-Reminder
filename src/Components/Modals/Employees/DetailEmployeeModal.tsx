@@ -12,7 +12,6 @@ import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 import { formatCurrency } from "../../../Utils/utils";
 import { EditEmployeeModalTypes } from "../../../Interfaces/User";
-import ExportButton from "../../ExportButton";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -61,32 +60,6 @@ export default function DetailEmployeeModal({
     function onCloseModal() {
         handleClose(open);
     }
-
-    const data = [{ ...row }];
-
-    const ExcelData = data.map(value => {
-        return {
-            full_name: value?.full_name,
-            job_title: value?.job_title,
-            department: value?.department,
-            email: value?.email,
-            age: value?.age,
-            salary: value?.salary,
-            hire_date: value?.hire_date,
-        };
-    });
-
-    const PdfBody = data.map(value => {
-        return [
-            value?.full_name,
-            value?.job_title,
-            value?.department,
-            value?.email,
-            value?.age,
-            value?.salary,
-            value?.hire_date,
-        ];
-    });
 
     return (
         <Modal
@@ -191,56 +164,6 @@ export default function DetailEmployeeModal({
                     </Grid>
 
                     <StyledButtonContainer>
-                        <ExportButton
-                            title={t("Employee Details")}
-                            excel={{
-                                headers: [
-                                    {
-                                        label: t("Full Name"),
-                                        key: "full_name",
-                                    },
-                                    {
-                                        label: t("Job Title"),
-                                        key: "job_title",
-                                    },
-                                    {
-                                        label: t("Department"),
-                                        key: "department",
-                                    },
-                                    {
-                                        label: t("Email"),
-                                        key: "email",
-                                    },
-                                    {
-                                        label: t("Age"),
-                                        key: "age",
-                                    },
-                                    {
-                                        label: t("Salary"),
-                                        key: "salary",
-                                    },
-                                    {
-                                        label: t("Hire Date"),
-                                        key: "hire_date",
-                                    },
-                                ],
-                                data: ExcelData,
-                            }}
-                            pdf={{
-                                head: [
-                                    [
-                                        t("Full Name"),
-                                        t("Job Title"),
-                                        t("Department"),
-                                        t("Email"),
-                                        t("Age"),
-                                        t("Salary"),
-                                        t("Hire Date"),
-                                    ],
-                                ],
-                                body: PdfBody,
-                            }}
-                        />{" "}
                         <Button
                             onClick={onCloseModal}
                             sx={{
