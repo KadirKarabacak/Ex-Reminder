@@ -6,6 +6,8 @@ import AddCompanyModal from "../Modals/Companies/AddCompanyModal";
 import AddSaleModal from "../Modals/Sales/AddSaleModal";
 import SearchInput from "../SearchInput";
 import { useSearchParams } from "react-router-dom";
+import ExportButton from "../ExportButton";
+import { Companies } from "../../Interfaces/User";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -15,9 +17,11 @@ const StyledToolBar = styled(Toolbar)`
 export function CompaniesToolBar({
     searchText,
     setSearchText,
+    data,
 }: {
     searchText: any;
     setSearchText: any;
+    data: any;
 }) {
     const { t } = useTranslation();
     const [open, setOpen] = useState(false);
@@ -35,6 +39,30 @@ export function CompaniesToolBar({
             setSearchParams("");
         }, 350);
     };
+    console.log(data);
+
+    const ExcelData = data?.map((value: Companies) => {
+        return {
+            companyName: value?.companyName || t("-"),
+            companyAddress:
+                `${value?.companyAddress.province} / ${value.companyAddress.district} / ${value.companyAddress.neighbourhood}` ||
+                t("-"),
+            companyPhone: value?.companyPhone || t("-"),
+            companyEmail: value?.companyEmail || t("-"),
+            managerName: value?.companyManager.managerName || t("-"),
+        };
+    });
+
+    const PdfBody = data?.map((value: Companies) => {
+        return [
+            value?.companyName || t("-"),
+            `${value?.companyAddress.province} / ${value.companyAddress.district} / ${value.companyAddress.neighbourhood}` ||
+                t("-"),
+            value?.companyPhone || t("-"),
+            value?.companyEmail || t("-"),
+            value?.companyManager.managerName || t("-"),
+        ];
+    });
 
     return (
         <>
@@ -62,6 +90,46 @@ export function CompaniesToolBar({
                     searchText={searchText}
                     setSearchText={setSearchText}
                     label={t("Search Company by Name")}
+                />
+                <ExportButton
+                    title={t("Companies")}
+                    excel={{
+                        headers: [
+                            {
+                                label: t("Company Name"),
+                                key: "companyName",
+                            },
+                            {
+                                label: t("Company Address"),
+                                key: "companyAddress",
+                            },
+                            {
+                                label: t("Company Phone"),
+                                key: "companyPhone",
+                            },
+                            {
+                                label: t("Email"),
+                                key: "companyEmail",
+                            },
+                            {
+                                label: t("Manager Name"),
+                                key: "managerName",
+                            },
+                        ],
+                        data: ExcelData,
+                    }}
+                    pdf={{
+                        head: [
+                            [
+                                t("Company Name"),
+                                t("Company Address"),
+                                t("Company Phone"),
+                                t("Email"),
+                                t("Manager Name"),
+                            ],
+                        ],
+                        body: PdfBody,
+                    }}
                 />
                 <Button
                     onClick={handleOpen}
