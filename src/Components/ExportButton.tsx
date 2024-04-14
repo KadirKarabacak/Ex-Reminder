@@ -45,7 +45,7 @@ function ExportButton(props: Props) {
         const size = "A4";
         const orientation = "portrait";
 
-        const marginLeft = 40;
+        const margin = 40;
         const doc = new jsPDF(orientation, unit, size);
 
         doc.addFileToVFS("Amiri-Regular.ttf", myFontForPdf());
@@ -55,7 +55,7 @@ function ExportButton(props: Props) {
 
         const { title } = props;
 
-        doc.text(title, marginLeft, 40);
+        doc.text(title, margin, 40);
         autoTable(doc, {
             head: props.pdf.head as any,
             body: props.pdf.body,
@@ -72,7 +72,6 @@ function ExportButton(props: Props) {
             <Button
                 onClick={handleClick}
                 variant="contained"
-                color="primary"
                 endIcon={
                     !open ? (
                         <ExpandMore sx={{ color: "var(--color-grey-100)" }} />
@@ -81,8 +80,8 @@ function ExportButton(props: Props) {
                     )
                 }
                 sx={{
+                    padding: "1rem 2rem",
                     fontSize: "1.1rem",
-                    fontWeight: "bold",
                     color: "var(--color-grey-100)",
                     backgroundColor: "var(--color-grey-800)",
                     transition: "all .3s",
@@ -119,9 +118,7 @@ function ExportButton(props: Props) {
                         onClick={() => {
                             exportPdf();
                             handleClose();
-                            toast.success(
-                                t("Document was successfully downloaded")
-                            );
+                            toast.success(t("PDF was successfully downloaded"));
                         }}
                         sx={{
                             color: "var(--color-brand-800)",
@@ -129,6 +126,9 @@ function ExportButton(props: Props) {
                             minWidth: "100px",
                             fontSize: "1.1rem",
                             fontWeight: "bold",
+                            ":hover": {
+                                borderColor: "var(--color-brand-500)",
+                            },
                         }}
                     >
                         PDF
@@ -151,7 +151,7 @@ function ExportButton(props: Props) {
                             onClick={() => {
                                 handleClose();
                                 toast.success(
-                                    t("Document was successfully downloaded")
+                                    t("Excel table was successfully downloaded")
                                 );
                             }}
                             sx={{
@@ -160,6 +160,9 @@ function ExportButton(props: Props) {
                                 minWidth: "100px",
                                 fontSize: "1.1rem",
                                 fontWeight: "bold",
+                                ":hover": {
+                                    borderColor: "#4CAF50",
+                                },
                             }}
                         >
                             Excel
