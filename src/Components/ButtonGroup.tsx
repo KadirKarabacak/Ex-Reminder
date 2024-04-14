@@ -221,6 +221,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             setSearchParams("");
         }, 400);
     };
+
     const handleOpenDeleteSaleModal = () => {
         setOpensDeleteSale(true);
         handleClose();
@@ -366,10 +367,6 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
 
                 {tableName === "sales" && (
                     <div>
-                        <MenuItem disableRipple>
-                            <EditIcon />
-                            {t("Edit")}
-                        </MenuItem>
                         <MenuItem
                             onClick={handleOpenDeleteSaleModal}
                             disableRipple
@@ -381,10 +378,6 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                 )}
                 {tableName === "accounting" && (
                     <div>
-                        <MenuItem disableRipple>
-                            <EditIcon />
-                            {t("Edit")}
-                        </MenuItem>
                         <MenuItem disableRipple>
                             <DeleteOutline />
                             {t("Delete")}
@@ -477,6 +470,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     currentCompany={row}
                 />
             )}
+
             {searchParams.has("delete-sale") && (
                 <DeleteSaleModal
                     id={row.id}
