@@ -183,6 +183,12 @@ export default function EditItemModal({
                                     label={t("Item Amount")}
                                     {...register("itemAmount", {
                                         required: t("Item Amount is required"),
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item Amount must be greater than zero"
+                                            ),
+                                        },
                                     })}
                                     type="number"
                                     error={Boolean(errors?.itemAmount)}
@@ -201,8 +207,23 @@ export default function EditItemModal({
                                     defaultValue={row?.itemSalePrice || ""}
                                     disabled={isUpdating}
                                     label={t("Item Sale Price")}
-                                    {...register("itemSalePrice")}
+                                    {...register("itemSalePrice", {
+                                        required: t(
+                                            "Item sale price is required"
+                                        ),
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item sale price must be minimum 1"
+                                            ),
+                                        },
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemSalePrice)}
+                                    helperText={
+                                        (errors?.itemSalePrice
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={6}>
@@ -214,8 +235,20 @@ export default function EditItemModal({
                                     disabled={isUpdating}
                                     defaultValue={row?.itemPurchasePrice || ""}
                                     label={t("Item Purchase Price")}
-                                    {...register("itemPurchasePrice")}
+                                    {...register("itemPurchasePrice", {
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item purchase price must be minimum 1"
+                                            ),
+                                        },
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemPurchasePrice)}
+                                    helperText={
+                                        (errors?.itemPurchasePrice
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={12}>
