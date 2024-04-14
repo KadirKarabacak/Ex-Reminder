@@ -235,14 +235,6 @@ svg{
   color: var(--color-brand-500)!important;
 }
 
-
-.Mui-disabled{
-  background-color: var(--color-grey-200)!important;
-  color: var(--color-grey-400)!important;
-  cursor: not-allowed;
-  -webkit-text-fill-color: var(--color-grey-400)!important;
-}
-
 .MuiPickersArrowSwitcher-root .MuiButtonBase-root .MuiSvgIcon-root{
   color: #101010!important;
 }
