@@ -2,6 +2,9 @@ import { Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import SearchInput from "../SearchInput";
+import { Sales } from "../../Interfaces/User";
+import { formatCurrency } from "../../Utils/utils";
+import ExportButton from "../ExportButton";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -18,18 +21,35 @@ export function SalesToolBar({
     searchText,
     setSearchText,
     currentCompany,
+    data,
 }: {
     searchText: any;
     setSearchText: any;
     currentCompany: any;
+    data: Sales[];
 }) {
     const { t } = useTranslation();
-    // const [open, setOpen] = useState(false);
-    // const [openMakeSale, setOpenMakeSale] = useState(false);
-    // const handleOpen = () => setOpen(true);
-    // const handleClose = () => setOpen(false);
-    // const handleOpenMakeSale = () => setOpenMakeSale(true);
-    // const handleCloseMakeSale = () => setOpenMakeSale(false);
+    console.log(data);
+
+    const ExcelData = data.map((value: Sales) => {
+        return {
+            saleCreatedAt: value?.saleCreatedAt || t("-"),
+            saleItemName: value?.saleItemName || t("-"),
+            saleItemAmount: value?.saleItemAmount || t("-"),
+            saleItemPrice: formatCurrency(value?.saleItemPrice),
+            saleDescription: value?.saleDescription || t("-"),
+        };
+    });
+
+    const PdfBody = data.map((value: Sales) => {
+        return [
+            value?.saleCreatedAt || t("-"),
+            value?.saleItemName || t("-"),
+            value?.saleItemAmount || t("-"),
+            formatCurrency(value?.saleItemPrice),
+            value?.saleDescription || t("-"),
+        ];
+    });
 
     return (
         <>
@@ -59,61 +79,47 @@ export function SalesToolBar({
                     setSearchText={setSearchText}
                     label={t("Search Sale by Date")}
                 />
-                {/* <Button
-                    onClick={handleOpen}
-                    sx={{
-                        backgroundColor: "var(--color-grey-800)",
-                        color: "var(--color-grey-50)",
-                        transition: "all .3s",
-                        padding: "1rem 2rem",
-                        fontSize: "1.1rem",
-                        alignSelf: "center",
-                        "&:hover": {
-                            backgroundColor: "var(--color-grey-600)",
-                            color: "var(--color-grey-100)",
-                            transform: "translateY(-2px)",
-                        },
-                        "&:active": {
-                            transform: "translateY(0)",
-                        },
-                        "&:disabled": {
-                            backgroundColor: "var(--color-grey-500)",
-                        },
+                <ExportButton
+                    title={t("Sales") + ` ${currentCompany.companyName}`}
+                    excel={{
+                        headers: [
+                            {
+                                label: t("Sale Date"),
+                                key: "saleCreatedAt",
+                            },
+                            {
+                                label: t("Sale Item"),
+                                key: "saleItemName",
+                            },
+                            {
+                                label: t("Item Amount"),
+                                key: "saleItemAmount",
+                            },
+                            {
+                                label: t("Item Price"),
+                                key: "saleItemPrice",
+                            },
+                            {
+                                label: t("Sale Description"),
+                                key: "saleDescription",
+                            },
+                        ],
+                        data: ExcelData,
                     }}
-                    variant="contained"
-                >
-                    {t("Add Company")}
-                </Button> */}
-                {/* <Button
-                    onClick={handleOpenMakeSale}
-                    sx={{
-                        backgroundColor: "var(--color-green-lighter)",
-                        color: "white",
-                        transition: "all .3s",
-                        padding: "1rem 2rem",
-                        fontSize: "1.1rem",
-                        alignSelf: "center",
-                        "&:hover": {
-                            backgroundColor: "var(--color-green-new)",
-                            transform: "translateY(-2px)",
-                        },
-                        "&:active": {
-                            transform: "translateY(0)",
-                        },
-                        "&:disabled": {
-                            backgroundColor: "var(--color-grey-500)",
-                        },
+                    pdf={{
+                        head: [
+                            [
+                                t("Sale Date"),
+                                t("Sale Item"),
+                                t("Item Amount"),
+                                t("Item Price"),
+                                t("Sale Description"),
+                            ],
+                        ],
+                        body: PdfBody,
                     }}
-                    variant="contained"
-                >
-                    {t("Make Sale")}
-                </Button> */}
+                />
             </StyledToolBar>
-            {/* <AddCompanyModal handleClose={handleClose} open={open} />
-            <AddSaleModal
-                handleClose={handleCloseMakeSale}
-                open={openMakeSale}
-            /> */}
         </>
     );
 }
