@@ -485,18 +485,10 @@ export default function AddSaleModal({
                                 <StyledTextField
                                     disabled={isAdding}
                                     placeholder={t("Sale Description")}
-                                    // defaultValue={
-                                    //     t(
-                                    //         `Sell Item (Item Name)x (Item Amount) to (Company) at `
-                                    //     ) +
-                                    //     " " +
-                                    //     `${formatDate(new Date())}`
-                                    // }
                                     value={saleDescription}
                                     onChange={e =>
                                         setSaleDescription(e.target.value)
                                     }
-                                    // {...register("saleDescription")}
                                 />
                             </Grid>
                         </Grid>
