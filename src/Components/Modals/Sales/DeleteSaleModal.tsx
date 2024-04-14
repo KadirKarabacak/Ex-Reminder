@@ -168,8 +168,10 @@ export default function DeleteSaleModal({
                                 <StyledSpan>
                                     {row.saleCreatedAt}
                                 </StyledSpan>{" "}
-                                tarihli{" "}
-                                <StyledSpan>{row.saleCompanyName}</StyledSpan>{" "}
+                                tarihli
+                                <StyledSpan>
+                                    {row.saleCompanyName}
+                                </StyledSpan>{" "}
                                 şirketine yapılan satışı silmek istediğinize
                                 emin misiniz? Silme işleminin satış kaydını
                                 muhasebe tablosundan da silmesini istemiyorsanız
