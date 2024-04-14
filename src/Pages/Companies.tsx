@@ -91,6 +91,7 @@ export default function Companies() {
                     <CustomTable
                         CustomToolbar={
                             <CompaniesToolBar
+                                data={data}
                                 searchText={searchText}
                                 setSearchText={setSearchText}
                             />

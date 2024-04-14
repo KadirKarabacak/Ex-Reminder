@@ -53,6 +53,7 @@ export default function Warehouse() {
                 data={data}
                 CustomToolbar={
                     <WarehouseToolBar
+                        data={data}
                         searchText={searchText}
                         setSearchText={setSearchText}
                     />

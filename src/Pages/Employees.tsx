@@ -63,6 +63,7 @@ export default function Employees() {
                     <EmployeeToolBar
                         setSearchText={setSearchText}
                         searchText={searchText}
+                        data={data}
                     />
                 }
                 data={data}
