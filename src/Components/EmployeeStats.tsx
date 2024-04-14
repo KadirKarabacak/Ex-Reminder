@@ -3,16 +3,15 @@ import styled from "styled-components";
 import { formatCurrency } from "../Utils/utils";
 import { Employee } from "../Interfaces/User";
 import { useTranslation } from "react-i18next";
+import { useDarkMode } from "../Contexts/DarkModeContext";
 
 const Stats = styled.div`
     width: 100%;
     background-color: var(--color-grey-100);
     border: 1px solid var(--color-grey-100);
     border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
-
     padding: 2.4rem 3.2rem;
 `;
 
@@ -34,6 +33,7 @@ export default function EmployeeStats({
     data: Employee[] | undefined;
 }) {
     const { t } = useTranslation();
+    const { isDarkMode } = useDarkMode();
     const totalEmployee = data?.length;
     const totalSalary = data?.reduce((acc, employee) => {
         return acc + +employee.salary;
@@ -47,7 +47,11 @@ export default function EmployeeStats({
     const averageAge = totalAge && (totalAge / (totalEmployee || 1)).toFixed();
 
     return (
-        <Stats>
+        <Stats
+            style={{
+                boxShadow: isDarkMode ? "var(--shadow-md)" : "var(--shadow-lg)",
+            }}
+        >
             <Typography
                 id="transition-modal-title"
                 variant="h3"
