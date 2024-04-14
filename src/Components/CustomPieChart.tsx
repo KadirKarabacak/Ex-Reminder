@@ -19,12 +19,9 @@ const ChartBox = styled.div`
     background-color: var(--color-grey-100);
     border: 1px solid var(--color-grey-100);
     border-radius: var(--border-radius-md);
-    box-shadow: var(--shadow-md);
     display: flex;
     flex-direction: column;
-
     padding: 2rem 3rem;
-
     & .recharts-pie-label-text {
         font-weight: 600;
     }
@@ -83,7 +80,11 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
     const jobs = transformData(jobTitles);
 
     return (
-        <ChartBox>
+        <ChartBox
+            style={{
+                boxShadow: isDarkMode ? "var(--shadow-md)" : "var(--shadow-lg)",
+            }}
+        >
             <Typography
                 id="transition-modal-title"
                 variant="h3"
