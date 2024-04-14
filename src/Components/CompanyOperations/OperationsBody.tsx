@@ -275,6 +275,7 @@ export default function OperationsBody({
                             data={sales}
                             CustomToolbar={
                                 <SalesToolBar
+                                    data={sales}
                                     currentCompany={currentCompany}
                                     searchText={searchText}
                                     setSearchText={setSearchText}
