@@ -32,7 +32,7 @@ export function formatDateAndTime(dateString: any = new Date()) {
     return formattedDate.replaceAll(",", "");
 }
 
-export function formatCurrency(value: string | number) {
+export function formatCurrency(value: any) {
     return new Intl.NumberFormat("tr", {
         style: "currency",
         currency: "TRY",
