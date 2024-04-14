@@ -49,6 +49,15 @@ const TableHeadStyles = {
     },
 };
 
+const StyledTableSortLabel = styled(TableSortLabel)`
+    &:disabled {
+        color: var(--color-grey-800) !important;
+        cursor: not-allowed;
+        -webkit-text-fill-color: var(--color-grey-800) !important;
+        background-color: transparent !important;
+    }
+`;
+
 export function CompanyTableHead(props: EnhancedTableProps) {
     const { i18n } = useTranslation();
     const currentLanguage = i18n.language;
@@ -110,18 +119,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                     ? tableHeadsEng?.map((col, i) => {
                           if (typeof col === "string") {
                               return (
-                                  <TableCell
-                                      key={i}
-                                      sx={{
-                                          color: "var(--color-grey-800)",
-                                          fontSize: "1.2rem",
-                                          fontWeight: "bold",
-                                          textAlign: "left",
-                                          lineHeight: "1.1",
-                                          borderBottom:
-                                              "1px solid var(--color-grey-200)",
-                                      }}
-                                  >
+                                  <TableCell key={i} sx={TableCellStyles}>
                                       {col}
                                   </TableCell>
                               );
@@ -148,7 +146,11 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                                               "1px solid var(--color-grey-200)",
                                       }}
                                   >
-                                      <TableSortLabel
+                                      <StyledTableSortLabel
+                                          disabled={col.key !== "companyName"}
+                                          hideSortIcon={
+                                              col.key !== "companyName"
+                                          }
                                           active={orderBy === col.key}
                                           direction={
                                               orderBy === col.key
@@ -171,7 +173,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                                                       : "sorted_ascending"}
                                               </StyledBox>
                                           ) : null}
-                                      </TableSortLabel>
+                                      </StyledTableSortLabel>
                                   </TableCell>
                               );
                           }
@@ -179,18 +181,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                     : tableHeadsTr?.map((col, i) => {
                           if (typeof col === "string") {
                               return (
-                                  <TableCell
-                                      key={i}
-                                      sx={{
-                                          color: "var(--color-grey-800)",
-                                          fontSize: "1.2rem",
-                                          fontWeight: "bold",
-                                          textAlign: "left",
-                                          lineHeight: "1.1",
-                                          borderBottom:
-                                              "1px solid var(--color-grey-200)",
-                                      }}
-                                  >
+                                  <TableCell key={i} sx={TableCellStyles}>
                                       {col}
                                   </TableCell>
                               );
@@ -206,18 +197,10 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                                       sortDirection={
                                           orderBy === col.key ? order : false
                                       }
-                                      sx={{
-                                          color: "var(--color-grey-800)",
-                                          fontSize: "1.2rem",
-                                          fontWeight: "bold",
-                                          textAlign: "left",
-                                          lineHeight: "1.1",
-                                          minWidth: "10rem",
-                                          borderBottom:
-                                              "1px solid var(--color-grey-200)",
-                                      }}
+                                      sx={TableCellStyles}
                                   >
-                                      <TableSortLabel
+                                      <StyledTableSortLabel
+                                          disabled={col.key !== "companyName"}
                                           active={orderBy === col.key}
                                           direction={
                                               orderBy === col.key
@@ -240,7 +223,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
                                                       : "sorted_ascending"}
                                               </StyledBox>
                                           ) : null}
-                                      </TableSortLabel>
+                                      </StyledTableSortLabel>
                                   </TableCell>
                               );
                           }
