@@ -164,6 +164,12 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                                     placeholder={t("Item Amount")}
                                     {...register("itemAmount", {
                                         required: t("Item Amount is required"),
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item Amount must be greater than zero"
+                                            ),
+                                        },
                                     })}
                                     type="number"
                                     error={Boolean(errors?.itemAmount)}
@@ -206,8 +212,20 @@ export default function AddItemModal({ open, handleClose }: ModalTypes) {
                                 <StyledTextField
                                     disabled={isAdding}
                                     placeholder={t("Item Purchase Price")}
-                                    {...register("itemPurchasePrice")}
+                                    {...register("itemPurchasePrice", {
+                                        min: {
+                                            value: 1,
+                                            message: t(
+                                                "Item purchase price must be minimum 1"
+                                            ),
+                                        },
+                                    })}
                                     type="number"
+                                    error={Boolean(errors?.itemPurchasePrice)}
+                                    helperText={
+                                        (errors?.itemPurchasePrice
+                                            ?.message as React.ReactNode) || ""
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={12}>
