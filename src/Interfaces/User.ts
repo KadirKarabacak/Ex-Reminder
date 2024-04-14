@@ -35,7 +35,7 @@ export interface ModalTypes {
 }
 
 export interface Employee {
-    first_name: string;
+    full_name: string;
     age: number;
     department: string;
     email: string;
