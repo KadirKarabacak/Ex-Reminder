@@ -39,7 +39,6 @@ export function CompaniesToolBar({
             setSearchParams("");
         }, 350);
     };
-    console.log(data);
 
     const ExcelData = data?.map((value: Companies) => {
         return {
