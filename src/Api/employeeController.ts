@@ -10,11 +10,13 @@ import { auth, db } from "./firebase";
 import {
     DeleteEmployeeTypes,
     Employee,
+    EmployeeData,
     UpdateEmployeeTypes,
 } from "../Interfaces/User";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
+import { addNotification } from "./notificationController";
 
 //: Get All Employees
 const getEmployees = async (userId: string | undefined) => {
@@ -45,19 +47,27 @@ export function useGetEmployees() {
 
 //: Add new employee
 const addEmployee = async function (
-    employee: object,
+    employee: EmployeeData,
     userId: string | undefined
 ) {
     await addDoc(collection(db, `users/${userId}/employees`), employee);
+    return employee;
 };
 
 //: Add new employee Query
 export const useAddEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: (employee: object) =>
+        mutationFn: (employee: EmployeeData) =>
             addEmployee(employee, auth?.currentUser?.uid),
-        onSuccess: () => {
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data,
+                    event: "Add Employee",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("New Employee added successfully"));
             queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
@@ -76,7 +86,8 @@ const updateEmployee = async function ({
     userId,
 }: UpdateEmployeeTypes) {
     const ref = doc(db, `users/${userId}/employees`, id);
-    await updateDoc(ref, employee);
+    const updatedEmployee = { ...employee };
+    await updateDoc(ref, updatedEmployee);
 };
 
 //: Update Employee Query
@@ -85,9 +96,16 @@ export const useUpdateEmployee = function () {
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateEmployeeTypes) => {
             await updateEmployee(variables);
-            return;
+            return variables;
         },
-        onSuccess: () => {
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data,
+                    event: "Update Employee",
+                },
+                data.userId
+            );
             toast.success(i18n.t("Employee successfully edited"));
             queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
@@ -100,11 +118,15 @@ export const useUpdateEmployee = function () {
 };
 
 //: Delete Employee
-const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
+const deleteEmployee = async function ({
+    id,
+    userId,
+    row,
+}: DeleteEmployeeTypes) {
     const ref = doc(db, `users/${userId}/employees`, id);
     try {
         await deleteDoc(ref);
-        return true;
+        return row;
     } catch (err) {
         console.error(err);
         return false;
@@ -115,9 +137,18 @@ const deleteEmployee = async function ({ id, userId }: DeleteEmployeeTypes) {
 export const useDeleteEmployee = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: DeleteEmployeeTypes) =>
-            await deleteEmployee(variables),
-        onSuccess: () => {
+        mutationFn: async (variables: DeleteEmployeeTypes) => {
+            await deleteEmployee(variables);
+            return variables;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data.row,
+                    event: "Delete Employee",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("Employee successfully deleted"));
             queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
