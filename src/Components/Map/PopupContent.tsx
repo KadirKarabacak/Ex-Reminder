@@ -2,6 +2,7 @@ import { Button, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 
 const StyledTitle = styled.span`
     font-size: 1.2rem;
@@ -100,6 +101,33 @@ export function PopupClickedContent({ findAddress }: { findAddress: any }) {
                     {findAddress.postcode || t("Not spesified")}
                 </StyledDescription>
             </Grid>
+        </Grid>
+    );
+}
+
+export function PopupLocationContent() {
+    const { t } = useTranslation();
+
+    return (
+        <Grid container spacing={1}>
+            <Grid
+                item
+                xs={12}
+                sx={{
+                    color: "var(--color-grey-800)",
+                    fontSize: "1.1rem",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: "5px",
+                }}
+            >
+                {t("You are here")} <ArrowDownwardIcon />
+            </Grid>
+            {/* <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid>
+            <Grid item xs={12}></Grid> */}
         </Grid>
     );
 }
