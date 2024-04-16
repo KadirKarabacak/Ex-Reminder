@@ -21,6 +21,10 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
+import {
+    NotificationTypes,
+    useGetNotifications,
+} from "../Api/notificationController";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -123,9 +127,11 @@ const iconStyle = {
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
+    // const [nots, setNots] = useState<NotificationTypes[]>();
     const { currentUser } = auth;
     const { t, i18n } = useTranslation();
     const { pathname } = useLocation();
+    const { data: notifications } = useGetNotifications();
 
     const handleChangeLang = (e: string) => {
         i18n.changeLanguage(e);
@@ -136,6 +142,10 @@ function Header() {
         setCurrentLanguage(i18n.language || "en-EN");
         i18n.changeLanguage(i18n.language);
     }, []);
+
+    // useEffect(() => {
+    //     if (notifications && notifications?.length > 0) setNots(notifications);
+    // }, [notifications?.length]);
 
     return (
         <StyledHeader
@@ -211,7 +221,7 @@ function Header() {
                     </StyledFormControl>
                 </StyledListItem>
                 <StyledListItem>
-                    <Badge badgeContent={1} color="success">
+                    <Badge badgeContent={notifications?.length} color="success">
                         <Tooltip
                             TransitionComponent={Zoom}
                             title={t("Notifications")}
