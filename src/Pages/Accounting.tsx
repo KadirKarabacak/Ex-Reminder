@@ -38,7 +38,6 @@ export default function Accounting() {
     const animationProps = useSpring(springOptions);
     const [searchText, setSearchText] = useState("");
     const { data, isLoading } = useGetAccounting();
-    console.log(data);
 
     if (isLoading)
         return (
