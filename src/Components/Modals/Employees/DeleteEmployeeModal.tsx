@@ -47,7 +47,7 @@ export default function DeleteEmployeeModal({
     const userId = currentUser?.uid;
 
     async function onSubmit() {
-        await deleteEmployee({ id, userId });
+        await deleteEmployee({ id, userId, row });
         onCloseModal();
     }
 
