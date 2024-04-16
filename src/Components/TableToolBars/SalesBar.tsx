@@ -66,7 +66,7 @@ export function SalesToolBar({
                         color: "var(--color-green-lighter)",
                         fontSize: "2.4rem",
                         fontWeight: "bold",
-                        borderBottom: "3px solid var(--color-green-new)",
+                        borderBottom: "3px solid var(--color-green-lihter)",
                     }}
                     variant="subtitle1"
                     component="div"

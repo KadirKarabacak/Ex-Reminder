@@ -8,7 +8,11 @@ import DetectClick from "./DetectClick";
 import MapPlaceholder from "./MapPlaceholder";
 import ChangeCenter from "./ChangeCenter";
 import { useGetCompanies } from "../../Api/companyController";
-import { PopupCompanyContent, PopupClickedContent } from "./PopupContent";
+import {
+    PopupCompanyContent,
+    PopupClickedContent,
+    PopupLocationContent,
+} from "./PopupContent";
 
 export const defaultCoords = {
     lat: 39.9333302,
@@ -67,7 +71,9 @@ export default function Map({
             />
             {position && !isLoading && (
                 <Marker position={mapPosition as LatLngExpression}>
-                    <Popup>You are here !</Popup>
+                    <Popup>
+                        <PopupLocationContent />
+                    </Popup>
                 </Marker>
             )}
             {clickedPosition && isAddressModal && findAddress && (

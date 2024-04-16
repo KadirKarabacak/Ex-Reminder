@@ -60,7 +60,7 @@ const StyledMenu = styledMui((props: MenuProps) => (
 const StyledHeader = styled.h2`
     color: var(--color-green-lighter);
     font-size: 2.4rem;
-    border-bottom: 3px solid var(--color-green-new);
+    border-bottom: 3px solid var(--color-green-lighter);
     align-self: flex-start;
     margin-left: 2rem;
     margin-bottom: 1rem;

@@ -80,8 +80,9 @@ function Sidebar() {
             />
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Map")}
+                title={t("Map holds your companies location pins")}
                 placement="right"
+                arrow={true}
             >
                 <StyledNavLink to="/">
                     <MapIcon sx={iconStyle} />
@@ -90,8 +91,9 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Accounting")}
+                title={t("Accounting displays your all sales")}
                 placement="right"
+                arrow={true}
             >
                 <StyledNavLink to="/accounting">
                     <AccountBalanceWalletIcon sx={iconStyle} />
@@ -100,8 +102,9 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Companies")}
+                title={t("Companies holds your companies list")}
                 placement="right"
+                arrow={true}
             >
                 <StyledNavLink to="/companies">
                     <BusinessIcon sx={iconStyle} />
@@ -110,8 +113,9 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Warehouse")}
+                title={t("Warehouse holds your items inventory")}
                 placement="right"
+                arrow={true}
             >
                 <StyledNavLink to="/warehouse">
                     <WarehouseOutlined sx={iconStyle} />
@@ -120,8 +124,9 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Employees")}
+                title={t("Employees holds your employee list and info")}
                 placement="right"
+                arrow={true}
             >
                 <StyledNavLink to="/employees">
                     <GroupIcon sx={iconStyle} />
@@ -130,8 +135,11 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Zoom}
-                title={t("Settings")}
+                title={t(
+                    "Settings allow you to update your login & display settings"
+                )}
                 placement="right"
+                arrow={true}
             >
                 <StyledNavLink to="/settings">
                     <SettingsIcon sx={iconStyle} />

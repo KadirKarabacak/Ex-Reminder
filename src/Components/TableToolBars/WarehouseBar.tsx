@@ -57,7 +57,7 @@ export function WarehouseToolBar({
                         color: "var(--color-green-lighter)",
                         fontSize: "2.4rem",
                         fontWeight: "bold",
-                        borderBottom: "3px solid var(--color-green-new)",
+                        borderBottom: "3px solid var(--color-green-lighter)",
                     }}
                     variant="subtitle1"
                     component="div"
