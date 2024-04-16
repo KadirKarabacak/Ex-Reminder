@@ -170,6 +170,7 @@ export default function EditEmployeeModal({
             age,
             salary,
             hire_date: date,
+            editedAt: formatDate(new Date()),
         };
         if (errorMessage) return toast.error("You must enter a valid date");
         await updateEmployee({ employee, id, userId });
