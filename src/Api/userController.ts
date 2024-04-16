@@ -25,6 +25,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
+import { addNotification } from "./notificationController";
 
 //: Login
 export const signInWithEmailAndPasswordQuery = async ({
@@ -77,6 +78,7 @@ export const createUserWithEmailAndPasswordQuery = async ({
                 email: user.email,
                 createdAt: new Date(),
             });
+
             return true;
         }
     } catch (error: any) {
@@ -115,11 +117,25 @@ const updateUser = async ({
         await updateProfile(currentUser, {
             photoURL: url,
         });
+        await addNotification(
+            {
+                contentObj: {},
+                event: "Update User Avatar",
+            },
+            currentUser.uid
+        );
     }
     if (displayName) {
         await updateProfile(currentUser, {
             displayName,
         });
+        await addNotification(
+            {
+                contentObj: {},
+                event: "Update User Name",
+            },
+            currentUser.uid
+        );
     }
 };
 
@@ -221,9 +237,24 @@ export function useUpdateUserEmail() {
         mutationFn: async (variables: UpdateUserEmailTypes) => {
             const { currentUser, email, password } = variables;
             await updateUserEmail(currentUser, email, password);
-            return;
+            return variables;
         },
-        onSuccess: () => {
+        onSuccess: data => {
+            console.log(data);
+            const {
+                email,
+                currentUser: { displayName },
+            } = data;
+            addNotification(
+                {
+                    contentObj: {
+                        email,
+                        displayName,
+                    },
+                    event: "Update User Email",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(
                 i18n.t("Your verification mail was sent successfully")
             );
@@ -258,9 +289,23 @@ export function useUpdateUserPassword() {
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateUserPasswordTypes) => {
             await updateUserPassword(variables);
-            return;
+            return variables;
         },
-        onSuccess: () => {
+        onSuccess: data => {
+            const {
+                currentUser: { displayName },
+                password,
+            } = data;
+            addNotification(
+                {
+                    contentObj: {
+                        password,
+                        displayName,
+                    },
+                    event: "Update User Password",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("Password successfully updated"));
             queryClient.invalidateQueries();
         },
