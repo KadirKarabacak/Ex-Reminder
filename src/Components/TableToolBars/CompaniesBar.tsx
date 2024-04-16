@@ -70,7 +70,7 @@ export function CompaniesToolBar({
                 sx={{
                     pl: { sm: 3 },
                     pr: { xs: 1, sm: 2 },
-                    gap: "1.5rem",
+                    gap: "0.8rem",
                 }}
             >
                 <Typography

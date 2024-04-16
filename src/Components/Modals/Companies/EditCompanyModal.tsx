@@ -316,6 +316,7 @@ export default function EditCompanyModal({
                                         {t("Company Phone")}
                                     </StyledTitle>
                                     <StyledTelInput
+                                        disabled={isPending}
                                         label={t("Company Phone")}
                                         variant="filled"
                                         preferredCountries={["TR", "GB"]}
@@ -392,6 +393,7 @@ export default function EditCompanyModal({
                                         {t("Manager Phone")}
                                     </StyledTitle>
                                     <StyledTelInput
+                                        disabled={isPending}
                                         label={t("Manager Phone")}
                                         variant="filled"
                                         preferredCountries={["TR", "GB"]}
@@ -455,6 +457,9 @@ export default function EditCompanyModal({
                                         "&:active": {
                                             transform: "translateY(0)",
                                         },
+                                        "&.Mui-disabled": {
+                                            background: "var(--color-grey-400)",
+                                        },
                                     }}
                                     type="submit"
                                     variant="contained"
@@ -484,6 +489,9 @@ export default function EditCompanyModal({
                                         },
                                         "&:active": {
                                             transform: "translateY(0)",
+                                        },
+                                        "&.Mui-disabled": {
+                                            background: "var(--color-grey-400)",
                                         },
                                     }}
                                     variant="outlined"

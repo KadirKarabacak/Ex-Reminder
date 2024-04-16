@@ -78,8 +78,10 @@ const StyledSelect = styled(Select)`
             border-color: var(--color-brand-600) !important;
         }
 
-        &:disabled {
-            background-color: transparent !important;
+        & > .Mui-disabled {
+            background: var(--color-grey-200);
+            color: var(--color-grey-600);
+            -webkit-text-fill-color: var(--color-grey-500);
             cursor: not-allowed;
         }
     }
@@ -510,6 +512,9 @@ export default function AddSaleModal({
                                     "&:active": {
                                         transform: "translateY(0)",
                                     },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
+                                    },
                                 }}
                                 type="submit"
                                 variant="contained"
@@ -535,6 +540,9 @@ export default function AddSaleModal({
                                     },
                                     "&:active": {
                                         transform: "translateY(0)",
+                                    },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
                                     },
                                 }}
                                 variant="outlined"

@@ -323,6 +323,11 @@ export default function AddAgreementModal({
                                     "&:active": {
                                         transform: "translateY(0)",
                                     },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
+                                        WebkitTextFillColor:
+                                            "var(--color-grey-500)",
+                                    },
                                 }}
                                 type="submit"
                                 variant="contained"
@@ -348,6 +353,12 @@ export default function AddAgreementModal({
                                     },
                                     "&:active": {
                                         transform: "translateY(0)",
+                                    },
+
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
+                                        WebkitTextFillColor:
+                                            "var(--color-grey-500)",
                                     },
                                 }}
                                 variant="outlined"

@@ -262,6 +262,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         {t("Company Phone")}
                                     </StyledTitle>
                                     <StyledTelInput
+                                        disabled={isPending}
                                         placeholder={t("Company Phone")}
                                         preferredCountries={["TR", "GB", "US"]}
                                         defaultCountry={
@@ -342,6 +343,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         {t("Manager Phone")}
                                     </StyledTitle>
                                     <StyledTelInput
+                                        disabled={isPending}
                                         placeholder={t("Manager Phone")}
                                         preferredCountries={["TR", "GB", "US"]}
                                         defaultCountry={
@@ -398,6 +400,9 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         "&:active": {
                                             transform: "translateY(0)",
                                         },
+                                        "&.Mui-disabled": {
+                                            background: "var(--color-grey-400)",
+                                        },
                                     }}
                                     type="submit"
                                     variant="contained"
@@ -424,6 +429,9 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         },
                                         "&:active": {
                                             transform: "translateY(0)",
+                                        },
+                                        "&.Mui-disabled": {
+                                            background: "var(--color-grey-400)",
                                         },
                                     }}
                                     variant="outlined"

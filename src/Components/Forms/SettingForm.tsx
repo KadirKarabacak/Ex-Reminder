@@ -44,6 +44,10 @@ const StyledTextField = styled(TextField)`
     &:hover > div > fieldset {
         border-color: var(--color-brand-600) !important;
     }
+
+    &.Mui-disabled {
+        -webkit-text-fill-color: var(--color-grey-500);
+    }
 `;
 
 const VisuallyHiddenInput = muiStyled("input")({
@@ -190,8 +194,8 @@ export default function SettingForm() {
                                 "&:active": {
                                     transform: "translateY(0)",
                                 },
-                                "&:disabled": {
-                                    backgroundColor: "var(--color-grey-400)",
+                                "&.Mui-disabled": {
+                                    background: "var(--color-grey-400)",
                                 },
                             }}
                         >
@@ -232,7 +236,7 @@ export default function SettingForm() {
                                     transform: "translateY(0)",
                                 },
                                 "&:disabled": {
-                                    backgroundColor: "var(--color-grey-500)",
+                                    backgroundColor: "var(--color-grey-400)",
                                 },
                             }}
                             type="submit"
@@ -242,6 +246,7 @@ export default function SettingForm() {
                         </Button>
                         <Button
                             onClick={handleReset}
+                            disabled={isPending}
                             sx={{
                                 color: "var(--color-grey-800)",
                                 transition: "all .3s",
@@ -257,6 +262,9 @@ export default function SettingForm() {
                                 },
                                 "&:active": {
                                     transform: "translateY(0)",
+                                },
+                                "&.Mui-disabled": {
+                                    background: "var(--color-grey-400)",
                                 },
                             }}
                             variant="outlined"

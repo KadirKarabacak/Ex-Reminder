@@ -151,8 +151,9 @@ button {
 }
 
 input:disabled, label:disabled {
-  background-color: var(--color-grey-200);
-  color: var(--color-grey-700);
+  background-color: var(--color-grey-200)!important;
+  color: var(--color-grey-500)!important;
+  -webkit-text-fill-color: var(--color-grey-500)!important;
 }
 
 

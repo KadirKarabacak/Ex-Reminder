@@ -330,6 +330,11 @@ export default function OperationsBody({
                                 "&:active": {
                                     transform: "translateY(0)",
                                 },
+                                "&.Mui-disabled": {
+                                    background: "var(--color-grey-400)",
+                                    WebkitTextFillColor:
+                                        "var(--color-grey-500)",
+                                },
                             }}
                             variant="contained"
                         >

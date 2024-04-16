@@ -254,6 +254,9 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                     "&:active": {
                                         transform: "translateY(0)",
                                     },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
+                                    },
                                 }}
                                 type="submit"
                                 variant="contained"
@@ -279,6 +282,9 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                                     },
                                     "&:active": {
                                         transform: "translateY(0)",
+                                    },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
                                     },
                                 }}
                                 variant="outlined"

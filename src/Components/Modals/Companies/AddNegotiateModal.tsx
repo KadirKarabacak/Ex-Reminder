@@ -112,6 +112,13 @@ const StyledSelect = styled(Select)`
             background-color: transparent !important;
             cursor: not-allowed;
         }
+
+        & > .Mui-disabled {
+            background: var(--color-grey-200);
+            color: var(--color-grey-600);
+            -webkit-text-fill-color: var(--color-grey-500);
+            cursor: not-allowed;
+        }
     }
 `;
 
@@ -124,7 +131,6 @@ export default function AddNegotiateModal({
     open,
     handleClose,
     row,
-    id,
 }: EditEmployeeModalTypes) {
     const { handleSubmit, clearErrors, reset } = useForm();
     const { t } = useTranslation();
@@ -287,6 +293,7 @@ export default function AddNegotiateModal({
                                     {t("Negotiate Date & Time")}
                                 </StyledTitle>
                                 <StyledDateTimePicker
+                                    disabled={isPending}
                                     views={[
                                         "year",
                                         "month",
@@ -439,6 +446,9 @@ export default function AddNegotiateModal({
                                     "&:active": {
                                         transform: "translateY(0)",
                                     },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
+                                    },
                                 }}
                                 type="submit"
                                 variant="contained"
@@ -464,6 +474,9 @@ export default function AddNegotiateModal({
                                     },
                                     "&:active": {
                                         transform: "translateY(0)",
+                                    },
+                                    "&.Mui-disabled": {
+                                        background: "var(--color-grey-400)",
                                     },
                                 }}
                                 variant="outlined"
