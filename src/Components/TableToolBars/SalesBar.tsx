@@ -29,7 +29,6 @@ export function SalesToolBar({
     data: Sales[];
 }) {
     const { t } = useTranslation();
-    console.log(data);
 
     const ExcelData = data.map((value: Sales) => {
         return {
