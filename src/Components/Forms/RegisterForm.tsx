@@ -287,7 +287,7 @@ export default function RegisterForm() {
                             disabled={isSubmitting || !watchAgreement}
                             sx={{
                                 backgroundColor: "var(--color-green-new)",
-                                color: "var(--color-grey-50)",
+                                color: "var(--color-soft-white)",
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
                                 fontSize: "1.1rem",
@@ -302,6 +302,9 @@ export default function RegisterForm() {
                                 },
                                 "&:active": {
                                     transform: "translateY(0)",
+                                },
+                                "&.Mui-disabled": {
+                                    background: "var(--color-grey-400)",
                                 },
                             }}
                             type="submit"
@@ -326,6 +329,9 @@ export default function RegisterForm() {
                                 },
                                 "&:active": {
                                     transform: "translateY(0)",
+                                },
+                                "&.Mui-disabled": {
+                                    background: "var(--color-grey-400)",
                                 },
                             }}
                             type="submit"
