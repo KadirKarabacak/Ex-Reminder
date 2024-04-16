@@ -48,7 +48,7 @@ export interface Employee {
 }
 
 export interface UpdateEmployeeTypes {
-    employee: object;
+    employee: EmployeeData;
     id: string;
     userId: string | undefined;
 }
@@ -109,16 +109,19 @@ export interface EmployeeData {
     age: string;
     department: string;
     email: string;
-    employee_id: number;
+    employee_id?: number;
     full_name: string;
     hire_date: string;
     job_title: string;
     salary: string;
+    createdAt?: string;
+    editedAt?: string;
 }
 
 export interface DeleteEmployeeTypes {
     id: string;
     userId: string | undefined;
+    row: EmployeeData;
 }
 
 export interface DeleteItemTypes {
@@ -249,4 +252,10 @@ export interface NegotiateTypes {
     negotiateAlarmWarningTime: number;
     isAlarmDismissed: boolean;
     negotiateId?: string;
+}
+
+export interface UpdateItemTypes {
+    item: Warehouses;
+    id: any;
+    userId: string | undefined;
 }
