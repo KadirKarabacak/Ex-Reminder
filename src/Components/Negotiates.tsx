@@ -10,9 +10,9 @@ import styled from "styled-components";
 import { MoreVert, DeleteOutline } from "@mui/icons-material";
 import { Menu, MenuItem, MenuProps } from "@mui/material";
 import { alpha, styled as styledMui } from "@mui/material/styles";
-import { useGetNegotiates } from "../Api/companyController";
 import { auth } from "../Api/firebase";
 import { InfinitySpin } from "react-loader-spinner";
+import { useGetNegotiates } from "../Api/negotiateController";
 
 const StyledMenu = styledMui((props: MenuProps) => (
     <Menu
