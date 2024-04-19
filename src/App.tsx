@@ -13,6 +13,7 @@ import Warehouse from "./Pages/Warehouse";
 import Companies from "./Pages/Companies";
 import { AnimatePresence } from "framer-motion";
 import Accounting from "./Pages/Accounting";
+import Notifications from "./Pages/Notifications";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -52,6 +53,10 @@ export default function App() {
                             <Route path="/warehouse" Component={Warehouse} />
                             <Route path="/employees" Component={Employees} />
                             <Route path="/settings" Component={Settings} />
+                            <Route
+                                path="/notifications"
+                                Component={Notifications}
+                            />
                         </Route>
                     </Routes>
                 </AnimatePresence>
