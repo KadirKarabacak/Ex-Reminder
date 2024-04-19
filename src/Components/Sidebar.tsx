@@ -1,9 +1,9 @@
 import { NavLink, useLocation } from "react-router-dom";
 import styled from "styled-components";
+import { Tooltip, Grow } from "@mui/material";
+import { useTranslation } from "react-i18next";
 import GroupIcon from "@mui/icons-material/Group";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Tooltip, Zoom } from "@mui/material";
-import { useTranslation } from "react-i18next";
 import { WarehouseOutlined } from "@mui/icons-material";
 import BusinessIcon from "@mui/icons-material/Business";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -79,7 +79,7 @@ function Sidebar() {
                 alt="Ex_REMINDER logo"
             />
             <Tooltip
-                TransitionComponent={Zoom}
+                TransitionComponent={Grow}
                 title={t("Map holds your companies location pins")}
                 placement="right"
                 arrow={true}
@@ -90,7 +90,7 @@ function Sidebar() {
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
-                TransitionComponent={Zoom}
+                TransitionComponent={Grow}
                 title={t("Accounting displays your all sales")}
                 placement="right"
                 arrow={true}
@@ -101,7 +101,7 @@ function Sidebar() {
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
-                TransitionComponent={Zoom}
+                TransitionComponent={Grow}
                 title={t("Companies holds your companies list")}
                 placement="right"
                 arrow={true}
@@ -112,7 +112,7 @@ function Sidebar() {
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
-                TransitionComponent={Zoom}
+                TransitionComponent={Grow}
                 title={t("Warehouse holds your items inventory")}
                 placement="right"
                 arrow={true}
@@ -123,7 +123,7 @@ function Sidebar() {
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
-                TransitionComponent={Zoom}
+                TransitionComponent={Grow}
                 title={t("Employees holds your employee list and info")}
                 placement="right"
                 arrow={true}
@@ -134,7 +134,7 @@ function Sidebar() {
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
-                TransitionComponent={Zoom}
+                TransitionComponent={Grow}
                 title={t(
                     "Settings allow you to update your login & display settings"
                 )}
