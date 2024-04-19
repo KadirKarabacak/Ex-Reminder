@@ -68,7 +68,6 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         { label: "Salary", key: "salary" },
         { label: "Hire Date", key: "hire_date" },
         { label: "Age", key: "age" },
-        { label: "Email", key: "email" },
         "",
     ];
 
@@ -79,7 +78,6 @@ export function EmployeeTableHead(props: EnhancedTableProps) {
         { label: "Maaş", key: "salary" },
         { label: "Giriş Tarihi", key: "hire_date" },
         { label: "Yaş", key: "age" },
-        { label: "Email", key: "email" },
         "",
     ];
 

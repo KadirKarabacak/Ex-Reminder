@@ -67,9 +67,6 @@ export default function EmployeeTableRow({
                 {row.age || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.email || "-"}
-            </TableCell>
-            <TableCell align="right" sx={TableCellStyles}>
                 <ButtonGroup tableName="employee" row={row} />
             </TableCell>
         </TableRow>
