@@ -127,17 +127,20 @@ export interface DeleteEmployeeTypes {
 export interface DeleteItemTypes {
     id: string;
     userId: string | undefined;
+    row: Warehouses;
 }
 
 export interface DeleteCompanyTypes {
     id: string;
     userId: string | undefined;
+    row: Companies;
 }
 
 export interface DeleteAgreementTypes {
     agreementId: any;
     userId: string | undefined;
     companyId: string | undefined;
+    agreement: Agreements;
 }
 
 export interface DeleteSaleTypes {
@@ -146,6 +149,7 @@ export interface DeleteSaleTypes {
     companyId: string | undefined;
     saleToDeleteId: any;
     deleteOption: string;
+    row: Sales;
 }
 
 export interface Warehouses {
