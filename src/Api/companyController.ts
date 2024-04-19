@@ -15,6 +15,7 @@ import {
     DeleteCompanyTypes,
     UpdateCompanyTypes,
 } from "../Interfaces/User";
+import { addNotification } from "./notificationController";
 
 //: Get All Companies
 const getCompanies = async (userId: string | undefined) => {
@@ -45,7 +46,7 @@ export function useGetCompanies() {
 
 //: Add new company
 const addCompany = async function (
-    company: object,
+    company: Companies,
     userId: string | undefined
 ) {
     await addDoc(collection(db, `users/${userId}/companies`), company);
@@ -55,11 +56,20 @@ const addCompany = async function (
 export const useAddCompany = function () {
     const queryClient = useQueryClient();
     const { mutate, isPending } = useMutation({
-        mutationFn: (company: object) =>
-            addCompany(company, auth?.currentUser?.uid),
-        onSuccess: () => {
+        mutationFn: async (company: Companies) => {
+            addCompany(company, auth?.currentUser?.uid);
+            return company;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data,
+                    event: "Add Company",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("New Company added successfully"));
-            queryClient.invalidateQueries({ queryKey: ["companies"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -85,11 +95,18 @@ export const useUpdateCompany = function () {
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateCompanyTypes) => {
             await updateCompany(variables);
-            return;
+            return variables;
         },
-        onSuccess: () => {
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data.company,
+                    event: "Update Company",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("Company successfully edited"));
-            queryClient.invalidateQueries({ queryKey: ["companies"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -113,11 +130,20 @@ const deleteCompany = async function ({ id, userId }: DeleteCompanyTypes) {
 export const useDeleteCompany = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: DeleteCompanyTypes) =>
-            await deleteCompany(variables),
-        onSuccess: () => {
+        mutationFn: async (variables: DeleteCompanyTypes) => {
+            await deleteCompany(variables);
+            return variables;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data.row,
+                    event: "Delete Company",
+                },
+                data.userId
+            );
             toast.success(i18n.t("Company successfully deleted"));
-            queryClient.invalidateQueries({ queryKey: ["companies"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);

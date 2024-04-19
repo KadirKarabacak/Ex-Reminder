@@ -10,14 +10,15 @@ import { updateItem } from "./warehouseController";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import i18n from "../i18n";
 import toast from "react-hot-toast";
-import { DeleteSaleTypes, Sales } from "../Interfaces/User";
+import { DeleteSaleTypes, Sales, Warehouses } from "../Interfaces/User";
+import { addNotification } from "./notificationController";
 
 //: Add Sale to Company
 const addSale = async function (
-    sale: object,
+    sale: Sales,
     selectedCompany: string | undefined,
     userId: string | undefined,
-    item: object,
+    item: Warehouses,
     id: string | undefined
 ) {
     await addDoc(
@@ -40,19 +41,28 @@ export const useAddSale = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (data: {
-            sale: object;
+            sale: Sales;
             selectedCompany: string | undefined;
-            item: any;
+            item: Warehouses;
             id: string | undefined;
-        }) =>
+        }) => {
             addSale(
                 data.sale,
                 data.selectedCompany,
                 auth?.currentUser?.uid,
                 data.item,
                 data.id
-            ),
-        onSuccess: () => {
+            );
+            return data;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data,
+                    event: "Add Sale",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("New Sale added successfully"));
             queryClient.invalidateQueries();
         },
@@ -132,9 +142,18 @@ const deleteSales = async function ({
 export const useDeleteSales = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: DeleteSaleTypes) =>
-            await deleteSales(variables),
-        onSuccess: () => {
+        mutationFn: async (variables: DeleteSaleTypes) => {
+            await deleteSales(variables);
+            return variables;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data.row,
+                    event: "Delete Sale",
+                },
+                auth.currentUser?.uid
+            );
             queryClient.invalidateQueries();
         },
         onError: err => {

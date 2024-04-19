@@ -15,6 +15,7 @@ import {
     DeleteAgreementTypes,
     UpdateAgreementTypes,
 } from "../Interfaces/User";
+import { addNotification } from "./notificationController";
 
 //: Add agreement to company
 const addAgreement = async function (
@@ -35,15 +36,24 @@ export const useAddAgreement = function () {
         mutationFn: async (data: {
             agreement: object;
             companyId: string | undefined;
-        }) =>
+        }) => {
             addAgreement(
                 data.agreement,
                 data.companyId,
                 auth?.currentUser?.uid
-            ),
-        onSuccess: () => {
+            );
+            return data;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data.agreement,
+                    event: "Add Agreement",
+                },
+                auth.currentUser?.uid
+            );
             toast.success(i18n.t("New Agreement added successfully"));
-            queryClient.invalidateQueries({ queryKey: ["agreements"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -103,11 +113,21 @@ export const useUpdateAgreement = function () {
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateAgreementTypes) => {
             await updateAgreement(variables);
-            return;
+            return variables;
         },
-        onSuccess: () => {
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: {
+                        ...data.editedAgreement,
+                        companyId: data.companyId,
+                    },
+                    event: "Update Agreement",
+                },
+                data.userId
+            );
             toast.success(i18n.t("Agreement successfully edited"));
-            queryClient.invalidateQueries({ queryKey: ["agreements"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -143,11 +163,20 @@ const deleteAgreement = async function ({
 export const useDeleteAgreement = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
-        mutationFn: async (variables: DeleteAgreementTypes) =>
-            await deleteAgreement(variables),
-        onSuccess: () => {
+        mutationFn: async (variables: DeleteAgreementTypes) => {
+            await deleteAgreement(variables);
+            return variables;
+        },
+        onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data.agreement,
+                    event: "Delete Agreement",
+                },
+                data.userId
+            );
             toast.success(i18n.t("Agreement successfully deleted"));
-            queryClient.invalidateQueries({ queryKey: ["agreements"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);

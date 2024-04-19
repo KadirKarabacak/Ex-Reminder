@@ -7,10 +7,11 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { NegotiateTypes, UpdateNegotiateTypes } from "../Interfaces/User";
-import { db } from "./firebase";
+import { auth, db } from "./firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
+import { addNotification } from "./notificationController";
 
 //: Add Negotiate
 const addNegotiate = async function (
@@ -36,6 +37,13 @@ export function useAddNegotiate() {
             negotiate: NegotiateTypes;
         }) => addNegotiate(variables.userId, variables.negotiate),
         onSuccess: data => {
+            addNotification(
+                {
+                    contentObj: data,
+                    event: "Add Negotiate",
+                },
+                auth.currentUser?.uid
+            );
             queryClient.invalidateQueries();
             if (data.negotiateAlarm)
                 toast.success(
