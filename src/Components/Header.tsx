@@ -13,7 +13,7 @@ import {
     Select,
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
-import Zoom from "@mui/material/Zoom";
+import Grow from "@mui/material/Grow";
 import { Link, useLocation } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
@@ -21,10 +21,7 @@ import toast from "react-hot-toast";
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
-import {
-    NotificationTypes,
-    useGetNotifications,
-} from "../Api/notificationController";
+import { useGetNotifications } from "../Api/notificationController";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -222,27 +219,29 @@ function Header() {
                 </StyledListItem>
                 <StyledListItem>
                     <Badge badgeContent={notifications?.length} color="success">
-                        <Tooltip
-                            TransitionComponent={Zoom}
-                            title={t("Notifications")}
-                        >
-                            <StyledButton
-                                sx={{
-                                    fontSize: "2rem",
-                                    minWidth: 0,
-                                    p: "0.7rem",
-                                }}
-                                color="inherit"
-                                variant="text"
+                        <Link to="/notifications">
+                            <Tooltip
+                                TransitionComponent={Grow}
+                                title={t("Notifications")}
                             >
-                                <NotificationsIcon sx={iconStyle} />
-                            </StyledButton>
-                        </Tooltip>
+                                <StyledButton
+                                    sx={{
+                                        fontSize: "2rem",
+                                        minWidth: 0,
+                                        p: "0.7rem",
+                                    }}
+                                    color="inherit"
+                                    variant="text"
+                                >
+                                    <NotificationsIcon sx={iconStyle} />
+                                </StyledButton>
+                            </Tooltip>
+                        </Link>
                     </Badge>
                 </StyledListItem>
                 <StyledListItem>
                     <Tooltip
-                        TransitionComponent={Zoom}
+                        TransitionComponent={Grow}
                         title={t("Toggle Darkmode")}
                     >
                         <StyledButton
@@ -264,7 +263,7 @@ function Header() {
                     </Tooltip>
                 </StyledListItem>
                 <StyledListItem>
-                    <Tooltip TransitionComponent={Zoom} title={t("Logout")}>
+                    <Tooltip TransitionComponent={Grow} title={t("Logout")}>
                         <Link
                             onClick={() => {
                                 logOut();
