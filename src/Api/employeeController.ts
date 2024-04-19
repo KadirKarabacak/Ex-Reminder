@@ -69,7 +69,7 @@ export const useAddEmployee = function () {
                 auth.currentUser?.uid
             );
             toast.success(i18n.t("New Employee added successfully"));
-            queryClient.invalidateQueries({ queryKey: ["employees"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -101,13 +101,13 @@ export const useUpdateEmployee = function () {
         onSuccess: data => {
             addNotification(
                 {
-                    contentObj: data,
+                    contentObj: data.employee,
                     event: "Update Employee",
                 },
                 data.userId
             );
             toast.success(i18n.t("Employee successfully edited"));
-            queryClient.invalidateQueries({ queryKey: ["employees"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
@@ -150,7 +150,7 @@ export const useDeleteEmployee = function () {
                 auth.currentUser?.uid
             );
             toast.success(i18n.t("Employee successfully deleted"));
-            queryClient.invalidateQueries({ queryKey: ["employees"] });
+            queryClient.invalidateQueries();
         },
         onError: err => {
             console.log(err);
