@@ -206,7 +206,16 @@ svg{
 }
 
 .MuiTooltip-tooltip{
-  font-size: 1rem !important;
+  font-size: 1.1rem !important;
+  max-width: 60rem!important;
+  padding: 8px 12px!important;
+  background-color: var(--color-grey-200)!important;
+  color: var(--color-grey-800)!important;
+  box-shadow: var(--shadow-md)!important;
+}
+
+.MuiTooltip-arrow{
+  color: var(--color-grey-200)!important;
 }
 
 .MuiPickersDay-root{
