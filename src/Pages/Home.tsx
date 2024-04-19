@@ -3,20 +3,20 @@ import { animated, useSpring } from "react-spring";
 import { mapSpringOptions } from "../Constants/constant";
 import Map from "../Components/Map/Map";
 
-const StyledHome = styled.main`
+const StyledMap = styled.main`
     width: 100%;
     min-height: 60rem;
     height: calc(100dvh - 6.5rem);
 `;
 
-const AnimatedStyledHome = animated(StyledHome);
+const AnimatedStyledMap = animated(StyledMap);
 
 export default function Home() {
     const animationProps = useSpring(mapSpringOptions);
 
     return (
-        <AnimatedStyledHome style={animationProps}>
+        <AnimatedStyledMap style={animationProps}>
             <Map />
-        </AnimatedStyledHome>
+        </AnimatedStyledMap>
     );
 }

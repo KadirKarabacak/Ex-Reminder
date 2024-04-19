@@ -7,7 +7,6 @@ import { InfinitySpin } from "react-loader-spinner";
 import { useGetEmployees } from "../Api/employeeController";
 import { CustomPieChart } from "../Components/CustomPieChart";
 import EmployeeStats from "../Components/EmployeeStats";
-
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";

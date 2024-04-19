@@ -284,7 +284,9 @@ export default function SettingForm() {
                     color: "var(--color-grey-800)",
                     backgroundColor: "transparent",
                     p: "2rem 6rem",
-                    m: "2rem 4rem 1rem",
+                    m: currentUser?.displayName
+                        ? "2rem 4rem 1rem"
+                        : "2rem 4rem 4rem",
                     boxShadow: "var(--shadow-md)",
                 }}
             >

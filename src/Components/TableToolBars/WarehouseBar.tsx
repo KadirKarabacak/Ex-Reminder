@@ -118,7 +118,6 @@ export function WarehouseToolBar({
                         padding: "1rem 2rem",
                         fontSize: "1rem",
                         alignSelf: "center",
-                        fontWeight: "bold",
                         "&:hover": {
                             backgroundColor: "var(--color-grey-600)",
                             color: "var(--color-grey-100)",

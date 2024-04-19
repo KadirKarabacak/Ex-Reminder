@@ -22,7 +22,6 @@ export default function FindLocationButton({ onClick }: { onClick: any }) {
                 left: "50%",
                 transform: "translateY(0) translate(-50%, -50%)",
                 zIndex: "500",
-                fontWeight: "bold",
                 "&:hover": {
                     backgroundColor: "var(--color-green-new)",
                     transform: "translateY(-2px) translate(-50%, -50%)",
