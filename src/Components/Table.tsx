@@ -18,6 +18,11 @@ import CompanyTableRow from "./TableRows/CompanyTableRow";
 import SalesTableRow from "./TableRows/SalesTableRow";
 import AccountingTableRow from "./TableRows/AccountingTableRow";
 import { useDarkMode } from "../Contexts/DarkModeContext";
+import NoDataTableRow from "./TableRows/NoDataTableRow";
+import NoSearchDataTableRow from "./TableRows/NoSearchDataTableRow";
+import { formatDate } from "../Utils/utils";
+import { NotificationsTableHead } from "./TableHeads/NotificationsTableHead";
+import NotificationsTableRow from "./TableRows/NotificationsTableRow";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -192,6 +197,14 @@ export default function CustomTable({
                         .includes(searchText.toLowerCase())
                 )
             );
+        if (searchText && pathname === "/notifications")
+            setFilteredData(
+                data.filter((el: any) =>
+                    formatDate(new Date(el.createdAt.seconds * 1000)).includes(
+                        searchText
+                    )
+                )
+            );
         if (!searchText.length) setFilteredData(data);
     }, [searchText]);
 
@@ -281,8 +294,23 @@ export default function CustomTable({
                                 rowCount={filteredData?.length || 0}
                             />
                         )}
-
+                        {pathname === "/notifications" && (
+                            <NotificationsTableHead
+                                numSelected={selected.length}
+                                order={order}
+                                orderBy={orderBy}
+                                onSelectAllClick={handleSelectAllClick}
+                                onRequestSort={handleRequestSort}
+                                rowCount={filteredData?.length || 0}
+                            />
+                        )}
                         <TableBody>
+                            {!visibleRows.length && !searchText && (
+                                <NoDataTableRow />
+                            )}
+                            {!visibleRows.length && searchText && (
+                                <NoSearchDataTableRow />
+                            )}
                             {pathname === "/employees" &&
                                 visibleRows?.map((row, index) => {
                                     const isItemSelected = isSelected(index);
@@ -349,6 +377,21 @@ export default function CustomTable({
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <AccountingTableRow
+                                            isItemSelected={isItemSelected}
+                                            handleClick={handleClick}
+                                            key={index}
+                                            index={index}
+                                            labelId={labelId}
+                                            row={row}
+                                        />
+                                    );
+                                })}
+                            {pathname === "/notifications" &&
+                                visibleRows?.map((row, index) => {
+                                    const isItemSelected = isSelected(index);
+                                    const labelId = `enhanced-table-checkbox-${index}`;
+                                    return (
+                                        <NotificationsTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
