@@ -66,7 +66,7 @@ export default function DeleteCompanyModal({
                   );
 
     async function onSubmit() {
-        await deleteCompany({ id, userId });
+        await deleteCompany({ id, userId, row });
         onCloseModal();
     }
 

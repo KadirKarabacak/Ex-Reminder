@@ -135,7 +135,7 @@ export const useDeleteItem = function () {
         onSuccess: data => {
             addNotification(
                 {
-                    contentObj: data,
+                    contentObj: data.row,
                     event: "Delete Item",
                 },
                 data.userId

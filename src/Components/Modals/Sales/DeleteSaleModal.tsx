@@ -100,6 +100,7 @@ export default function DeleteSaleModal({
             companyId,
             saleToDeleteId,
             deleteOption,
+            row,
         });
         onCloseModal();
     }

@@ -47,7 +47,7 @@ export default function DeleteItemModal({
     const currentLanguage = i18n.language;
 
     async function onSubmit() {
-        await deleteItem({ id, userId });
+        await deleteItem({ id, userId, row });
         onCloseModal();
     }
 

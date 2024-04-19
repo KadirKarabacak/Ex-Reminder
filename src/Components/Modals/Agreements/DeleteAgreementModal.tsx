@@ -58,7 +58,7 @@ export default function DeleteAgreementModal({
     const remainingAgreementTime = remainingTime(agreement.agreementEndDate);
 
     async function onSubmit() {
-        await deleteAgreement({ agreementId, userId, companyId });
+        await deleteAgreement({ agreementId, userId, companyId, agreement });
         onCloseModal();
     }
 
