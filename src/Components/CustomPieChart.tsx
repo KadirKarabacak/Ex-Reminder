@@ -35,17 +35,21 @@ const COLORSDARK = [
     "#32d0d3",
     "#2b4fe0",
     "#8d9c80",
+    "#c1121f",
+    "#81b29a",
     "",
 ];
 
 const COLORSLIGHT = [
     "var(--color-green-lighter)",
-    "#363e38",
-    "#fab319",
+    "#c98c08",
+    "#ea5827",
     "#ec8524",
     "#32d0d3",
     "#2b4fe0",
     "#8d9c80",
+    "#c1121f",
+    "#81b29a",
     "",
 ];
 
