@@ -5,7 +5,7 @@ import TableContainer from "@mui/material/TableContainer";
 import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
-import { useLocation } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { Companies, EmployeeData, Sales, Warehouses } from "../Interfaces/User";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
 import { WarehouseTableHead } from "./TableHeads/WarehouseTableHead";
@@ -23,6 +23,7 @@ import NoSearchDataTableRow from "./TableRows/NoSearchDataTableRow";
 import { formatDate } from "../Utils/utils";
 import { NotificationsTableHead } from "./TableHeads/NotificationsTableHead";
 import NotificationsTableRow from "./TableRows/NotificationsTableRow";
+import { NotificationTypes } from "../Api/notificationController";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -74,10 +75,14 @@ export default function CustomTable({
     CustomToolbar,
     data,
     searchText,
+    selected,
+    setSelected,
 }: {
     CustomToolbar: React.ReactNode;
     data: any;
     searchText: string;
+    selected: any;
+    setSelected: any;
 }) {
     const { pathname } = useLocation();
     const { isDarkMode } = useDarkMode();
@@ -93,10 +98,10 @@ export default function CustomTable({
             ? "saleCompanyName"
             : "companyName"
     );
-    const [selected, setSelected] = React.useState<readonly number[]>([]);
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
     const [filteredData, setFilteredData] = React.useState(data || []);
+    const [searchParams] = useSearchParams();
 
     const handleRequestSort = (
         _event: React.MouseEvent<unknown>,
@@ -111,18 +116,51 @@ export default function CustomTable({
         setOrderBy(property);
     };
 
+    React.useEffect(() => {
+        if (
+            searchParams.has("action", "not-readed") ||
+            searchParams.has("action", "readed")
+        )
+            setFilteredData(data);
+    }, [data, searchParams]);
+
     const handleSelectAllClick = (
         event: React.ChangeEvent<HTMLInputElement>
     ) => {
         if (event.target.checked) {
-            const newSelected = data.map((_n: object, i: string) => i);
-            setSelected(newSelected);
-            return;
+            if (pathname === "/accounting") {
+                const newSelected = filteredData.map((n: any) => n.id);
+                return setSelected(newSelected);
+            }
+            if (pathname === "/companies") {
+                const newSelected = filteredData.map((n: Companies) => n.id);
+                return setSelected(newSelected);
+            }
+            if (pathname.includes("/companies/")) {
+                const newSelected = filteredData.map((n: Sales) => n.id);
+                return setSelected(newSelected);
+            }
+            if (pathname === "/warehouse") {
+                const newSelected = filteredData.map((n: Warehouses) => n.id);
+                return setSelected(newSelected);
+            }
+            if (pathname === "/employees") {
+                const newSelected = filteredData.map((n: EmployeeData) => n.id);
+                return setSelected(newSelected);
+            }
+            if (pathname === "/notifications") {
+                const newSelected = filteredData.map(
+                    (n: NotificationTypes) => n.id
+                );
+                return setSelected(newSelected);
+            }
         }
         setSelected([]);
     };
 
+    // TODO: Configure this function with paths, use data id's instead of indexes
     const handleClick = (_event: React.MouseEvent<unknown>, id: number) => {
+        // console.log(selected);
         const selectedIndex = selected.indexOf(id);
         let newSelected: readonly number[] = [];
 
@@ -152,11 +190,7 @@ export default function CustomTable({
         setPage(0);
     };
 
-    const isSelected = (id: number) => selected.indexOf(id) !== -1;
-
-    React.useEffect(() => {
-        if (data) setFilteredData(data);
-    }, [data]);
+    const isSelected = (id: string | number) => selected.indexOf(id) !== -1;
 
     React.useEffect(() => {
         if (searchText && pathname === "/employees")
@@ -313,14 +347,13 @@ export default function CustomTable({
                             )}
                             {pathname === "/employees" &&
                                 visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(index);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <EmployeeTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
-                                            index={index}
                                             labelId={labelId}
                                             row={row}
                                         />
@@ -328,14 +361,13 @@ export default function CustomTable({
                                 })}
                             {pathname === "/warehouse" &&
                                 visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(index);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <WarehouseTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
-                                            index={index}
                                             labelId={labelId}
                                             row={row}
                                         />
@@ -343,14 +375,13 @@ export default function CustomTable({
                                 })}
                             {pathname === "/companies" &&
                                 visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(index);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <CompanyTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
-                                            index={index}
                                             labelId={labelId}
                                             row={row}
                                         />
@@ -358,14 +389,13 @@ export default function CustomTable({
                                 })}
                             {pathname.includes("/companies/") &&
                                 visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(index);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <SalesTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
-                                            index={index}
                                             labelId={labelId}
                                             row={row}
                                         />
@@ -373,14 +403,13 @@ export default function CustomTable({
                                 })}
                             {pathname === "/accounting" &&
                                 visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(index);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <AccountingTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
-                                            index={index}
                                             labelId={labelId}
                                             row={row}
                                         />
@@ -388,14 +417,13 @@ export default function CustomTable({
                                 })}
                             {pathname === "/notifications" &&
                                 visibleRows?.map((row, index) => {
-                                    const isItemSelected = isSelected(index);
+                                    const isItemSelected = isSelected(row.id);
                                     const labelId = `enhanced-table-checkbox-${index}`;
                                     return (
                                         <NotificationsTableRow
                                             isItemSelected={isItemSelected}
                                             handleClick={handleClick}
                                             key={index}
-                                            index={index}
                                             labelId={labelId}
                                             row={row}
                                         />
