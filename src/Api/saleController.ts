@@ -41,9 +41,9 @@ export const useAddSale = function () {
     const queryClient = useQueryClient();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (data: {
-            sale: Sales;
+            sale: any;
             selectedCompany: string | undefined;
-            item: Warehouses;
+            item: any;
             id: string | undefined;
         }) => {
             addSale(
