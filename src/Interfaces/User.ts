@@ -109,7 +109,7 @@ export interface EmployeeData {
     age: string;
     department: string;
     email: string;
-    employee_id?: number;
+    id?: string;
     full_name: string;
     hire_date: string;
     job_title: string;
@@ -167,7 +167,7 @@ export interface Warehouses {
 export interface TableRowTypes {
     isItemSelected: any;
     handleClick: any;
-    index: number;
+    // index: number;
     labelId: string;
     row: any;
 }
@@ -260,6 +260,20 @@ export interface NegotiateTypes {
 
 export interface UpdateItemTypes {
     item: Warehouses;
+    id: any;
+    userId: string | undefined;
+}
+
+export interface NotificationTypes {
+    contentObj: any;
+    createdAt?: Date | string;
+    isReaded?: boolean;
+    event: string;
+    id?: string;
+}
+
+export interface UpdateNotificationTypes {
+    notification: NotificationTypes;
     id: any;
     userId: string | undefined;
 }
