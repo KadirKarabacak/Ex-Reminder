@@ -14,7 +14,6 @@ const TableCellStyles = {
 export default function AccountingTableRow({
     isItemSelected,
     handleClick,
-    index,
     labelId,
     row,
 }: TableRowTypes) {
@@ -27,7 +26,7 @@ export default function AccountingTableRow({
             selected={isItemSelected}
         >
             <TableCell
-                onClick={event => handleClick(event, index)}
+                onClick={event => handleClick(event, row.id)}
                 padding="checkbox"
                 sx={{
                     ...TableCellStyles,

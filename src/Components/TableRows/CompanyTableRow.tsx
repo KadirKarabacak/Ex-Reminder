@@ -12,7 +12,6 @@ const TableCellStyles = {
 export default function CompanyTableRow({
     isItemSelected,
     handleClick,
-    index,
     labelId,
     row,
 }: TableRowTypes) {
@@ -24,7 +23,7 @@ export default function CompanyTableRow({
             selected={isItemSelected}
         >
             <TableCell
-                onClick={event => handleClick(event, index)}
+                onClick={event => handleClick(event, row.id)}
                 padding="checkbox"
                 sx={{
                     ...TableCellStyles,

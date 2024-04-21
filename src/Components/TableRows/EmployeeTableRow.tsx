@@ -13,7 +13,7 @@ const TableCellStyles = {
 export default function EmployeeTableRow({
     isItemSelected,
     handleClick,
-    index,
+    // index,
     labelId,
     row,
 }: TableRowTypes) {
@@ -25,7 +25,7 @@ export default function EmployeeTableRow({
             selected={isItemSelected}
         >
             <TableCell
-                onClick={event => handleClick(event, index)}
+                onClick={event => handleClick(event, row.id)}
                 padding="checkbox"
                 sx={{
                     ...TableCellStyles,

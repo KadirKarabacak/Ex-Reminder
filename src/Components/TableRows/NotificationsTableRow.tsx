@@ -32,12 +32,11 @@ const IconStyles = {
 export default function NotificationsTableRow({
     isItemSelected,
     handleClick,
-    index,
+    // index,
     labelId,
     row,
 }: TableRowTypes) {
     const currentLanguage = i18n.language;
-    // row.contentObj.companyId
     const { data } = useGetCompanies();
     const findCompanyWithId =
         data && data.find(company => company.id === row.contentObj.companyId);
@@ -180,7 +179,7 @@ export default function NotificationsTableRow({
             selected={isItemSelected}
         >
             <TableCell
-                onClick={event => handleClick(event, index)}
+                onClick={event => handleClick(event, row.id)}
                 padding="checkbox"
                 sx={{
                     ...TableCellStyles,
@@ -202,7 +201,11 @@ export default function NotificationsTableRow({
                 id={labelId}
                 scope="row"
                 padding="none"
-                sx={{ ...TableCellStyles, padding: "10px 16px", width: "15%" }}
+                sx={{
+                    ...TableCellStyles,
+                    padding: "10px 16px 10px 0px",
+                    width: "15%",
+                }}
             >
                 {formatDate(new Date(row?.createdAt.seconds * 1000)) || "-"}
             </TableCell>
@@ -211,7 +214,7 @@ export default function NotificationsTableRow({
                 align="right"
                 sx={{
                     ...TableCellStyles,
-                    padding: "10px 16px",
+                    padding: "10px 16px 10px 0px",
                 }}
             >
                 <Tooltip
