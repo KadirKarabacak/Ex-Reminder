@@ -37,6 +37,8 @@ export default function Accounting() {
     const { t } = useTranslation();
     const animationProps = useSpring(springOptions);
     const [searchText, setSearchText] = useState("");
+    const [selected, setSelected] = useState<readonly number[]>([]);
+
     const { data, isLoading } = useGetAccounting();
 
     if (isLoading)
@@ -60,6 +62,8 @@ export default function Accounting() {
                 }
                 data={data}
                 searchText={searchText}
+                selected={selected}
+                setSelected={setSelected}
             />
             {data?.length ? (
                 <>

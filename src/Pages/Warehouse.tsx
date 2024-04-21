@@ -35,6 +35,7 @@ export default function Warehouse() {
     const animationProps = useSpring(springOptions);
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState("");
+    const [selected, setSelected] = useState<readonly number[]>([]);
     const { data, isLoading } = useGetWarehouse();
 
     if (isLoading)
@@ -59,6 +60,8 @@ export default function Warehouse() {
                     />
                 }
                 searchText={searchText}
+                selected={selected}
+                setSelected={setSelected}
             />
         </AnimatedStyledContact>
     );

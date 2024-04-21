@@ -59,6 +59,7 @@ export default function OperationsBody({
     const [isExpanded, setIsExpanded] = useState(false);
     const [items, setItems] = useState(agreements || []);
     const [searchText, setSearchText] = useState("");
+    const [selected, setSelected] = useState<readonly number[]>([]);
     const { data: sales, isLoading: isLoadingSales } = useGetSales(
         currentCompany.id
     );
@@ -273,6 +274,8 @@ export default function OperationsBody({
                         <CustomTable
                             searchText={searchText}
                             data={sales}
+                            selected={selected}
+                            setSelected={setSelected}
                             CustomToolbar={
                                 <SalesToolBar
                                     data={sales}

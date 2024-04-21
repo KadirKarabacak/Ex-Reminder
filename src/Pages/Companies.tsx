@@ -53,6 +53,7 @@ export default function Companies() {
     const { t } = useTranslation();
     const { data, isLoading } = useGetCompanies();
     const [searchText, setSearchText] = useState("");
+    const [selected, setSelected] = useState<readonly number[]>([]);
     const params = useParams();
     const { companyId } = params;
 
@@ -98,6 +99,8 @@ export default function Companies() {
                         }
                         data={data}
                         searchText={searchText}
+                        setSelected={setSelected}
+                        selected={selected}
                     />
                 </AnimatedPage>
             </AnimatedStyledCompany>

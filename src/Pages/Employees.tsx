@@ -43,6 +43,8 @@ export default function Employees() {
     const animationProps = useSpring(springOptions);
     const { data, isLoading } = useGetEmployees();
     const [searchText, setSearchText] = useState("");
+    const [selected, setSelected] = useState<readonly number[]>([]);
+
     const { t } = useTranslation();
 
     if (isLoading)
@@ -67,6 +69,8 @@ export default function Employees() {
                 }
                 data={data}
                 searchText={searchText}
+                selected={selected}
+                setSelected={setSelected}
             />
             <InformationContainer>
                 <CustomPieChart data={data} />
