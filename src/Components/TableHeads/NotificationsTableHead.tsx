@@ -124,11 +124,6 @@ export function NotificationsTableHead(props: EnhancedTableProps) {
                               return (
                                   <TableCell
                                       key={i}
-                                      padding={
-                                          col.label === "Full Name"
-                                              ? "none"
-                                              : "normal"
-                                      }
                                       sortDirection={
                                           orderBy === col.key ? order : false
                                       }
@@ -141,9 +136,11 @@ export function NotificationsTableHead(props: EnhancedTableProps) {
                                           minWidth: "10rem",
                                           borderBottom:
                                               "1px solid var(--color-grey-200)",
+                                          paddingLeft: "0px",
                                       }}
                                   >
                                       <TableSortLabel
+                                          disabled={col.key === "contentObj"}
                                           active={orderBy === col.key}
                                           direction={
                                               orderBy === col.key
