@@ -8,6 +8,8 @@ import { Helmet } from "react-helmet";
 import CustomTable from "../Components/Table";
 import { NotificationToolBar } from "../Components/TableToolBars/NotificationBar";
 import { useState } from "react";
+import { useSearchParams } from "react-router-dom";
+import { NotificationTypes } from "../Interfaces/User";
 
 const StyledNotifications = styled.main`
     width: 100%;
@@ -36,6 +38,15 @@ export default function Notifications() {
     const { data: notifications, isLoading } = useGetNotifications();
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState("");
+    const [searchParams] = useSearchParams();
+    const [selected, setSelected] = useState<readonly string[]>([]);
+    const isAllSelected = notifications?.length === selected.length;
+    const notReadedNotification = notifications?.filter(
+        (notification: NotificationTypes) => notification.isReaded === false
+    );
+    const readedNotification = notifications?.filter(
+        (notification: NotificationTypes) => notification.isReaded === true
+    );
 
     if (isLoading)
         return (
@@ -54,10 +65,19 @@ export default function Notifications() {
                     <NotificationToolBar
                         setSearchText={setSearchText}
                         searchText={searchText}
+                        selected={selected}
+                        isAllSelected={isAllSelected}
+                        setSelected={setSelected}
                     />
                 }
-                data={notifications}
+                data={
+                    searchParams.has("action", "not-readed")
+                        ? notReadedNotification
+                        : readedNotification
+                }
                 searchText={searchText}
+                selected={selected}
+                setSelected={setSelected}
             />
         </AnimatedStyledNotifications>
     );
