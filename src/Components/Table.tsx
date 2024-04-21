@@ -6,7 +6,13 @@ import Box from "@mui/material/Box";
 import TablePagination from "@mui/material/TablePagination";
 import Paper from "@mui/material/Paper";
 import { useLocation, useSearchParams } from "react-router-dom";
-import { Companies, EmployeeData, Sales, Warehouses } from "../Interfaces/User";
+import {
+    Companies,
+    EmployeeData,
+    NotificationTypes,
+    Sales,
+    Warehouses,
+} from "../Interfaces/User";
 import { EmployeeTableHead } from "./TableHeads/EmployeeTableHead";
 import { WarehouseTableHead } from "./TableHeads/WarehouseTableHead";
 import { CompanyTableHead } from "./TableHeads/CompanyTableHead";
@@ -23,7 +29,6 @@ import NoSearchDataTableRow from "./TableRows/NoSearchDataTableRow";
 import { formatDate } from "../Utils/utils";
 import { NotificationsTableHead } from "./TableHeads/NotificationsTableHead";
 import NotificationsTableRow from "./TableRows/NotificationsTableRow";
-import { NotificationTypes } from "../Api/notificationController";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
