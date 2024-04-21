@@ -206,7 +206,7 @@ svg{
 }
 
 .MuiTooltip-tooltip{
-  font-size: 1.1rem !important;
+  font-size: 1.2rem !important;
   max-width: 60rem!important;
   padding: 8px 12px!important;
   background-color: var(--color-grey-200)!important;
@@ -304,6 +304,14 @@ svg{
 
 .MuiBadge-badge{
   font-size: 1rem!important;
+}
+
+.recharts-default-legend{
+  background-color: rgba(0,0,0, 0.1)!important;
+  border: 1px solid rgba(0,0,0, 0.2)!important;
+  box-shadow: var(--shadow-sm);
+  padding: 10px!important;
+  border-radius: 5px!important;
 }
 
 `;
