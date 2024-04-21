@@ -1,14 +1,15 @@
-import { addDoc, collection, getDocs } from "firebase/firestore";
+import {
+    addDoc,
+    collection,
+    doc,
+    getDocs,
+    updateDoc,
+} from "firebase/firestore";
 import { auth, db } from "./firebase";
-import { useQuery } from "@tanstack/react-query";
-
-export interface NotificationTypes {
-    contentObj: any;
-    createdAt?: Date | string;
-    isReaded?: boolean;
-    event: string;
-    id?: string;
-}
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import i18n from "../i18n";
+import { NotificationTypes, UpdateNotificationTypes } from "../Interfaces/User";
 
 //: Add notification
 export const addNotification = async function (
@@ -36,7 +37,6 @@ const getNotifications = async (userId: string | undefined) => {
             id: doc.id,
         });
     });
-
     return notifications;
 };
 
@@ -48,3 +48,38 @@ export function useGetNotifications() {
     });
     return { data, isLoading };
 }
+
+//: Mark Notifications as Readed
+export const updateNotification = async function ({
+    notification,
+    id,
+    userId,
+}: UpdateNotificationTypes) {
+    const ref = doc(db, `users/${userId}/notifications`, id);
+    const updatedNotification = {
+        ...notification,
+        isReaded: !notification.isReaded,
+    };
+    await updateDoc(ref, updatedNotification);
+};
+
+//: Update Notification Query
+export const useUpdateNotification = function () {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: UpdateNotificationTypes) => {
+            await updateNotification(variables);
+            return variables;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err);
+            toast.error(
+                i18n.t("An error occurred while notifications marking as read")
+            );
+        },
+    });
+    return { mutateAsync, isPending };
+};
