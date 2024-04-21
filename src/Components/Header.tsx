@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useSearchParams } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
@@ -22,6 +22,7 @@ import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
 import { useGetNotifications } from "../Api/notificationController";
+import { NotificationTypes } from "../Interfaces/User";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -124,11 +125,21 @@ const iconStyle = {
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
-    // const [nots, setNots] = useState<NotificationTypes[]>();
+    const [searchParams, setSearchParams] = useSearchParams();
+    const [isNotReadeds, setIsNotReadeds] = useState<NotificationTypes[]>();
     const { currentUser } = auth;
     const { t, i18n } = useTranslation();
     const { pathname } = useLocation();
     const { data: notifications } = useGetNotifications();
+
+    useEffect(() => {
+        if (notifications)
+            setIsNotReadeds(
+                notifications?.filter(
+                    notification => notification.isReaded === false
+                )
+            );
+    }, [notifications, isNotReadeds]);
 
     const handleChangeLang = (e: string) => {
         i18n.changeLanguage(e);
@@ -140,9 +151,12 @@ function Header() {
         i18n.changeLanguage(i18n.language);
     }, []);
 
-    // useEffect(() => {
-    //     if (notifications && notifications?.length > 0) setNots(notifications);
-    // }, [notifications?.length]);
+    useEffect(() => {
+        if (pathname === "/notifications") {
+            searchParams.set("action", "not-readed");
+            setSearchParams(searchParams);
+        }
+    }, [pathname]);
 
     return (
         <StyledHeader
@@ -218,7 +232,7 @@ function Header() {
                     </StyledFormControl>
                 </StyledListItem>
                 <StyledListItem>
-                    <Badge badgeContent={notifications?.length} color="success">
+                    <Badge badgeContent={isNotReadeds?.length} color="success">
                         <Link to="/notifications">
                             <Tooltip
                                 TransitionComponent={Grow}
