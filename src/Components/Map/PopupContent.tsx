@@ -3,21 +3,22 @@ import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { Companies } from "../../Interfaces/User";
 
 const StyledTitle = styled.span`
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     color: var(--color-green-lighter);
     font-weight: bold;
     margin-right: 0.5rem;
 `;
 
 const StyledDescription = styled.span`
-    font-size: 1rem;
+    font-size: 1.2rem;
     color: var(--color-grey-800);
     text-transform: capitalize;
 `;
 
-export function PopupCompanyContent({ company }: { company: any }) {
+export function PopupCompanyContent({ company }: { company: Companies }) {
     const { t } = useTranslation();
 
     return (
@@ -32,9 +33,13 @@ export function PopupCompanyContent({ company }: { company: any }) {
                     {company.companyPhone || t("Not spesified")}
                 </StyledDescription>
             </Grid>
-            <Grid item xs={12} sx={{ mb: "0.8rem" }}>
+            <Grid item xs={12}>
                 <StyledTitle>{t("Created At")} | </StyledTitle>
                 <StyledDescription>{company.createdAt}</StyledDescription>
+            </Grid>
+            <Grid item xs={12} sx={{ mb: "0.8rem" }}>
+                <StyledTitle>{t("Company Address")} | </StyledTitle>
+                <StyledDescription>{`${company.companyAddress.province} / ${company.companyAddress.district} / ${company.companyAddress.neighbourhood}`}</StyledDescription>
             </Grid>
             <Grid item xs={12} sx={{ textAlign: "center" }}>
                 <Link to={`/companies/${company.id}`}>
