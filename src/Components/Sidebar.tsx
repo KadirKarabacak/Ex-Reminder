@@ -102,7 +102,9 @@ function Sidebar() {
             </Tooltip>
             <Tooltip
                 TransitionComponent={Grow}
-                title={t("Companies holds your companies list")}
+                title={t(
+                    "Companies holds your companies list and operations about that companies"
+                )}
                 placement="right"
                 arrow={true}
             >
