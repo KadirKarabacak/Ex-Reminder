@@ -14,7 +14,12 @@ import {
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
-import { Link, useLocation, useSearchParams } from "react-router-dom";
+import {
+    Link,
+    useLocation,
+    useNavigate,
+    useSearchParams,
+} from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
@@ -58,6 +63,7 @@ const StyledUserInfo = styled.div`
     gap: 0.5rem;
     align-items: center;
     justify-content: center;
+    cursor: pointer;
 `;
 
 const StyledAvatar = styled.img`
@@ -67,7 +73,6 @@ const StyledAvatar = styled.img`
     object-fit: cover;
     object-position: center center;
     border-radius: 50%;
-    outline: 2px solid var(--color-grey-800);
     transition: all 0.3s;
 
     &:hover {
@@ -127,6 +132,7 @@ function Header() {
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const [searchParams, setSearchParams] = useSearchParams();
     const [isNotReadeds, setIsNotReadeds] = useState<NotificationTypes[]>();
+    const navigate = useNavigate();
     const { currentUser } = auth;
     const { t, i18n } = useTranslation();
     const { pathname } = useLocation();
@@ -165,7 +171,7 @@ function Header() {
             }}
         >
             <StyledList>
-                <StyledUserInfo>
+                <StyledUserInfo onClick={() => navigate("/settings")}>
                     <StyledListItem>
                         {currentUser?.photoURL && (
                             <StyledAvatar
