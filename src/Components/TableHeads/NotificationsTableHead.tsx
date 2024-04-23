@@ -137,6 +137,10 @@ export function NotificationsTableHead(props: EnhancedTableProps) {
                                           borderBottom:
                                               "1px solid var(--color-grey-200)",
                                           paddingLeft: "0px",
+                                          width:
+                                              col.key === "createdAt"
+                                                  ? "15%"
+                                                  : "auto",
                                       }}
                                   >
                                       <TableSortLabel
@@ -191,7 +195,7 @@ export function NotificationsTableHead(props: EnhancedTableProps) {
                                   <TableCell
                                       key={i}
                                       padding={
-                                          col.label === "Ad Soyad"
+                                          col.label === "İşlem Tarihi"
                                               ? "none"
                                               : "normal"
                                       }
@@ -207,6 +211,10 @@ export function NotificationsTableHead(props: EnhancedTableProps) {
                                           minWidth: "10rem",
                                           borderBottom:
                                               "1px solid var(--color-grey-200)",
+                                          width:
+                                              col.key === "createdAt"
+                                                  ? "15%"
+                                                  : "auto",
                                       }}
                                   >
                                       <TableSortLabel
