@@ -16,6 +16,8 @@ import {
 import { auth } from "../../Api/firebase";
 import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
+import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
+import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -44,6 +46,11 @@ const StyledSelect = styled(Select)`
     }
 `;
 
+const IconStyles = {
+    fontSize: "1.8rem",
+    fill: "var(--color-green-lighter)",
+};
+
 export function NotificationToolBar({
     searchText,
     setSearchText,
@@ -59,7 +66,8 @@ export function NotificationToolBar({
 }) {
     const { t } = useTranslation();
     const { data: notifications } = useGetNotifications();
-    const { mutateAsync: updateNotification } = useUpdateNotification();
+    const { mutateAsync: updateNotification, isPending: isUpdating } =
+        useUpdateNotification();
     const [searchParams, setSearchParams] = useSearchParams();
     const { currentUser } = auth;
     const userId = currentUser?.uid;
@@ -89,7 +97,6 @@ export function NotificationToolBar({
             return toast.success(t(`The notifications were marked as read`));
         }
     }
-    console.log(searchParams.has("action", "not-readed"));
 
     return (
         <>
@@ -157,7 +164,7 @@ export function NotificationToolBar({
                 </FormControl>
                 <Button
                     onClick={findAndUpdateNotification}
-                    disabled={selected.length === 0}
+                    disabled={selected.length === 0 || isUpdating}
                     sx={{
                         backgroundColor: "var(--color-grey-800)",
                         color: "var(--color-grey-50)",
@@ -174,19 +181,62 @@ export function NotificationToolBar({
                             transform: "translateY(0)",
                         },
                         "&:disabled": {
-                            backgroundColor: "var(--color-grey-500)",
+                            backgroundColor: "var(--color-grey-400)",
+                            cursor: "not-allowed",
+                            opacity: "0.8",
                         },
                     }}
                     variant="contained"
                 >
-                    {isAllSelected && searchParams.has("action", "not-readed")
-                        ? t("Mark all as read")
-                        : isAllSelected && searchParams.has("action", "readed")
-                        ? t("Mark all as unread")
-                        : !isAllSelected &&
-                          searchParams.has("action", "not-readed")
-                        ? t("Mark as read")
-                        : t("Mark as unread")}
+                    {isAllSelected &&
+                    searchParams.has("action", "not-readed") ? (
+                        <span
+                            style={{
+                                display: "flex",
+                                gap: "0.5rem",
+                                alignItems: "center",
+                            }}
+                        >
+                            {t("Mark all as read")}
+                            <MarkChatReadIcon sx={IconStyles} />
+                        </span>
+                    ) : isAllSelected &&
+                      searchParams.has("action", "readed") ? (
+                        <span
+                            style={{
+                                display: "flex",
+                                gap: "0.5rem",
+                                alignItems: "center",
+                            }}
+                        >
+                            {" "}
+                            {t("Mark all as unread")}{" "}
+                            <MarkChatUnreadIcon sx={IconStyles} />
+                        </span>
+                    ) : !isAllSelected &&
+                      searchParams.has("action", "not-readed") ? (
+                        <span
+                            style={{
+                                display: "flex",
+                                gap: "0.5rem",
+                                alignItems: "center",
+                            }}
+                        >
+                            {t("Mark as read")}
+                            <MarkChatReadIcon sx={IconStyles} />
+                        </span>
+                    ) : (
+                        <span
+                            style={{
+                                display: "flex",
+                                gap: "0.5rem",
+                                alignItems: "center",
+                            }}
+                        >
+                            {t("Mark as unread")}
+                            <MarkChatUnreadIcon sx={IconStyles} />
+                        </span>
+                    )}
                 </Button>
             </StyledToolBar>
         </>
