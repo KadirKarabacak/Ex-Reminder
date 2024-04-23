@@ -23,7 +23,7 @@
 25- ✅ Check add employe date feature and compare with edit, add new feature if needed
 26- ✅ Control edit employee with empty date
 27- ✅ Fix when i change avatar in a user account, it changes also other accounts
-28- On update user display name and avatar, fix header to automatically reflect changes
+28- ✅ On update user display name and avatar, fix header to automatically reflect changes
 29- ✅ ON DELETE IT DELETES WRONG EMPLOYEE
 30- ✅ On item detail, show profit which calculated from "(itemPrice - purchasePrice)* itemAmount"
 31- ✅ The item user trying to add, if already exists in table (compare with name, lowercase both of them) return an error
@@ -39,12 +39,12 @@
 41- ✅ On edit agreement in edit modal Budget comes wrong, formatCurrency doesnt work true for bigger moneys
 42- ✅ On companies add "Make Sale" button to buttongroup. In this modal, check items and companies. Only sell if the item and company is exist. After the sell is happen, drop that info to Accounting page. Satışlar hem "accounting" route'una eklenecek, hemde satış yapılan company'nin altındaki "sales" route'una
 43- ✅ Also add "Add Agreement" button in buttongroup too.
-44- In add Company modal the text field which contains address, make it opens map with leaflet
-45- In "Home" route add Big map which contains Warehouses, Companies, Offices and Dealers location pins
+44- ✅ In add Company modal the text field which contains address, make it opens map with leaflet
+45- ✅ In "Home" route add Big map which contains Warehouses, Companies, Offices and Dealers location pins
 46- ✅ On operations route, in sales table make "Sale Date" is default sorted and make table filterable based on date with input
 47- ✅ Warehouse > On add new item check the item is already exist in table or not, then allow to add item.
 48- Add "Meetings" route which contains the company's old meeting's details like "Meeting Decisions", "Meeting Content", "Meeting Participants", "Meeting Date",
-49- Companies > Operations > Add Delete & Edit Sale feature. It also need to change Accounting Records too
+49- ✅ Companies > Operations > Add Delete Sale feature. It also need to change Accounting Records too
 50- ✅ Companies > Make Sale On Sale selecting items add their amount next to select itemlist, not allow user to write more amount than item has. Also on sale remove items from warehouse list as sold
 51- ✅ Companies > After filtered by Search, it makes sale to wrong company
 52- ✅ Accounting > Sorting | Filtering companyName and itemName works wrong cuz of sorting by their id's. Try to fix.
@@ -66,37 +66,35 @@
 68- Tabloda 11 Sonuç varken 2. sayfadaki tek sonucu sildiğimde hata geliyor, eğer sayfada sonuç kalmadıysa sayfayı 1 geri getir.
 69- ✅ On register, add user createdAt date to expire their free version of application.
 70- Companies > Add negotiate to a company, see all negotiates, handle negotiate time and show user its near or negotiate time has passed
-71- After added a negotiate, handle that in applayout and every minute check any negotiate needs to alarm
-72- Map > The popup field which comes from by find my location button, fix content
-73- Allow user to select any alarm ringtone.
+71- ✅ After added a negotiate, handle that in applayout and every minute check any negotiate needs to alarm
+72- ✅ Map > The popup field which comes from by find my location button, fix content
+73- Allow user to select any alarm ringtone. // ---> https://mui.com/material-ui/react-dialog/#confirmation-dialogs
 74- For add notifications, update every mutation to add a notification. Add a isReaded prop to objects, and allow user to mark notifications as readed
+75- Update all modals by this link for "Accessibility" // --> https://mui.com/material-ui/react-modal/#accessibility
+76- ✅ Adding, deleting and updating warehouse is automatically updating notifications, but employees isn't update. Try to fix
+77- On notifications table toolbar, add colors meanings to alert user what they means
+78- ✅ To display notification on agreement changes, set agreementBudget or agreementParties as required.
 
 ### FEATURES ###
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
 
-# Harita Tabanlı İşlevsellik ✅
-Firebase Firestore veya Realtime Database'den alınan konum verilerini harita üzerinde göster. Satış noktalarını, ofisleri veya müşteri konumlarını harita üzerinde gösterme.
-Harita üzerinde tıklanabilir bölgeler, harita üzerindeki etkileşimli noktalar gibi kullanışlı özellikler ekleyebilirsiniz.
-Satış noktaları ve ofisleri barındıran bir route ve tablo, her ofis için detay sayfası, map'ten tıklanıldığında yönlendirilen sayfa ile aynı olacak.
-
 # Muhasebe ✅
 Fatura kesme - faturaları gösteren bir tablo
 Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablolar.
-
-# Depo / Stoklar ✅
-Şirketin mevcut ürün listesi - sayıları - fiyatlandırması - sipariş verme - [ Sipariş verme yetkisi belirli kullanıcılarda olmalıdır ]
-[ Ürün adı, ürün adedi, ürün alış fiyatı, ürün satış fiyatı, ürün açıklaması, ürün id ]
-
-# Personel Yönetim Paneli: ✅
-Çalışanların bilgilerini / maaşlarını ve performanslarını yönetmek için bir panel oluştur.
-
 
 ### PRESENTATIONAL
 
 # Home sayfası uygulama hakkında bilgi veren bir sayfa
 # Pricing kartları, kartlaradaki butonlardan ödeme aşamasına geçiş
 # Uygulama hakkında demo bir video olabilir
-#
 
 Slogan: Save Everything about your Company!
+
+
+TODO: LINKEDIN PAYLASIM
+Merhaba değerli bağlantılarım ve Linkedin ailesi. Bir süredir üzerinde çalıştığım hala da geliştirmekte, yeni özellikler eklemekte olduğum projem Ex Reminder'ı sizlere sunmak isterim. Projem genel hatlarıyla bir şirketin çalışanlarını, depo-ürünlerini, iş yaptığı şirketleri ve bu şirketler ile yapacağı-yapmış olduğu anlaşma, satış, muhasebe, görüşmeler gibi bilgilerin kayıtlarını tablolar halinde kullanıcı firmaya sunan bir web uygulamasıdır. Tüm bu veriler ve kullanıcı firmanın özel bilgilerini ele almak ve saklamak için Firebase'in sunmuş olduğu database, authentication-authorization gibi özelliklerden faydalandım.
+
+Projeyi geliştirirken kullandığım tüm teknolojiler ve proje hakkında daha detaylı bilgi edinmek adına sizleri Github repository'me bekliyorum. [Github repository link]
+
+Aynı zamanda projemi canlı ortama alıp sizlerin kullanımına açık hale getiriyorum. Kullanırken var ise karşılaştığınız problemler ve ekleyebileceğim, kullanıcılar için faydalı olduğunu düşündüğünüz tüm fikir ve eleştirileriniz için açığım. Vakit ayırıp gönderimi inceleyen ve projemde vakit geçiren herkese şimdiden teşekkürlerimi sunarım.
