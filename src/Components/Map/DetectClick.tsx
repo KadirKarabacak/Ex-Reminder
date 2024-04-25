@@ -7,7 +7,7 @@ export default function DetectClick({
     setClickedPosition: any;
     isAddressModal: boolean | undefined;
 }) {
-    const map = useMapEvents({
+    useMapEvents({
         click: event => {
             isAddressModal ? setClickedPosition(event.latlng) : null;
         },
