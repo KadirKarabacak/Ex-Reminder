@@ -7,11 +7,11 @@ import {
     updateDoc,
 } from "firebase/firestore";
 import { NegotiateTypes, UpdateNegotiateTypes } from "../Interfaces/User";
-import { auth, db } from "./firebase";
+import { db } from "./firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
-import { addNotification, useAddNotification } from "./notificationController";
+import { useAddNotification } from "./notificationController";
 
 //: Add Negotiate
 const addNegotiate = async function (
