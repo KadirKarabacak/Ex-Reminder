@@ -135,8 +135,16 @@ export default function NotificationsTableRow({
             return currentLanguage === "en-EN"
                 ? `User ${row.contentObj.displayName}'s email is updated to ${row.contentObj.email}`
                 : `${row.contentObj.displayName} isimli kullanıcının email adresi ${row.contentObj.email} adresine güncellendi`;
-        //! Negotiates
+        if (event === "Update User Name")
+            return currentLanguage === "en-EN"
+                ? `User's display name is updated to ${row.contentObj.displayName}`
+                : `Kullanıcının ismi ${row.contentObj.displayName} ismine güncellendi`;
+        if (event === "Update User Avatar")
+            return currentLanguage === "en-EN"
+                ? `User's avatar is updated`
+                : `Kullanıcının avatarı güncellendi`;
         if (event === "Add Negotiate")
+            //! Negotiates
             return currentLanguage === "en-EN"
                 ? `Negotiate added to ${
                       findCompanyWithId?.companyName
