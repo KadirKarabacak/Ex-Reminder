@@ -14,12 +14,7 @@ import {
 } from "@mui/material";
 import Tooltip from "@mui/material/Tooltip";
 import Grow from "@mui/material/Grow";
-import {
-    Link,
-    useLocation,
-    useNavigate,
-    useSearchParams,
-} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { logOut } from "../Api/userController";
 import { auth } from "../Api/firebase";
 import toast from "react-hot-toast";
@@ -130,7 +125,7 @@ const iconStyle = {
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
-    const [searchParams, setSearchParams] = useSearchParams();
+    // const [searchParams, setSearchParams] = useSearchParams();
     const [isNotReadeds, setIsNotReadeds] = useState<NotificationTypes[]>();
     const navigate = useNavigate();
     const { currentUser } = auth;
@@ -156,13 +151,6 @@ function Header() {
         setCurrentLanguage(i18n.language || "en-EN");
         i18n.changeLanguage(i18n.language);
     }, []);
-
-    useEffect(() => {
-        if (pathname === "/notifications") {
-            searchParams.set("action", "not-readed");
-            setSearchParams(searchParams);
-        }
-    }, [pathname]);
 
     return (
         <StyledHeader
@@ -239,7 +227,7 @@ function Header() {
                 </StyledListItem>
                 <StyledListItem>
                     <Badge badgeContent={isNotReadeds?.length} color="success">
-                        <Link to="/notifications">
+                        <Link to="/notifications?action=not-readed">
                             <Tooltip
                                 TransitionComponent={Grow}
                                 title={t("Notifications")}
