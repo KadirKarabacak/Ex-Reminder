@@ -153,21 +153,19 @@ export interface DeleteSaleTypes {
 }
 
 export interface Warehouses {
+    itemName: string;
     itemAmount?: number;
     itemId?: string;
-    itemName: string;
-    itemSalePrice?: string;
+    itemSalePrice?: number;
     itemPurchasePrice?: number;
-    purchasePrice?: number;
     itemDescription?: string;
     id?: string;
-    createdAt: Date;
+    createdAt?: any;
 }
 
 export interface TableRowTypes {
     isItemSelected: any;
     handleClick: any;
-    // index: number;
     labelId: string;
     row: any;
 }
@@ -184,8 +182,6 @@ export interface Companies {
     companyPhone: number | string;
     companyEmail: string;
     companyWebsite: string;
-    companyLogo: string;
-    companyDescription: string;
     companyManager: {
         managerName: string;
         managerPhone: number | string;
@@ -196,7 +192,7 @@ export interface Companies {
 }
 
 export interface CompanyAddressTypes {
-    companyCoordinates: {
+    companyCoordinates?: {
         lat: any;
         lng: any;
     };
