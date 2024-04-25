@@ -105,7 +105,7 @@ export default function CustomTable({
     );
     const [page, setPage] = React.useState(0);
     const [rowsPerPage, setRowsPerPage] = React.useState(10);
-    const [filteredData, setFilteredData] = React.useState(data || []);
+    const [filteredData, setFilteredData] = React.useState([]);
     const [searchParams] = useSearchParams();
 
     const handleRequestSort = (
@@ -120,6 +120,10 @@ export default function CustomTable({
         setOrder(isAsc ? "desc" : "asc");
         setOrderBy(property);
     };
+
+    React.useEffect(() => {
+        if (data) setFilteredData(data);
+    }, [data]);
 
     React.useEffect(() => {
         if (
