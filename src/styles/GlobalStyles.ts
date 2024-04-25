@@ -208,7 +208,7 @@ svg{
 .MuiTooltip-tooltip{
   font-size: 1.2rem !important;
   max-width: 60rem!important;
-  padding: 8px 12px!important;
+  padding: 10px 12px!important;
   background-color: var(--color-grey-200)!important;
   color: var(--color-grey-800)!important;
   box-shadow: var(--shadow-md)!important;
@@ -271,7 +271,6 @@ svg{
   font: 2rem DM Sans, sans serif !important;
 }
 
-/* Örnek olarak Popup'ın stili */
 .leaflet-popup-content-wrapper {
   background: var(--color-grey-100);
 }
