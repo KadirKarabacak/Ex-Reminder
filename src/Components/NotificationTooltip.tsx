@@ -18,7 +18,6 @@ export default function NotificationTooltip({
     const { t } = useTranslation();
     if (!data) return;
     const { event } = data;
-    console.log(data);
 
     function createToolTipContent(event: string) {
         //: Negotiates

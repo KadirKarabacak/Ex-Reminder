@@ -167,9 +167,7 @@ export default function CustomTable({
         setSelected([]);
     };
 
-    // TODO: Configure this function with paths, use data id's instead of indexes
     const handleClick = (_event: React.MouseEvent<unknown>, id: number) => {
-        // console.log(selected);
         const selectedIndex = selected.indexOf(id);
         let newSelected: readonly number[] = [];
 
