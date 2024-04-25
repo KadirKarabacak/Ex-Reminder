@@ -14,6 +14,7 @@ import Companies from "./Pages/Companies";
 import { AnimatePresence } from "framer-motion";
 import Accounting from "./Pages/Accounting";
 import Notifications from "./Pages/Notifications";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 const queryClient = new QueryClient({
     defaultOptions: {
@@ -26,6 +27,7 @@ const queryClient = new QueryClient({
 export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
+            <ReactQueryDevtools initialIsOpen={false} />
             <BrowserRouter>
                 <AnimatePresence mode="wait">
                     <Routes key={location.pathname}>
