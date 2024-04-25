@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, HashRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import AppLayout from "./Components/AppLayout";
@@ -28,7 +28,7 @@ export default function App() {
     return (
         <QueryClientProvider client={queryClient}>
             <ReactQueryDevtools initialIsOpen={false} />
-            <BrowserRouter>
+            <HashRouter>
                 <AnimatePresence mode="wait">
                     <Routes key={location.pathname}>
                         <Route index path="login" Component={Login} />
@@ -83,7 +83,7 @@ export default function App() {
                         },
                     }}
                 />
-            </BrowserRouter>
+            </HashRouter>
         </QueryClientProvider>
     );
 }
