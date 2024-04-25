@@ -11,7 +11,7 @@ import { auth, db } from "./firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
-import { addNotification } from "./notificationController";
+import { addNotification, useAddNotification } from "./notificationController";
 
 //: Add Negotiate
 const addNegotiate = async function (
@@ -31,19 +31,17 @@ const addNegotiate = async function (
 //: Add Negotiate Query
 export function useAddNegotiate() {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (variables: {
             userId: string | undefined;
             negotiate: NegotiateTypes;
         }) => addNegotiate(variables.userId, variables.negotiate),
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data,
-                    event: "Add Negotiate",
-                },
-                auth.currentUser?.uid
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data,
+                event: "Add Negotiate",
+            });
             queryClient.invalidateQueries();
             if (data.negotiateAlarm)
                 toast.success(

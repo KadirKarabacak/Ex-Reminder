@@ -15,7 +15,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
-import { addNotification } from "./notificationController";
+import { useAddNotification } from "./notificationController";
 
 //: Get All Warehouse
 const getWarehouse = async (userId: string | undefined) => {
@@ -53,16 +53,14 @@ const addItem = async function (item: Warehouses, userId: string | undefined) {
 //: Add new item Query
 export const useAddItem = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutate, isPending } = useMutation({
         mutationFn: (item: Warehouses) => addItem(item, auth?.currentUser?.uid),
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data,
-                    event: "Add Item",
-                },
-                auth?.currentUser?.uid
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data,
+                event: "Add Item",
+            });
             toast.success(i18n.t("New Item added successfully"));
             queryClient.invalidateQueries();
         },
@@ -88,19 +86,17 @@ export const updateItem = async function ({
 //: Update Item Query
 export const useUpdateItem = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateItemTypes) => {
             await updateItem(variables);
             return variables;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data.item,
-                    event: "Update Item",
-                },
-                data.userId
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data.item,
+                event: "Update Item",
+            });
             toast.success(i18n.t("Item successfully edited"));
             queryClient.invalidateQueries();
         },
@@ -127,19 +123,17 @@ const deleteItem = async function ({ id, userId }: DeleteItemTypes) {
 //: Delete Item query
 export const useDeleteItem = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: DeleteItemTypes) => {
             await deleteItem(variables);
             return variables;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data.row,
-                    event: "Delete Item",
-                },
-                data.userId
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data.row,
+                event: "Delete Item",
+            });
             toast.success(i18n.t("Item successfully deleted"));
             queryClient.invalidateQueries();
         },

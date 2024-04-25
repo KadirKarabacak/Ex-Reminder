@@ -25,7 +25,7 @@ import { getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { useNavigate } from "react-router-dom";
 import i18n from "../i18n";
-import { addNotification } from "./notificationController";
+import { addNotification, useAddNotification } from "./notificationController";
 
 //: Login
 export const signInWithEmailAndPasswordQuery = async ({
@@ -119,7 +119,7 @@ const updateUser = async ({
         });
         await addNotification(
             {
-                contentObj: {},
+                contentObj: { displayName: currentUser.displayName },
                 event: "Update User Avatar",
             },
             currentUser.uid
@@ -131,7 +131,7 @@ const updateUser = async ({
         });
         await addNotification(
             {
-                contentObj: {},
+                contentObj: { displayName: currentUser.displayName },
                 event: "Update User Name",
             },
             currentUser.uid
@@ -233,28 +233,26 @@ export async function updateUserEmail(
 //: Update user email Query
 export function useUpdateUserEmail() {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateUserEmailTypes) => {
             const { currentUser, email, password } = variables;
             await updateUserEmail(currentUser, email, password);
             return variables;
         },
-        onSuccess: data => {
-            console.log(data);
+        onSuccess: async data => {
             const {
                 email,
                 currentUser: { displayName },
             } = data;
-            addNotification(
-                {
-                    contentObj: {
-                        email,
-                        displayName,
-                    },
-                    event: "Update User Email",
+            // TODO: TRY TO ABSTRACT ADD NOTIFICATIONS TO ONSUCCESS
+            await addNotifications({
+                contentObj: {
+                    email,
+                    displayName,
                 },
-                auth.currentUser?.uid
-            );
+                event: "Update User Email",
+            });
             toast.success(
                 i18n.t("Your verification mail was sent successfully")
             );
@@ -286,26 +284,24 @@ export async function updateUserPassword({
 //: Update user password Query
 export function useUpdateUserPassword() {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateUserPasswordTypes) => {
             await updateUserPassword(variables);
             return variables;
         },
-        onSuccess: data => {
+        onSuccess: async data => {
             const {
                 currentUser: { displayName },
                 password,
             } = data;
-            addNotification(
-                {
-                    contentObj: {
-                        password,
-                        displayName,
-                    },
-                    event: "Update User Password",
+            await addNotifications({
+                contentObj: {
+                    password,
+                    displayName,
                 },
-                auth.currentUser?.uid
-            );
+                event: "Update User Password",
+            });
             toast.success(i18n.t("Password successfully updated"));
             queryClient.invalidateQueries();
         },

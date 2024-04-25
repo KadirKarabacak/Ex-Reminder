@@ -16,7 +16,7 @@ import {
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
-import { addNotification } from "./notificationController";
+import { useAddNotification } from "./notificationController";
 
 //: Get All Employees
 const getEmployees = async (userId: string | undefined) => {
@@ -57,19 +57,17 @@ const addEmployee = async function (
 //: Add new employee Query
 export const useAddEmployee = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: (employee: EmployeeData) =>
             addEmployee(employee, auth?.currentUser?.uid),
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data,
-                    event: "Add Employee",
-                },
-                auth.currentUser?.uid
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data,
+                event: "Add Employee",
+            });
             toast.success(i18n.t("New Employee added successfully"));
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
         onError: err => {
             console.log(err);
@@ -93,21 +91,19 @@ const updateEmployee = async function ({
 //: Update Employee Query
 export const useUpdateEmployee = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateEmployeeTypes) => {
             await updateEmployee(variables);
             return variables;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data.employee,
-                    event: "Update Employee",
-                },
-                data.userId
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data.employee,
+                event: "Update Employee",
+            });
             toast.success(i18n.t("Employee successfully edited"));
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
         onError: err => {
             console.log(err);
@@ -136,21 +132,19 @@ const deleteEmployee = async function ({
 //: Delete employee query
 export const useDeleteEmployee = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: DeleteEmployeeTypes) => {
             await deleteEmployee(variables);
             return variables;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data.row,
-                    event: "Delete Employee",
-                },
-                auth.currentUser?.uid
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data.row,
+                event: "Delete Employee",
+            });
             toast.success(i18n.t("Employee successfully deleted"));
-            queryClient.invalidateQueries();
+            queryClient.invalidateQueries({ queryKey: ["employees"] });
         },
         onError: err => {
             console.log(err);

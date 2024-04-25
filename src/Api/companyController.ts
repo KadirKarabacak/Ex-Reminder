@@ -15,7 +15,7 @@ import {
     DeleteCompanyTypes,
     UpdateCompanyTypes,
 } from "../Interfaces/User";
-import { addNotification } from "./notificationController";
+import { useAddNotification } from "./notificationController";
 
 //: Get All Companies
 const getCompanies = async (userId: string | undefined) => {
@@ -55,19 +55,17 @@ const addCompany = async function (
 //: Add new company Query
 export const useAddCompany = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutate, isPending } = useMutation({
         mutationFn: async (company: Companies) => {
             addCompany(company, auth?.currentUser?.uid);
             return company;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data,
-                    event: "Add Company",
-                },
-                auth.currentUser?.uid
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data,
+                event: "Add Company",
+            });
             toast.success(i18n.t("New Company added successfully"));
             queryClient.invalidateQueries();
         },
@@ -92,19 +90,17 @@ const updateCompany = async function ({
 //: Update Company Query
 export const useUpdateCompany = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: UpdateCompanyTypes) => {
             await updateCompany(variables);
             return variables;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data.company,
-                    event: "Update Company",
-                },
-                auth.currentUser?.uid
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data.company,
+                event: "Update Company",
+            });
             toast.success(i18n.t("Company successfully edited"));
             queryClient.invalidateQueries();
         },
@@ -129,19 +125,17 @@ const deleteCompany = async function ({ id, userId }: DeleteCompanyTypes) {
 //: Delete Company query
 export const useDeleteCompany = function () {
     const queryClient = useQueryClient();
+    const { addNotifications } = useAddNotification();
     const { mutateAsync, isPending } = useMutation({
         mutationFn: async (variables: DeleteCompanyTypes) => {
             await deleteCompany(variables);
             return variables;
         },
-        onSuccess: data => {
-            addNotification(
-                {
-                    contentObj: data.row,
-                    event: "Delete Company",
-                },
-                data.userId
-            );
+        onSuccess: async data => {
+            await addNotifications({
+                contentObj: data.row,
+                event: "Delete Company",
+            });
             toast.success(i18n.t("Company successfully deleted"));
             queryClient.invalidateQueries();
         },

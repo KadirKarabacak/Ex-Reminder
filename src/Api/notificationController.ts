@@ -23,6 +23,17 @@ export const addNotification = async function (
     });
 };
 
+export function useAddNotification() {
+    const queryClient = useQueryClient();
+    const { mutateAsync: addNotifications, isPending } = useMutation({
+        mutationFn: (notification: NotificationTypes) =>
+            addNotification(notification, auth?.currentUser?.uid),
+        onSuccess: () =>
+            queryClient.invalidateQueries({ queryKey: ["notifications"] }),
+    });
+    return { addNotifications, isPending };
+}
+
 //: Get Notifications
 const getNotifications = async (userId: string | undefined) => {
     const querySnapShot = await getDocs(
