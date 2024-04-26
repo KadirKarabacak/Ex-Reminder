@@ -52,7 +52,6 @@ export default function ConfidentialityAgreementModal({
 
     function onCloseModal() {
         handleClose(open);
-        setConfidentialityAgreement(true);
     }
 
     return (
@@ -151,7 +150,10 @@ export default function ConfidentialityAgreementModal({
                                 `By using the App, Users agree to this Privacy Agreement. If this Agreement If you do not agree with its provisions, please use the App do not use it.`
                             )}
                             <Button
-                                onClick={onCloseModal}
+                                onClick={() => {
+                                    onCloseModal();
+                                    setConfidentialityAgreement(true);
+                                }}
                                 sx={{
                                     color: "var(--color-white-soft)",
                                     transition: "all .3s",
