@@ -82,16 +82,10 @@ export default function ConfidentialityAgreementModal({
                             variant="h5"
                             component="p"
                         >
-                            <StyledSpan>{t("Gizlilik Sözleşmesi")}</StyledSpan>
-                            {t(`Bu gizlilik sözleşmesi,
-                            "Ex Software & Development" tarafından işletilen ve "Ex Reminder" adlı web sitesi veya mobil uygulama
-                            üzerinden sağlanan hizmetlerle ilgili olarak
-                            kullanıcılarımızın gizliliğini
-                            korumak için oluşturulmuştur. Bu Sözleşme, Uygulama
-                            kullanımıyla ilgili olarak kullanıcılarımızın
-                            kişisel bilgilerinin nasıl toplandığını,
-                            kullanıldığını, korunduğunu ve ifşa edildiğini
-                            açıklar.`)}
+                            <StyledSpan>{t("Privacy Policy")}</StyledSpan>
+                            {t(
+                                `This confidentiality agreement aims to protect the privacy of our users in relation to the services operated by “Ex Software & Development” and provided through the website or mobile application called “Ex Reminder” protection. This Agreement describes how our users' personal information is collected, used, protected and disclosed in connection with the use of the Application.`
+                            )}
                         </Typography>
                         <Typography
                             sx={TypographyStyle}
@@ -99,64 +93,41 @@ export default function ConfidentialityAgreementModal({
                             component="p"
                         >
                             <StyledSpan>
-                                {t(`Kullanıcı Bilgilerinin Toplanması ve
-                                Kullanılması`)}
+                                {t(`Collection and Use of User Information`)}
                             </StyledSpan>
-                            {t(`Uygulama, Kullanıcıların kaydolurken sağladıkları
-                            kişisel bilgileri toplayabilir. Bu bilgiler arasında
-                            isim, e-posta adresi, telefon numarası ve diğer
-                            kişisel tanımlayıcı bilgiler bulunabilir.
-                            Kullanıcıların sağladığı bilgiler, Uygulama
-                            tarafından sunulan hizmetlerin sağlanması, kullanıcı
-                            hesaplarının yönetimi, teknik destek sağlanması ve
-                            hizmetlerle ilgili bildirimlerin iletilmesi gibi
-                            amaçlarla kullanılabilir. Kullanıcıların kişisel
-                            bilgileri asla üçüncü taraflarla paylaşılmayacak
-                            veya satılmayacaktır, ancak yasal gereklilikler veya
-                            Uygulama hizmetlerinin sunulması için gereken
-                            durumlarda bilgiler yetkili kurumlarla
-                            paylaşılabilir.`)}
+                            {t(
+                                `The App may collect personal information that Users provide when registering. This information may include name, email address, phone number and other personally identifiable information. The information provided by Users may be used for purposes such as providing the services offered by the Application, managing user accounts, providing technical support and sending notifications regarding the services. Users' personal information will never be shared or sold to third parties, but where required by legal requirements or for the provision of the App services, the information may be shared with authorized institutions. can be shared.`
+                            )}
                         </Typography>
                         <Typography
                             sx={TypographyStyle}
                             variant="h5"
                             component="p"
                         >
-                            <StyledSpan>{t("Çerezler")}</StyledSpan>
-                            {t(`Uygulama, Kullanıcı deneyimini geliştirmek ve
-                            hizmetlerimizi daha etkili bir şekilde sunmak için
-                            çerezler kullanabilir. Kullanıcılar, tarayıcılarının
-                            ayarlarını değiştirerek çerez kullanımını
-                            istedikleri şekilde kontrol edebilirler. Ancak, bazı
-                            durumlarda bu, Uygulamanın bazı özelliklerinin
-                            düzgün çalışmamasına neden olabilir.`)}
+                            <StyledSpan>{t("Cookies")}</StyledSpan>
+                            {t(
+                                `Application, To improve the User experience and deliver our services more effectively may use cookies. Users should note that their browser the use of cookies by changing the settings they can control in any way they want. However, some in cases where this may affect how some features of the App may cause it not to work properly.`
+                            )}
                         </Typography>
                         <Typography
                             sx={TypographyStyle}
                             variant="h5"
                             component="p"
                         >
-                            <StyledSpan>{t("Güvenlik")}</StyledSpan>
-                            {t(`Şirket, Kullanıcı bilgilerinin güvenliğini sağlamak
-                            için ticari olarak kabul edilebilir fiziksel,
-                            elektronik ve yönetimsel prosedürleri uygular.
-                            Ancak, hiçbir veri iletimi veya depolama yönteminin
-                            %100 güvenli olmadığını lütfen unutmayın.`)}
+                            <StyledSpan>{t("Security")}</StyledSpan>
+                            {t(
+                                `The Company shall ensure the security of User information commercially acceptable for physical, electronic and administrative procedures. However, no method of data transmission or storage Please note that it is not 100% safe.`
+                            )}
                         </Typography>
                         <Typography
                             sx={TypographyStyle}
                             variant="h5"
                             component="p"
                         >
-                            <StyledSpan>
-                                {t(`Değişiklikler ve Güncellemeler`)}
-                            </StyledSpan>
-                            {t(`Bu Gizlilik Sözleşmesi, Uygulamanın gelişmesi veya
-                            yasal gerekliliklerin değişmesi gibi nedenlerle
-                            zaman zaman güncellenebilir. Güncellenmiş bir sürüm
-                            yayınlandığında, Kullanıcılar bilgilendirilecek ve
-                            değişikliklerin yürürlüğe girmesinden önce onay
-                            istenecektir.`)}
+                            <StyledSpan>{t(`Changes and Updates`)}</StyledSpan>
+                            {t(
+                                `This Privacy Agreement may be updated from time to time for reasons such as the development of the App or changes in legal requirements. When an updated version is published, Users will be notified and may provide their consent prior to the changes taking effect. will be requested.`
+                            )}
                         </Typography>
                         <Typography
                             sx={{
@@ -168,15 +139,14 @@ export default function ConfidentialityAgreementModal({
                             variant="h5"
                             component="p"
                         >
-                            <StyledSpan>{t("Kabul Edilmesi")}</StyledSpan>
-                            {t(`Uygulamayı kullanarak, Kullanıcılar bu Gizlilik
-                            Sözleşmesini kabul etmiş olurlar. Eğer bu Sözleşme
-                            hükümlerini kabul etmiyorsanız, lütfen Uygulamayı
-                            kullanmayın.`)}
+                            <StyledSpan>{t("Acceptance")}</StyledSpan>
+                            {t(
+                                `By using the App, Users agree to this Privacy Agreement. If this Agreement If you do not agree with its provisions, please use the App do not use it.`
+                            )}
                             <Button
                                 onClick={onCloseModal}
                                 sx={{
-                                    color: "var(--color-grey-50)",
+                                    color: "var(--color-white-soft)",
                                     transition: "all .3s",
                                     padding: "1.3rem 3.3rem",
                                     mt: "3rem",
