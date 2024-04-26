@@ -71,10 +71,12 @@ export default function Employees() {
                 selected={selected}
                 setSelected={setSelected}
             />
-            <InformationContainer>
-                <CustomPieChart data={data} />
-                <EmployeeStats data={data} />
-            </InformationContainer>
+            {data && data?.length > 0 && (
+                <InformationContainer>
+                    <CustomPieChart data={data} />
+                    <EmployeeStats data={data} />
+                </InformationContainer>
+            )}
         </AnimatedStyledEmployees>
     );
 }
