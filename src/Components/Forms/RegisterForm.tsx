@@ -24,8 +24,9 @@ const StyledTextField = styled(TextField)`
     & div + p {
         font-size: 1rem;
     }
+
     & label {
-        color: var(--color-grey-400);
+        color: var(--color-grey-400) !important;
         font-size: 1.3rem;
     }
 
