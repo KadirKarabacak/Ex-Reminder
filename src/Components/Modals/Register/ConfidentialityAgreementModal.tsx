@@ -1,7 +1,6 @@
 import { Backdrop, Box, Button, Fade, Modal, Typography } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { ModalTypes } from "../../../Interfaces/User";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -38,14 +37,22 @@ const TypographyStyle = {
     marginBottom: "2rem",
 };
 
+interface ConfidentialityModalTypes {
+    open: boolean;
+    handleClose: React.Dispatch<React.SetStateAction<boolean>>;
+    setConfidentialityAgreement: React.Dispatch<React.SetStateAction<boolean>>;
+}
+
 export default function ConfidentialityAgreementModal({
     handleClose,
     open,
-}: ModalTypes) {
+    setConfidentialityAgreement,
+}: ConfidentialityModalTypes) {
     const { t } = useTranslation();
 
     function onCloseModal() {
         handleClose(open);
+        setConfidentialityAgreement(true);
     }
 
     return (
