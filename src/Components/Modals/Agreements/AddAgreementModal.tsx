@@ -252,7 +252,7 @@ export default function AddAgreementModal({
                                 <StyledTextField
                                     disabled={isPending}
                                     type="text"
-                                    defaultValue={`${currentUser?.displayName} & ${currentCompany?.companyName}`}
+                                    defaultValue={`${currentUser?.displayName || t("You")} & ${currentCompany?.companyName}`}
                                     placeholder={t("Company A & Company B")}
                                     {...register("agreementParties")}
                                 />
