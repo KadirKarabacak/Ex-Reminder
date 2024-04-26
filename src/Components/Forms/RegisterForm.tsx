@@ -103,9 +103,11 @@ export default function RegisterForm() {
         formState,
         getValues,
         setFocus,
-        watch,
+        // watch,
     } = useForm();
-    const watchAgreement = watch("confidentialityAgreement");
+    const [confidentialityAgreement, setConfidentialityAgreement] =
+        useState(false);
+    // const watchAgreement = watch("confidentialityAgreement");
     const { errors, isSubmitting } = formState;
     const navigate = useNavigate();
     const currentLanguage = i18n.language;
@@ -126,7 +128,7 @@ export default function RegisterForm() {
         const { email, password } = getValues();
         if (!email || !password) return;
 
-        if (!watchAgreement)
+        if (!confidentialityAgreement)
             return toast.error(
                 t("You must agree Privacy Policy to use this application")
             );
@@ -233,10 +235,14 @@ export default function RegisterForm() {
                     />
                     <StyledAgreementContainer>
                         <StyledCheckbox
-                            {...register("confidentialityAgreement", {
-                                required: "",
-                            })}
+                            // {...register("confidentialityAgreement", {
+                            //     required: "",
+                            // })}
+                            checked={confidentialityAgreement}
                             inputProps={{}}
+                            onChange={e =>
+                                setConfidentialityAgreement(e.target.checked)
+                            }
                         />
                         <StyledLabel>
                             {currentLanguage === "en-EN" &&
@@ -285,10 +291,10 @@ export default function RegisterForm() {
                     )}
                     <StyledButtonContainer>
                         <Button
-                            disabled={isSubmitting || !watchAgreement}
+                            disabled={isSubmitting || !confidentialityAgreement}
                             sx={{
                                 backgroundColor: "var(--color-green-new)",
-                                color: "var(--color-soft-white)",
+                                color: "var(--color-white-soft)",
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
                                 fontSize: "1.1rem",
@@ -297,7 +303,7 @@ export default function RegisterForm() {
                                 "&:hover": {
                                     backgroundColor:
                                         "var(--color-green-lighter)",
-                                    color: "var(--color-grey-100)",
+                                    color: "var(--color-white-soft)",
                                     transform: "translateY(-2px)",
                                     border: "1px solid transparent",
                                 },
@@ -347,6 +353,7 @@ export default function RegisterForm() {
                 <ConfidentialityAgreementModal
                     open={open}
                     handleClose={handleClose}
+                    setConfidentialityAgreement={setConfidentialityAgreement}
                 />
             )}
         </>
