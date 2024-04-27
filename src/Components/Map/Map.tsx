@@ -106,7 +106,7 @@ export default function Map({
                 setClickedPosition={setClickedPosition}
                 isAddressModal={isAddressModal}
             />
-            <ZoomControl position="bottomright" />
+            <ZoomControl position="topleft" />
             <ChangeCenter position={clickedPosition || mapPosition} />
         </MapContainer>
     );
