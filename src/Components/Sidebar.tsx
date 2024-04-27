@@ -86,7 +86,7 @@ function Sidebar() {
             >
                 <StyledNavLink to="/">
                     <MapIcon sx={iconStyle} />
-                    {t("Map")}
+                    {window.innerWidth > 1000 && t("Map")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
@@ -97,7 +97,7 @@ function Sidebar() {
             >
                 <StyledNavLink to="/accounting">
                     <AccountBalanceWalletIcon sx={iconStyle} />
-                    {t("Accounting")}
+                    {window.innerWidth > 1000 && t("Accounting")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
@@ -110,7 +110,7 @@ function Sidebar() {
             >
                 <StyledNavLink to="/companies">
                     <BusinessIcon sx={iconStyle} />
-                    {t("Companies")}
+                    {window.innerWidth > 1000 && t("Companies")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
@@ -121,7 +121,7 @@ function Sidebar() {
             >
                 <StyledNavLink to="/warehouse">
                     <WarehouseOutlined sx={iconStyle} />
-                    {t("Warehouse")}
+                    {window.innerWidth > 1000 && t("Warehouse")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
@@ -132,7 +132,7 @@ function Sidebar() {
             >
                 <StyledNavLink to="/employees">
                     <GroupIcon sx={iconStyle} />
-                    {t("Employees")}
+                    {window.innerWidth > 1000 && t("Employees")}
                 </StyledNavLink>
             </Tooltip>
             <Tooltip
@@ -145,7 +145,7 @@ function Sidebar() {
             >
                 <StyledNavLink to="/settings">
                     <SettingsIcon sx={iconStyle} />
-                    {t("Settings")}
+                    {window.innerWidth > 1000 && t("Settings")}
                 </StyledNavLink>
             </Tooltip>
         </StyledSidebar>
