@@ -31,7 +31,7 @@ const StyledTextField = styled(TextField)`
     & div + p {
         font-size: 1rem;
     }
-    
+
     & label {
         color: var(--color-grey-400) !important;
         font-size: 1.3rem;
@@ -158,13 +158,14 @@ export default function LoginForm() {
                     alignItems: "center",
                     gap: "2rem",
                     color: "var(--color-grey-800)",
-                    backgroundColor: "var(--color-grey-50)",
+                    backgroundColor: "var(--color-grey-50-forms)",
                     p: "4rem 4rem",
                     boxShadow: "var(--shadow-md)",
                     minWidth: "45rem",
+                    position: "relative",
+                    zIndex: "9",
                 }}
             >
-                {/* <StyledLogo src="../../logo-here.png" /> */}
                 <StyledLogo
                     src="../../../EX_REMINDER-blue.png"
                     alt="EX_REMINDER logo"

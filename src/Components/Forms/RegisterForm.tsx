@@ -55,7 +55,7 @@ const StyledButtonContainer = styled.div`
     display: flex;
     gap: 1.5rem;
     align-items: center;
-    margin-top: 1.5rem;
+    margin-top: 0.5rem;
 `;
 
 const StyledLabel = styled.label`
@@ -96,18 +96,10 @@ const StyledCheckbox = styled(Checkbox)`
 export default function RegisterForm() {
     const [open, setOpen] = useState(false);
     const { t, i18n } = useTranslation();
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState,
-        getValues,
-        setFocus,
-        // watch,
-    } = useForm();
+    const { register, handleSubmit, reset, formState, getValues, setFocus } =
+        useForm();
     const [confidentialityAgreement, setConfidentialityAgreement] =
         useState(false);
-    // const watchAgreement = watch("confidentialityAgreement");
     const { errors, isSubmitting } = formState;
     const navigate = useNavigate();
     const currentLanguage = i18n.language;
@@ -165,12 +157,14 @@ export default function RegisterForm() {
                         flexDirection: "column",
                         justifyContent: "center",
                         alignItems: "center",
-                        gap: "2rem",
+                        gap: "1.5rem",
                         color: "var(--color-grey-800)",
-                        backgroundColor: "var(--color-grey-50)",
-                        p: "4rem 4rem",
+                        backgroundColor: "var(--color-grey-50-forms)",
+                        p: "4rem",
                         boxShadow: "var(--shadow-md)",
                         maxWidth: "55rem",
+                        position: "relative",
+                        zIndex: "9",
                     }}
                 >
                     <StyledLogo src="../../../EX_REMINDER-blue.png" />
@@ -312,6 +306,7 @@ export default function RegisterForm() {
                                 },
                                 "&.Mui-disabled": {
                                     background: "var(--color-grey-400)",
+                                    cursor: "not-allowed",
                                 },
                             }}
                             type="submit"

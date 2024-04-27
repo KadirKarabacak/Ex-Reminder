@@ -91,9 +91,11 @@ export default function ForgotPasswordForm() {
                     alignItems: "center",
                     gap: "2.5rem",
                     color: "var(--color-grey-800)",
-                    backgroundColor: "var(--color-grey-50)",
+                    backgroundColor: "var(--color-grey-50-forms)",
                     p: "6rem 4rem",
                     boxShadow: "var(--shadow-md)",
+                    position: "relative",
+                    zIndex: "9",
                 }}
             >
                 <StyledLogo src="../../../EX_REMINDER-blue.png" />
