@@ -3,6 +3,7 @@ import RegisterForm from "../Components/Forms/RegisterForm";
 import { animationDuration } from "../Constants/constant";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+import Background from "../Components/Background";
 
 export const circleInHesitate = keyframes`
   0% {
@@ -38,6 +39,7 @@ export default function Login() {
             <Helmet>
                 <title>Ex Reminder | {t("Register")}</title>
             </Helmet>
+            <Background />
             <RegisterForm />
         </StyledRegister>
     );

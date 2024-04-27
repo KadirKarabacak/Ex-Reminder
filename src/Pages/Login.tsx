@@ -3,6 +3,7 @@ import LoginForm from "../Components/Forms/LoginForm";
 import { animationDuration } from "../Constants/constant";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
+import Background from "../Components/Background";
 
 export const circleInHesitate = keyframes`
   0% {
@@ -37,6 +38,7 @@ export default function Login() {
             <Helmet>
                 <title>Ex Reminder | {t("Login")}</title>
             </Helmet>
+            <Background />
             <LoginForm />
         </StyledLogin>
     );
