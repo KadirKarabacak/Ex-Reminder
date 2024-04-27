@@ -44,6 +44,8 @@ const GlobalStyles = createGlobalStyle`
 
     --image-grayscale: 0;
     --image-opacity: 100%;
+
+    --color-grey-50-forms: rgba(249, 250, 251, 0.96);
   }
     
     &.dark-mode{
@@ -86,6 +88,8 @@ const GlobalStyles = createGlobalStyle`
 
     --image-grayscale: 10%;
     --image-opacity: 90%;
+
+    --color-grey-50-forms: rgba(17, 24, 39, 0.96);
   }
 
   --border-radius-tiny: 3px;
@@ -311,6 +315,45 @@ svg{
   box-shadow: var(--shadow-sm);
   padding: 10px!important;
   border-radius: 5px!important;
+}
+
+
+/* DENEME TODO: */
+.square {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 50px;
+	background: var(--color-brand-500);
+	z-index: 2;
+  box-shadow: var(--shadow-md);
+}
+
+.circle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 50px;
+	background: var(--color-green-lighter);
+	border-radius: 50%;
+  box-shadow: var(--shadow-md);
+}
+
+.triangle {
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 50px;
+	height: 50px;
+	background: var(--color-grey-800);
+	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+	-webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+  box-shadow: var(--shadow-md);
 }
 
 `;
