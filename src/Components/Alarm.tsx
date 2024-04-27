@@ -1,4 +1,4 @@
-import { Button, Tooltip, Zoom } from "@mui/material";
+import { Button, Tooltip, Grow } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import i18n from "../i18n";
@@ -76,7 +76,7 @@ export function Alarm({
                     {findNegotiateToAlert.negotiateContent}{" "}
                 </div>
                 <Tooltip
-                    TransitionComponent={Zoom}
+                    TransitionComponent={Grow}
                     title={t("We never display again this alarm")}
                     placement="bottom"
                 >
