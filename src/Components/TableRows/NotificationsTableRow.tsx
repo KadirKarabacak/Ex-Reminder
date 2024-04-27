@@ -225,11 +225,8 @@ export default function NotificationsTableRow({
                     padding: "10px 16px 10px 0px",
                 }}
             >
-                <Tooltip
-                    title={<NotificationTooltip data={row} />}
-                    placement="top-start"
-                    followCursor
-                >
+                {row.event === "Update User Name" ||
+                row.event === "Update User Avatar" ? (
                     <Chip
                         label={
                             (
@@ -252,7 +249,36 @@ export default function NotificationsTableRow({
                             boxShadow: "0 0.6rem 2rem rgba(0,0,0,0.1)",
                         }}
                     />
-                </Tooltip>
+                ) : (
+                    <Tooltip
+                        title={<NotificationTooltip data={row} />}
+                        placement="top-start"
+                        followCursor
+                    >
+                        <Chip
+                            label={
+                                (
+                                    <span
+                                        style={{
+                                            display: "flex",
+                                            gap: "0.8rem",
+                                            justifyContent: "center",
+                                            alignItems: "center",
+                                        }}
+                                    >
+                                        {createNotificationContent(row.event)}{" "}
+                                        {createIcon(row.event)}
+                                    </span>
+                                ) || "-"
+                            }
+                            color={createChipColor(row.event)}
+                            sx={{
+                                fontSize: "1.2rem",
+                                boxShadow: "0 0.6rem 2rem rgba(0,0,0,0.1)",
+                            }}
+                        />
+                    </Tooltip>
+                )}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 <ButtonGroup tableName="notifications" row={row} />
