@@ -4,6 +4,7 @@ import {
     MenuItem,
     Select,
     Toolbar,
+    Tooltip,
     Typography,
 } from "@mui/material";
 import { useTranslation } from "react-i18next";
@@ -18,6 +19,9 @@ import toast from "react-hot-toast";
 import { useSearchParams } from "react-router-dom";
 import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
 import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
+import InfoIcon from "@mui/icons-material/Info";
+import Grow from "@mui/material/Grow";
+import NotificationsInfo from "../NotificationsInfo";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -46,9 +50,28 @@ const StyledSelect = styled(Select)`
     }
 `;
 
+const StyledButton = styled(Button)`
+    &:hover {
+        border-color: transparent;
+    }
+    &:hover > svg {
+        color: var(--color-green-lighter);
+    }
+`;
+
 const IconStyles = {
     fontSize: "1.8rem",
     fill: "var(--color-green-lighter)",
+};
+
+const iconStyle = {
+    width: "2rem",
+    height: "2rem",
+    color: "var(--color-grey-600)",
+    transition: "all .3s",
+    ":hover": {
+        color: "var(--color-green-lighter)",
+    },
 };
 
 export function NotificationToolBar({
@@ -109,7 +132,6 @@ export function NotificationToolBar({
             >
                 <Typography
                     sx={{
-                        marginRight: "auto",
                         color: "var(--color-green-lighter)",
                         fontSize: "2.4rem",
                         fontWeight: "bold",
@@ -120,6 +142,25 @@ export function NotificationToolBar({
                 >
                     {t("Notifications")}
                 </Typography>
+                <Tooltip
+                    TransitionComponent={Grow}
+                    title={<NotificationsInfo />}
+                >
+                    <StyledButton
+                        sx={{
+                            fontSize: "2rem",
+                            minWidth: 0,
+                            p: "0.7rem",
+                            marginRight: "auto",
+                            borderColor: "var(--color-grey-300)",
+                            borderRadius: "50%",
+                        }}
+                        color="inherit"
+                        variant="outlined"
+                    >
+                        <InfoIcon sx={iconStyle} />
+                    </StyledButton>
+                </Tooltip>
                 <SearchInput
                     searchText={searchText}
                     setSearchText={setSearchText}
