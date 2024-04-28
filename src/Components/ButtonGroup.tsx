@@ -25,6 +25,8 @@ import AddAgreementModal from "./Modals/Agreements/AddAgreementModal";
 import DeleteSaleModal from "./Modals/Sales/DeleteSaleModal";
 import AddNegotiateModal from "./Modals/Companies/AddNegotiateModal";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
+import DeleteNotificationModal from "./Modals/Notifications/DeleteNotificationModal";
+import { formatDateAndTime } from "../Utils/utils";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -93,6 +95,10 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
     const [opensAddSale, setOpensAddSale] = React.useState(false);
     const [opensDeleteSale, setOpensDeleteSale] = React.useState(false);
     const [opensNegotiate, setOpensNegotiate] = React.useState(false);
+
+    // Notifications
+    const [openDeleteNotification, setOpensOpenDeleteNotification] =
+        React.useState(false);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
@@ -171,7 +177,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         }, 400);
     };
 
-    //! Companies & Sales
+    // Companies
     const handleOpenEditCompanyModal = () => {
         setOpensEditCompany(true);
         handleClose();
@@ -194,6 +200,8 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             setSearchParams("");
         }, 400);
     };
+
+    // Sales
     const handleOpenAddSaleModal = () => {
         setOpensAddSale(true);
         handleClose();
@@ -205,11 +213,25 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
             setSearchParams(``);
         }, 400);
     };
+    const handleOpenDeleteSaleModal = () => {
+        setOpensDeleteSale(true);
+        handleClose();
+        setSearchParams(`delete-sale`);
+    };
+    const handleCloseDeleteSaleModal = () => {
+        setOpensDeleteSale(false);
+        setTimeout(() => {
+            setSearchParams("");
+        }, 400);
+    };
 
+    // Operations
     const handleOperationsClick = () => {
         setSearchParams(row.id);
         navigate(`/companies/${row.id}`);
     };
+
+    // Agreements
     const handleOpenAddAgreementModal = () => {
         setOpensAddAgreement(true);
         handleClose();
@@ -222,17 +244,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         }, 400);
     };
 
-    const handleOpenDeleteSaleModal = () => {
-        setOpensDeleteSale(true);
-        handleClose();
-        setSearchParams(`delete-sale`);
-    };
-    const handleCloseDeleteSaleModal = () => {
-        setOpensDeleteSale(false);
-        setTimeout(() => {
-            setSearchParams("");
-        }, 400);
-    };
+    // Negotiates
     const handleOpenNegotiateModal = () => {
         setOpensNegotiate(true);
         handleClose();
@@ -243,6 +255,21 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
         setOpensNegotiate(false);
         setTimeout(() => {
             searchParams.delete("modal");
+            setSearchParams(searchParams);
+        }, 400);
+    };
+
+    // Notifications
+    const handleOpenDeleteNotificationModal = () => {
+        setOpensOpenDeleteNotification(true);
+        handleClose();
+        searchParams.set("event", "delete-notification");
+        setSearchParams(searchParams);
+    };
+    const handleCloseDeleteNotificationModal = () => {
+        setOpensOpenDeleteNotification(false);
+        setTimeout(() => {
+            searchParams.delete("event");
             setSearchParams(searchParams);
         }, 400);
     };
@@ -275,9 +302,11 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     {tableName === "sales" && row?.saleCreatedAt}
                     {tableName === "accounting" &&
                         `${row?.saleCompanyName} - ${row?.saleCreatedAt}`}
+                    {tableName === "notifications" &&
+                        `${formatDateAndTime(row.createdAt.seconds * 1000)}`}
                 </MenuItem>
                 <Divider sx={{ marginTop: "0!important" }} />
-
+                {/* EMPLOYEES */}
                 {tableName === "employee" && (
                     <div>
                         <MenuItem onClick={handleOpenEditModal} disableRipple>
@@ -295,6 +324,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     </div>
                 )}
 
+                {/* WAREHOUSE */}
                 {tableName === "warehouse" && (
                     <div>
                         <MenuItem
@@ -321,6 +351,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     </div>
                 )}
 
+                {/* COMPANIES */}
                 {tableName === "company" && (
                     <div>
                         <MenuItem
@@ -365,6 +396,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     </div>
                 )}
 
+                {/* SALES */}
                 {tableName === "sales" && (
                     <div>
                         <MenuItem
@@ -376,9 +408,24 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                         </MenuItem>
                     </div>
                 )}
+
+                {/* ACCOUNTING */}
                 {tableName === "accounting" && (
                     <div>
                         <MenuItem disableRipple>
+                            <DeleteOutline />
+                            {t("Delete")}
+                        </MenuItem>
+                    </div>
+                )}
+
+                {/* TODO: NOTIFICATIONS */}
+                {tableName === "notifications" && (
+                    <div>
+                        <MenuItem
+                            onClick={handleOpenDeleteNotificationModal}
+                            disableRipple
+                        >
                             <DeleteOutline />
                             {t("Delete")}
                         </MenuItem>
@@ -485,6 +532,14 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     row={row}
                     open={opensNegotiate}
                     handleClose={handleCloseNegotiateModal}
+                />
+            )}
+            {searchParams.has("event", "delete-notification") && (
+                <DeleteNotificationModal
+                    open={openDeleteNotification}
+                    handleClose={handleCloseDeleteNotificationModal}
+                    id={row.id}
+                    row={row}
                 />
             )}
         </div>
