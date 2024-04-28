@@ -32,7 +32,6 @@ const IconStyles = {
 export default function NotificationsTableRow({
     isItemSelected,
     handleClick,
-    // index,
     labelId,
     row,
 }: TableRowTypes) {
@@ -280,8 +279,11 @@ export default function NotificationsTableRow({
                     </Tooltip>
                 )}
             </TableCell>
+
             <TableCell align="right" sx={TableCellStyles}>
-                <ButtonGroup tableName="notifications" row={row} />
+                {row.isReaded && (
+                    <ButtonGroup tableName="notifications" row={row} />
+                )}
             </TableCell>
         </TableRow>
     );
