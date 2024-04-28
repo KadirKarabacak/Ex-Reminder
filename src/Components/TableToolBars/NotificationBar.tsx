@@ -22,6 +22,9 @@ import MarkChatUnreadIcon from "@mui/icons-material/MarkChatUnread";
 import InfoIcon from "@mui/icons-material/Info";
 import Grow from "@mui/material/Grow";
 import NotificationsInfo from "../NotificationsInfo";
+import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
+import { useState } from "react";
+import DeleteSelectedNotificationsModal from "../Modals/Notifications/DeleteSelectedNotificationsModal";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -51,9 +54,6 @@ const StyledSelect = styled(Select)`
 `;
 
 const StyledButton = styled(Button)`
-    &:hover {
-        border-color: transparent;
-    }
     &:hover > svg {
         color: var(--color-green-lighter);
     }
@@ -92,16 +92,20 @@ export function NotificationToolBar({
     const { mutateAsync: updateNotification, isPending: isUpdating } =
         useUpdateNotification();
     const [searchParams, setSearchParams] = useSearchParams();
+    const [opensDeleteNotification, setOpensDeleteNotification] =
+        useState(false);
+    // const { mutateAsync: deleteNotification, isPending } =
+    //     useDeleteNotification();
     const { currentUser } = auth;
     const userId = currentUser?.uid;
 
     const readedOrNotReadedNotification = [
         {
-            label: t("Unread Notifications"),
+            label: t("Unread"),
             value: 0,
         },
         {
-            label: t("Notifications read"),
+            label: t("Read"),
             value: 1,
         },
     ];
@@ -121,13 +125,33 @@ export function NotificationToolBar({
         }
     }
 
+    async function deleteSelectedNotifications() {
+        if (!selected.length)
+            return toast.error(t(`No notifications selected yet`));
+        handleOpenDeleteModal();
+    }
+
+    function handleOpenDeleteModal() {
+        setOpensDeleteNotification(true);
+        searchParams.set("event", "delete-notification");
+        setSearchParams(searchParams);
+    }
+
+    function handleCloseDeleteModal() {
+        setOpensDeleteNotification(false);
+        setTimeout(() => {
+            searchParams.delete("event");
+            setSearchParams(searchParams);
+        }, 400);
+    }
+
     return (
         <>
             <StyledToolBar
                 sx={{
                     pl: { sm: 3 },
                     pr: { xs: 1, sm: 2 },
-                    gap: "1.5rem",
+                    gap: "1rem",
                 }}
             >
                 <Typography
@@ -152,7 +176,7 @@ export function NotificationToolBar({
                             minWidth: 0,
                             p: "0.7rem",
                             marginRight: "auto",
-                            borderColor: "var(--color-grey-300)",
+                            borderColor: "var(--color-grey-200)",
                             borderRadius: "50%",
                         }}
                         color="inherit"
@@ -161,6 +185,34 @@ export function NotificationToolBar({
                         <InfoIcon sx={iconStyle} />
                     </StyledButton>
                 </Tooltip>
+                {searchParams.has("action", "readed") && (
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t(
+                            `Delete ${
+                                isAllSelected ? "all" : "selected"
+                            } notifications`
+                        )}
+                    >
+                        <StyledButton
+                            onClick={deleteSelectedNotifications}
+                            sx={{
+                                fontSize: "2rem",
+                                minWidth: 0,
+                                p: "0.7rem",
+                                borderColor: "var(--color-grey-200)",
+                                borderRadius: "50%",
+                                ":hover > svg": {
+                                    color: "#d32f2f",
+                                },
+                            }}
+                            color="inherit"
+                            variant="outlined"
+                        >
+                            <DeleteSweepIcon sx={iconStyle} />
+                        </StyledButton>
+                    </Tooltip>
+                )}
                 <SearchInput
                     searchText={searchText}
                     setSearchText={setSearchText}
@@ -210,9 +262,10 @@ export function NotificationToolBar({
                         backgroundColor: "var(--color-grey-800)",
                         color: "var(--color-grey-50)",
                         transition: "all .3s",
-                        padding: "1rem 2rem",
+                        padding: "1rem",
                         fontSize: "1.1rem",
                         alignSelf: "center",
+                        letterSpacing: "0",
                         "&:hover": {
                             backgroundColor: "var(--color-grey-600)",
                             color: "var(--color-grey-100)",
@@ -280,6 +333,13 @@ export function NotificationToolBar({
                     )}
                 </Button>
             </StyledToolBar>
+            {searchParams.has("event", "delete-notification") && (
+                <DeleteSelectedNotificationsModal
+                    handleClose={handleCloseDeleteModal}
+                    open={opensDeleteNotification}
+                    selected={selected}
+                />
+            )}
         </>
     );
 }
