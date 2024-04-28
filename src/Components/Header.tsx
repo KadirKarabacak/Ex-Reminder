@@ -117,15 +117,11 @@ const iconStyle = {
     height: "2rem",
     color: "var(--color-grey-600)",
     transition: "all .3s",
-    ":hover": {
-        color: "var(--color-brand-500)",
-    },
 };
 
 function Header() {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
-    // const [searchParams, setSearchParams] = useSearchParams();
     const [isNotReadeds, setIsNotReadeds] = useState<NotificationTypes[]>();
     const navigate = useNavigate();
     const { currentUser } = auth;
