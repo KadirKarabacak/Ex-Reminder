@@ -1,6 +1,7 @@
 import {
     addDoc,
     collection,
+    deleteDoc,
     doc,
     getDocs,
     updateDoc,
@@ -9,7 +10,11 @@ import { auth, db } from "./firebase";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import toast from "react-hot-toast";
 import i18n from "../i18n";
-import { NotificationTypes, UpdateNotificationTypes } from "../Interfaces/User";
+import {
+    DeleteNotificationTypes,
+    NotificationTypes,
+    UpdateNotificationTypes,
+} from "../Interfaces/User";
 
 //: Add notification
 export const addNotification = async function (
@@ -94,3 +99,28 @@ export const useUpdateNotification = function () {
     });
     return { mutateAsync, isPending };
 };
+
+const deleteNotification = async function ({
+    userId,
+    id,
+}: DeleteNotificationTypes) {
+    const ref = doc(db, `users/${userId}/notifications`, id);
+    await deleteDoc(ref);
+};
+
+export function useDeleteNotification() {
+    const queryClient = useQueryClient();
+    const { mutateAsync, isPending } = useMutation({
+        mutationFn: async (variables: DeleteNotificationTypes) => {
+            await deleteNotification(variables);
+            return variables;
+        },
+        onSuccess: () => {
+            queryClient.invalidateQueries();
+        },
+        onError: err => {
+            console.log(err.message);
+        },
+    });
+    return { mutateAsync, isPending };
+}
