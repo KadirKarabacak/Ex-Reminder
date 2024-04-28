@@ -37,7 +37,7 @@ export default function ForgotPassword() {
             <Helmet>
                 <title>Ex Reminder | {t("Forgot Password")}</title>
             </Helmet>
-            <Background />
+            {window.innerWidth > 1000 && <Background />}
             <ForgotPasswordForm />
         </StyledForgotPassword>
     );
