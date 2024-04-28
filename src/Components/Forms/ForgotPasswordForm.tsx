@@ -122,22 +122,25 @@ export default function ForgotPasswordForm() {
                     <Button
                         disabled={isResetting}
                         sx={{
-                            backgroundColor: "var(--color-grey-800)",
-                            color: "var(--color-grey-50)",
+                            backgroundColor: "var(--color-green-new)",
+                            color: "var(--color-white-soft)",
                             transition: "all .3s",
                             padding: "1rem 3rem",
                             fontSize: "1.1rem",
+                            border: "1px solid transparent",
                             fontWeight: "bold",
                             "&:hover": {
-                                backgroundColor: "var(--color-grey-600)",
-                                color: "var(--color-grey-100)",
+                                backgroundColor: "var(--color-green-lighter)",
+                                color: "var(--color-white-soft)",
                                 transform: "translateY(-2px)",
+                                border: "1px solid transparent",
                             },
                             "&:active": {
                                 transform: "translateY(0)",
                             },
                             "&.Mui-disabled": {
                                 background: "var(--color-grey-400)",
+                                cursor: "not-allowed",
                             },
                         }}
                         type="submit"
