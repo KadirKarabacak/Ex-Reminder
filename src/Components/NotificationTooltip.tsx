@@ -234,6 +234,7 @@ export default function NotificationTooltip({
                             label={t("Item Amount")}
                             color="info"
                         />
+                        {"x"}
                         {data.contentObj.itemAmount}
                     </Grid>
                     {data.contentObj.itemPurchasePrice ? (
@@ -294,6 +295,7 @@ export default function NotificationTooltip({
                             label={t("Sold Item Amount")}
                             color="info"
                         />
+                        {"x"}
                         {event === "Add Sale"
                             ? data.contentObj.sale.saleItemAmount
                             : data.contentObj.saleItemAmount}
@@ -373,7 +375,7 @@ export default function NotificationTooltip({
                             <Chip
                                 sx={ChipStyles}
                                 size="small"
-                                label={t("Password")}
+                                label={t("Old Password")}
                                 color="info"
                             />
                             {data.contentObj.password}
