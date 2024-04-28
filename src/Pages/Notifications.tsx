@@ -40,15 +40,17 @@ export default function Notifications() {
     const [searchText, setSearchText] = useState("");
     const [searchParams] = useSearchParams();
     const [selected, setSelected] = useState<readonly string[]>([]);
-    const isAllSelected =
-        notifications?.length !== 0 &&
-        notifications?.length === selected.length;
     const notReadedNotification = notifications?.filter(
         (notification: NotificationTypes) => notification.isReaded === false
     );
     const readedNotification = notifications?.filter(
         (notification: NotificationTypes) => notification.isReaded === true
     );
+    const isAllSelected = searchParams.has("action", "not-readed")
+        ? notReadedNotification?.length !== 0 &&
+          notReadedNotification?.length === selected.length
+        : readedNotification?.length !== 0 &&
+          readedNotification?.length === selected.length;
 
     if (isLoading)
         return (
