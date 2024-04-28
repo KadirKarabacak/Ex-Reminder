@@ -46,6 +46,7 @@ const GlobalStyles = createGlobalStyle`
     --image-opacity: 100%;
 
     --color-grey-50-forms: rgba(249, 250, 251, 0.96);
+    --shadow-badge: 0 0 0 0 rgba(0, 0, 0, 0.7);
   }
     
     &.dark-mode{
@@ -90,6 +91,7 @@ const GlobalStyles = createGlobalStyle`
     --image-opacity: 90%;
 
     --color-grey-50-forms: rgba(17, 24, 39, 0.96);
+    --shadow-badge: 0 0 0 0 rgba(255, 255, 255, 0.7);
   }
 
   --border-radius-tiny: 3px;
@@ -307,6 +309,20 @@ svg{
 
 .MuiBadge-badge{
   font-size: 1rem!important;
+  animation: pulse 3s infinite;
+    @keyframes pulse {
+        0% {
+            box-shadow: var(--shadow-badge);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
 }
 
 .recharts-default-legend{
