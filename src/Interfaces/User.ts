@@ -273,3 +273,8 @@ export interface UpdateNotificationTypes {
     id: any;
     userId: string | undefined;
 }
+
+export interface DeleteNotificationTypes {
+    id: any;
+    userId: string | undefined;
+}
