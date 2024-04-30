@@ -11,6 +11,10 @@ import { auth } from "../Api/firebase";
 import { differenceInMinutes, isBefore } from "date-fns";
 import { useEffect, useState } from "react";
 import Alarm from "./Alarm";
+import CustomJoyride from "./CustomJoyride";
+import JoyrideTitle from "./JoyrideTitle";
+import i18n from "../i18n";
+import { CallBackProps } from "react-joyride";
 
 const StyledAppLayout = styled.div`
     display: grid;
@@ -26,14 +30,96 @@ const Container = styled.div`
     gap: 3.2rem;
 `;
 
+const applayoutSteps = [
+    {
+        target: ".map-nav",
+        content: i18n.t(
+            "Map Route shows map location pins and surface information of companies your company does business with."
+        ),
+        placement: "right",
+        title: <JoyrideTitle title={i18n.t("Map")} />,
+    },
+    {
+        target: ".accounting-nav",
+        content: i18n.t(
+            "Accounting Route shows the list and details of all sales your company makes to other companies."
+        ),
+        placement: "right",
+        title: <JoyrideTitle title={i18n.t("Accounting")} />,
+    },
+    {
+        target: ".companies-nav",
+        content: i18n.t(
+            "Companies Route shows all the companies your company does business with and enables you to make sales, agreements and negotiations with them."
+        ),
+        placement: "right",
+        title: <JoyrideTitle title={i18n.t("Companies")} />,
+    },
+    {
+        target: ".warehouse-nav",
+        content: i18n.t(
+            "Warehouse Route shows all the products in your company's inventory and information such as product purchase and sale price."
+        ),
+        placement: "right",
+        title: <JoyrideTitle title={i18n.t("Warehouse")} />,
+    },
+    {
+        target: ".employees-nav",
+        content: i18n.t(
+            "Employees Route shows all your employees and their information within your company."
+        ),
+        placement: "right",
+        title: <JoyrideTitle title={i18n.t("Employees")} />,
+    },
+    {
+        target: ".settings-nav",
+        content: i18n.t(
+            "Settings Route allow you to update your company's login & display settings"
+        ),
+        placement: "right",
+        title: <JoyrideTitle title={i18n.t("Settings")} />,
+    },
+
+    {
+        target: ".language-nav",
+        content: i18n.t("You can change language from here in application"),
+        placement: "bottom",
+        title: <JoyrideTitle title={i18n.t("Change Language")} />,
+    },
+    {
+        target: ".notifications-nav",
+        content: i18n.t(
+            "Notifications holds your application changes like adding, updating or deleting stuff."
+        ),
+        placement: "bottom",
+        title: <JoyrideTitle title={i18n.t("Notifications")} />,
+    },
+    {
+        target: ".toggledarkmode-nav",
+        content: i18n.t(
+            "You can switch between Dark-Mode & Light-Mode from here"
+        ),
+        placement: "bottom",
+        title: <JoyrideTitle title={i18n.t("Dark Mode & Light Mode")} />,
+    },
+    {
+        target: ".logout-nav",
+        content: i18n.t("You can safely logout from here"),
+        placement: "bottom",
+        title: <JoyrideTitle title={i18n.t("Logout")} />,
+    },
+];
+
 // Parent Route
 function AppLayout() {
+    // const { t } = useTranslation();
     const { pathname } = useLocation();
     const { currentUser } = auth;
     const { data: negotiates } = useGetNegotiates(currentUser?.uid);
     const userId = currentUser?.uid;
     const { isPending, mutateAsync: updateNegotiate } = useUpdateNegotiate();
     const [isAlarm, setIsAlarm] = useState(false);
+    const [runJoyride, setRunJoyride] = useState(false);
 
     const findNegotiateToAlert = negotiates?.filter(neg => {
         // ! If user don't want to alert, don't take negotiate
@@ -66,8 +152,29 @@ function AppLayout() {
         !isPending && setIsAlarm(false);
     };
 
+    useEffect(() => {
+        if (localStorage.getItem("isAppJoyrideDisplayed") === "true") return;
+        else {
+            localStorage.setItem("isAppJoyrideDisplayed", "false");
+            setRunJoyride(true);
+        }
+    }, []);
+
+    const handleJoyrideCallback = (data: CallBackProps) => {
+        const { status } = data;
+        if (status === "finished") {
+            localStorage.setItem("isAppJoyrideDisplayed", "true");
+            setRunJoyride(false);
+        }
+    };
+
     return (
         <ProtectedRoute>
+            <CustomJoyride
+                steps={applayoutSteps}
+                pathname={runJoyride}
+                callback={handleJoyrideCallback}
+            />
             <StyledAppLayout>
                 <Header />
                 <Sidebar />
