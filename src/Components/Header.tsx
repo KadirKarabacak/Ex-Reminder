@@ -182,7 +182,7 @@ function Header() {
                     flexItem
                     sx={{ borderColor: "var(--color-grey-300)" }}
                 />
-                <StyledListItem>
+                <StyledListItem className="language-nav">
                     <StyledFormControl variant="filled">
                         <Select
                             value={currentLanguage}
@@ -221,7 +221,7 @@ function Header() {
                         </Select>
                     </StyledFormControl>
                 </StyledListItem>
-                <StyledListItem>
+                <StyledListItem className="notifications-nav">
                     <Badge badgeContent={isNotReadeds?.length} color="success">
                         <Link to="/notifications?action=not-readed">
                             <Tooltip
@@ -243,7 +243,7 @@ function Header() {
                         </Link>
                     </Badge>
                 </StyledListItem>
-                <StyledListItem>
+                <StyledListItem className="toggledarkmode-nav">
                     <Tooltip
                         TransitionComponent={Grow}
                         title={t("Toggle Darkmode")}
@@ -266,7 +266,7 @@ function Header() {
                         </StyledButton>
                     </Tooltip>
                 </StyledListItem>
-                <StyledListItem>
+                <StyledListItem className="logout-nav">
                     <Tooltip TransitionComponent={Grow} title={t("Logout")}>
                         <Link
                             onClick={() => {
