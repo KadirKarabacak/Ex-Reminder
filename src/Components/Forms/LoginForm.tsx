@@ -19,11 +19,14 @@ import CustomJoyride from "../CustomJoyride";
 import JoyrideTitle from "../JoyrideTitle";
 import i18n from "../../i18n";
 import { CallBackProps } from "react-joyride";
+import WavingHandIcon from "@mui/icons-material/WavingHand";
+import LanguageIcon from "@mui/icons-material/Language";
+import VpnKeyIcon from "@mui/icons-material/VpnKey";
+import LockResetIcon from "@mui/icons-material/LockReset";
 
 const StyledLogo = styled.img`
     width: 18rem;
     height: 18rem;
-    /* filter: blur(3px); */
 `;
 
 const StyledTextField = styled(TextField)`
@@ -105,25 +108,63 @@ const StyledFormControl = styled(FormControl)`
     }
 `;
 
+const iconStyle = {
+    width: "2rem",
+    height: "2rem",
+    color: "var(--color-grey-300)",
+    transition: "all .3s",
+};
+
 const steps = [
     {
         target: ".login-form",
-        title: <JoyrideTitle title={i18n.t("Welcome to the Ex-Reminder!")} />,
-        content: i18n.t("Follow the instructions to get started"),
-        placement: "right",
-        isFixed: true,
+        title: (
+            <JoyrideTitle
+                icon={<WavingHandIcon sx={iconStyle} />}
+                title={i18n.t("Welcome to the Ex-Reminder!")}
+            />
+        ),
+        content: i18n.t(
+            "The instructions will be useful for you. You can follow it and learn Ex-Reminder easily."
+        ),
+        placement: "right-start",
     },
     {
         target: ".change-language",
+        title: (
+            <JoyrideTitle
+                icon={<LanguageIcon sx={iconStyle} />}
+                title={i18n.t("Change Language")}
+            />
+        ),
         content: i18n.t("You can change the language from here before login"),
         placement: "top-end",
-        isFixed: true,
     },
     {
         target: ".register-button",
-        content: i18n.t("Register to get started with Ex-Reminder!"),
+        title: (
+            <JoyrideTitle
+                icon={<VpnKeyIcon sx={iconStyle} />}
+                title={i18n.t("Lets Register!")}
+            />
+        ),
+        content: i18n.t(
+            "To use Ex-Reminder, you can register here and log in with the e-mail and password you created."
+        ),
         placement: "top-end",
-        isFixed: true,
+    },
+    {
+        target: ".forgotpassword-button",
+        title: (
+            <JoyrideTitle
+                icon={<LockResetIcon sx={iconStyle} />}
+                title={i18n.t("Reset Password")}
+            />
+        ),
+        content: i18n.t(
+            "In case you forget your password, you can send a password reset email to your email using this link."
+        ),
+        placement: "top-end",
     },
 ];
 
@@ -310,7 +351,10 @@ export default function LoginForm() {
                         {t("Register")}
                     </Button>
                 </StyledButtonContainer>
-                <StyledLink to="/forgotpassword">
+                <StyledLink
+                    className="forgotpassword-button"
+                    to="/forgotpassword"
+                >
                     {t("Forgot your password?")}
                 </StyledLink>
 
