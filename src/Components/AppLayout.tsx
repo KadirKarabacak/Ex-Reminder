@@ -15,6 +15,16 @@ import CustomJoyride from "./CustomJoyride";
 import JoyrideTitle from "./JoyrideTitle";
 import i18n from "../i18n";
 import { CallBackProps } from "react-joyride";
+import MapIcon from "@mui/icons-material/Map";
+import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
+import BusinessIcon from "@mui/icons-material/Business";
+import GroupIcon from "@mui/icons-material/Group";
+import SettingsIcon from "@mui/icons-material/Settings";
+import { WarehouseOutlined } from "@mui/icons-material";
+import NotificationsIcon from "@mui/icons-material/Notifications";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
+import LogoutIcon from "@mui/icons-material/Logout";
+import LanguageIcon from "@mui/icons-material/Language";
 
 const StyledAppLayout = styled.div`
     display: grid;
@@ -30,6 +40,13 @@ const Container = styled.div`
     gap: 3.2rem;
 `;
 
+const iconStyle = {
+    width: "2rem",
+    height: "2rem",
+    color: "var(--color-grey-300)",
+    transition: "all .3s",
+};
+
 const applayoutSteps = [
     {
         target: ".map-nav",
@@ -37,7 +54,12 @@ const applayoutSteps = [
             "Map Route shows map location pins and surface information of companies your company does business with."
         ),
         placement: "right",
-        title: <JoyrideTitle title={i18n.t("Map")} />,
+        title: (
+            <JoyrideTitle
+                icon={<MapIcon sx={iconStyle} />}
+                title={i18n.t("Map")}
+            />
+        ),
     },
     {
         target: ".accounting-nav",
@@ -45,7 +67,12 @@ const applayoutSteps = [
             "Accounting Route shows the list and details of all sales your company makes to other companies."
         ),
         placement: "right",
-        title: <JoyrideTitle title={i18n.t("Accounting")} />,
+        title: (
+            <JoyrideTitle
+                icon={<AccountBalanceWalletIcon sx={iconStyle} />}
+                title={i18n.t("Accounting")}
+            />
+        ),
     },
     {
         target: ".companies-nav",
@@ -53,7 +80,12 @@ const applayoutSteps = [
             "Companies Route shows all the companies your company does business with and enables you to make sales, agreements and negotiations with them."
         ),
         placement: "right",
-        title: <JoyrideTitle title={i18n.t("Companies")} />,
+        title: (
+            <JoyrideTitle
+                icon={<BusinessIcon sx={iconStyle} />}
+                title={i18n.t("Companies")}
+            />
+        ),
     },
     {
         target: ".warehouse-nav",
@@ -61,7 +93,12 @@ const applayoutSteps = [
             "Warehouse Route shows all the products in your company's inventory and information such as product purchase and sale price."
         ),
         placement: "right",
-        title: <JoyrideTitle title={i18n.t("Warehouse")} />,
+        title: (
+            <JoyrideTitle
+                icon={<WarehouseOutlined sx={iconStyle} />}
+                title={i18n.t("Warehouse")}
+            />
+        ),
     },
     {
         target: ".employees-nav",
@@ -69,7 +106,12 @@ const applayoutSteps = [
             "Employees Route shows all your employees and their information within your company."
         ),
         placement: "right",
-        title: <JoyrideTitle title={i18n.t("Employees")} />,
+        title: (
+            <JoyrideTitle
+                icon={<GroupIcon sx={iconStyle} />}
+                title={i18n.t("Employees")}
+            />
+        ),
     },
     {
         target: ".settings-nav",
@@ -77,14 +119,23 @@ const applayoutSteps = [
             "Settings Route allow you to update your company's login & display settings"
         ),
         placement: "right",
-        title: <JoyrideTitle title={i18n.t("Settings")} />,
+        title: (
+            <JoyrideTitle
+                icon={<SettingsIcon sx={iconStyle} />}
+                title={i18n.t("Settings")}
+            />
+        ),
     },
-
     {
         target: ".language-nav",
         content: i18n.t("You can change language from here in application"),
         placement: "bottom",
-        title: <JoyrideTitle title={i18n.t("Change Language")} />,
+        title: (
+            <JoyrideTitle
+                icon={<LanguageIcon sx={iconStyle} />}
+                title={i18n.t("Change Language")}
+            />
+        ),
     },
     {
         target: ".notifications-nav",
@@ -92,7 +143,12 @@ const applayoutSteps = [
             "Notifications holds your application changes like adding, updating or deleting stuff."
         ),
         placement: "bottom",
-        title: <JoyrideTitle title={i18n.t("Notifications")} />,
+        title: (
+            <JoyrideTitle
+                icon={<NotificationsIcon sx={iconStyle} />}
+                title={i18n.t("Notifications")}
+            />
+        ),
     },
     {
         target: ".toggledarkmode-nav",
@@ -100,13 +156,23 @@ const applayoutSteps = [
             "You can switch between Dark-Mode & Light-Mode from here"
         ),
         placement: "bottom",
-        title: <JoyrideTitle title={i18n.t("Dark Mode & Light Mode")} />,
+        title: (
+            <JoyrideTitle
+                icon={<DarkModeIcon sx={iconStyle} />}
+                title={i18n.t("Dark Mode & Light Mode")}
+            />
+        ),
     },
     {
         target: ".logout-nav",
         content: i18n.t("You can safely logout from here"),
         placement: "bottom",
-        title: <JoyrideTitle title={i18n.t("Logout")} />,
+        title: (
+            <JoyrideTitle
+                icon={<LogoutIcon sx={iconStyle} />}
+                title={i18n.t("Logout")}
+            />
+        ),
     },
 ];
 
