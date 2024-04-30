@@ -74,6 +74,7 @@
 76- ✅ Adding, deleting and updating warehouse is automatically updating notifications, but employees isn't update. Try to fix
 77- On notifications table toolbar, add colors meanings to alert user what they means
 78- ✅ To display notification on agreement changes, set agreementBudget or agreementParties as required.
+79- After user logged in, when clicking the browsers history button, block user to move login and keep in app
 
 ### FEATURES ###
 
