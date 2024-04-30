@@ -18,13 +18,9 @@ function CustomJoyride({
             run={pathname}
             continuous
             showProgress
-            hideCloseButton
-            disableScrolling
-            disableScrollParentFix
+            // hideCloseButton
+            disableOverlayClose
             callback={callback}
-            floaterProps={{
-                disableFlip: true,
-            }}
             styles={{
                 options: {
                     arrowColor: "var(--color-grey-800)",
@@ -38,7 +34,7 @@ function CustomJoyride({
             locale={{
                 back: t("Back"),
                 close: t("Close"),
-                last: t("I got it"),
+                last: t("Got it"),
                 next: t("Next"),
                 open: t("Open the instructions"),
                 skip: t("Skip"),
