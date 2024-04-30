@@ -15,6 +15,10 @@ import { signInWithEmailAndPasswordQuery } from "../../Api/userController";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import toast from "react-hot-toast";
+import CustomJoyride from "../CustomJoyride";
+import JoyrideTitle from "../JoyrideTitle";
+import i18n from "../../i18n";
+import { CallBackProps } from "react-joyride";
 
 const StyledLogo = styled.img`
     width: 18rem;
@@ -101,9 +105,32 @@ const StyledFormControl = styled(FormControl)`
     }
 `;
 
+const steps = [
+    {
+        target: ".login-form",
+        title: <JoyrideTitle title={i18n.t("Welcome to the Ex-Reminder!")} />,
+        content: i18n.t("Follow the instructions to get started"),
+        placement: "right",
+        isFixed: true,
+    },
+    {
+        target: ".change-language",
+        content: i18n.t("You can change the language from here before login"),
+        placement: "top-end",
+        isFixed: true,
+    },
+    {
+        target: ".register-button",
+        content: i18n.t("Register to get started with Ex-Reminder!"),
+        placement: "top-end",
+        isFixed: true,
+    },
+];
+
 export default function LoginForm() {
     const { t, i18n } = useTranslation();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
+    const [runJoyride, setRunJoyride] = useState(false);
     const {
         register,
         handleSubmit,
@@ -123,7 +150,7 @@ export default function LoginForm() {
         });
         reset();
         if (loginState) {
-            navigate("/");
+            navigate("/", { replace: false });
             return toast.success(t("Successfully logged in, redirecting..."));
         } else {
             return toast.error(
@@ -148,8 +175,28 @@ export default function LoginForm() {
         setCurrentLanguage(e);
     };
 
+    const handleJoyrideCallback = (data: CallBackProps) => {
+        const { status } = data;
+        if (status === "finished") {
+            localStorage.setItem("isLoginJoyrideDisplayed", "true");
+            setRunJoyride(false);
+        }
+    };
+
+    useEffect(() => {
+        if (localStorage.getItem("isLoginJoyrideDisplayed") !== "true") {
+            localStorage.setItem("isLoginJoyrideDisplayed", "false");
+            setRunJoyride(true);
+        }
+    }, [runJoyride]);
+
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+            <CustomJoyride
+                steps={steps}
+                pathname={runJoyride}
+                callback={handleJoyrideCallback}
+            />
             <Paper
                 sx={{
                     display: "flex",
@@ -236,6 +283,7 @@ export default function LoginForm() {
                     </Button>
                     <StyledParagraph>{t("or")}</StyledParagraph>
                     <Button
+                        className="register-button"
                         disabled={isSubmitting}
                         onClick={() => navigate("/register")}
                         sx={{
@@ -267,7 +315,10 @@ export default function LoginForm() {
                 </StyledLink>
 
                 {/* Change language */}
-                <StyledFormControl variant="standard">
+                <StyledFormControl
+                    variant="standard"
+                    className="change-language"
+                >
                     <Select
                         value={currentLanguage}
                         onChange={e => handleChangeLang(e.target.value)}
