@@ -375,15 +375,23 @@ svg{
 
 .react-joyride__overlay{
   height: 100dvh!important;
+  background-color: rgba(0,0,0,0.5)!important;
 }
 
 .__floater{
   height: auto!important;
 }
 
+.react-joyride__spotlight{
+  pointer-events: none !important;
+}
+
 .react-joyride__beacon > span:nth-child(1){
   animation: pulse 3s infinite!important;
   opacity: 1!important;
+  width: 28px !important;
+  height: 28px !important;
+
     @keyframes pulse {
         0% {
             box-shadow: var(--shadow-badge);
@@ -404,6 +412,9 @@ svg{
   opacity: 1!important;
 }
 
+.__floater__body > div > button {
+  padding: 1.2rem!important;
+}
 `;
 
 export default GlobalStyles;
