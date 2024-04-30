@@ -137,6 +137,7 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   font-size: 1.6rem;
+  overflow: hidden;
 }
 
 input,
@@ -370,6 +371,37 @@ svg{
 	clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
 	-webkit-clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
   box-shadow: var(--shadow-md);
+}
+
+.react-joyride__overlay{
+  height: 100dvh!important;
+}
+
+.__floater{
+  height: auto!important;
+}
+
+.react-joyride__beacon > span:nth-child(1){
+  animation: pulse 3s infinite!important;
+  opacity: 1!important;
+    @keyframes pulse {
+        0% {
+            box-shadow: var(--shadow-badge);
+        }
+
+        70% {
+            box-shadow: 0 0 0 10px rgba(0, 0, 0, 0);
+        }
+
+        100% {
+            box-shadow: 0 0 0 0 rgba(0, 0, 0, 0);
+        }
+    }
+}
+.react-joyride__beacon > span:nth-child(2){
+  animation: none!important;
+  border: none!important;
+  opacity: 1!important;
 }
 
 `;
