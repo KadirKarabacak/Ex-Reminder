@@ -5,8 +5,23 @@ const StyledTitle = styled.p`
     font-weight: bold;
     border-bottom: 1px solid var(--color-grey-700);
     padding-bottom: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 0.7rem;
 `;
 
-export default function JoyrideTitle({ title }: { title: string }) {
-    return <StyledTitle>{title}</StyledTitle>;
+export default function JoyrideTitle({
+    title,
+    icon,
+}: {
+    title: string;
+    icon?: any;
+}) {
+    return (
+        <StyledTitle>
+            {title}
+            {icon}
+        </StyledTitle>
+    );
 }
