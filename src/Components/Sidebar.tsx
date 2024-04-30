@@ -83,6 +83,7 @@ function Sidebar() {
                 title={t("Map holds your companies location pins")}
                 placement="right"
                 arrow={true}
+                className="map-nav"
             >
                 <StyledNavLink to="/">
                     <MapIcon sx={iconStyle} />
@@ -94,6 +95,7 @@ function Sidebar() {
                 title={t("Accounting displays your all sales")}
                 placement="right"
                 arrow={true}
+                className="accounting-nav"
             >
                 <StyledNavLink to="/accounting">
                     <AccountBalanceWalletIcon sx={iconStyle} />
@@ -107,6 +109,7 @@ function Sidebar() {
                 )}
                 placement="right"
                 arrow={true}
+                className="companies-nav"
             >
                 <StyledNavLink to="/companies">
                     <BusinessIcon sx={iconStyle} />
@@ -118,6 +121,7 @@ function Sidebar() {
                 title={t("Warehouse holds your items inventory")}
                 placement="right"
                 arrow={true}
+                className="warehouse-nav"
             >
                 <StyledNavLink to="/warehouse">
                     <WarehouseOutlined sx={iconStyle} />
@@ -129,6 +133,7 @@ function Sidebar() {
                 title={t("Employees holds your employee list and info")}
                 placement="right"
                 arrow={true}
+                className="employees-nav"
             >
                 <StyledNavLink to="/employees">
                     <GroupIcon sx={iconStyle} />
@@ -142,6 +147,7 @@ function Sidebar() {
                 )}
                 placement="right"
                 arrow={true}
+                className="settings-nav"
             >
                 <StyledNavLink to="/settings">
                     <SettingsIcon sx={iconStyle} />
