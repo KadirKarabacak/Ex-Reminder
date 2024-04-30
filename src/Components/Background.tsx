@@ -31,7 +31,7 @@ export default function Background() {
                     return anime.random(0.5, 2);
                 },
 
-                duration: 5000,
+                duration: 6000,
                 easing: "easeInOutSine",
                 complete: startAnimation,
             });
