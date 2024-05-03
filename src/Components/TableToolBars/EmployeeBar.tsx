@@ -129,6 +129,7 @@ export function EmployeeToolBar({
                     }}
                 />
                 <Button
+                    className="addEmployee-btn"
                     onClick={handleOpen}
                     sx={{
                         backgroundColor: "var(--color-grey-800)",

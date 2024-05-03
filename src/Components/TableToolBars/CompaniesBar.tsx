@@ -131,6 +131,7 @@ export function CompaniesToolBar({
                     }}
                 />
                 <Button
+                    className="addCompany-btn"
                     onClick={handleOpen}
                     sx={{
                         backgroundColor: "var(--color-grey-800)",
@@ -156,6 +157,7 @@ export function CompaniesToolBar({
                     {t("Add Company")}
                 </Button>
                 <Button
+                    className="makeSaleFromCompany-btn"
                     onClick={handleOpenMakeSale}
                     sx={{
                         backgroundColor: "var(--color-green-lighter)",
