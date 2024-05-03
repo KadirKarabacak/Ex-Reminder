@@ -63,7 +63,11 @@ export default function WarehouseTableRow({
             <TableCell align="right" sx={TableCellStyles}>
                 {row.itemDescription || "-"}
             </TableCell>
-            <TableCell align="right" sx={TableCellStyles}>
+            <TableCell
+                align="right"
+                sx={TableCellStyles}
+                className="button-group-warehouses"
+            >
                 <ButtonGroup tableName="warehouse" row={row} />
             </TableCell>
         </TableRow>

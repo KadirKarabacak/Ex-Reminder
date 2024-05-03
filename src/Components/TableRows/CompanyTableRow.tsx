@@ -63,7 +63,11 @@ export default function CompanyTableRow({
             <TableCell align="right" sx={TableCellStyles}>
                 {row.companyManager?.managerName || "-"}
             </TableCell>
-            <TableCell align="right" sx={TableCellStyles}>
+            <TableCell
+                align="right"
+                sx={TableCellStyles}
+                className="button-group-companies"
+            >
                 <ButtonGroup tableName="company" row={row} />
             </TableCell>
         </TableRow>
