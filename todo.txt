@@ -69,12 +69,13 @@
 71- ✅ After added a negotiate, handle that in applayout and every minute check any negotiate needs to alarm
 72- ✅ Map > The popup field which comes from by find my location button, fix content
 73- Allow user to select any alarm ringtone. // ---> https://mui.com/material-ui/react-dialog/#confirmation-dialogs
-74- For add notifications, update every mutation to add a notification. Add a isReaded prop to objects, and allow user to mark notifications as readed
+74- ✅ For add notifications, update every mutation to add a notification. Add a isReaded prop to objects, and allow user to mark notifications as readed
 75- Update all modals by this link for "Accessibility" // --> https://mui.com/material-ui/react-modal/#accessibility
 76- ✅ Adding, deleting and updating warehouse is automatically updating notifications, but employees isn't update. Try to fix
-77- On notifications table toolbar, add colors meanings to alert user what they means
+77- ✅ On notifications table toolbar, add colors meanings to alert user what they means
 78- ✅ To display notification on agreement changes, set agreementBudget or agreementParties as required.
 79- After user logged in, when clicking the browsers history button, block user to move login and keep in app
+80- Make export button & search input in table toolbars Joyride with pathname
 
 ### FEATURES ###
 
