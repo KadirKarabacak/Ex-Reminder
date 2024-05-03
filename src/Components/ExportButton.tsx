@@ -8,6 +8,8 @@ import { useTranslation } from "react-i18next";
 import { CSVLink } from "react-csv";
 import myFontForPdf from "./myFontForPdf";
 import toast from "react-hot-toast";
+import { useLocation } from "react-router-dom";
+import { generateExportButtonClassName } from "../Utils/utils";
 
 type Props = {
     title: string;
@@ -30,6 +32,7 @@ function ExportButton(props: Props) {
         null
     );
     const open = Boolean(anchorEl);
+    const { pathname } = useLocation();
 
     const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(event.currentTarget);
@@ -70,6 +73,7 @@ function ExportButton(props: Props) {
     return (
         <>
             <Button
+                className={generateExportButtonClassName(pathname)}
                 onClick={handleClick}
                 variant="contained"
                 endIcon={
