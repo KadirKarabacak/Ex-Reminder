@@ -145,3 +145,21 @@ export function createTurkishEventNames(event: string) {
     // Negotiates
     if (event === "Add Negotiate") return "Görüşme Ekleme";
 }
+
+export function generateExportButtonClassName(pathname: string) {
+    if (pathname === "/employees") return "export-btn-employee";
+    if (pathname === "/warehouse") return "export-btn-warehouse";
+    if (pathname === "/companies") return "export-btn-companies";
+    if (pathname === "/accounting") return "export-btn-accounting";
+    if (pathname.includes("/companies/")) return "export-btn-sales";
+    // if (pathname.includes("/notifications")) return "export-btn-warehouse";
+}
+
+export function generateSearchInputClassName(pathname: string) {
+    if (pathname === "/employees") return "search-input-employee";
+    if (pathname === "/warehouse") return "search-input-warehouse";
+    if (pathname === "/companies") return "search-input-companies";
+    if (pathname === "/accounting") return "search-input-accounting";
+    if (pathname.includes("/companies/")) return "search-input-sales";
+    // if (pathname.includes("/notifications")) return "export-btn-warehouse";
+}
