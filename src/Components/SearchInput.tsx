@@ -1,6 +1,8 @@
 import { InputBase } from "@mui/material";
 import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
+import { useLocation } from "react-router-dom";
+import { generateSearchInputClassName } from "../Utils/utils";
 
 const Search = styled("div")(({ theme }) => ({
     height: "4.4rem",
@@ -59,8 +61,10 @@ export default function SearchInput({
     setSearchText: any;
     label: string;
 }) {
+    const { pathname } = useLocation();
+
     return (
-        <Search>
+        <Search className={generateSearchInputClassName(pathname)}>
             <SearchIconWrapper>
                 <SearchIcon sx={{ fontSize: "2rem" }} />
             </SearchIconWrapper>
