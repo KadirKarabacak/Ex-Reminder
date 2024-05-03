@@ -1,13 +1,20 @@
-import { animated, useSpring } from "react-spring";
+import { animated, easings, useSpring } from "react-spring";
 import styled from "styled-components";
-import { springOptions } from "../Constants/constant";
 import { useGetWarehouse } from "../Api/warehouseController";
 import CustomTable from "../Components/Table";
 import { WarehouseToolBar } from "../Components/TableToolBars/WarehouseBar";
 import { InfinitySpin } from "react-loader-spinner";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import i18n from "../i18n";
+import JoyrideTitle from "../Components/JoyrideTitle";
+import { CallBackProps } from "react-joyride";
+import CustomJoyride from "../Components/CustomJoyride";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import FileDownloadIcon from "@mui/icons-material/FileDownload";
+import SearchIcon from "@mui/icons-material/Search";
+import WarehouseIcon from "@mui/icons-material/Warehouse";
 
 const StyledContact = styled.main`
     width: 100%;
@@ -29,14 +36,103 @@ const FullPage = styled.div`
     justify-content: center;
 `;
 
+const iconStyle = {
+    width: "2rem",
+    height: "2rem",
+    color: "var(--color-grey-300)",
+    transition: "all .3s",
+};
+
+const warehouseSteps = [
+    {
+        target: ".addItem-btn",
+        content: i18n.t(
+            "Here you can add the items in your inventory to your warehouses table."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<AddBusinessIcon sx={iconStyle} />}
+                title={i18n.t("Add Items")}
+            />
+        ),
+    },
+    {
+        target: ".export-btn-warehouse",
+        content: i18n.t(
+            "Here you can print out all warehouse data in your table as PDF or Excel."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<FileDownloadIcon sx={iconStyle} />}
+                title={i18n.t("Export Data")}
+            />
+        ),
+    },
+    {
+        target: ".search-input-warehouse",
+        content: i18n.t(
+            "From here, you can find an item in your table much more easily by searching by item name."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<SearchIcon sx={iconStyle} />}
+                title={i18n.t("Search Data")}
+            />
+        ),
+    },
+    {
+        target: ".button-group-warehouses",
+        content: i18n.t(
+            "From here you can edit, delete and see more details for each items in the rows in the warehouse table."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<WarehouseIcon sx={iconStyle} />}
+                title={i18n.t("Warehouse Operations")}
+            />
+        ),
+    },
+];
+
 const AnimatedStyledContact = animated(StyledContact);
 
 export default function Warehouse() {
-    const animationProps = useSpring(springOptions);
+    const [isAnimationEnd, setIsAnimationEnd] = useState(false);
+    const animationProps = useSpring({
+        from: { opacity: 0, transform: "translateY(50px)" },
+        to: { opacity: 1, transform: "translateY(0)" },
+        config: {
+            duration: 800,
+            easing: easings.easeInOutBack,
+        },
+        onRest: () => setIsAnimationEnd(true),
+    });
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState("");
     const [selected, setSelected] = useState<readonly number[]>([]);
+    const [runJoyride, setRunJoyride] = useState(false);
     const { data, isLoading } = useGetWarehouse();
+
+    useEffect(() => {
+        if (localStorage.getItem("isWarehouseJoyrideDisplayed") === "true")
+            return;
+        else {
+            localStorage.setItem("isWarehouseJoyrideDisplayed", "false");
+            isAnimationEnd && setRunJoyride(true);
+        }
+    }, [isAnimationEnd]);
+
+    const handleJoyrideCallback = (data: CallBackProps) => {
+        const { status } = data;
+        if (status === "finished") {
+            localStorage.setItem("isWarehouseJoyrideDisplayed", "true");
+            setRunJoyride(false);
+        }
+    };
 
     if (isLoading)
         return (
@@ -62,6 +158,11 @@ export default function Warehouse() {
                 searchText={searchText}
                 selected={selected}
                 setSelected={setSelected}
+            />
+            <CustomJoyride
+                pathname={runJoyride}
+                callback={handleJoyrideCallback}
+                steps={warehouseSteps}
             />
         </AnimatedStyledContact>
     );
