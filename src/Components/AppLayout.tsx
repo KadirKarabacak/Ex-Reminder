@@ -1,4 +1,4 @@
-import { Outlet, useLocation, useNavigate } from "react-router-dom";
+import { Outlet, useLocation } from "react-router-dom";
 import Sidebar from "./Sidebar";
 import Header from "./Header";
 import styled from "styled-components";
@@ -186,7 +186,6 @@ function AppLayout() {
     const { isPending, mutateAsync: updateNegotiate } = useUpdateNegotiate();
     const [isAlarm, setIsAlarm] = useState(false);
     const [runJoyride, setRunJoyride] = useState(false);
-    const navigate = useNavigate();
 
     const findNegotiateToAlert = negotiates?.filter(neg => {
         // ! If user don't want to alert, don't take negotiate

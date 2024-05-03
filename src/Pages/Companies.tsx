@@ -6,7 +6,7 @@ import CustomTable from "../Components/Table";
 import { CompaniesToolBar } from "../Components/TableToolBars/CompaniesBar";
 import { useGetCompanies } from "../Api/companyController";
 import { InfinitySpin } from "react-loader-spinner";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AnimatedPage from "../Components/AnimatedPage";
 import { useEffect, useState } from "react";
 import i18n from "../i18n";
@@ -129,7 +129,6 @@ export default function Companies() {
         onRest: () => setIsAnimationEnd(true),
     });
     const { t } = useTranslation();
-    const { pathname } = useLocation();
     const { data, isLoading } = useGetCompanies();
     const [searchText, setSearchText] = useState("");
     const [selected, setSelected] = useState<readonly number[]>([]);
