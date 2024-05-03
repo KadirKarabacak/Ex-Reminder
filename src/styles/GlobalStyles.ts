@@ -137,7 +137,7 @@ body {
   min-height: 100vh;
   line-height: 1.5;
   font-size: 1.6rem;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 input,
@@ -374,7 +374,7 @@ svg{
 }
 
 .react-joyride__overlay{
-  height: 100dvh!important;
+  /* height: 100dvh!important; */
   background-color: rgba(0,0,0,0.5)!important;
 }
 
@@ -389,8 +389,9 @@ svg{
 .react-joyride__beacon > span:nth-child(1){
   animation: pulse 3s infinite!important;
   opacity: 1!important;
-  width: 28px !important;
-  height: 28px !important;
+  width: 24px !important;
+  height: 24px !important;
+  z-index: 1000!important;
 
     @keyframes pulse {
         0% {
@@ -410,6 +411,10 @@ svg{
   animation: none!important;
   border: none!important;
   opacity: 1!important;
+}
+
+.__floater + span {
+  z-index: 10000!important;
 }
 
 .__floater__body > div > button {
