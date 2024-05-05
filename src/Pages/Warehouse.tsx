@@ -15,6 +15,7 @@ import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import FileDownloadIcon from "@mui/icons-material/FileDownload";
 import SearchIcon from "@mui/icons-material/Search";
 import WarehouseIcon from "@mui/icons-material/Warehouse";
+import { useLocation } from "react-router-dom";
 
 const StyledContact = styled.main`
     width: 100%;
@@ -116,6 +117,7 @@ export default function Warehouse() {
     const [selected, setSelected] = useState<readonly number[]>([]);
     const [runJoyride, setRunJoyride] = useState(false);
     const { data, isLoading } = useGetWarehouse();
+    const { pathname } = useLocation();
 
     useEffect(() => {
         if (localStorage.getItem("isWarehouseJoyrideDisplayed") === "true")
@@ -127,7 +129,17 @@ export default function Warehouse() {
     }, [isAnimationEnd]);
 
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const { status } = data;
+        const { status, lifecycle } = data;
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready" ||
+            pathname === "/warehouse"
+        ) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
         if (status === "finished") {
             localStorage.setItem("isWarehouseJoyrideDisplayed", "true");
             setRunJoyride(false);

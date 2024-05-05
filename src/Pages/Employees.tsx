@@ -135,7 +135,16 @@ export default function Employees() {
     }, [isAnimationEnd]);
 
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const { status } = data;
+        const { status, lifecycle } = data;
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready"
+        ) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
         if (status === "finished") {
             localStorage.setItem("isEmployeesJoyrideDisplayed", "true");
             setRunJoyride(false);

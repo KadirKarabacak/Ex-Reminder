@@ -71,7 +71,11 @@ export default function Settings() {
 
     const handleJoyrideCallback = (data: CallBackProps) => {
         const { status, lifecycle } = data;
-        if (lifecycle === "tooltip") {
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready"
+        ) {
             document.body.style.overflow = "hidden";
         } else {
             document.body.style.overflow = "visible";
