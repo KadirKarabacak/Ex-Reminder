@@ -9,6 +9,7 @@ const StyledTitle = styled.p`
     justify-content: center;
     align-items: center;
     gap: 0.7rem;
+    font-size: 2.2rem;
 `;
 
 export default function JoyrideTitle({
