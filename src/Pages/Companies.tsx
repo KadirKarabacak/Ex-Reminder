@@ -6,7 +6,7 @@ import CustomTable from "../Components/Table";
 import { CompaniesToolBar } from "../Components/TableToolBars/CompaniesBar";
 import { useGetCompanies } from "../Api/companyController";
 import { InfinitySpin } from "react-loader-spinner";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import AnimatedPage from "../Components/AnimatedPage";
 import { useEffect, useState } from "react";
 import i18n from "../i18n";
@@ -137,6 +137,7 @@ export default function Companies() {
     const { companyId } = params;
     const currentCompany =
         companyId && data?.find(comp => comp.id === companyId);
+    const { pathname } = useLocation();
 
     useEffect(() => {
         if (localStorage.getItem("isCompaniesJoyrideDisplayed") === "true")
@@ -148,7 +149,17 @@ export default function Companies() {
     }, [isAnimationEnd]);
 
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const { status } = data;
+        const { status, lifecycle } = data;
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready" ||
+            pathname === "/companies"
+        ) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
         if (status === "finished") {
             localStorage.setItem("isCompaniesJoyrideDisplayed", "true");
             setRunJoyride(false);
