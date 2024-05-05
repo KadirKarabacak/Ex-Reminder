@@ -1,15 +1,22 @@
-import { animated, useSpring } from "react-spring";
+import { animated, easings, useSpring } from "react-spring";
 import styled from "styled-components";
-import { springOptions } from "../Constants/constant";
 import { useGetNotifications } from "../Api/notificationController";
 import { useTranslation } from "react-i18next";
 import { InfinitySpin } from "react-loader-spinner";
 import { Helmet } from "react-helmet";
 import CustomTable from "../Components/Table";
 import { NotificationToolBar } from "../Components/TableToolBars/NotificationBar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { NotificationTypes } from "../Interfaces/User";
+import i18n from "../i18n";
+import JoyrideTitle from "../Components/JoyrideTitle";
+import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import SearchIcon from "@mui/icons-material/Search";
+import InfoIcon from "@mui/icons-material/Info";
+import { CallBackProps } from "react-joyride";
+import CustomJoyride from "../Components/CustomJoyride";
 
 const StyledNotifications = styled.main`
     width: 100%;
@@ -31,15 +38,87 @@ const FullPage = styled.div`
     justify-content: center;
 `;
 
+const iconStyle = {
+    width: "2rem",
+    height: "2rem",
+    color: "var(--color-grey-300)",
+    transition: "all .3s",
+};
+
+const notificationsSteps = [
+    {
+        target: ".markAsRead-btn",
+        content: i18n.t(
+            "Here you can mark your notifications as read or unread. You must be on the unread page to mark as read and on the read page to mark as unread. :)"
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<MarkChatReadIcon sx={iconStyle} />}
+                title={i18n.t("Mark as Read & Unread")}
+            />
+        ),
+    },
+    {
+        target: ".switch-read-unread-btn",
+        content: i18n.t(
+            "Here you can switch between your read and unread notifications and see only the ones that match your selection."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<ToggleOnIcon sx={iconStyle} />}
+                title={i18n.t("Switch Between Read & Unread")}
+            />
+        ),
+    },
+    {
+        target: ".search-input-notifications",
+        content: i18n.t(
+            "From here, you can find a notification in your table much more easily by searching by notification date."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<SearchIcon sx={iconStyle} />}
+                title={i18n.t("Search Data")}
+            />
+        ),
+    },
+    {
+        target: ".notifications-info-button",
+        content: i18n.t(
+            "Here you can see what the colors and icons of all the notifications in the notifications table mean. This makes it easier to find a specific notification you are looking for."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<InfoIcon sx={iconStyle} />}
+                title={i18n.t("Notifications Info")}
+            />
+        ),
+    },
+];
+
 const AnimatedStyledNotifications = animated(StyledNotifications);
 
 export default function Notifications() {
-    const animationProps = useSpring(springOptions);
+    const [isAnimationEnd, setIsAnimationEnd] = useState(false);
+    const animationProps = useSpring({
+        from: { opacity: 0, transform: "translateY(50px)" },
+        to: { opacity: 1, transform: "translateY(0)" },
+        config: {
+            duration: 800,
+            easing: easings.easeInOutBack,
+        },
+        onRest: () => setIsAnimationEnd(true),
+    });
     const { data: notifications, isLoading } = useGetNotifications();
     const { t } = useTranslation();
     const [searchText, setSearchText] = useState("");
     const [searchParams] = useSearchParams();
     const [selected, setSelected] = useState<readonly string[]>([]);
+    const [runJoyride, setRunJoyride] = useState(false);
     const notReadedNotification = notifications?.filter(
         (notification: NotificationTypes) => notification.isReaded === false
     );
@@ -51,6 +130,32 @@ export default function Notifications() {
           notReadedNotification?.length === selected.length
         : readedNotification?.length !== 0 &&
           readedNotification?.length === selected.length;
+
+    useEffect(() => {
+        if (localStorage.getItem("isNotificationsJoyrideDisplayed") === "true")
+            return;
+        else {
+            localStorage.setItem("isNotificationsJoyrideDisplayed", "false");
+            isAnimationEnd && setRunJoyride(true);
+        }
+    }, [isAnimationEnd]);
+
+    const handleJoyrideCallback = (data: CallBackProps) => {
+        const { status, lifecycle } = data;
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready"
+        ) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
+        if (status === "finished") {
+            localStorage.setItem("isNotificationsJoyrideDisplayed", "true");
+            setRunJoyride(false);
+        }
+    };
 
     if (isLoading)
         return (
@@ -82,6 +187,11 @@ export default function Notifications() {
                 searchText={searchText}
                 selected={selected}
                 setSelected={setSelected}
+            />
+            <CustomJoyride
+                steps={notificationsSteps}
+                pathname={runJoyride}
+                callback={handleJoyrideCallback}
             />
         </AnimatedStyledNotifications>
     );
