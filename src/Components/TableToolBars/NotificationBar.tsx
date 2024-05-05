@@ -171,6 +171,7 @@ export function NotificationToolBar({
                     title={<NotificationsInfo />}
                 >
                     <StyledButton
+                        className="notifications-info-button"
                         sx={{
                             fontSize: "2rem",
                             minWidth: 0,
@@ -220,6 +221,7 @@ export function NotificationToolBar({
                 />
                 <FormControl sx={{ minWidth: "10%" }}>
                     <StyledSelect
+                        className="switch-read-unread-btn"
                         sx={{
                             "& > div": {
                                 padding: "12.5px 14px",
@@ -256,6 +258,7 @@ export function NotificationToolBar({
                     </StyledSelect>
                 </FormControl>
                 <Button
+                    className="markAsRead-btn"
                     onClick={findAndUpdateNotification}
                     disabled={selected.length === 0 || isUpdating}
                     sx={{
