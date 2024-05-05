@@ -4,6 +4,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { auth } from "../../../Api/firebase";
 import { useDeleteNotification } from "../../../Api/notificationController";
+import toast from "react-hot-toast";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -47,8 +48,15 @@ export default function DeleteSelectedNotificationsModal({
         const deletePromises = selected.map((id: string) =>
             deleteNotification({ userId, id })
         );
-        await Promise.all(deletePromises);
-        onCloseModal();
+        const successfullyDelete = await Promise.all(deletePromises);
+        if (successfullyDelete) {
+            toast.success(
+                t("Selected notifications were successfully deleted")
+            );
+            onCloseModal();
+        } else {
+            toast.error(t("An error occurred while deleting notifications"));
+        }
     }
 
     function onCloseModal() {
