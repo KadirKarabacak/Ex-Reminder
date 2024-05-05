@@ -112,37 +112,37 @@ export async function forwardGeocode(address: any) {
 }
 
 export function createTurkishEventNames(event: string) {
-    // Warehouse
+    //: Warehouse
     if (event === "Add Item") return "Malzeme Ekleme";
     if (event === "Update Item") return "Malzeme Güncelleme";
     if (event === "Delete Item") return "Malzeme Silme";
 
-    // Employees
+    //: Employees
     if (event === "Add Employee") return "Çalışan Ekleme";
     if (event === "Update Employee") return "Çalışan Güncelleme";
     if (event === "Delete Employee") return "Çalışan Silme";
 
-    // User
+    //: User
     if (event === "Update User Name") return "Kullanıcı İsmi Güncelleme";
     if (event === "Update User Avatar") return "Kullanıcı Avatarı Güncelleme";
     if (event === "Update User Email") return "Kullanıcı Maili Güncelleme";
     if (event === "Update User Password") return "Kullanıcı Şifre Güncelleme";
 
-    // Company
+    //: Company
     if (event === "Add Company") return "Şirket Ekleme";
     if (event === "Update Company") return "Şirket Güncelleme";
     if (event === "Delete Company") return "Şirket Silme";
 
-    // Sales
+    //: Sales
     if (event === "Add Sale") return "Satış Ekleme";
     if (event === "Delete Sale") return "Satış Silme";
 
-    // Agreements
+    //: Agreements
     if (event === "Add Agreement") return "Anlaşma Ekleme";
     if (event === "Delete Agreement") return "Anlaşma Silme";
     if (event === "Update Agreement") return "Anlaşma Güncelleme";
 
-    // Negotiates
+    //: Negotiates
     if (event === "Add Negotiate") return "Görüşme Ekleme";
 }
 
@@ -152,7 +152,6 @@ export function generateExportButtonClassName(pathname: string) {
     if (pathname === "/companies") return "export-btn-companies";
     if (pathname === "/accounting") return "export-btn-accounting";
     if (pathname.includes("/companies/")) return "export-btn-sales";
-    // if (pathname.includes("/notifications")) return "export-btn-warehouse";
 }
 
 export function generateSearchInputClassName(pathname: string) {
@@ -161,5 +160,6 @@ export function generateSearchInputClassName(pathname: string) {
     if (pathname === "/companies") return "search-input-companies";
     if (pathname === "/accounting") return "search-input-accounting";
     if (pathname.includes("/companies/")) return "search-input-sales";
-    // if (pathname.includes("/notifications")) return "export-btn-warehouse";
+    if (pathname.includes("/notifications"))
+        return "search-input-notifications";
 }
