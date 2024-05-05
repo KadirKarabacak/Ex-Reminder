@@ -227,7 +227,16 @@ function AppLayout() {
     }, []);
 
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const { status } = data;
+        const { status, lifecycle } = data;
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready"
+        ) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
         if (status === "finished") {
             localStorage.setItem("isAppJoyrideDisplayed", "true");
             setRunJoyride(false);
@@ -238,7 +247,8 @@ function AppLayout() {
         if (
             pathname === "/" ||
             pathname === "/companies" ||
-            pathname === "/warehouse"
+            pathname === "/warehouse" ||
+            pathname.includes("/notifications")
         )
             document.body.style.overflow = "hidden";
         else {
