@@ -130,17 +130,6 @@ const steps = [
         placement: "right-start",
     },
     {
-        target: ".change-language",
-        title: (
-            <JoyrideTitle
-                icon={<LanguageIcon sx={iconStyle} />}
-                title={i18n.t("Change Language")}
-            />
-        ),
-        content: i18n.t("You can change the language from here before login"),
-        placement: "top-end",
-    },
-    {
         target: ".register-button",
         title: (
             <JoyrideTitle
@@ -164,6 +153,17 @@ const steps = [
         content: i18n.t(
             "In case you forget your password, you can send a password reset email to your email using this link."
         ),
+        placement: "top-end",
+    },
+    {
+        target: ".change-language",
+        title: (
+            <JoyrideTitle
+                icon={<LanguageIcon sx={iconStyle} />}
+                title={i18n.t("Change Language")}
+            />
+        ),
+        content: i18n.t("You can change the language from here before login"),
         placement: "top-end",
     },
 ];
@@ -217,7 +217,16 @@ export default function LoginForm() {
     };
 
     const handleJoyrideCallback = (data: CallBackProps) => {
-        const { status } = data;
+        const { status, lifecycle } = data;
+        if (
+            lifecycle === "tooltip" ||
+            lifecycle === "complete" ||
+            lifecycle === "ready"
+        ) {
+            document.body.style.overflow = "hidden";
+        } else {
+            document.body.style.overflow = "visible";
+        }
         if (status === "finished") {
             localStorage.setItem("isLoginJoyrideDisplayed", "true");
             setRunJoyride(false);
