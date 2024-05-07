@@ -45,7 +45,7 @@ const GlobalStyles = createGlobalStyle`
     --image-grayscale: 0;
     --image-opacity: 100%;
 
-    --color-grey-50-forms: rgba(249, 250, 251, 0.96);
+    --color-grey-50-forms: rgba(249, 250, 251, 0.98);
     --shadow-badge: 0 0 0 0 rgba(0, 0, 0, 0.7);
   }
     
@@ -90,7 +90,7 @@ const GlobalStyles = createGlobalStyle`
     --image-grayscale: 10%;
     --image-opacity: 90%;
 
-    --color-grey-50-forms: rgba(17, 24, 39, 0.96);
+    --color-grey-50-forms: rgba(17, 24, 39, 0.98);
     --shadow-badge: 0 0 0 0 rgba(255, 255, 255, 0.7);
   }
 
