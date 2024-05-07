@@ -208,6 +208,7 @@ export default function AddAgreementModal({
                                     {t("Agreement Content*")}
                                 </StyledTitle>
                                 <StyledTextField
+                                    id="agreementContent"
                                     disabled={isPending}
                                     placeholder={t("Agreement Content")}
                                     {...register("agreementContent", {
@@ -227,6 +228,7 @@ export default function AddAgreementModal({
                                     {t("Agreement Budget")}
                                 </StyledTitle>
                                 <StyledTextField
+                                    id="agreementBudget"
                                     disabled={isPending}
                                     type="number"
                                     placeholder={t("Agreement Budget")}
@@ -250,9 +252,12 @@ export default function AddAgreementModal({
                                     {t("Parties of Agreement")}
                                 </StyledTitle>
                                 <StyledTextField
+                                    id="agreementParties"
                                     disabled={isPending}
                                     type="text"
-                                    defaultValue={`${currentUser?.displayName || t("You")} & ${currentCompany?.companyName}`}
+                                    defaultValue={`${
+                                        currentUser?.displayName || t("You")
+                                    } & ${currentCompany?.companyName}`}
                                     placeholder={t("Company A & Company B")}
                                     {...register("agreementParties")}
                                 />
@@ -275,6 +280,7 @@ export default function AddAgreementModal({
                                     slotProps={{
                                         textField: {
                                             helperText: errorMessage,
+                                            id: "agreementStartDate",
                                         },
                                     }}
                                     minDate={minDate}
@@ -297,6 +303,7 @@ export default function AddAgreementModal({
                                     slotProps={{
                                         textField: {
                                             helperText: errorMessage,
+                                            id: "agreementEndDate",
                                         },
                                     }}
                                     minDate={minDate}
@@ -306,6 +313,7 @@ export default function AddAgreementModal({
 
                         <StyledButtonContainer>
                             <Button
+                                id="complateAgreementBtn"
                                 disabled={isPending}
                                 sx={{
                                     backgroundColor: "var(--color-grey-800)",
@@ -335,6 +343,7 @@ export default function AddAgreementModal({
                                 {t("Complate Agreement")}
                             </Button>
                             <Button
+                                id="cancelAgreementBtn"
                                 disabled={isPending}
                                 onClick={onCloseModal}
                                 sx={{

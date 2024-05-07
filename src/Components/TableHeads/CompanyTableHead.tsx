@@ -102,6 +102,7 @@ export function CompanyTableHead(props: EnhancedTableProps) {
             >
                 <TableCell padding="checkbox" sx={TableCellStyles}>
                     <Checkbox
+                        id="selectAllCompanies"
                         indeterminate={
                             numSelected > 0 && numSelected < rowCount
                         }

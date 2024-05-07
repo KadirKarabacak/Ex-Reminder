@@ -35,6 +35,7 @@ export default function AccountingTableRow({
             >
                 <Checkbox
                     checked={isItemSelected}
+                    id={labelId}
                     inputProps={{
                         "aria-labelledby": labelId,
                     }}

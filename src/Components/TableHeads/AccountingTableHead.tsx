@@ -93,6 +93,7 @@ export function AccountingTableHead(props: EnhancedTableProps) {
             >
                 <TableCell padding="checkbox" sx={TableCellStyles}>
                     <Checkbox
+                        id="selectAllAccounting"
                         indeterminate={
                             numSelected > 0 && numSelected < rowCount
                         }

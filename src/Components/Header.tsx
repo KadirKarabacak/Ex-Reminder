@@ -156,7 +156,7 @@ function Header() {
         >
             <StyledList>
                 <StyledUserInfo onClick={() => navigate("/settings")}>
-                    <StyledListItem>
+                    <StyledListItem id="userInfo">
                         {currentUser?.photoURL && (
                             <StyledAvatar
                                 src={currentUser.photoURL}
@@ -183,7 +183,7 @@ function Header() {
                     sx={{ borderColor: "var(--color-grey-300)" }}
                 />
                 <StyledListItem className="language-nav">
-                    <StyledFormControl variant="filled">
+                    <StyledFormControl variant="filled" id="switchLanguage">
                         <Select
                             value={currentLanguage}
                             onChange={e => handleChangeLang(e.target.value)}
@@ -221,7 +221,10 @@ function Header() {
                         </Select>
                     </StyledFormControl>
                 </StyledListItem>
-                <StyledListItem className="notifications-nav">
+                <StyledListItem
+                    className="notifications-nav"
+                    id="notificationsBtn"
+                >
                     <Badge badgeContent={isNotReadeds?.length} color="success">
                         <Link to="/notifications?action=not-readed">
                             <Tooltip
@@ -243,7 +246,10 @@ function Header() {
                         </Link>
                     </Badge>
                 </StyledListItem>
-                <StyledListItem className="toggledarkmode-nav">
+                <StyledListItem
+                    className="toggledarkmode-nav"
+                    id="toggleDarkModeBtn"
+                >
                     <Tooltip
                         TransitionComponent={Grow}
                         title={t("Toggle Darkmode")}
@@ -266,7 +272,7 @@ function Header() {
                         </StyledButton>
                     </Tooltip>
                 </StyledListItem>
-                <StyledListItem className="logout-nav">
+                <StyledListItem className="logout-nav" id="logoutBtn">
                     <Tooltip TransitionComponent={Grow} title={t("Logout")}>
                         <Link
                             onClick={() => {
