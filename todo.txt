@@ -1,4 +1,4 @@
-# `TODO:` -------------------- "✅": Complated || "❌": No way to fix || "🟡": Do that Later
+# `TODO:` -------------------- "✅": Completed || "❌": No way to fix || "🟡": Do that Later
 
 03- ✅ Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
 04- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
@@ -29,12 +29,12 @@
 31- ✅ The item user trying to add, if already exists in table (compare with name, lowercase both of them) return an error
 32- ✅ On employees page, below the table add total salaries, average salary, average age, add how many Game Developer is there like [ Game Developer x3 ], Add a pie chart for that
 33- ✅ Make Warehouse table sortable
-34- On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
+34- ✅ On register form, after user do a wrong submit, the field "confidentialityAgreement" is not clearing. Then after user did complately true register, it sends error.
 35- ❌ On reset password form, if the email doesnt exist user trying to reset the password, display error "The email does not exist" (Can't complate cuz before authenticated can't access users)
-36- On deployed version .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused this class is changing and labels in textfields still blue not brand-500, fix it with more spesific way
+36- ✅ On deployed version .css-o943dk-MuiFormLabel-root-MuiInputLabel-root.Mui-focused this class is changing and labels in textfields still blue not brand-500, fix it with more spesific way
 37- ✅ On the browser tab, add current route's name in the title like "Ex Reminder | Login"
 38- ✅ On add company modal, change phones as --> https://github.com/viclafouch/mui-tel-input
-39- On companies page Manager Name is not sortable because of nested object, try to fix.
+39- ✅ On companies page Manager Name is not sortable because of nested object, try to fix.
 40- ✅ On companies page on edit situation phone numbers doesnt fill input fields as default value, try to fix.
 41- ✅ On edit agreement in edit modal Budget comes wrong, formatCurrency doesnt work true for bigger moneys
 42- ✅ On companies add "Make Sale" button to buttongroup. In this modal, check items and companies. Only sell if the item and company is exist. After the sell is happen, drop that info to Accounting page. Satışlar hem "accounting" route'una eklenecek, hemde satış yapılan company'nin altındaki "sales" route'una
@@ -58,7 +58,7 @@
 60- ✅ On making sale, when item selected autofill sale price with item price, watch every field in sale and auto fill sale description with selections
 61- ✅ Accounting > Make Sale is not adding to company's own sales table. Only adding to accounting table
 62- ✅ Companies > Edit Company Modal > On editing address add address modal
-63- Companies > Tablerow address sort & manager name sort is not working fix it
+63- ✅ Companies > Tablerow address sort & manager name sort is not working fix it
 64- ✅ Add Company > Address Modal > When user clicks the map, set input fields with geocoded data
 65- ✅ Home page > when user clicks find my location, it clicks map also, fix that
 66- ✅ Companies > Add company & Edit Company check url params on closing modals
@@ -75,7 +75,7 @@
 77- ✅ On notifications table toolbar, add colors meanings to alert user what they means
 78- ✅ To display notification on agreement changes, set agreementBudget or agreementParties as required.
 79- After user logged in, when clicking the browsers history button, block user to move login and keep in app
-80- Make export button & search input in table toolbars Joyride with pathname
+80- ✅ Make export button & search input in table toolbars Joyride with pathname
 
 ### FEATURES ###
 
@@ -95,8 +95,28 @@ Slogan: Save Everything about your Company!
 
 
 TODO: LINKEDIN PAYLASIM
-Merhaba değerli bağlantılarım ve Linkedin ailesi. Bir süredir üzerinde çalıştığım hala da geliştirmekte, yeni özellikler eklemekte olduğum projem Ex Reminder'ı sizlere sunmak isterim. Projem genel hatlarıyla bir şirketin çalışanlarını, depo-ürünlerini, iş yaptığı şirketleri ve bu şirketler ile yapacağı-yapmış olduğu anlaşma, satış, muhasebe, görüşmeler gibi bilgilerin kayıtlarını tablolar halinde kullanıcı firmaya sunan bir web uygulamasıdır. Tüm bu veriler ve kullanıcı firmanın özel bilgilerini ele almak ve saklamak için Firebase'in sunmuş olduğu database, authentication-authorization gibi özelliklerden faydalandım.
+Merhaba değerli bağlantılarım ve Linkedin ailesi. Bir süredir üzerinde çalıştığım hala da geliştirmekte, yeni özellikler eklemekte olduğum projem Ex Reminder'ı sizlere sunmak isterim. Projem genel hatlarıyla bir şirketin çalışanlarını, depo-ürünlerini, iş yaptığı şirketleri ve bu şirketler ile yapacağı-yapmış olduğu anlaşma, satış, muhasebe, görüşmeler gibi bilgilerin kayıtlarını tablolar halinde kullanıcı firmaya sunan bir web uygulamasıdır. Tüm bu veriler ve kullanıcı firmanın özel bilgilerini ele almak ve saklamak için Firebase'in sunmuş olduğu database, authentication-authorization gibi özelliklerden faydalandım. Henüz spesifik bir firma için geliştirilmiş olmamasına karşın talep olduğu taktirde kolay bir şekilde o firmaya uygun formata çevrilebilir.
 
-Projeyi geliştirirken kullandığım tüm teknolojiler ve proje hakkında daha detaylı bilgi edinmek adına sizleri Github repository'me bekliyorum. [Github repository link]
+Detaylı olarak kullandığım teknoloji ve kütüphaneler:
+
+Arayüz, Görünüm ve Animasyonlar:
+* MaterialUI
+* AnimeJS
+* Framer Motion
+* React-Spring
+* Styled Components
+
+Database, API ve işlevsellik:
+* Tanstack-React Query
+* Date-fns
+* Firebase
+* i18next
+* JsPDF
+* React Leaflet
+* React-Hook-Form
+* React-Joyride
+* React-Router
+* Recharts
+
 
 Aynı zamanda projemi canlı ortama alıp sizlerin kullanımına açık hale getiriyorum. Kullanırken var ise karşılaştığınız problemler ve ekleyebileceğim, kullanıcılar için faydalı olduğunu düşündüğünüz tüm fikir ve eleştirileriniz için açığım. Vakit ayırıp gönderimi inceleyen ve projemde vakit geçiren herkese şimdiden teşekkürlerimi sunarım.
