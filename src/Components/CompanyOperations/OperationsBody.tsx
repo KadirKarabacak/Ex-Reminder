@@ -14,6 +14,10 @@ import LinkIcon from "@mui/icons-material/Link";
 const StyledContainer = styled.div`
     width: 100%;
     padding: 1rem 2rem;
+
+    @media (max-width: 700px) {
+        padding: 0.2rem;
+    }
 `;
 
 const StyledTitle = styled.h3`
@@ -109,7 +113,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             borderTopLeftRadius: "5px",
@@ -123,7 +128,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -143,7 +149,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -158,7 +165,8 @@ export default function OperationsBody({
 
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -171,7 +179,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -184,7 +193,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -220,7 +230,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -236,7 +247,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
@@ -250,7 +262,8 @@ export default function OperationsBody({
                     </Grid>
                     <Grid
                         item
-                        xs={4}
+                        xs={6}
+                        md={4}
                         sx={{
                             border: "1px solid var(--color-grey-200)",
                             paddingBottom: "2rem",
