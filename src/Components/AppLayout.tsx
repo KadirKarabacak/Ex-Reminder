@@ -27,10 +27,14 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import LanguageIcon from "@mui/icons-material/Language";
 
 const StyledAppLayout = styled.div`
-    display: grid;
     grid-template-columns: 26rem 1fr;
     grid-template-rows: auto 1fr;
     height: 100vh;
+    display: contents;
+
+    @media (min-width: 1000px) {
+        display: grid;
+    }
 `;
 
 const Container = styled.div`
@@ -46,6 +50,11 @@ const iconStyle = {
     color: "var(--color-grey-300)",
     transition: "all .3s",
 };
+
+const StyledMain = styled.main`
+    background-color: var(--color-grey-50);
+    overflow-y: scroll;
+`;
 
 const applayoutSteps = [
     {
@@ -186,6 +195,11 @@ function AppLayout() {
     const { isPending, mutateAsync: updateNegotiate } = useUpdateNegotiate();
     const [isAlarm, setIsAlarm] = useState(false);
     const [runJoyride, setRunJoyride] = useState(false);
+    const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+
+    const toggleDrawer = () => {
+        setIsOpenDrawer(prevState => !prevState);
+    };
 
     const findNegotiateToAlert = negotiates?.filter(neg => {
         // ! If user don't want to alert, don't take negotiate
@@ -245,32 +259,44 @@ function AppLayout() {
 
     useEffect(() => {
         if (
-            pathname === "/" ||
-            pathname === "/companies" ||
-            pathname === "/warehouse" ||
-            pathname.includes("/notifications")
+            window.innerWidth > 1000 &&
+            (pathname === "/" ||
+                pathname === "/companies" ||
+                pathname === "/warehouse" ||
+                pathname.includes("/notifications"))
         )
             document.body.style.overflow = "hidden";
-        else {
-            document.body.style.overflow = "visible";
-        }
+        else document.body.style.overflow = "visible";
     }, [pathname]);
 
     return (
         <ProtectedRoute>
             <CustomJoyride
-                steps={applayoutSteps}
+                //TODO: window.innerWidth < 1000 ? take steps's last 4 step only : otherwise every steps
+                steps={
+                    window.innerWidth < 1000
+                        ? applayoutSteps.slice(6)
+                        : applayoutSteps
+                }
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}
             />
             <StyledAppLayout>
-                <Header />
-                <Sidebar />
-                <main
+                <Header
+                    setIsOpenDrawer={setIsOpenDrawer}
+                    toggleDrawer={toggleDrawer}
+                    isOpenDrawer={isOpenDrawer}
+                />
+                <Sidebar
+                    isOpenDrawer={isOpenDrawer}
+                    toggleDrawer={toggleDrawer}
+                />
+                <StyledMain
                     style={{
-                        backgroundColor: "var(--color-grey-50)",
-                        padding: pathname === "/" ? "0" : "3.5rem",
-                        overflowY: "scroll",
+                        padding:
+                            pathname === "/" || window.innerWidth < 1000
+                                ? "0"
+                                : "3.5rem",
                     }}
                 >
                     <Container>
@@ -284,7 +310,7 @@ function AppLayout() {
                                 handleDismissAlarm={handleDismissAlarm}
                             />
                         ))}
-                </main>
+                </StyledMain>
             </StyledAppLayout>
         </ProtectedRoute>
     );
