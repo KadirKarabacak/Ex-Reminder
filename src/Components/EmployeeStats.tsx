@@ -68,7 +68,8 @@ export default function EmployeeStats({
             <Grid container spacing={2}>
                 <Grid
                     item
-                    xs={4}
+                    lg={4}
+                    xs={6}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
                     <StyledTitle>{t(`Total Employees`)}</StyledTitle>
@@ -76,7 +77,8 @@ export default function EmployeeStats({
                 </Grid>
                 <Grid
                     item
-                    xs={4}
+                    lg={4}
+                    xs={6}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
                     <StyledTitle>{t(`Total Salary`)}</StyledTitle>
@@ -86,13 +88,14 @@ export default function EmployeeStats({
                 </Grid>
                 <Grid
                     item
-                    xs={4}
+                    lg={4}
+                    xs={6}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
                     <StyledTitle>{t(`Average Salary`)}</StyledTitle>
                     <StyledDescription>{averageSalary}</StyledDescription>
                 </Grid>
-                <Grid
+                {/* <Grid
                     item
                     xs={12}
                     sx={{ display: "flex", flexDirection: "column" }}
@@ -102,10 +105,11 @@ export default function EmployeeStats({
                             borderColor: "var(--color-grey-200)",
                         }}
                     />
-                </Grid>
+                </Grid> */}
                 <Grid
                     item
-                    xs={4}
+                    lg={4}
+                    xs={6}
                     sx={{ display: "flex", flexDirection: "column" }}
                 >
                     <StyledTitle>{t(`Average Age`)}</StyledTitle>
