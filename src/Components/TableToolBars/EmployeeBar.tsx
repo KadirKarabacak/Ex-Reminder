@@ -1,4 +1,4 @@
-import { Button, Toolbar, Typography } from "@mui/material";
+import { Button, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import AddEmployeeModal from "../Modals/Employees/AddEmployeeModal";
@@ -7,10 +7,26 @@ import SearchInput from "../SearchInput";
 import ExportButton from "../ExportButton";
 import { Employee } from "../../Interfaces/User";
 import { formatCurrency } from "../../Utils/utils";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
+`;
+
+const StyledSmallContainer = styled.div`
+    display: none;
+    @media (max-width: 1000px) {
+        display: block;
+    }
+`;
+
+const StyledLargeContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 1000px) {
+        display: none;
+    }
 `;
 
 export function EmployeeToolBar({
@@ -26,6 +42,16 @@ export function EmployeeToolBar({
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+
+    // TODO:
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const opensMenu = Boolean(anchorEl);
+    const handleClickMenuItem = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
 
     const ExcelData = data.map((value: Employee) => {
         return {
@@ -78,82 +104,212 @@ export function EmployeeToolBar({
                     setSearchText={setSearchText}
                     label={t("Search Employee by Name")}
                 />
-                <ExportButton
-                    title={t("Employees")}
-                    excel={{
-                        headers: [
-                            {
-                                label: t("Full Name"),
-                                key: "full_name",
+                <StyledSmallContainer>
+                    <Button
+                        sx={{
+                            backgroundColor: "var(--color-grey-800)",
+                            color: "var(--color-grey-50)",
+                            transition: "all .3s",
+                            padding: "1rem 2rem",
+                            fontSize: "1.1rem",
+                            alignSelf: "center",
+                            "&:hover": {
+                                backgroundColor: "var(--color-grey-600)",
+                                color: "var(--color-grey-100)",
                             },
-                            {
-                                label: t("Job Title"),
-                                key: "job_title",
+                            "&:disabled": {
+                                backgroundColor: "var(--color-grey-500)",
                             },
-                            {
-                                label: t("Department"),
-                                key: "department",
-                            },
-                            {
-                                label: t("Salary"),
-                                key: "salary",
-                            },
-                            {
-                                label: t("Hire Date"),
-                                key: "hire_date",
-                            },
-                            {
-                                label: t("Age"),
-                                key: "age",
-                            },
-                            {
-                                label: t("Email"),
-                                key: "email",
-                            },
-                        ],
-                        data: ExcelData,
-                    }}
-                    pdf={{
-                        head: [
-                            [
-                                t("Full Name"),
-                                t("Job Title"),
-                                t("Department"),
-                                t("Salary"),
-                                t("Hire Date"),
-                                t("Age"),
-                                t("Email"),
+                            "& > span > svg": { fill: "var(--color-grey-50)" },
+                        }}
+                        id="demo-customized-button"
+                        aria-controls={
+                            opensMenu ? "demo-customized-menu" : undefined
+                        }
+                        aria-haspopup="true"
+                        aria-expanded={opensMenu ? "true" : undefined}
+                        variant="contained"
+                        disableElevation
+                        onClick={handleClickMenuItem}
+                        endIcon={<KeyboardArrowDownIcon />}
+                    >
+                        Operations
+                    </Button>
+                    <Menu
+                        id="demo-customized-menu"
+                        MenuListProps={{
+                            "aria-labelledby": "demo-customized-button",
+                        }}
+                        anchorEl={anchorEl}
+                        open={opensMenu}
+                        onClose={handleCloseMenu}
+                    >
+                        <MenuItem disableRipple>
+                            <ExportButton
+                                isInSmallContainer={true}
+                                title={t("Employees")}
+                                excel={{
+                                    headers: [
+                                        {
+                                            label: t("Full Name"),
+                                            key: "full_name",
+                                        },
+                                        {
+                                            label: t("Job Title"),
+                                            key: "job_title",
+                                        },
+                                        {
+                                            label: t("Department"),
+                                            key: "department",
+                                        },
+                                        {
+                                            label: t("Salary"),
+                                            key: "salary",
+                                        },
+                                        {
+                                            label: t("Hire Date"),
+                                            key: "hire_date",
+                                        },
+                                        {
+                                            label: t("Age"),
+                                            key: "age",
+                                        },
+                                        {
+                                            label: t("Email"),
+                                            key: "email",
+                                        },
+                                    ],
+                                    data: ExcelData,
+                                }}
+                                pdf={{
+                                    head: [
+                                        [
+                                            t("Full Name"),
+                                            t("Job Title"),
+                                            t("Department"),
+                                            t("Salary"),
+                                            t("Hire Date"),
+                                            t("Age"),
+                                            t("Email"),
+                                        ],
+                                    ],
+                                    body: PdfBody,
+                                }}
+                            />
+                        </MenuItem>
+                        <MenuItem onClick={handleCloseMenu} disableRipple>
+                            <Button
+                                className="addEmployee-btn"
+                                onClick={handleOpen}
+                                sx={{
+                                    backgroundColor: "var(--color-grey-800)",
+                                    color: "var(--color-grey-50)",
+                                    transition: "all .3s",
+                                    padding: "1rem 2rem",
+                                    fontSize: "1.1rem",
+                                    alignSelf: "center",
+                                    "&:hover": {
+                                        backgroundColor:
+                                            "var(--color-grey-600)",
+                                        color: "var(--color-grey-100)",
+                                        transform: "translateY(-2px)",
+                                    },
+                                    "&:active": {
+                                        transform: "translateY(0)",
+                                    },
+                                    "&:disabled": {
+                                        backgroundColor:
+                                            "var(--color-grey-500)",
+                                    },
+                                }}
+                                variant="contained"
+                            >
+                                {t("Add Employee")}
+                            </Button>
+                        </MenuItem>
+                    </Menu>
+                </StyledSmallContainer>
+                <StyledLargeContainer>
+                    <ExportButton
+                        title={t("Employees")}
+                        excel={{
+                            headers: [
+                                {
+                                    label: t("Full Name"),
+                                    key: "full_name",
+                                },
+                                {
+                                    label: t("Job Title"),
+                                    key: "job_title",
+                                },
+                                {
+                                    label: t("Department"),
+                                    key: "department",
+                                },
+                                {
+                                    label: t("Salary"),
+                                    key: "salary",
+                                },
+                                {
+                                    label: t("Hire Date"),
+                                    key: "hire_date",
+                                },
+                                {
+                                    label: t("Age"),
+                                    key: "age",
+                                },
+                                {
+                                    label: t("Email"),
+                                    key: "email",
+                                },
                             ],
-                        ],
-                        body: PdfBody,
-                    }}
-                />
-                <Button
-                    className="addEmployee-btn"
-                    onClick={handleOpen}
-                    sx={{
-                        backgroundColor: "var(--color-grey-800)",
-                        color: "var(--color-grey-50)",
-                        transition: "all .3s",
-                        padding: "1rem 2rem",
-                        fontSize: "1.1rem",
-                        alignSelf: "center",
-                        "&:hover": {
-                            backgroundColor: "var(--color-grey-600)",
-                            color: "var(--color-grey-100)",
-                            transform: "translateY(-2px)",
-                        },
-                        "&:active": {
-                            transform: "translateY(0)",
-                        },
-                        "&:disabled": {
-                            backgroundColor: "var(--color-grey-500)",
-                        },
-                    }}
-                    variant="contained"
-                >
-                    {t("Add Employee")}
-                </Button>
+                            data: ExcelData,
+                        }}
+                        pdf={{
+                            head: [
+                                [
+                                    t("Full Name"),
+                                    t("Job Title"),
+                                    t("Department"),
+                                    t("Salary"),
+                                    t("Hire Date"),
+                                    t("Age"),
+                                    t("Email"),
+                                ],
+                            ],
+                            body: PdfBody,
+                        }}
+                    />
+                    <Button
+                        className="addEmployee-btn"
+                        onClick={handleOpen}
+                        sx={{
+                            backgroundColor: "var(--color-grey-800)",
+                            color: "var(--color-grey-50)",
+                            transition: "all .3s",
+                            padding: "1rem 2rem",
+                            "@media (max-width: 1100px)": {
+                                padding: "1rem 1.1rem",
+                            },
+                            fontSize: "1.1rem",
+                            alignSelf: "center",
+                            "&:hover": {
+                                backgroundColor: "var(--color-grey-600)",
+                                color: "var(--color-grey-100)",
+                                transform: "translateY(-2px)",
+                            },
+                            "&:active": {
+                                transform: "translateY(0)",
+                            },
+                            "&:disabled": {
+                                backgroundColor: "var(--color-grey-500)",
+                            },
+                        }}
+                        variant="contained"
+                    >
+                        {t("Add Employee")}
+                    </Button>
+                </StyledLargeContainer>
             </StyledToolBar>
             <AddEmployeeModal handleClose={handleClose} open={open} />
         </>
