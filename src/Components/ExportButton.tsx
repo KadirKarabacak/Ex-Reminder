@@ -13,6 +13,7 @@ import { generateExportButtonClassName } from "../Utils/utils";
 
 type Props = {
     title: string;
+    isInSmallContainer?: boolean;
     pdf: {
         head: string[][];
         body: any[];
@@ -76,6 +77,7 @@ function ExportButton(props: Props) {
                 className={generateExportButtonClassName(pathname)}
                 onClick={handleClick}
                 variant="contained"
+                fullWidth={props.isInSmallContainer}
                 endIcon={
                     !open ? (
                         <ExpandMore sx={{ color: "var(--color-grey-100)" }} />
@@ -92,6 +94,9 @@ function ExportButton(props: Props) {
                     ":hover": {
                         backgroundColor: "var(--color-grey-600)",
                         transform: "translateY(-2px)",
+                    },
+                    "@media (max-width: 1100px)": {
+                        padding: "1rem 1.1rem",
                     },
                 }}
             >
