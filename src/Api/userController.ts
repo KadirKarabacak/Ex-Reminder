@@ -245,7 +245,6 @@ export function useUpdateUserEmail() {
                 email,
                 currentUser: { displayName },
             } = data;
-            // TODO: TRY TO ABSTRACT ADD NOTIFICATIONS TO ONSUCCESS
             await addNotifications({
                 contentObj: {
                     email,
