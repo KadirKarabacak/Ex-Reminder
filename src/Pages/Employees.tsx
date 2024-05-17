@@ -28,6 +28,11 @@ const StyledEmployees = styled.main`
     padding: 2rem 2rem;
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
+
+    @media (max-width: 1000px) {
+        border-radius: 0;
+        padding: 1rem;
+    }
 `;
 
 const FullPage = styled.div`
@@ -42,6 +47,10 @@ const InformationContainer = styled.div`
     display: grid;
     gap: 1.5rem;
     grid-template-columns: 1fr 1fr;
+
+    @media (max-width: 1000px) {
+        grid-template-columns: auto;
+    }
 `;
 
 const iconStyle = {

@@ -19,6 +19,10 @@ const StyledSettings = styled.main`
     flex-direction: column;
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
+
+    @media (max-width: 1000px) {
+        border-radius: 0;
+    }
 `;
 
 const iconStyle = {

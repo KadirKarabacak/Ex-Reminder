@@ -27,6 +27,11 @@ const StyledContact = styled.main`
     padding: 2rem 2rem;
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
+
+    @media (max-width: 1000px) {
+        border-radius: 0;
+        padding: 1rem;
+    }
 `;
 
 const FullPage = styled.div`
