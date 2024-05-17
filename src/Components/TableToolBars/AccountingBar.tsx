@@ -1,15 +1,38 @@
-import { Button, Toolbar, Typography } from "@mui/material";
+import { Button, IconButton, Toolbar, Typography } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import styled from "styled-components";
 import AddSaleModal from "../Modals/Sales/AddSaleModal";
 import SearchInput from "../SearchInput";
 import { useSearchParams } from "react-router-dom";
+import SearchIcon from "@mui/icons-material/Search";
+import ResponsiveSearchInput from "../../Components/ResponsiveSearchInput";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
     border-top-right-radius: 5px;
 `;
+
+const StyledSmallSearchContainer = styled.div`
+    display: none;
+    @media (max-width: 650px) {
+        display: block;
+    }
+`;
+
+const StyledLargeSearchContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 650px) {
+        display: none;
+    }
+`;
+
+const iconStyle = {
+    width: "2.5rem",
+    height: "2.5rem",
+    transition: "all .3s",
+};
 
 export function AccountingToolBar({
     searchText,
@@ -27,6 +50,20 @@ export function AccountingToolBar({
     };
     const handleCloseMakeSale = () => {
         setOpenMakeSale(false);
+        setTimeout(() => {
+            setSearchParams(``);
+        }, 400);
+    };
+
+    // TODO:
+    const [openSearchInput, setOpenSearchInput] = useState(false);
+
+    const handleOpenSearchInput = () => {
+        setOpenSearchInput(true);
+        setSearchParams("search-accounting");
+    };
+    const handleCloseSearchInput = () => {
+        setOpenSearchInput(false);
         setTimeout(() => {
             setSearchParams(``);
         }, 400);
@@ -54,11 +91,23 @@ export function AccountingToolBar({
                 >
                     {t("Accounting")}
                 </Typography>
-                <SearchInput
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                    label={t("Search Sales by Company Name")}
-                />
+                <StyledLargeSearchContainer>
+                    <SearchInput
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        label={t("Search Sales by Company Name")}
+                    />
+                </StyledLargeSearchContainer>
+                <StyledSmallSearchContainer>
+                    <IconButton
+                        onClick={handleOpenSearchInput}
+                        size="large"
+                        aria-label="search"
+                        color="inherit"
+                    >
+                        <SearchIcon sx={iconStyle} />
+                    </IconButton>
+                </StyledSmallSearchContainer>
                 <Button
                     onClick={handleOpenMakeSale}
                     sx={{
@@ -88,6 +137,15 @@ export function AccountingToolBar({
                 <AddSaleModal
                     handleClose={handleCloseMakeSale}
                     open={openMakeSale}
+                />
+            )}
+            {searchParams.has("search-accounting") && (
+                <ResponsiveSearchInput
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    label={t("Search Sales by Company Name")}
+                    onCloseModal={handleCloseSearchInput}
+                    open={openSearchInput}
                 />
             )}
         </>
