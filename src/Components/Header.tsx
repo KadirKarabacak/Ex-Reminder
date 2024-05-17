@@ -42,7 +42,7 @@ const StyledHeader = styled.header`
         z-index: 1000;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
         padding: 1.2rem 1rem;
     }
 `;
@@ -123,7 +123,7 @@ const StyledFormControl = styled(FormControl)`
         color: var(--color-grey-800) !important;
     }
 
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
         & > div {
             color: black;
             font-size: 1.3rem;
@@ -139,6 +139,10 @@ const StyledFormControl = styled(FormControl)`
         }
         & > div > svg {
             color: black !important;
+        }
+
+        & > div > div > div {
+            font-size: 1.2rem !important;
         }
     }
 `;
@@ -158,7 +162,7 @@ interface HeaderTypes {
 
 const StyledSmallContainer = styled.div`
     display: none;
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
         display: block;
     }
 `;
@@ -166,7 +170,7 @@ const StyledSmallContainer = styled.div`
 const StyledLargeContainer = styled.div`
     display: flex;
     gap: 1rem;
-    @media (max-width: 500px) {
+    @media (max-width: 600px) {
         display: none;
     }
 `;
@@ -283,6 +287,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
+                                paddingTop: "0!important",
                             }}
                             disableRipple
                         >
@@ -296,7 +301,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                     onChange={e =>
                                         handleChangeLang(e.target.value)
                                     }
-                                    variant="standard"
+                                    variant="outlined"
                                     sx={{ minWidth: "10rem" }}
                                 >
                                     <MenuItem value="tr-TR">
@@ -334,6 +339,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
+                                paddingTop: "0!important",
                             }}
                             onClick={handleCloseMenu}
                             disableRipple
@@ -361,7 +367,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                             <NotificationsIcon
                                                 sx={{
                                                     ...iconStyle,
-                                                    "@media (max-width: 500px)":
+                                                    "@media (max-width: 600px)":
                                                         {
                                                             color: "var(--color-green-lighter)",
                                                         },
@@ -378,6 +384,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
+                                paddingTop: "0!important",
                             }}
                             disableRipple
                         >
@@ -398,7 +405,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                         <LightModeIcon
                                             sx={{
                                                 ...iconStyle,
-                                                "@media (max-width: 500px)": {
+                                                "@media (max-width: 600px)": {
                                                     color: "var(--color-green-lighter)",
                                                 },
                                             }}
@@ -410,7 +417,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                         <DarkModeIcon
                                             sx={{
                                                 ...iconStyle,
-                                                "@media (max-width: 500px)": {
+                                                "@media (max-width: 600px)": {
                                                     color: "var(--color-green-lighter)",
                                                 },
                                             }}
@@ -424,6 +431,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
+                                paddingTop: "0!important",
                             }}
                             disableRipple
                         >
@@ -451,7 +459,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                     <LogoutIcon
                                         sx={{
                                             ...iconStyle,
-                                            "@media (max-width: 500px)": {
+                                            "@media (max-width: 600px)": {
                                                 color: "var(--color-green-lighter)",
                                             },
                                         }}
