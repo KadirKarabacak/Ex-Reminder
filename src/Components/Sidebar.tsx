@@ -8,6 +8,8 @@ import { WarehouseOutlined } from "@mui/icons-material";
 import BusinessIcon from "@mui/icons-material/Business";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
 import MapIcon from "@mui/icons-material/Map";
+import Drawer from "react-modern-drawer";
+import "react-modern-drawer/dist/index.css";
 
 const StyledSidebar = styled.aside`
     background-color: var(--color-grey-0);
@@ -56,7 +58,12 @@ const StyledImg = styled.img`
     align-self: center;
     margin-bottom: 3rem;
     object-fit: cover;
-    /* filter: blur(4px); */
+
+    @media (max-width: 1000px) {
+        margin-top: 1.5rem;
+        margin-left: 5rem;
+        margin-bottom: 1.5rem;
+    }
 `;
 
 const iconStyle = {
@@ -65,96 +72,225 @@ const iconStyle = {
     color: "var(--color-grey-500)",
 };
 
-function Sidebar() {
+const DrawerStyle = {
+    backgroundColor: "var(--color-grey-0)",
+    background: "var(--color-grey-0)",
+    width: "26rem",
+    zIndex: "30000",
+    top: "unset",
+};
+
+const StyledDrawerContainer = styled.span`
+    display: none;
+    @media (max-width: 1000px) {
+        display: block;
+    }
+`;
+
+const StyledSideBarContainer = styled.span`
+    display: grid;
+    grid-row: 1 / -1;
+    @media (max-width: 1000px) {
+        display: none;
+    }
+`;
+
+interface DrawerTypes {
+    isOpenDrawer: boolean;
+    toggleDrawer: () => void;
+}
+
+function Sidebar({ isOpenDrawer, toggleDrawer }: DrawerTypes) {
     const { t } = useTranslation();
     const { pathname } = useLocation();
+
     return (
-        <StyledSidebar
-            style={{
-                boxShadow: pathname === "/" ? "var(--shadow-md)" : "none",
-            }}
-        >
-            <StyledImg
-                src="../../EX_REMINDER-green.png"
-                alt="Ex_REMINDER logo"
-            />
-            <Tooltip
-                TransitionComponent={Grow}
-                title={t("Map holds your companies location pins")}
-                placement="right"
-                arrow={true}
-                className="map-nav"
-            >
-                <StyledNavLink to="/">
-                    <MapIcon sx={iconStyle} />
-                    {window.innerWidth > 1000 && t("Map")}
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip
-                TransitionComponent={Grow}
-                title={t("Accounting displays your all sales")}
-                placement="right"
-                arrow={true}
-                className="accounting-nav"
-            >
-                <StyledNavLink to="/accounting">
-                    <AccountBalanceWalletIcon sx={iconStyle} />
-                    {window.innerWidth > 1000 && t("Accounting")}
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip
-                TransitionComponent={Grow}
-                title={t(
-                    "Companies holds your companies list and operations about that companies"
-                )}
-                placement="right"
-                arrow={true}
-                className="companies-nav"
-            >
-                <StyledNavLink to="/companies">
-                    <BusinessIcon sx={iconStyle} />
-                    {window.innerWidth > 1000 && t("Companies")}
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip
-                TransitionComponent={Grow}
-                title={t("Warehouse holds your items inventory")}
-                placement="right"
-                arrow={true}
-                className="warehouse-nav"
-            >
-                <StyledNavLink to="/warehouse">
-                    <WarehouseOutlined sx={iconStyle} />
-                    {window.innerWidth > 1000 && t("Warehouse")}
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip
-                TransitionComponent={Grow}
-                title={t("Employees holds your employee list and info")}
-                placement="right"
-                arrow={true}
-                className="employees-nav"
-            >
-                <StyledNavLink to="/employees">
-                    <GroupIcon sx={iconStyle} />
-                    {window.innerWidth > 1000 && t("Employees")}
-                </StyledNavLink>
-            </Tooltip>
-            <Tooltip
-                TransitionComponent={Grow}
-                title={t(
-                    "Settings allow you to update your login & display settings"
-                )}
-                placement="right"
-                arrow={true}
-                className="settings-nav"
-            >
-                <StyledNavLink to="/settings">
-                    <SettingsIcon sx={iconStyle} />
-                    {window.innerWidth > 1000 && t("Settings")}
-                </StyledNavLink>
-            </Tooltip>
-        </StyledSidebar>
+        <>
+            {/* {window.innerWidth < 1000 ? ( */}
+            <StyledDrawerContainer>
+                <Drawer
+                    lockBackgroundScroll
+                    open={isOpenDrawer}
+                    onClose={toggleDrawer}
+                    direction="left"
+                    style={DrawerStyle}
+                >
+                    <StyledImg
+                        src="../../EX_REMINDER-green.png"
+                        alt="Ex_REMINDER logo"
+                    />
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Map holds your companies location pins")}
+                        placement="right"
+                        arrow={true}
+                        className="map-nav"
+                    >
+                        <StyledNavLink onClick={toggleDrawer} to="/">
+                            <MapIcon sx={iconStyle} />
+                            {t("Map")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Accounting displays your all sales")}
+                        placement="right"
+                        arrow={true}
+                        className="accounting-nav"
+                    >
+                        <StyledNavLink onClick={toggleDrawer} to="/accounting">
+                            <AccountBalanceWalletIcon sx={iconStyle} />
+                            {t("Accounting")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t(
+                            "Companies holds your companies list and operations about that companies"
+                        )}
+                        placement="right"
+                        arrow={true}
+                        className="companies-nav"
+                    >
+                        <StyledNavLink onClick={toggleDrawer} to="/companies">
+                            <BusinessIcon sx={iconStyle} />
+                            {t("Companies")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Warehouse holds your items inventory")}
+                        placement="right"
+                        arrow={true}
+                        className="warehouse-nav"
+                    >
+                        <StyledNavLink onClick={toggleDrawer} to="/warehouse">
+                            <WarehouseOutlined sx={iconStyle} />
+                            {t("Warehouse")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Employees holds your employee list and info")}
+                        placement="right"
+                        arrow={true}
+                        className="employees-nav"
+                    >
+                        <StyledNavLink onClick={toggleDrawer} to="/employees">
+                            <GroupIcon sx={iconStyle} />
+                            {t("Employees")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t(
+                            "Settings allow you to update your login & display settings"
+                        )}
+                        placement="right"
+                        arrow={true}
+                        className="settings-nav"
+                    >
+                        <StyledNavLink onClick={toggleDrawer} to="/settings">
+                            <SettingsIcon sx={iconStyle} />
+                            {t("Settings")}
+                        </StyledNavLink>
+                    </Tooltip>
+                </Drawer>
+            </StyledDrawerContainer>
+
+            {/* ) : ( */}
+            <StyledSideBarContainer>
+                <StyledSidebar
+                    style={{
+                        boxShadow:
+                            pathname === "/" ? "var(--shadow-md)" : "none",
+                    }}
+                >
+                    <StyledImg
+                        src="../../EX_REMINDER-green.png"
+                        alt="Ex_REMINDER logo"
+                    />
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Map holds your companies location pins")}
+                        placement="right"
+                        arrow={true}
+                        className="map-nav"
+                    >
+                        <StyledNavLink to="/">
+                            <MapIcon sx={iconStyle} />
+                            {t("Map")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Accounting displays your all sales")}
+                        placement="right"
+                        arrow={true}
+                        className="accounting-nav"
+                    >
+                        <StyledNavLink to="/accounting">
+                            <AccountBalanceWalletIcon sx={iconStyle} />
+                            {t("Accounting")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t(
+                            "Companies holds your companies list and operations about that companies"
+                        )}
+                        placement="right"
+                        arrow={true}
+                        className="companies-nav"
+                    >
+                        <StyledNavLink to="/companies">
+                            <BusinessIcon sx={iconStyle} />
+                            {t("Companies")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Warehouse holds your items inventory")}
+                        placement="right"
+                        arrow={true}
+                        className="warehouse-nav"
+                    >
+                        <StyledNavLink to="/warehouse">
+                            <WarehouseOutlined sx={iconStyle} />
+                            {t("Warehouse")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t("Employees holds your employee list and info")}
+                        placement="right"
+                        arrow={true}
+                        className="employees-nav"
+                    >
+                        <StyledNavLink to="/employees">
+                            <GroupIcon sx={iconStyle} />
+                            {t("Employees")}
+                        </StyledNavLink>
+                    </Tooltip>
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={t(
+                            "Settings allow you to update your login & display settings"
+                        )}
+                        placement="right"
+                        arrow={true}
+                        className="settings-nav"
+                    >
+                        <StyledNavLink to="/settings">
+                            <SettingsIcon sx={iconStyle} />
+                            {t("Settings")}
+                        </StyledNavLink>
+                    </Tooltip>
+                </StyledSidebar>
+            </StyledSideBarContainer>
+
+            {/* )} */}
+        </>
     );
 }
 
