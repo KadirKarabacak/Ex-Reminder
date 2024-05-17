@@ -9,6 +9,7 @@ import {
     Button,
     Divider,
     FormControl,
+    Menu,
     MenuItem,
     Select,
 } from "@mui/material";
@@ -24,6 +25,7 @@ import Badge from "@mui/material/Badge";
 import { useGetNotifications } from "../Api/notificationController";
 import { NotificationTypes } from "../Interfaces/User";
 import { Sling as Hamburger } from "hamburger-react";
+import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
@@ -38,6 +40,10 @@ const StyledHeader = styled.header`
         gap: 2.4rem;
         align-items: center;
         z-index: 1000;
+    }
+
+    @media (max-width: 500px) {
+        padding: 1.2rem 1rem;
     }
 `;
 
@@ -116,6 +122,25 @@ const StyledFormControl = styled(FormControl)`
     & > div > svg {
         color: var(--color-grey-800) !important;
     }
+
+    @media (max-width: 500px) {
+        & > div {
+            color: black;
+            font-size: 1.3rem;
+            min-width: 1rem;
+
+            &:hover &::before {
+                border-bottom: 1px solid var(--color-green-lighter);
+            }
+
+            &::before {
+                border-color: black !important;
+            }
+        }
+        & > div > svg {
+            color: black !important;
+        }
+    }
 `;
 
 const iconStyle = {
@@ -131,6 +156,21 @@ interface HeaderTypes {
     setIsOpenDrawer: any;
 }
 
+const StyledSmallContainer = styled.div`
+    display: none;
+    @media (max-width: 500px) {
+        display: block;
+    }
+`;
+
+const StyledLargeContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 500px) {
+        display: none;
+    }
+`;
+
 function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
@@ -140,6 +180,16 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
     const { t, i18n } = useTranslation();
     const { pathname } = useLocation();
     const { data: notifications } = useGetNotifications();
+
+    // TODO:
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const opensMenu = Boolean(anchorEl);
+    const handleClickMenuItem = (event: React.MouseEvent<HTMLElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleCloseMenu = () => {
+        setAnchorEl(null);
+    };
 
     useEffect(() => {
         if (notifications)
@@ -201,128 +251,345 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                         </StyledName>
                     </StyledListItem>
                 </StyledUserInfo>
-                <Divider
-                    orientation="vertical"
-                    variant="fullWidth"
-                    flexItem
-                    sx={{ borderColor: "var(--color-grey-300)" }}
-                />
-                <StyledListItem className="language-nav">
-                    <StyledFormControl variant="filled" id="switchLanguage">
-                        <Select
-                            value={currentLanguage}
-                            onChange={e => handleChangeLang(e.target.value)}
-                            variant="standard"
-                            sx={{ minWidth: "10rem" }}
+                <StyledSmallContainer>
+                    <StyledButton
+                        aria-haspopup="true"
+                        aria-expanded={opensMenu ? "true" : undefined}
+                        onClick={handleClickMenuItem}
+                        className="notifications-info-button"
+                        sx={{
+                            fontSize: "2rem",
+                            minWidth: 0,
+                            p: "0.7rem",
+                            marginRight: "auto",
+                            borderColor: "transparent",
+                            borderRadius: "50%",
+                        }}
+                        color="inherit"
+                        variant="outlined"
+                    >
+                        <MoreVertIcon sx={iconStyle} />
+                    </StyledButton>
+                    <Menu
+                        id="demo-customized-menu"
+                        MenuListProps={{
+                            "aria-labelledby": "demo-customized-button",
+                        }}
+                        anchorEl={anchorEl}
+                        open={opensMenu}
+                        onClose={handleCloseMenu}
+                    >
+                        <MenuItem
+                            sx={{
+                                paddingLeft: "10px!important",
+                                paddingRight: "10px!important",
+                            }}
+                            disableRipple
                         >
-                            <MenuItem value="tr-TR">
-                                <Box
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        width: "100%",
-                                        gap: "8px",
-                                        fontSize: "1rem",
-                                    }}
+                            <StyledFormControl
+                                variant="filled"
+                                id="switchLanguage"
+                                sx={{ width: "100%" }}
+                            >
+                                <Select
+                                    value={currentLanguage}
+                                    onChange={e =>
+                                        handleChangeLang(e.target.value)
+                                    }
+                                    variant="standard"
+                                    sx={{ minWidth: "10rem" }}
                                 >
-                                    <Box>Türkçe</Box>
-                                </Box>
-                            </MenuItem>
-                            <MenuItem value="en-EN">
-                                <Box
-                                    style={{
-                                        display: "flex",
-                                        flexDirection: "row",
-                                        alignItems: "center",
-                                        width: "100%",
-                                        gap: "8px",
-                                        fontSize: "1rem",
-                                    }}
-                                >
-                                    <Box>English</Box>
-                                </Box>
-                            </MenuItem>
-                        </Select>
-                    </StyledFormControl>
-                </StyledListItem>
-                <StyledListItem
-                    className="notifications-nav"
-                    id="notificationsBtn"
-                >
-                    <Badge badgeContent={isNotReadeds?.length} color="success">
-                        <Link to="/notifications?action=not-readed">
-                            <Tooltip
-                                TransitionComponent={Grow}
-                                title={t("Notifications")}
+                                    <MenuItem value="tr-TR">
+                                        <Box
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                width: "100%",
+                                                gap: "8px",
+                                                fontSize: "1rem",
+                                            }}
+                                        >
+                                            <Box>Türkçe</Box>
+                                        </Box>
+                                    </MenuItem>
+                                    <MenuItem value="en-EN">
+                                        <Box
+                                            style={{
+                                                display: "flex",
+                                                flexDirection: "row",
+                                                alignItems: "center",
+                                                width: "100%",
+                                                gap: "8px",
+                                                fontSize: "1rem",
+                                            }}
+                                        >
+                                            <Box>English</Box>
+                                        </Box>
+                                    </MenuItem>
+                                </Select>
+                            </StyledFormControl>
+                        </MenuItem>
+                        <MenuItem
+                            sx={{
+                                paddingLeft: "10px!important",
+                                paddingRight: "10px!important",
+                            }}
+                            onClick={handleCloseMenu}
+                            disableRipple
+                        >
+                            <Badge
+                                badgeContent={isNotReadeds?.length}
+                                color="success"
+                            >
+                                <Link to="/notifications?action=not-readed">
+                                    <Tooltip
+                                        TransitionComponent={Grow}
+                                        title={t("Notifications")}
+                                    >
+                                        <StyledButton
+                                            sx={{
+                                                fontSize: "1rem",
+                                                minWidth: 0,
+                                                p: "0.7rem",
+                                                display: "flex",
+                                                gap: "0.5rem",
+                                            }}
+                                            color="inherit"
+                                            variant="text"
+                                        >
+                                            <NotificationsIcon
+                                                sx={{
+                                                    ...iconStyle,
+                                                    "@media (max-width: 500px)":
+                                                        {
+                                                            color: "var(--color-green-lighter)",
+                                                        },
+                                                }}
+                                            />{" "}
+                                            {t("Notifications")}
+                                        </StyledButton>
+                                    </Tooltip>
+                                </Link>
+                            </Badge>
+                        </MenuItem>
+                        <MenuItem
+                            onClick={handleCloseMenu}
+                            sx={{
+                                paddingLeft: "10px!important",
+                                paddingRight: "10px!important",
+                            }}
+                            disableRipple
+                        >
+                            <StyledButton
+                                sx={{
+                                    fontSize: "1rem",
+                                    minWidth: 0,
+                                    p: "0.7rem",
+                                    display: "flex",
+                                    gap: "0.5rem",
+                                }}
+                                onClick={() => toggleDarkMode()}
+                                color="inherit"
+                                variant="text"
+                            >
+                                {isDarkMode ? (
+                                    <>
+                                        <LightModeIcon
+                                            sx={{
+                                                ...iconStyle,
+                                                "@media (max-width: 500px)": {
+                                                    color: "var(--color-green-lighter)",
+                                                },
+                                            }}
+                                        />
+                                        {t("Light Mode")}
+                                    </>
+                                ) : (
+                                    <>
+                                        <DarkModeIcon
+                                            sx={{
+                                                ...iconStyle,
+                                                "@media (max-width: 500px)": {
+                                                    color: "var(--color-green-lighter)",
+                                                },
+                                            }}
+                                        />
+                                        {t("Dark Mode")}{" "}
+                                    </>
+                                )}
+                            </StyledButton>
+                        </MenuItem>
+                        <MenuItem
+                            sx={{
+                                paddingLeft: "10px!important",
+                                paddingRight: "10px!important",
+                            }}
+                            disableRipple
+                        >
+                            <Link
+                                onClick={() => {
+                                    logOut();
+                                    return toast.success(
+                                        t("Successfully logged out")
+                                    );
+                                }}
+                                to="/login"
                             >
                                 <StyledButton
                                     sx={{
-                                        fontSize: "2rem",
+                                        fontSize: "1rem",
                                         minWidth: 0,
                                         p: "0.7rem",
+                                        lineHeight: 0,
+                                        display: "flex",
+                                        gap: "0.5rem",
                                     }}
                                     color="inherit"
                                     variant="text"
                                 >
-                                    <NotificationsIcon sx={iconStyle} />
+                                    <LogoutIcon
+                                        sx={{
+                                            ...iconStyle,
+                                            "@media (max-width: 500px)": {
+                                                color: "var(--color-green-lighter)",
+                                            },
+                                        }}
+                                    />{" "}
+                                    {t("Logout")}
                                 </StyledButton>
-                            </Tooltip>
-                        </Link>
-                    </Badge>
-                </StyledListItem>
-                <StyledListItem
-                    className="toggledarkmode-nav"
-                    id="toggleDarkModeBtn"
-                >
-                    <Tooltip
-                        TransitionComponent={Grow}
-                        title={t("Toggle Darkmode")}
+                            </Link>
+                        </MenuItem>
+                    </Menu>
+                </StyledSmallContainer>
+                <StyledLargeContainer>
+                    <Divider
+                        orientation="vertical"
+                        variant="fullWidth"
+                        flexItem
+                        sx={{ borderColor: "var(--color-grey-300)" }}
+                    />
+
+                    <StyledListItem className="language-nav">
+                        <StyledFormControl variant="filled" id="switchLanguage">
+                            <Select
+                                value={currentLanguage}
+                                onChange={e => handleChangeLang(e.target.value)}
+                                variant="standard"
+                                sx={{ minWidth: "10rem" }}
+                            >
+                                <MenuItem value="tr-TR">
+                                    <Box
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                            width: "100%",
+                                            gap: "8px",
+                                            fontSize: "1rem",
+                                        }}
+                                    >
+                                        <Box>Türkçe</Box>
+                                    </Box>
+                                </MenuItem>
+                                <MenuItem value="en-EN">
+                                    <Box
+                                        style={{
+                                            display: "flex",
+                                            flexDirection: "row",
+                                            alignItems: "center",
+                                            width: "100%",
+                                            gap: "8px",
+                                            fontSize: "1rem",
+                                        }}
+                                    >
+                                        <Box>English</Box>
+                                    </Box>
+                                </MenuItem>
+                            </Select>
+                        </StyledFormControl>
+                    </StyledListItem>
+                    <StyledListItem
+                        className="notifications-nav"
+                        id="notificationsBtn"
                     >
-                        <StyledButton
-                            sx={{
-                                fontSize: "2rem",
-                                minWidth: 0,
-                                p: "0.7rem",
-                            }}
-                            onClick={() => toggleDarkMode()}
-                            color="inherit"
-                            variant="text"
+                        <Badge
+                            badgeContent={isNotReadeds?.length}
+                            color="success"
                         >
-                            {isDarkMode ? (
-                                <LightModeIcon sx={iconStyle} />
-                            ) : (
-                                <DarkModeIcon sx={iconStyle} />
-                            )}
-                        </StyledButton>
-                    </Tooltip>
-                </StyledListItem>
-                <StyledListItem className="logout-nav" id="logoutBtn">
-                    <Tooltip TransitionComponent={Grow} title={t("Logout")}>
-                        <Link
-                            onClick={() => {
-                                logOut();
-                                return toast.success(
-                                    t("Successfully logged out")
-                                );
-                            }}
-                            to="/login"
+                            <Link to="/notifications?action=not-readed">
+                                <Tooltip
+                                    TransitionComponent={Grow}
+                                    title={t("Notifications")}
+                                >
+                                    <StyledButton
+                                        sx={{
+                                            fontSize: "2rem",
+                                            minWidth: 0,
+                                            p: "0.7rem",
+                                        }}
+                                        color="inherit"
+                                        variant="text"
+                                    >
+                                        <NotificationsIcon sx={iconStyle} />
+                                    </StyledButton>
+                                </Tooltip>
+                            </Link>
+                        </Badge>
+                    </StyledListItem>
+                    <StyledListItem
+                        className="toggledarkmode-nav"
+                        id="toggleDarkModeBtn"
+                    >
+                        <Tooltip
+                            TransitionComponent={Grow}
+                            title={t("Toggle Darkmode")}
                         >
                             <StyledButton
                                 sx={{
                                     fontSize: "2rem",
                                     minWidth: 0,
                                     p: "0.7rem",
-                                    lineHeight: 0,
                                 }}
+                                onClick={() => toggleDarkMode()}
                                 color="inherit"
                                 variant="text"
                             >
-                                <LogoutIcon sx={iconStyle} />
+                                {isDarkMode ? (
+                                    <LightModeIcon sx={iconStyle} />
+                                ) : (
+                                    <DarkModeIcon sx={iconStyle} />
+                                )}
                             </StyledButton>
-                        </Link>
-                    </Tooltip>
-                </StyledListItem>
+                        </Tooltip>
+                    </StyledListItem>
+                    <StyledListItem className="logout-nav" id="logoutBtn">
+                        <Tooltip TransitionComponent={Grow} title={t("Logout")}>
+                            <Link
+                                onClick={() => {
+                                    logOut();
+                                    return toast.success(
+                                        t("Successfully logged out")
+                                    );
+                                }}
+                                to="/login"
+                            >
+                                <StyledButton
+                                    sx={{
+                                        fontSize: "2rem",
+                                        minWidth: 0,
+                                        p: "0.7rem",
+                                        lineHeight: 0,
+                                    }}
+                                    color="inherit"
+                                    variant="text"
+                                >
+                                    <LogoutIcon sx={iconStyle} />
+                                </StyledButton>
+                            </Link>
+                        </Tooltip>
+                    </StyledListItem>
+                </StyledLargeContainer>
             </StyledList>
         </StyledHeader>
     );
