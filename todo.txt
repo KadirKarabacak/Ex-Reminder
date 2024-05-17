@@ -86,6 +86,7 @@
 8: Lower than 850px Notifications table head must change.
 9: Lower than 650px Every Toolbar must change because of search input expanding
 10: Lower than 600px Employees > All employees graphics remove name of job titles
+11: Lower than 600px Fix Button group gaps
 
 
 
