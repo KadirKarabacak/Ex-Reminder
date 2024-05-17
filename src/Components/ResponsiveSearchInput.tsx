@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`
     position: absolute;
-    top: 20%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 50%;
@@ -20,6 +20,9 @@ const StyledBox = styled(Box)`
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    @media (max-width: 1250px) {
+        width: 60%;
+    }
 `;
 
 const StyledButtonContainer = styled.div`
