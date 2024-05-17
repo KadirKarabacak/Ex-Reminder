@@ -1,6 +1,7 @@
 import {
     Button,
     FormControl,
+    IconButton,
     Menu,
     MenuItem,
     Select,
@@ -27,6 +28,8 @@ import DeleteSweepIcon from "@mui/icons-material/DeleteSweep";
 import { useState } from "react";
 import DeleteSelectedNotificationsModal from "../Modals/Notifications/DeleteSelectedNotificationsModal";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
+import ResponsiveSearchInput from "../ResponsiveSearchInput";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -95,6 +98,27 @@ const StyledLargeContainer = styled.div`
     }
 `;
 
+const StyledSmallSearchContainer = styled.div`
+    display: none;
+    @media (max-width: 650px) {
+        display: block;
+    }
+`;
+
+const StyledLargeSearchContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 650px) {
+        display: none;
+    }
+`;
+
+const iconStyleSearch = {
+    width: "2.5rem",
+    height: "2.5rem",
+    transition: "all .3s",
+};
+
 export function NotificationToolBar({
     searchText,
     setSearchText,
@@ -115,10 +139,23 @@ export function NotificationToolBar({
     const [searchParams, setSearchParams] = useSearchParams();
     const [opensDeleteNotification, setOpensDeleteNotification] =
         useState(false);
-    // const { mutateAsync: deleteNotification, isPending } =
-    //     useDeleteNotification();
     const { currentUser } = auth;
     const userId = currentUser?.uid;
+    // TODO:
+    const [openSearchInput, setOpenSearchInput] = useState(false);
+
+    const handleOpenSearchInput = () => {
+        setOpenSearchInput(true);
+        searchParams.set("search", "search-notifications");
+        setSearchParams(searchParams);
+    };
+    const handleCloseSearchInput = () => {
+        setOpenSearchInput(false);
+        setTimeout(() => {
+            searchParams.delete("search");
+            setSearchParams(searchParams);
+        }, 400);
+    };
 
     // TODO:
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -209,6 +246,9 @@ export function NotificationToolBar({
                             p: "0.7rem",
                             marginRight: "auto",
                             borderColor: "var(--color-grey-200)",
+                            "@media(max-width: 700px)": {
+                                borderColor: "transparent",
+                            },
                             borderRadius: "50%",
                         }}
                         color="inherit"
@@ -247,12 +287,23 @@ export function NotificationToolBar({
                         </Tooltip>
                     )}
                 </StyledLargeContainer>
-
-                <SearchInput
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                    label={t("Search Notification by date")}
-                />
+                <StyledLargeSearchContainer>
+                    <SearchInput
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        label={t("Search Notification by date")}
+                    />
+                </StyledLargeSearchContainer>
+                <StyledSmallSearchContainer>
+                    <IconButton
+                        onClick={handleOpenSearchInput}
+                        size="large"
+                        aria-label="search"
+                        color="inherit"
+                    >
+                        <SearchIcon sx={iconStyleSearch} />
+                    </IconButton>
+                </StyledSmallSearchContainer>
                 <StyledSmallContainer>
                     <Button
                         sx={{
@@ -425,38 +476,48 @@ export function NotificationToolBar({
                                 )}
                             </Button>
                         </MenuItem>
-                        <MenuItem disableRipple onClick={handleCloseMenu}>
-                            {searchParams.has("action", "readed") && (
-                                <Tooltip
-                                    TransitionComponent={Grow}
-                                    title={t(
-                                        `Delete ${
-                                            isAllSelected ? "all" : "selected"
-                                        } notifications`
-                                    )}
-                                >
-                                    <StyledButton
-                                        onClick={deleteSelectedNotifications}
-                                        sx={{
-                                            fontSize: "1.1rem",
-                                            minWidth: 0,
-                                            p: "0.7rem",
-                                            border: "1px solid var(--color-grey-500)",
-                                            ":hover > svg": {
-                                                color: "#d32f2f",
-                                            },
-                                            display: "flex",
-                                            gap: "0.5rem",
-                                        }}
-                                        color="inherit"
-                                        variant="text"
+                        {searchParams.has("action", "readed") && (
+                            <MenuItem disableRipple onClick={handleCloseMenu}>
+                                {searchParams.has("action", "readed") && (
+                                    <Tooltip
+                                        TransitionComponent={Grow}
+                                        title={t(
+                                            `Delete ${
+                                                isAllSelected
+                                                    ? "all"
+                                                    : "selected"
+                                            } notifications`
+                                        )}
                                     >
-                                        <DeleteSweepIcon sx={iconStyle} />{" "}
-                                        {t("Delete Selecteds")}
-                                    </StyledButton>
-                                </Tooltip>
-                            )}
-                        </MenuItem>
+                                        <StyledButton
+                                            onClick={
+                                                deleteSelectedNotifications
+                                            }
+                                            sx={{
+                                                fontSize: "1.1rem",
+                                                minWidth: 0,
+                                                p: "0.7rem",
+                                                width: "100%",
+                                                border: "1px solid var(--color-grey-500)",
+                                                ":hover > svg": {
+                                                    color: "#d32f2f",
+                                                },
+                                                display: "flex",
+                                                gap: "0.5rem",
+                                                justifyContent: "space-between",
+                                            }}
+                                            color="inherit"
+                                            variant="text"
+                                        >
+                                            {t("Delete")}
+                                            <DeleteSweepIcon
+                                                sx={iconStyle}
+                                            />{" "}
+                                        </StyledButton>
+                                    </Tooltip>
+                                )}
+                            </MenuItem>
+                        )}
                     </Menu>
                 </StyledSmallContainer>
                 <StyledLargeContainer>
@@ -587,6 +648,15 @@ export function NotificationToolBar({
                     handleClose={handleCloseDeleteModal}
                     open={opensDeleteNotification}
                     selected={selected}
+                />
+            )}
+            {searchParams.has("search", "search-notifications") && (
+                <ResponsiveSearchInput
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    label={t("Search Notification by date")}
+                    onCloseModal={handleCloseSearchInput}
+                    open={openSearchInput}
                 />
             )}
         </>

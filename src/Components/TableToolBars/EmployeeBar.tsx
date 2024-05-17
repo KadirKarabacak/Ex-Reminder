@@ -1,4 +1,11 @@
-import { Button, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import {
+    Button,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import AddEmployeeModal from "../Modals/Employees/AddEmployeeModal";
@@ -8,6 +15,9 @@ import ExportButton from "../ExportButton";
 import { Employee } from "../../Interfaces/User";
 import { formatCurrency } from "../../Utils/utils";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
+import { useSearchParams } from "react-router-dom";
+import ResponsiveSearchInput from "../ResponsiveSearchInput";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -29,6 +39,27 @@ const StyledLargeContainer = styled.div`
     }
 `;
 
+const StyledSmallSearchContainer = styled.div`
+    display: none;
+    @media (max-width: 650px) {
+        display: block;
+    }
+`;
+
+const StyledLargeSearchContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 650px) {
+        display: none;
+    }
+`;
+
+const iconStyle = {
+    width: "2.5rem",
+    height: "2.5rem",
+    transition: "all .3s",
+};
+
 export function EmployeeToolBar({
     searchText,
     setSearchText,
@@ -42,6 +73,20 @@ export function EmployeeToolBar({
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    // TODO:
+    const [openSearchInput, setOpenSearchInput] = useState(false);
+
+    const handleOpenSearchInput = () => {
+        setOpenSearchInput(true);
+        setSearchParams("search-employees");
+    };
+    const handleCloseSearchInput = () => {
+        setOpenSearchInput(false);
+        setTimeout(() => {
+            setSearchParams(``);
+        }, 400);
+    };
 
     // TODO:
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -99,11 +144,23 @@ export function EmployeeToolBar({
                 >
                     {t("Employees")}
                 </Typography>
-                <SearchInput
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                    label={t("Search Employee by Name")}
-                />
+                <StyledLargeSearchContainer>
+                    <SearchInput
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        label={t("Search Employee by Name")}
+                    />
+                </StyledLargeSearchContainer>
+                <StyledSmallSearchContainer>
+                    <IconButton
+                        onClick={handleOpenSearchInput}
+                        size="large"
+                        aria-label="search"
+                        color="inherit"
+                    >
+                        <SearchIcon sx={iconStyle} />
+                    </IconButton>
+                </StyledSmallSearchContainer>
                 <StyledSmallContainer>
                     <Button
                         sx={{
@@ -312,6 +369,15 @@ export function EmployeeToolBar({
                 </StyledLargeContainer>
             </StyledToolBar>
             <AddEmployeeModal handleClose={handleClose} open={open} />
+            {searchParams.has("search-employees") && (
+                <ResponsiveSearchInput
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    label={t("Search Employee by Name")}
+                    onCloseModal={handleCloseSearchInput}
+                    open={openSearchInput}
+                />
+            )}
         </>
     );
 }

@@ -1,4 +1,11 @@
-import { Button, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import {
+    Button,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import styled from "styled-components";
@@ -9,6 +16,8 @@ import { useSearchParams } from "react-router-dom";
 import ExportButton from "../ExportButton";
 import { Companies } from "../../Interfaces/User";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
+import ResponsiveSearchInput from "../ResponsiveSearchInput";
 
 const StyledToolBar = styled(Toolbar)`
     border-top-left-radius: 5px;
@@ -30,6 +39,27 @@ const StyledLargeContainer = styled.div`
     }
 `;
 
+const StyledSmallSearchContainer = styled.div`
+    display: none;
+    @media (max-width: 650px) {
+        display: block;
+    }
+`;
+
+const StyledLargeSearchContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 650px) {
+        display: none;
+    }
+`;
+
+const iconStyle = {
+    width: "2.5rem",
+    height: "2.5rem",
+    transition: "all .3s",
+};
+
 export function CompaniesToolBar({
     searchText,
     setSearchText,
@@ -43,6 +73,21 @@ export function CompaniesToolBar({
     const [open, setOpen] = useState(false);
     const [openMakeSale, setOpenMakeSale] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
+    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+    const opensMenu = Boolean(anchorEl);
+    // TODO:
+    const [openSearchInput, setOpenSearchInput] = useState(false);
+    const handleOpenSearchInput = () => {
+        setOpenSearchInput(true);
+        setSearchParams("search-companies");
+    };
+    const handleCloseSearchInput = () => {
+        setOpenSearchInput(false);
+        setTimeout(() => {
+            setSearchParams(``);
+        }, 400);
+    };
+
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
     const handleOpenMakeSale = () => {
@@ -55,10 +100,6 @@ export function CompaniesToolBar({
             setSearchParams("");
         }, 350);
     };
-
-    // TODO:
-    const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
-    const opensMenu = Boolean(anchorEl);
     const handleClickMenuItem = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorEl(event.currentTarget);
     };
@@ -111,11 +152,23 @@ export function CompaniesToolBar({
                 >
                     {t("Companies")}
                 </Typography>
-                <SearchInput
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                    label={t("Search Company by Name")}
-                />
+                <StyledLargeSearchContainer>
+                    <SearchInput
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        label={t("Search Company by Name")}
+                    />
+                </StyledLargeSearchContainer>
+                <StyledSmallSearchContainer>
+                    <IconButton
+                        onClick={handleOpenSearchInput}
+                        size="large"
+                        aria-label="search"
+                        color="inherit"
+                    >
+                        <SearchIcon sx={iconStyle} />
+                    </IconButton>
+                </StyledSmallSearchContainer>
                 <StyledSmallContainer>
                     <Button
                         sx={{
@@ -139,7 +192,7 @@ export function CompaniesToolBar({
                             opensMenu ? "demo-customized-menu" : undefined
                         }
                         aria-haspopup="true"
-                        aria-expanded={open ? "true" : undefined}
+                        aria-expanded={opensMenu ? "true" : undefined}
                         variant="contained"
                         disableElevation
                         onClick={handleClickMenuItem}
@@ -361,6 +414,15 @@ export function CompaniesToolBar({
                 <AddSaleModal
                     handleClose={handleCloseMakeSale}
                     open={openMakeSale}
+                />
+            )}
+            {searchParams.has("search-companies") && (
+                <ResponsiveSearchInput
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    label={t("Search Sales by Company Name")}
+                    onCloseModal={handleCloseSearchInput}
+                    open={openSearchInput}
                 />
             )}
         </>

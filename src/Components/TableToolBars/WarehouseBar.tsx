@@ -1,4 +1,11 @@
-import { Button, Menu, MenuItem, Toolbar, Typography } from "@mui/material";
+import {
+    Button,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import { useState } from "react";
 import AddItemModal from "../Modals/Warehouses/AddItemModal";
@@ -8,6 +15,9 @@ import { Warehouses } from "../../Interfaces/User";
 import { formatCurrency } from "../../Utils/utils";
 import styled from "styled-components";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import SearchIcon from "@mui/icons-material/Search";
+import { useSearchParams } from "react-router-dom";
+import ResponsiveSearchInput from "../ResponsiveSearchInput";
 
 const StyledSmallContainer = styled.div`
     display: none;
@@ -24,6 +34,27 @@ const StyledLargeContainer = styled.div`
     }
 `;
 
+const StyledSmallSearchContainer = styled.div`
+    display: none;
+    @media (max-width: 650px) {
+        display: block;
+    }
+`;
+
+const StyledLargeSearchContainer = styled.div`
+    display: flex;
+    gap: 1rem;
+    @media (max-width: 650px) {
+        display: none;
+    }
+`;
+
+const iconStyle = {
+    width: "2.5rem",
+    height: "2.5rem",
+    transition: "all .3s",
+};
+
 export function WarehouseToolBar({
     searchText,
     setSearchText,
@@ -37,6 +68,22 @@ export function WarehouseToolBar({
     const [open, setOpen] = useState(false);
     const handleOpen = () => setOpen(true);
     const handleClose = () => setOpen(false);
+    const [searchParams, setSearchParams] = useSearchParams();
+    // TODO:
+    const [openSearchInput, setOpenSearchInput] = useState(false);
+
+    const handleOpenSearchInput = () => {
+        setOpenSearchInput(true);
+        searchParams.set("search", "search-warehouse");
+        setSearchParams(searchParams);
+    };
+    const handleCloseSearchInput = () => {
+        setOpenSearchInput(false);
+        setTimeout(() => {
+            searchParams.delete("search");
+            setSearchParams(searchParams);
+        }, 400);
+    };
 
     // TODO:
     const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
@@ -91,11 +138,23 @@ export function WarehouseToolBar({
                 >
                     {t("Warehouses")}
                 </Typography>
-                <SearchInput
-                    searchText={searchText}
-                    setSearchText={setSearchText}
-                    label={t("Search Item by Name")}
-                />
+                <StyledLargeSearchContainer>
+                    <SearchInput
+                        searchText={searchText}
+                        setSearchText={setSearchText}
+                        label={t("Search Item by Name")}
+                    />
+                </StyledLargeSearchContainer>
+                <StyledSmallSearchContainer>
+                    <IconButton
+                        onClick={handleOpenSearchInput}
+                        size="large"
+                        aria-label="search"
+                        color="inherit"
+                    >
+                        <SearchIcon sx={iconStyle} />
+                    </IconButton>
+                </StyledSmallSearchContainer>
                 <StyledSmallContainer>
                     <Button
                         sx={{
@@ -282,6 +341,15 @@ export function WarehouseToolBar({
                 </StyledLargeContainer>
             </Toolbar>
             <AddItemModal handleClose={handleClose} open={open} />
+            {searchParams.has("search", "search-warehouse") && (
+                <ResponsiveSearchInput
+                    searchText={searchText}
+                    setSearchText={setSearchText}
+                    label={t("Search Item by Name")}
+                    onCloseModal={handleCloseSearchInput}
+                    open={openSearchInput}
+                />
+            )}
         </>
     );
 }
