@@ -419,7 +419,7 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     </div>
                 )}
 
-                {/* TODO: NOTIFICATIONS */}
+                {/* NOTIFICATIONS */}
                 {tableName === "notifications" && (
                     <div>
                         <MenuItem
