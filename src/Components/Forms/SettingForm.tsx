@@ -1,4 +1,13 @@
-import { Button, Paper, TextField } from "@mui/material";
+import {
+    Button,
+    Grid,
+    Menu,
+    MenuItem,
+    Paper,
+    Switch,
+    TextField,
+    Tooltip,
+} from "@mui/material";
 import styled from "styled-components";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
 import { styled as muiStyled } from "@mui/material/styles";
@@ -15,6 +24,7 @@ import { useTranslation } from "react-i18next";
 import EmailIcon from "@mui/icons-material/Email";
 import LockOpenIcon from "@mui/icons-material/LockOpen";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import SwapHorizontalCircleIcon from "@mui/icons-material/SwapHorizontalCircle";
 
 const StyledTitle = styled.h4`
     color: var(--color-grey-600);
@@ -63,7 +73,7 @@ const VisuallyHiddenInput = muiStyled("input")({
 });
 
 const StyledParagraph = styled.h1`
-    font-size: 3.5rem;
+    font-size: 3rem;
     padding-bottom: 1rem;
     align-self: flex-start;
     display: block;
@@ -103,7 +113,21 @@ const StyledButtonContainer = styled.div`
     justify-content: flex-start;
 `;
 
+const StyledPaper = styled(Paper)`
+    @media (max-width: 1000px) {
+        padding: 3rem 4rem !important;
+        border-bottom: 3px solid var(--color-grey-400);
+        margin: 1rem 1rem 0 1rem !important;
+    }
+`;
+
+interface WalkthroughTypes {
+    label: string;
+    key: string;
+}
+
 export default function SettingForm() {
+    const { t } = useTranslation();
     const [open, setOpen] = React.useState(false);
     const [openEmailModal, setOpenEmailModal] = React.useState(false);
     const [openPasswordModal, setOpenPasswordModal] = React.useState(false);
@@ -112,7 +136,71 @@ export default function SettingForm() {
     const { mutate: updateUser, isPending } = useUpdateUser();
     const initialPhotoURL = currentUser ? currentUser.photoURL : null;
     const [photoURL, setPhotoURL] = React.useState<any>(initialPhotoURL);
-    const { t } = useTranslation();
+
+    const allWalkthroughs: WalkthroughTypes[] = [
+        {
+            label: t("Login page"),
+            key: "isLoginJoyrideDisplayed",
+        },
+        {
+            label: t("Map page"),
+            key: "isAppJoyrideDisplayed",
+        },
+        {
+            label: t("Companies page"),
+            key: "isCompaniesJoyrideDisplayed",
+        },
+        {
+            label: t("Company Operations"),
+            key: "isCompanyOperationsJoyrideDisplayed",
+        },
+        {
+            label: t("Warehouse page"),
+            key: "isWarehouseJoyrideDisplayed",
+        },
+        {
+            label: t("Employees page"),
+            key: "isEmployeesJoyrideDisplayed",
+        },
+        {
+            label: t("Settings page"),
+            key: "isSettingsJoyrideDisplayed",
+        },
+        {
+            label: t("Notifications page"),
+            key: "isNotificationsJoyrideDisplayed",
+        },
+    ];
+
+    const [switchStates, setSwitchStates] = React.useState<{
+        [key: string]: boolean;
+    }>(
+        allWalkthroughs.reduce((acc: any, walkthrough: any) => {
+            const storedValue = localStorage.getItem(walkthrough.key);
+            if (storedValue !== null) {
+                acc[walkthrough.key] = JSON.parse(
+                    localStorage.getItem(walkthrough.key) as string
+                );
+            }
+            return acc;
+        }, {})
+    );
+    const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
+    const opensWalkthrough = Boolean(anchorEl);
+    const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+        setAnchorEl(event.currentTarget);
+    };
+    const handleClose = () => {
+        setAnchorEl(null);
+    };
+
+    const handleSwitchChange = (key: string) => {
+        setSwitchStates(prevState => ({
+            ...prevState,
+            [key]: !prevState[key],
+        }));
+        localStorage.setItem(key, JSON.stringify(!switchStates[key]));
+    };
 
     const handleOpenModal = () => setOpen(true);
     const handleCloseModal = () => setOpen(false);
@@ -148,7 +236,7 @@ export default function SettingForm() {
     return (
         <>
             <form onSubmit={handleSubmit(onSubmit)}>
-                <Paper
+                <StyledPaper
                     elevation={0}
                     sx={{
                         display: "flex",
@@ -272,11 +360,11 @@ export default function SettingForm() {
                             {t("Clear")}
                         </Button>
                     </StyledButtonContainer>
-                </Paper>
+                </StyledPaper>
             </form>
 
             {/* UPDATE EMAIL AND PASSWORD */}
-            <Paper
+            <StyledPaper
                 elevation={0}
                 sx={{
                     display: "flex",
@@ -372,11 +460,144 @@ export default function SettingForm() {
                     />{" "}
                     {t("Update password")}
                 </Button>
-            </Paper>
+            </StyledPaper>
+
+            {/* UPDATE Walkthroughs */}
+            <StyledPaper
+                elevation={0}
+                sx={{
+                    display: "flex",
+                    flexDirection: "column",
+                    color: "var(--color-grey-800)",
+                    backgroundColor: "transparent",
+                    p: "2rem 6rem",
+                    m: currentUser?.displayName
+                        ? "2rem 4rem 1rem"
+                        : "2rem 4rem 4rem",
+                    boxShadow: "var(--shadow-md)",
+                }}
+            >
+                <StyledParagraph>
+                    {t("Update Displaying Walkthroughs")}
+                </StyledParagraph>
+                <StyledTitle>
+                    {t("Update walkthroughs which you want to display")}
+                </StyledTitle>
+                <div>
+                    <Tooltip
+                        title={t(
+                            "Walkthroughs automatically closing itself when user sees them for the first time. You can manually open them again from here."
+                        )}
+                        placement="right"
+                    >
+                        <Button
+                            id="openWalkthroughChanges-btn"
+                            aria-controls={
+                                opensWalkthrough
+                                    ? "openWalkthroughChanges-btn"
+                                    : undefined
+                            }
+                            aria-haspopup="true"
+                            aria-expanded={
+                                opensWalkthrough ? "true" : undefined
+                            }
+                            onClick={handleClick}
+                            sx={{
+                                backgroundColor: "var(--color-grey-800)",
+                                color: "var(--color-grey-50)",
+                                transition: "all .3s",
+                                padding: "1.1rem 2rem",
+                                fontSize: "1.1rem",
+                                alignSelf: "flex-start",
+                                fontWeight: "bold",
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "0.5rem",
+                                mb: "1rem",
+                                "&:hover": {
+                                    backgroundColor: "var(--color-grey-600)",
+                                    color: "var(--color-grey-100)",
+                                    transform: "translateY(-2px)",
+                                },
+                                "&:active": {
+                                    transform: "translateY(0)",
+                                },
+                                "&:disabled": {
+                                    backgroundColor: "var(--color-grey-500)",
+                                },
+                            }}
+                        >
+                            <SwapHorizontalCircleIcon
+                                sx={{
+                                    color: "var(--color-grey-300)",
+                                    fontSize: "2rem",
+                                }}
+                            />{" "}
+                            {t("Update Walkthroughs")}
+                        </Button>
+                    </Tooltip>
+                    <Menu
+                        id="walkthroughMenu"
+                        anchorEl={anchorEl}
+                        open={opensWalkthrough}
+                        onClose={handleClose}
+                        anchorOrigin={{
+                            vertical: "bottom",
+                            horizontal: "left",
+                        }}
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "left",
+                        }}
+                        MenuListProps={{
+                            "aria-labelledby": "openWalkthroughChanges-btn",
+                        }}
+                        sx={{
+                            maxWidth: "85rem",
+                            "& > .MuiPaper-root": {
+                                marginTop: "0.5rem",
+                            },
+                        }}
+                    >
+                        <Grid container>
+                            {allWalkthroughs.map((walk, i) => (
+                                <Tooltip
+                                    key={i}
+                                    placement="left"
+                                    arrow
+                                    title={t(
+                                        "The changes requires reload the page"
+                                    )}
+                                >
+                                    <Grid item xs={6}>
+                                        <MenuItem
+                                            sx={{
+                                                display: "flex",
+                                                justifyContent: "space-between",
+                                                width: "100%",
+                                            }}
+                                        >
+                                            {walk.label}
+                                            <Switch
+                                                checked={
+                                                    !switchStates[walk.key]
+                                                }
+                                                onChange={() =>
+                                                    handleSwitchChange(walk.key)
+                                                }
+                                            />
+                                        </MenuItem>
+                                    </Grid>
+                                </Tooltip>
+                            ))}
+                        </Grid>
+                    </Menu>
+                </div>
+            </StyledPaper>
 
             {/* DELETE USER */}
             {currentUser?.displayName && (
-                <Paper
+                <StyledPaper
                     elevation={0}
                     sx={{
                         display: "flex",
@@ -429,7 +650,7 @@ export default function SettingForm() {
                         />{" "}
                         {t("Delete Account")}
                     </Button>
-                </Paper>
+                </StyledPaper>
             )}
             <UpdateEmailModal
                 handleClose={handleCloseEmailModal}
