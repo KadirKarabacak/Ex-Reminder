@@ -85,9 +85,9 @@
 7: Lower than 650px Accounting table head must change.
 8: Lower than 850px Notifications table head must change.
 9: Lower than 650px Every Toolbar must change because of search input expanding
+10: Lower than 600px Employees > All employees graphics remove name of job titles
 
 
-### FEATURES ###
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
 
