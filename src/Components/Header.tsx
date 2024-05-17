@@ -131,7 +131,7 @@ interface HeaderTypes {
     setIsOpenDrawer: any;
 }
 
-function Header({ toggleDrawer, isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
+function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const [isNotReadeds, setIsNotReadeds] = useState<NotificationTypes[]>();

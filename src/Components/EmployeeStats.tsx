@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import styled from "styled-components";
 import { formatCurrency } from "../Utils/utils";
 import { Employee } from "../Interfaces/User";
