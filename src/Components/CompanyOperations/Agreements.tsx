@@ -86,7 +86,8 @@ export default function Agreements({
             </Grid>
             <Grid
                 item
-                xs={4}
+                xs={6}
+                md={4}
                 sx={{
                     border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
@@ -100,7 +101,8 @@ export default function Agreements({
             </Grid>
             <Grid
                 item
-                xs={4}
+                xs={6}
+                md={4}
                 sx={{
                     border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
@@ -113,7 +115,8 @@ export default function Agreements({
             </Grid>
             <Grid
                 item
-                xs={4}
+                xs={6}
+                md={4}
                 sx={{
                     border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
@@ -127,7 +130,8 @@ export default function Agreements({
             </Grid>
             <Grid
                 item
-                xs={4}
+                xs={6}
+                md={4}
                 sx={{
                     border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
@@ -141,7 +145,8 @@ export default function Agreements({
             </Grid>
             <Grid
                 item
-                xs={4}
+                xs={6}
+                md={4}
                 sx={{
                     border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
@@ -154,7 +159,8 @@ export default function Agreements({
             </Grid>
             <Grid
                 item
-                xs={4}
+                xs={6}
+                md={4}
                 sx={{
                     border: "1px solid var(--color-grey-200)",
                     paddingBottom: "2rem",
