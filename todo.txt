@@ -1,4 +1,4 @@
-# `TODO:` -------------------- "✅": Completed || "❌": No way to fix || "🟡": Do that Later
+#  "✅": Completed || "❌": No way to fix || "🟡": Do that Later
 
 03- ✅ Add update email //  https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_email_address
 04- ✅ Add update password  // https://firebase.google.com/docs/auth/web/manage-users?hl=tr#set_a_users_password
@@ -76,6 +76,16 @@
 78- ✅ To display notification on agreement changes, set agreementBudget or agreementParties as required.
 79- After user logged in, when clicking the browsers history button, block user to move login and keep in app
 80- ✅ Make export button & search input in table toolbars Joyride with pathname
+81- For smaller screens update applayout Joyride steps to first select left menu
+
+
+### RESPONSIVE
+3: Fix every modal. [ width: 95% - padding: 4rem 2rem ]
+6: Lower than 1000px check search input expandings.
+7: Lower than 650px Accounting table head must change.
+8: Lower than 850px Notifications table head must change.
+9: Lower than 650px Every Toolbar must change because of search input expanding
+
 
 ### FEATURES ###
 
@@ -92,31 +102,3 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 # Uygulama hakkında demo bir video olabilir
 
 Slogan: Save Everything about your Company!
-
-
-TODO: LINKEDIN PAYLASIM
-Merhaba değerli bağlantılarım ve Linkedin ailesi. Bir süredir üzerinde çalıştığım hala da geliştirmekte, yeni özellikler eklemekte olduğum projem Ex Reminder'ı sizlere sunmak isterim. Projem genel hatlarıyla bir şirketin çalışanlarını, depo-ürünlerini, iş yaptığı şirketleri ve bu şirketler ile yapacağı-yapmış olduğu anlaşma, satış, muhasebe, görüşmeler gibi bilgilerin kayıtlarını tablolar halinde kullanıcı firmaya sunan bir web uygulamasıdır. Tüm bu veriler ve kullanıcı firmanın özel bilgilerini ele almak ve saklamak için Firebase'in sunmuş olduğu database, authentication-authorization gibi özelliklerden faydalandım. Henüz spesifik bir firma için geliştirilmiş olmamasına karşın talep olduğu taktirde kolay bir şekilde o firmaya uygun formata çevrilebilir.
-
-Detaylı olarak kullandığım teknoloji ve kütüphaneler:
-
-Arayüz, Görünüm ve Animasyonlar:
-* MaterialUI
-* AnimeJS
-* Framer Motion
-* React-Spring
-* Styled Components
-
-Database, API ve işlevsellik:
-* Tanstack-React Query
-* Date-fns
-* Firebase
-* i18next
-* JsPDF
-* React Leaflet
-* React-Hook-Form
-* React-Joyride
-* React-Router
-* Recharts
-
-
-Aynı zamanda projemi canlı ortama alıp sizlerin kullanımına açık hale getiriyorum. Kullanırken var ise karşılaştığınız problemler ve ekleyebileceğim, kullanıcılar için faydalı olduğunu düşündüğünüz tüm fikir ve eleştirileriniz için açığım. Vakit ayırıp gönderimi inceleyen ve projemde vakit geçiren herkese şimdiden teşekkürlerimi sunarım.
