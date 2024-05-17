@@ -23,16 +23,22 @@ import { useEffect, useState } from "react";
 import Badge from "@mui/material/Badge";
 import { useGetNotifications } from "../Api/notificationController";
 import { NotificationTypes } from "../Interfaces/User";
+import { Sling as Hamburger } from "hamburger-react";
 
 const StyledHeader = styled.header`
     background-color: var(--color-grey-0);
-    padding: 1.2rem 3rem;
     border-bottom: 1px solid var(--color-grey-100);
-    display: flex;
-    gap: 2.4rem;
-    align-items: center;
-    justify-content: flex-end;
-    z-index: 1000;
+    padding: 1.2rem 3rem 1.2rem 1rem;
+
+    /* 1000px'den büyük ekranlar */
+    @media (min-width: 1000px) {
+        padding: 1.2rem 3rem;
+        display: flex;
+        justify-content: flex-end;
+        gap: 2.4rem;
+        align-items: center;
+        z-index: 1000;
+    }
 `;
 
 const StyledList = styled.ul`
@@ -119,7 +125,13 @@ const iconStyle = {
     transition: "all .3s",
 };
 
-function Header() {
+interface HeaderTypes {
+    toggleDrawer: () => void;
+    isOpenDrawer: boolean;
+    setIsOpenDrawer: any;
+}
+
+function Header({ toggleDrawer, isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
     const { isDarkMode, toggleDarkMode } = useDarkMode();
     const [currentLanguage, setCurrentLanguage] = useState("en-EN");
     const [isNotReadeds, setIsNotReadeds] = useState<NotificationTypes[]>();
@@ -155,6 +167,19 @@ function Header() {
             }}
         >
             <StyledList>
+                {/* TODO: */}
+                {window.innerWidth < 1000 && (
+                    <span style={{ marginRight: "auto" }}>
+                        <Hamburger
+                            label="Sidebar Drawer Controller"
+                            rounded
+                            size={26}
+                            toggled={isOpenDrawer}
+                            toggle={setIsOpenDrawer}
+                            color="var(--color-grey-800)"
+                        />
+                    </span>
+                )}
                 <StyledUserInfo onClick={() => navigate("/settings")}>
                     <StyledListItem id="userInfo">
                         {currentUser?.photoURL && (
