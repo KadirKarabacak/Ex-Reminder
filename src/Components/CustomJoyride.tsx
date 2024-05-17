@@ -20,7 +20,6 @@ function CustomJoyride({
             run={pathname}
             continuous
             showProgress
-            // hideCloseButton
             disableScrolling={
                 location === "/employees" || location === "/settings"
             }
