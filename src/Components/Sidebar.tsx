@@ -77,7 +77,6 @@ const DrawerStyle = {
     background: "var(--color-grey-0)",
     width: "26rem",
     zIndex: "30000",
-    top: "unset",
 };
 
 const StyledDrawerContainer = styled.span`
@@ -106,7 +105,6 @@ function Sidebar({ isOpenDrawer, toggleDrawer }: DrawerTypes) {
 
     return (
         <>
-            {/* {window.innerWidth < 1000 ? ( */}
             <StyledDrawerContainer>
                 <Drawer
                     lockBackgroundScroll
@@ -197,8 +195,6 @@ function Sidebar({ isOpenDrawer, toggleDrawer }: DrawerTypes) {
                     </Tooltip>
                 </Drawer>
             </StyledDrawerContainer>
-
-            {/* ) : ( */}
             <StyledSideBarContainer>
                 <StyledSidebar
                     style={{
