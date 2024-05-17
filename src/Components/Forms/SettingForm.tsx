@@ -554,6 +554,19 @@ export default function SettingForm() {
                         }}
                         sx={{
                             maxWidth: "85rem",
+                            width: "90%",
+                            "@media (max-width: 1000px)": {
+                                width: "60%",
+                            },
+                            "@media (max-width: 800px)": {
+                                width: "80%",
+                            },
+                            "@media (max-width: 550px)": {
+                                width: "90%",
+                            },
+                            "@media (max-width: 450px)": {
+                                width: "95%",
+                            },
                             "& > .MuiPaper-root": {
                                 marginTop: "0.5rem",
                             },
