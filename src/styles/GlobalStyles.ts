@@ -334,8 +334,6 @@ svg{
   border-radius: 5px!important;
 }
 
-
-/* DENEME TODO: */
 .square {
 	position: absolute;
 	top: 50%;
@@ -420,6 +418,19 @@ svg{
 .__floater__body > div > button {
   padding: 1.2rem!important;
 }
+
+.MuiButtonBase-root .Mui-checked{
+ color: var(--color-green-new)!important;
+}
+
+.MuiButtonBase-root .Mui-checked + .MuiSwitch-track{
+  background-color: var(--color-green-new)!important;
+}
+
+.EZDrawer__overlay{
+  z-index: 28000!important;
+}
+
 `;
 
 export default GlobalStyles;
