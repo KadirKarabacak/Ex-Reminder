@@ -100,7 +100,7 @@ const StyledLargeContainer = styled.div`
 
 const StyledSmallSearchContainer = styled.div`
     display: none;
-    @media (max-width: 650px) {
+    @media (max-width: 1250px) {
         display: block;
     }
 `;
@@ -108,7 +108,7 @@ const StyledSmallSearchContainer = styled.div`
 const StyledLargeSearchContainer = styled.div`
     display: flex;
     gap: 1rem;
-    @media (max-width: 650px) {
+    @media (max-width: 1250px) {
         display: none;
     }
 `;
@@ -346,7 +346,13 @@ export function NotificationToolBar({
                     >
                         <MenuItem disableRipple>
                             <FormControl
-                                sx={{ minWidth: "10%", width: "100%" }}
+                                sx={{
+                                    minWidth: "10%",
+                                    width: "100%",
+                                    "& > div > svg": {
+                                        color: "#101010!important",
+                                    },
+                                }}
                             >
                                 <StyledSelect
                                     variant="filled"
@@ -482,11 +488,7 @@ export function NotificationToolBar({
                                     <Tooltip
                                         TransitionComponent={Grow}
                                         title={t(
-                                            `Delete ${
-                                                isAllSelected
-                                                    ? "all"
-                                                    : "selected"
-                                            } notifications`
+                                            `Delete selected notifications`
                                         )}
                                     >
                                         <StyledButton
