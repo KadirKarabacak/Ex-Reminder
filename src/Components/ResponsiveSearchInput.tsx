@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 const StyledBox = styled(Box)`
     position: absolute;
-    top: 50%;
+    top: 20%;
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 50%;
@@ -22,6 +22,15 @@ const StyledBox = styled(Box)`
     gap: 2rem;
     @media (max-width: 1250px) {
         width: 60%;
+    }
+    @media (max-width: 650px) {
+        width: 80%;
+    }
+    @media (max-width: 550px) {
+        width: 90%;
+    }
+    @media (max-width: 450px) {
+        width: 98%;
     }
 `;
 

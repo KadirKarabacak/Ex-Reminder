@@ -30,10 +30,15 @@ const StyledTitle = styled.h4`
     color: var(--color-grey-600);
     align-self: flex-start;
     margin-bottom: 1rem;
+
+    @media (max-width: 600px) {
+        text-align: left;
+        font-weight: 300;
+    }
 `;
 
 const StyledTextField = styled(TextField)`
-    max-width: 50%;
+    width: 50%;
     margin-bottom: 1rem !important;
     & div + p {
         font-size: 1rem;
@@ -58,6 +63,10 @@ const StyledTextField = styled(TextField)`
     &.Mui-disabled {
         -webkit-text-fill-color: var(--color-grey-500);
     }
+
+    @media (max-width: 600px) {
+        width: 100%;
+    }
 `;
 
 const VisuallyHiddenInput = muiStyled("input")({
@@ -79,6 +88,10 @@ const StyledParagraph = styled.h1`
     display: block;
     color: var(--color-grey-800);
     font-weight: bold;
+    @media (max-width: 600px) {
+        text-align: left;
+        font-size: 2.3rem;
+    }
 `;
 
 const StyledDeleteText = styled.p`
@@ -116,6 +129,11 @@ const StyledButtonContainer = styled.div`
 const StyledPaper = styled(Paper)`
     @media (max-width: 1000px) {
         padding: 3rem 4rem !important;
+        border-bottom: 3px solid var(--color-grey-400);
+        margin: 1rem 1rem 0 1rem !important;
+    }
+    @media (max-width: 680px) {
+        padding: 2rem !important;
         border-bottom: 3px solid var(--color-grey-400);
         margin: 1rem 1rem 0 1rem !important;
     }
@@ -271,6 +289,9 @@ export default function SettingForm() {
                                 color: "white",
                                 transition: "all .3s",
                                 padding: "1rem 2rem",
+                                "@media (max-width:500px)": {
+                                    padding: "1rem 1.2rem",
+                                },
                                 fontSize: "1.2rem",
                                 alignSelf: "flex-start",
                                 gap: "1rem",
@@ -313,6 +334,9 @@ export default function SettingForm() {
                                 color: "var(--color-white-soft)",
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
+                                "@media (max-width:500px)": {
+                                    padding: "1rem",
+                                },
                                 fontSize: "1.1rem",
                                 alignSelf: "center",
                                 fontWeight: "bold",
@@ -339,6 +363,9 @@ export default function SettingForm() {
                                 color: "var(--color-grey-800)",
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
+                                "@media (max-width:500px)": {
+                                    padding: "1rem 2rem",
+                                },
                                 fontSize: "1.1rem",
                                 border: "1px solid var(--color-grey-500)",
                                 fontWeight: "bold",
@@ -391,6 +418,9 @@ export default function SettingForm() {
                         color: "var(--color-grey-50)",
                         transition: "all .3s",
                         padding: "1.1rem 3rem",
+                        "@media (max-width:500px)": {
+                            padding: "1rem 1.5rem",
+                        },
                         fontSize: "1.1rem",
                         alignSelf: "flex-start",
                         fontWeight: "bold",
@@ -431,6 +461,9 @@ export default function SettingForm() {
                         color: "var(--color-grey-50)",
                         transition: "all .3s",
                         padding: "1.1rem 2rem",
+                        "@media (max-width:500px)": {
+                            padding: "1rem 1.3rem",
+                        },
                         fontSize: "1.1rem",
                         alignSelf: "flex-start",
                         fontWeight: "bold",
@@ -507,6 +540,9 @@ export default function SettingForm() {
                                 color: "var(--color-grey-50)",
                                 transition: "all .3s",
                                 padding: "1.1rem 2rem",
+                                "@media (max-width:500px)": {
+                                    padding: "1.1rem 1.2rem",
+                                },
                                 fontSize: "1.1rem",
                                 alignSelf: "flex-start",
                                 fontWeight: "bold",
@@ -565,7 +601,7 @@ export default function SettingForm() {
                                 width: "90%",
                             },
                             "@media (max-width: 450px)": {
-                                width: "95%",
+                                width: "99%",
                             },
                             "& > .MuiPaper-root": {
                                 marginTop: "0.5rem",
@@ -637,6 +673,9 @@ export default function SettingForm() {
                             color: "white",
                             transition: "all .3s",
                             padding: "1rem 2rem",
+                            "@media (max-width:500px)": {
+                                padding: "1rem 1.2rem",
+                            },
                             fontSize: "1.1rem",
                             alignSelf: "flex-start",
                             fontWeight: "bold",

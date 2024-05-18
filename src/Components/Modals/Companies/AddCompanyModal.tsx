@@ -33,6 +33,17 @@ const StyledBox = styled(Box)`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     padding: 4rem 4rem 3rem;
     border-radius: 5px;
+
+    @media (max-width: 1000px) {
+        width: 80%;
+    }
+    @media (max-width: 650px) {
+        width: 95%;
+        padding: 3rem 2rem;
+    }
+    @media (max-width: 450px) {
+        width: 98%;
+    }
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
@@ -249,15 +260,17 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Divider
-                                        sx={{
-                                            borderColor:
-                                                "var(--color-grey-200)",
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
+                                {window.innerWidth > 650 && (
+                                    <Grid item xs={12}>
+                                        <Divider
+                                            sx={{
+                                                borderColor:
+                                                    "var(--color-grey-200)",
+                                            }}
+                                        />
+                                    </Grid>
+                                )}
+                                <Grid item xs={6} md={4}>
                                     <StyledTitle>
                                         {t("Company Phone")}
                                     </StyledTitle>
@@ -276,7 +289,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={6} md={4}>
                                     <StyledTitle>
                                         {t("Company Email")}
                                     </StyledTitle>
@@ -297,7 +310,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={6} md={4}>
                                     <StyledTitle>
                                         {t("Company Website")}
                                     </StyledTitle>
@@ -320,15 +333,17 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                <Grid item xs={12}>
-                                    <Divider
-                                        sx={{
-                                            borderColor:
-                                                "var(--color-grey-200)",
-                                        }}
-                                    />
-                                </Grid>
-                                <Grid item xs={4}>
+                                {window.innerWidth > 650 && (
+                                    <Grid item xs={12}>
+                                        <Divider
+                                            sx={{
+                                                borderColor:
+                                                    "var(--color-grey-200)",
+                                            }}
+                                        />
+                                    </Grid>
+                                )}
+                                <Grid item xs={6} md={4}>
                                     <StyledTitle>
                                         {t("Manager Name")}
                                     </StyledTitle>
@@ -338,7 +353,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         {...register("managerName")}
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={6} md={4}>
                                     <StyledTitle>
                                         {t("Manager Phone")}
                                     </StyledTitle>
@@ -357,7 +372,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                <Grid item xs={4}>
+                                <Grid item xs={6} md={4}>
                                     <StyledTitle>
                                         {t("Manager Email")}
                                     </StyledTitle>

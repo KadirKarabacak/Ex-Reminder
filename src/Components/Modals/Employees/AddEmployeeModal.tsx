@@ -31,6 +31,17 @@ const StyledBox = styled(Box)`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     padding: 4rem 4rem 3rem;
     border-radius: 5px;
+
+    @media (max-width: 1000px) {
+        width: 80%;
+    }
+    @media (max-width: 650px) {
+        width: 95%;
+        padding: 3rem 2rem;
+    }
+    @media (max-width: 450px) {
+        width: 98%;
+    }
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
