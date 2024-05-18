@@ -411,14 +411,14 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                 )}
 
                 {/* ACCOUNTING */}
-                {tableName === "accounting" && (
+                {/* {tableName === "accounting" && (
                     <div>
                         <MenuItem disableRipple>
                             <DeleteOutline />
                             {t("Delete")}
                         </MenuItem>
                     </div>
-                )}
+                )} */}
 
                 {/* NOTIFICATIONS */}
                 {tableName === "notifications" && (
