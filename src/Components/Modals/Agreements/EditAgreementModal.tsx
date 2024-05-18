@@ -37,6 +37,17 @@ const StyledBox = styled(Box)`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     padding: 6rem 4rem;
     border-radius: 5px;
+
+    @media (max-width: 1000px) {
+        width: 80%;
+    }
+    @media (max-width: 650px) {
+        width: 95%;
+        padding: 3rem 1rem;
+    }
+    @media (max-width: 450px) {
+        width: 98%;
+    }
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
@@ -230,8 +241,12 @@ export default function EditAgreementModal({
                                 {agreement.agreementContent}
                             </StyledSpan>
                         </Typography>
-                        <Grid container spacing={2} sx={{ mt: "1rem" }}>
-                            <Grid item xs={6}>
+                        <Grid
+                            container
+                            spacing={window.innerWidth < 600 ? 1 : 2}
+                            sx={{ mt: "1rem" }}
+                        >
+                            <Grid item xs={12} md={6}>
                                 <StyledTitle>
                                     {t("Agreement Content")}
                                 </StyledTitle>
@@ -276,14 +291,17 @@ export default function EditAgreementModal({
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
-                            <Grid item xs={4}>
+                            {window.innerWidth > 650 && (
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                            )}
+                            <Grid item xs={6} md={4}>
                                 <StyledTitle>
                                     {t("Parties of Agreement")}
                                 </StyledTitle>
@@ -297,9 +315,11 @@ export default function EditAgreementModal({
                                 />
                             </Grid>
 
-                            <Grid item xs={4}>
+                            <Grid item xs={6} md={4}>
                                 <StyledTitle>
-                                    {t("Agreement Start Date")}
+                                    {window.innerWidth < 600
+                                        ? t("Start Date")
+                                        : t("Agreement Start Date")}
                                 </StyledTitle>
                                 <StyledDatePicker
                                     disabled={isPending}
@@ -321,9 +341,11 @@ export default function EditAgreementModal({
                                     minDate={minDate}
                                 />
                             </Grid>
-                            <Grid item xs={4}>
+                            <Grid item xs={6} md={4}>
                                 <StyledTitle>
-                                    {t("Agreement End Date")}
+                                    {window.innerWidth < 600
+                                        ? t("End Date")
+                                        : t("Agreement End Date")}
                                 </StyledTitle>
                                 <StyledDatePicker
                                     disabled={isPending}
