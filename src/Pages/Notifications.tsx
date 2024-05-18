@@ -21,6 +21,7 @@ import CustomJoyride from "../Components/CustomJoyride";
 const StyledNotifications = styled.main`
     width: 100%;
     min-height: 60rem;
+
     background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
@@ -32,6 +33,10 @@ const StyledNotifications = styled.main`
     @media (max-width: 1000px) {
         border-radius: 0;
         padding: 1rem;
+    }
+
+    @media (max-width: 600px) {
+        height: calc(100dvh - 7rem);
     }
 `;
 

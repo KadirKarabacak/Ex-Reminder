@@ -35,6 +35,9 @@ const StyledCompany = styled.main`
         border-radius: 0;
         padding: 1rem;
     }
+    @media (max-width: 600px) {
+        height: calc(100dvh - 7rem);
+    }
 `;
 
 const FullPage = styled.div`
