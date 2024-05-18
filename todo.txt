@@ -87,6 +87,9 @@
 9: Lower than 650px Every Toolbar must change because of search input expanding
 10: Lower than 600px Employees > All employees graphics remove name of job titles
 11: Lower than 600px Fix Button group gaps
+12: Companies, Warehouse, bottom of page has a white gap
+13: Increase search input modal width
+14: Remove walkthroughs on small screens
 
 
 
