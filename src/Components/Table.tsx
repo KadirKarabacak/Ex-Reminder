@@ -251,8 +251,6 @@ export default function CustomTable({
         if (!searchText.length) setFilteredData(data);
     }, [searchText]);
 
-    console.log(filteredData);
-
     const visibleRows = React.useMemo(
         () =>
             stableSort(filteredData || [], getComparator(order, orderBy)).slice(
