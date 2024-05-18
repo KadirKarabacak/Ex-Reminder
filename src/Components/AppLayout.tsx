@@ -53,7 +53,6 @@ const iconStyle = {
 
 const StyledMain = styled.main`
     background-color: var(--color-grey-50);
-    overflow-y: scroll;
 `;
 
 const applayoutSteps = [
