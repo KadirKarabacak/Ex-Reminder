@@ -31,6 +31,20 @@ const StyledBox = styled(Box)`
     padding: 4rem 4rem 3rem;
     border-radius: 5px;
     z-index: 300;
+
+    @media (max-width: 1300px) {
+        width: 65%;
+        padding: 3rem 2rem;
+    }
+
+    @media (max-width: 1000px) {
+        width: 95%;
+        padding: 3rem 2rem;
+    }
+    @media (max-width: 600px) {
+        width: 98%;
+        height: 98%;
+    }
 `;
 const StyledButtonContainer = styled.div`
     display: flex;
@@ -246,16 +260,24 @@ export default function AddAddressModal({
                                 fontWeight: "bold",
                                 letterSpacing: "0.80px",
                                 mb: "3rem",
+                                "@media (max-width:600px)": {
+                                    mb: "1rem",
+                                },
                             }}
                         >
                             {t("Add Address")}
                         </Typography>
                         <Grid container spacing={3} sx={{ mb: "2rem" }}>
                             <Grid item xs={12} md={4} xl={3}>
-                                <Grid container sx={{ height: "100%" }}>
+                                <Grid
+                                    container
+                                    sx={{ height: "100%" }}
+                                    spacing={window.innerWidth < 900 ? 1 : 0}
+                                >
                                     <Grid
                                         item
-                                        xs={12}
+                                        xs={6}
+                                        md={12}
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
@@ -284,7 +306,8 @@ export default function AddAddressModal({
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={12}
+                                        xs={6}
+                                        md={12}
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
@@ -312,7 +335,8 @@ export default function AddAddressModal({
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={12}
+                                        xs={6}
+                                        md={12}
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
@@ -332,7 +356,8 @@ export default function AddAddressModal({
                                     </Grid>
                                     <Grid
                                         item
-                                        xs={12}
+                                        xs={6}
+                                        md={12}
                                         sx={{
                                             display: "flex",
                                             flexDirection: "column",
@@ -346,23 +371,25 @@ export default function AddAddressModal({
                                         />
                                     </Grid>
 
-                                    <Grid
-                                        item
-                                        xs={12}
-                                        sx={{
-                                            display: "flex",
-                                            flexDirection: "column",
-                                        }}
-                                    >
-                                        <StyledTitle>
-                                            {t("Door Number")}
-                                        </StyledTitle>
-                                        <StyledTextField
-                                            variant="filled"
-                                            label={t("Door Number")}
-                                            {...register("doorNumber")}
-                                        />
-                                    </Grid>
+                                    {window.innerWidth > 900 && (
+                                        <Grid
+                                            item
+                                            xs={12}
+                                            sx={{
+                                                display: "flex",
+                                                flexDirection: "column",
+                                            }}
+                                        >
+                                            <StyledTitle>
+                                                {t("Door Number")}
+                                            </StyledTitle>
+                                            <StyledTextField
+                                                variant="filled"
+                                                label={t("Door Number")}
+                                                {...register("doorNumber")}
+                                            />
+                                        </Grid>
+                                    )}
                                 </Grid>
                             </Grid>
                             <Grid item xs={12} md={8} xl={9}>
@@ -373,6 +400,9 @@ export default function AddAddressModal({
                                         overflow: "hidden",
                                         backgroundColor: "var(--color-grey-50)",
                                         height: "42rem",
+                                        "@media (max-width:900px)": {
+                                            height: "33rem",
+                                        },
                                     }}
                                 >
                                     <Map
