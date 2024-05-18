@@ -485,38 +485,44 @@ export function NotificationToolBar({
                                 )}
                             </Button>
                         </MenuItem>
-                        {/* {searchParams.has("action", "readed") && ( */}
-                        <MenuItem disableRipple onClick={handleCloseMenu}>
-                            {searchParams.has("action", "readed") && (
-                                <Tooltip
-                                    TransitionComponent={Grow}
-                                    title={t(`Delete selected notifications`)}
-                                >
-                                    <StyledButton
-                                        onClick={deleteSelectedNotifications}
-                                        sx={{
-                                            fontSize: "1.1rem",
-                                            minWidth: 0,
-                                            p: "0.7rem",
-                                            width: "100%",
-                                            border: "1px solid var(--color-grey-500)",
-                                            ":hover > svg": {
-                                                color: "#d32f2f",
-                                            },
-                                            display: "flex",
-                                            gap: "0.5rem",
-                                            justifyContent: "space-between",
-                                        }}
-                                        color="inherit"
-                                        variant="text"
+                        {searchParams.has("action", "readed") && (
+                            <MenuItem disableRipple onClick={handleCloseMenu}>
+                                {searchParams.has("action", "readed") && (
+                                    <Tooltip
+                                        TransitionComponent={Grow}
+                                        title={t(
+                                            `Delete selected notifications`
+                                        )}
                                     >
-                                        {t("Delete")}
-                                        <DeleteSweepIcon sx={iconStyle} />{" "}
-                                    </StyledButton>
-                                </Tooltip>
-                            )}
-                        </MenuItem>
-                        {/* )} */}
+                                        <StyledButton
+                                            onClick={
+                                                deleteSelectedNotifications
+                                            }
+                                            sx={{
+                                                fontSize: "1.1rem",
+                                                minWidth: 0,
+                                                p: "0.7rem",
+                                                width: "100%",
+                                                border: "1px solid var(--color-grey-500)",
+                                                ":hover > svg": {
+                                                    color: "#d32f2f",
+                                                },
+                                                display: "flex",
+                                                gap: "0.5rem",
+                                                justifyContent: "space-between",
+                                            }}
+                                            color="inherit"
+                                            variant="text"
+                                        >
+                                            {t("Delete selected notifications")}
+                                            <DeleteSweepIcon
+                                                sx={iconStyle}
+                                            />{" "}
+                                        </StyledButton>
+                                    </Tooltip>
+                                )}
+                            </MenuItem>
+                        )}
                     </Menu>
                 </StyledSmallContainer>
                 <StyledLargeContainer>
