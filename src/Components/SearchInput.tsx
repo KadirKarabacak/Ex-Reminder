@@ -77,7 +77,9 @@ export default function SearchInput({
             <StyledInputBase
                 id="searchInput"
                 value={searchText}
-                onChange={e => setSearchText(e.target.value)}
+                onChange={e => {
+                    setSearchText(e.target.value);
+                }}
                 placeholder={label}
                 inputProps={{ "aria-label": "search" }}
             />

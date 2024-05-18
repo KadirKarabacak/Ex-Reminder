@@ -123,15 +123,17 @@ export default function CustomTable({
 
     React.useEffect(() => {
         if (data) setFilteredData(data);
-    }, [data]);
+    }, []);
 
+    // TODO: Fix Error!
     React.useEffect(() => {
         if (
-            searchParams.has("action", "not-readed") ||
-            searchParams.has("action", "readed")
+            !searchText &&
+            (searchParams.has("action", "not-readed") ||
+                searchParams.has("action", "readed"))
         )
             setFilteredData(data);
-    }, [data, searchParams]);
+    }, [searchParams, searchText]);
 
     const handleSelectAllClick = (
         event: React.ChangeEvent<HTMLInputElement>
@@ -248,6 +250,8 @@ export default function CustomTable({
             );
         if (!searchText.length) setFilteredData(data);
     }, [searchText]);
+
+    console.log(filteredData);
 
     const visibleRows = React.useMemo(
         () =>

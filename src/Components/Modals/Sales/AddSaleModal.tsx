@@ -396,7 +396,9 @@ export default function AddSaleModal({
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Item Sale Price*")}
+                                    {window.innerWidth < 600
+                                        ? t("Sale Price")
+                                        : t("Item Sale Price*")}
                                 </StyledTitle>
                                 <StyledTextField
                                     disabled
@@ -445,7 +447,9 @@ export default function AddSaleModal({
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Item Guarantee Time")}
+                                    {window.innerWidth < 600
+                                        ? t("Guarantee Time")
+                                        : t("Item Guarantee Time")}
                                 </StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
                                     <StyledSelect

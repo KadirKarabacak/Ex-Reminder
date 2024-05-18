@@ -301,7 +301,9 @@ export default function AddNegotiateModal({
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Negotiate Date & Time")}
+                                    {window.innerWidth < 600
+                                        ? t("Date & Time")
+                                        : t("Negotiate Date & Time")}
                                 </StyledTitle>
                                 <StyledDateTimePicker
                                     disabled={isPending}
@@ -371,7 +373,9 @@ export default function AddNegotiateModal({
                             </Grid>
                             <Grid item xs={6}>
                                 <StyledTitle>
-                                    {t("Alarm warning time")}
+                                    {window.innerWidth < 600
+                                        ? t("Warning Time")
+                                        : t("Alarm warning time")}
                                 </StyledTitle>
                                 <FormControl sx={{ width: "100%" }}>
                                     <StyledSelect

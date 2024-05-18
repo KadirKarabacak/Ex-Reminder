@@ -96,6 +96,10 @@ export function SalesToolBar({
                     pl: { sm: 3 },
                     pr: { xs: 1, sm: 2 },
                     gap: "1.5rem",
+                    "@media (max-width:450px)": {
+                        gap: "0.5rem",
+                        pl: 1,
+                    },
                 }}
             >
                 <Typography

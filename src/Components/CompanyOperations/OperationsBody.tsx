@@ -36,6 +36,7 @@ const StyledHeader = styled.h2`
 const StyledDescription = styled.p`
     color: var(--color-grey-500);
     font-size: 1.4rem;
+    overflow: hidden;
 `;
 
 const FullPage = styled.div`

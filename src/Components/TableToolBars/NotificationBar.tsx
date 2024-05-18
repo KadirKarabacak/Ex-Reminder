@@ -148,6 +148,7 @@ export function NotificationToolBar({
         setOpenSearchInput(true);
         searchParams.set("search", "search-notifications");
         setSearchParams(searchParams);
+        // setSearchText("");
     };
     const handleCloseSearchInput = () => {
         setOpenSearchInput(false);
@@ -212,6 +213,8 @@ export function NotificationToolBar({
             setSearchParams(searchParams);
         }, 400);
     }
+
+    console.log(searchText);
 
     return (
         <>
@@ -482,44 +485,38 @@ export function NotificationToolBar({
                                 )}
                             </Button>
                         </MenuItem>
-                        {searchParams.has("action", "readed") && (
-                            <MenuItem disableRipple onClick={handleCloseMenu}>
-                                {searchParams.has("action", "readed") && (
-                                    <Tooltip
-                                        TransitionComponent={Grow}
-                                        title={t(
-                                            `Delete selected notifications`
-                                        )}
+                        {/* {searchParams.has("action", "readed") && ( */}
+                        <MenuItem disableRipple onClick={handleCloseMenu}>
+                            {searchParams.has("action", "readed") && (
+                                <Tooltip
+                                    TransitionComponent={Grow}
+                                    title={t(`Delete selected notifications`)}
+                                >
+                                    <StyledButton
+                                        onClick={deleteSelectedNotifications}
+                                        sx={{
+                                            fontSize: "1.1rem",
+                                            minWidth: 0,
+                                            p: "0.7rem",
+                                            width: "100%",
+                                            border: "1px solid var(--color-grey-500)",
+                                            ":hover > svg": {
+                                                color: "#d32f2f",
+                                            },
+                                            display: "flex",
+                                            gap: "0.5rem",
+                                            justifyContent: "space-between",
+                                        }}
+                                        color="inherit"
+                                        variant="text"
                                     >
-                                        <StyledButton
-                                            onClick={
-                                                deleteSelectedNotifications
-                                            }
-                                            sx={{
-                                                fontSize: "1.1rem",
-                                                minWidth: 0,
-                                                p: "0.7rem",
-                                                width: "100%",
-                                                border: "1px solid var(--color-grey-500)",
-                                                ":hover > svg": {
-                                                    color: "#d32f2f",
-                                                },
-                                                display: "flex",
-                                                gap: "0.5rem",
-                                                justifyContent: "space-between",
-                                            }}
-                                            color="inherit"
-                                            variant="text"
-                                        >
-                                            {t("Delete")}
-                                            <DeleteSweepIcon
-                                                sx={iconStyle}
-                                            />{" "}
-                                        </StyledButton>
-                                    </Tooltip>
-                                )}
-                            </MenuItem>
-                        )}
+                                        {t("Delete")}
+                                        <DeleteSweepIcon sx={iconStyle} />{" "}
+                                    </StyledButton>
+                                </Tooltip>
+                            )}
+                        </MenuItem>
+                        {/* )} */}
                     </Menu>
                 </StyledSmallContainer>
                 <StyledLargeContainer>

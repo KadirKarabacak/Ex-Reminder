@@ -279,7 +279,9 @@ export default function AddAgreementModal({
 
                             <Grid item xs={6} md={4}>
                                 <StyledTitle>
-                                    {t("Agreement Start Date")}
+                                    {window.innerWidth < 600
+                                        ? t("Start Date")
+                                        : t("Agreement Start Date")}
                                 </StyledTitle>
                                 <StyledDatePicker
                                     disabled={isPending}
@@ -302,7 +304,9 @@ export default function AddAgreementModal({
                             </Grid>
                             <Grid item xs={6} md={4}>
                                 <StyledTitle>
-                                    {t("Agreement End Date")}
+                                    {window.innerWidth < 600
+                                        ? t("End Date")
+                                        : t("Agreement End Date")}
                                 </StyledTitle>
                                 <StyledDatePicker
                                     disabled={isPending}

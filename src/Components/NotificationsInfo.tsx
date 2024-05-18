@@ -40,7 +40,11 @@ export default function NotificationsInfo() {
     return (
         <Grid
             container
-            sx={{ gap: "2rem", alignItems: "baseline", pr: "0.7rem" }}
+            sx={{
+                gap: "2rem",
+                alignItems: "baseline",
+                pr: "0.7rem",
+            }}
         >
             <StyledContainers>
                 <Grid item xs={12} sx={GridStyles}>
