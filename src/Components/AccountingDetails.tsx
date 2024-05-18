@@ -78,25 +78,25 @@ export default function AccountingDetails({ data }: { data: any }) {
                     {t(`Accounting Stats`)}
                 </Typography>
                 <Grid container spacing={2} sx={{ marginTop: "1rem" }}>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                         <StyledTitle>{t("Total Sale")}</StyledTitle>
                         <StyledDescription>
                             {data?.length} {t("sale done")}
                         </StyledDescription>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                         <StyledTitle>{t("Total Sold Item")}</StyledTitle>
                         <StyledDescription>
                             {totalSoldItem} {t("items sold")}
                         </StyledDescription>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                         <StyledTitle>{t("Total Sale Price")}</StyledTitle>
                         <StyledDescription>
                             {formatCurrency(totalSalePrice)}
                         </StyledDescription>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid item xs={6} md={4}>
                         <StyledTitle>{t("Companies sold to")}</StyledTitle>
                         <StyledDescription>{companiesSoldTo}</StyledDescription>
                     </Grid>
