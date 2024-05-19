@@ -147,6 +147,7 @@ export function WarehouseToolBar({
                 </StyledLargeSearchContainer>
                 <StyledSmallSearchContainer>
                     <IconButton
+                        className="warehouse-search-modal"
                         onClick={handleOpenSearchInput}
                         size="large"
                         aria-label="search"
@@ -183,8 +184,9 @@ export function WarehouseToolBar({
                         disableElevation
                         onClick={handleClickMenuItem}
                         endIcon={<KeyboardArrowDownIcon />}
+                        className="warehouse-operations-menu"
                     >
-                        Operations
+                        {t("Operations")}
                     </Button>
                     <Menu
                         id="demo-customized-menu"

@@ -214,8 +214,6 @@ export function NotificationToolBar({
         }, 400);
     }
 
-    console.log(searchText);
-
     return (
         <>
             <StyledToolBar
@@ -299,6 +297,7 @@ export function NotificationToolBar({
                 </StyledLargeSearchContainer>
                 <StyledSmallSearchContainer>
                     <IconButton
+                        className="notifications-search-modal"
                         onClick={handleOpenSearchInput}
                         size="large"
                         aria-label="search"
@@ -335,8 +334,9 @@ export function NotificationToolBar({
                         disableElevation
                         onClick={handleClickMenuItem}
                         endIcon={<KeyboardArrowDownIcon />}
+                        className="notifications-operations-menu"
                     >
-                        Operations
+                        {t("Operations")}
                     </Button>
                     <Menu
                         id="demo-customized-menu"

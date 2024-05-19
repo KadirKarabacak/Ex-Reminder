@@ -75,7 +75,7 @@ export default function SearchInput({
                 <SearchIcon sx={{ fontSize: "2rem" }} />
             </SearchIconWrapper>
             <StyledInputBase
-                id="searchInput"
+                id={generateSearchInputClassName(pathname)}
                 value={searchText}
                 onChange={e => {
                     setSearchText(e.target.value);

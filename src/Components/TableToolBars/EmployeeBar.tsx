@@ -153,6 +153,7 @@ export function EmployeeToolBar({
                 </StyledLargeSearchContainer>
                 <StyledSmallSearchContainer>
                     <IconButton
+                        className="employees-search-modal"
                         onClick={handleOpenSearchInput}
                         size="large"
                         aria-label="search"
@@ -189,8 +190,9 @@ export function EmployeeToolBar({
                         disableElevation
                         onClick={handleClickMenuItem}
                         endIcon={<KeyboardArrowDownIcon />}
+                        className="employee-operations-menu"
                     >
-                        Operations
+                        {t("Operations")}
                     </Button>
                     <Menu
                         id="demo-customized-menu"

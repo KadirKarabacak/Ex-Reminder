@@ -17,6 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InfoIcon from "@mui/icons-material/Info";
 import { CallBackProps } from "react-joyride";
 import CustomJoyride from "../Components/CustomJoyride";
+import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 
 const StyledNotifications = styled.main`
     width: 100%;
@@ -88,6 +89,48 @@ const notificationsSteps = [
             "From here, you can find a notification in your table much more easily by searching by notification date."
         ),
         placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<SearchIcon sx={iconStyle} />}
+                title={i18n.t("Search Data")}
+            />
+        ),
+    },
+    {
+        target: ".notifications-info-button",
+        content: i18n.t(
+            "Here you can see what the colors and icons of all the notifications in the notifications table mean. This makes it easier to find a specific notification you are looking for."
+        ),
+        placement: "bottom-end",
+        title: (
+            <JoyrideTitle
+                icon={<InfoIcon sx={iconStyle} />}
+                title={i18n.t("Notifications Info")}
+            />
+        ),
+    },
+];
+
+const notificationsStepsPhone = [
+    {
+        target: ".notifications-operations-menu",
+        content: i18n.t(
+            "From here you can switch between read & unread notifications, can mark notifications as readed or unreaded, can delete selected read notifications."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<CircleNotificationsIcon sx={iconStyle} />}
+                title={i18n.t("Notification Operations")}
+            />
+        ),
+    },
+    {
+        target: ".notifications-search-modal",
+        content: i18n.t(
+            "From here you can search for a spesific notification by notification date."
+        ),
+        placement: "right-end",
         title: (
             <JoyrideTitle
                 icon={<SearchIcon sx={iconStyle} />}
@@ -199,7 +242,11 @@ export default function Notifications() {
                 setSelected={setSelected}
             />
             <CustomJoyride
-                steps={notificationsSteps}
+                steps={
+                    window.innerWidth < 600
+                        ? notificationsStepsPhone
+                        : notificationsSteps
+                }
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}
             />

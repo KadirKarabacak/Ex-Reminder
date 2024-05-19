@@ -161,6 +161,7 @@ export function CompaniesToolBar({
                 </StyledLargeSearchContainer>
                 <StyledSmallSearchContainer>
                     <IconButton
+                        className="company-search-modal"
                         onClick={handleOpenSearchInput}
                         size="large"
                         aria-label="search"
@@ -197,8 +198,9 @@ export function CompaniesToolBar({
                         disableElevation
                         onClick={handleClickMenuItem}
                         endIcon={<KeyboardArrowDownIcon />}
+                        className="company-operations-menu"
                     >
-                        Operations
+                        {t("Operations")}
                     </Button>
                     <Menu
                         id="demo-customized-menu"

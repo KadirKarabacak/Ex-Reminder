@@ -115,6 +115,35 @@ const employeeSteps = [
     },
 ];
 
+const employeesStepsPhone = [
+    {
+        target: ".employee-operations-menu",
+        content: i18n.t(
+            "From here you can print all employee data as PDF or Excel and add employees within your company."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<EngineeringIcon sx={iconStyle} />}
+                title={i18n.t("Employee Operations")}
+            />
+        ),
+    },
+    {
+        target: ".employees-search-modal",
+        content: i18n.t(
+            "From here you can search for a spesific employee by employee name."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<SearchIcon sx={iconStyle} />}
+                title={i18n.t("Search Data")}
+            />
+        ),
+    },
+];
+
 const AnimatedStyledEmployees = animated(StyledEmployees);
 
 export default function Employees() {
@@ -194,7 +223,11 @@ export default function Employees() {
             <CustomJoyride
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}
-                steps={employeeSteps}
+                steps={
+                    window.innerWidth < 600
+                        ? employeesStepsPhone
+                        : employeeSteps
+                }
             />
         </AnimatedStyledEmployees>
     );

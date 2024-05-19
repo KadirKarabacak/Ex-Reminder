@@ -108,6 +108,35 @@ const warehouseSteps = [
     },
 ];
 
+const warehouseStepsPhone = [
+    {
+        target: ".warehouse-operations-menu",
+        content: i18n.t(
+            "From here you can print all warehouse data as PDF or Excel and add the items your company sells to your inventory."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<WarehouseIcon sx={iconStyle} />}
+                title={i18n.t("Warehouse Operations")}
+            />
+        ),
+    },
+    {
+        target: ".warehouse-search-modal",
+        content: i18n.t(
+            "From here you can search for a spesific item by item name."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<SearchIcon sx={iconStyle} />}
+                title={i18n.t("Search Data")}
+            />
+        ),
+    },
+];
+
 const AnimatedStyledContact = animated(StyledContact);
 
 export default function Warehouse() {
@@ -183,7 +212,11 @@ export default function Warehouse() {
             <CustomJoyride
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}
-                steps={warehouseSteps}
+                steps={
+                    window.innerWidth < 600
+                        ? warehouseStepsPhone
+                        : warehouseSteps
+                }
             />
         </AnimatedStyledContact>
     );

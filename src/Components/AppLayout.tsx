@@ -25,6 +25,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LanguageIcon from "@mui/icons-material/Language";
+import SwapVertIcon from "@mui/icons-material/SwapVert";
 
 const StyledAppLayout = styled.div`
     grid-template-columns: 26rem 1fr;
@@ -184,6 +185,35 @@ const applayoutSteps = [
     },
 ];
 
+const applayoutPhoneSteps = [
+    {
+        target: ".applicationDrawer",
+        content: i18n.t(
+            "From here you can navigate in application between different pages like Map, Accounting, Companies etc."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<SwapVertIcon sx={iconStyle} />}
+                title={i18n.t("Application Navigation")}
+            />
+        ),
+    },
+    {
+        target: ".applicationMenu",
+        content: i18n.t(
+            "From here you can change application's language, can check notifications, can toggle between Light Mode & Dark Mode and you can safely logout."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<SettingsIcon sx={iconStyle} />}
+                title={i18n.t("Application Menu")}
+            />
+        ),
+    },
+];
+
 // Parent Route
 function AppLayout() {
     // const { t } = useTranslation();
@@ -271,11 +301,12 @@ function AppLayout() {
     return (
         <ProtectedRoute>
             <CustomJoyride
-                //TODO: window.innerWidth < 1000 ? take steps's last 4 step only : otherwise every steps
                 steps={
-                    window.innerWidth < 1000
+                    window.innerWidth < 1000 && window.innerWidth > 600
                         ? applayoutSteps.slice(6)
-                        : applayoutSteps
+                        : window.innerWidth > 1000
+                        ? applayoutSteps
+                        : applayoutPhoneSteps
                 }
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}

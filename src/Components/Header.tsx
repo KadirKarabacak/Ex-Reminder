@@ -223,7 +223,10 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
             <StyledList>
                 {/* TODO: */}
                 {window.innerWidth < 1000 && (
-                    <span style={{ marginRight: "auto" }}>
+                    <span
+                        className="applicationDrawer"
+                        style={{ marginRight: "auto" }}
+                    >
                         <Hamburger
                             label="Sidebar Drawer Controller"
                             rounded
@@ -260,7 +263,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                         aria-haspopup="true"
                         aria-expanded={opensMenu ? "true" : undefined}
                         onClick={handleClickMenuItem}
-                        className="notifications-info-button"
+                        className="applicationMenu"
                         sx={{
                             fontSize: "2rem",
                             minWidth: 0,

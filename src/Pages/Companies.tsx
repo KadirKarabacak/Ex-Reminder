@@ -19,6 +19,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import PostAddIcon from "@mui/icons-material/PostAdd";
 import CompanyOperations from "./CompanyOperations";
+import BusinessIcon from "@mui/icons-material/Business";
 
 const StyledCompany = styled.main`
     width: 100%;
@@ -123,6 +124,35 @@ const companiesSteps = [
     },
 ];
 
+const companiesStepsPhone = [
+    {
+        target: ".company-operations-menu",
+        content: i18n.t(
+            "From here you can create a sales record for a company, can print out all companies as PDF or Excel, can add and list the companies you do business with in the table."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<BusinessIcon sx={iconStyle} />}
+                title={i18n.t("Company Operations")}
+            />
+        ),
+    },
+    {
+        target: ".company-search-modal",
+        content: i18n.t(
+            "From here you can search for a spesific company by company name."
+        ),
+        placement: "right-end",
+        title: (
+            <JoyrideTitle
+                icon={<SearchIcon sx={iconStyle} />}
+                title={i18n.t("Search Data")}
+            />
+        ),
+    },
+];
+
 const AnimatedStyledCompany = animated(StyledCompany);
 
 export default function Companies() {
@@ -207,7 +237,11 @@ export default function Companies() {
                 <CustomJoyride
                     pathname={runJoyride}
                     callback={handleJoyrideCallback}
-                    steps={companiesSteps}
+                    steps={
+                        window.innerWidth < 600
+                            ? companiesStepsPhone
+                            : companiesSteps
+                    }
                 />
             </AnimatedStyledCompany>
         );
