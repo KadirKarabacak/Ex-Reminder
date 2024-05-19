@@ -62,7 +62,6 @@ export default function App() {
                         </Route>
                     </Routes>
                 </AnimatePresence>
-
                 <Toaster
                     position="bottom-left"
                     gutter={12}
