@@ -35,6 +35,10 @@ const StyledTextField = styled(TextField)`
     border-top-left-radius: 3px;
     border-top-right-radius: 3px;
 
+    @media (max-width: 600px) {
+        width: 80%;
+    }
+
     & div + p {
         font-size: 1rem;
     }
@@ -259,8 +263,16 @@ export default function LoginForm() {
                     p: "4rem 4rem",
                     boxShadow: "var(--shadow-md)",
                     minWidth: "45rem",
+                    "@media (max-width: 600px)": {
+                        minWidth: "40rem",
+                    },
                     position: "relative",
                     zIndex: "9",
+                    "@media (max-width:600px)": {
+                        padding: "2rem 1.5rem",
+                        gap: " 1rem",
+                    },
+                    "@media (max-width:410px)": { minWidth: "35rem" },
                 }}
             >
                 <StyledLogo
@@ -271,7 +283,10 @@ export default function LoginForm() {
                 <StyledTextField
                     disabled={isSubmitting}
                     label="Email"
-                    sx={{ minWidth: "100%" }}
+                    sx={{
+                        minWidth: "100%",
+                        "@media (max-width: 600px)": { minWidth: "90%" },
+                    }}
                     variant="filled"
                     {...register("email", {
                         required: t("Email is required"),
@@ -289,7 +304,10 @@ export default function LoginForm() {
                 <StyledTextField
                     disabled={isSubmitting}
                     label={t("Password")}
-                    sx={{ minWidth: "100%" }}
+                    sx={{
+                        minWidth: "100%",
+                        "@media (max-width: 600px)": { minWidth: "90%" },
+                    }}
                     variant="filled"
                     {...register("password", {
                         required: t("Password is required"),

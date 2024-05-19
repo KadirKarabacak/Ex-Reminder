@@ -168,7 +168,13 @@ export default function RegisterForm() {
                     }}
                 >
                     <StyledLogo src="../../../EX_REMINDER-blue.png" />
-                    <Heading title={t("Register to get started")} />
+                    <Heading
+                        title={
+                            window.innerWidth < 500
+                                ? t("Register")
+                                : t("Register to get started")
+                        }
+                    />
                     <StyledTextField
                         disabled={isSubmitting}
                         label="Email"

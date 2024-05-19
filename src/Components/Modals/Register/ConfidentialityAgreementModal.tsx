@@ -16,6 +16,17 @@ const StyledBox = styled(Box)`
     border-radius: 5px;
     overflow-y: scroll;
     width: 65%;
+
+    @media (max-width: 1000px) {
+        width: 80%;
+    }
+    @media (max-width: 650px) {
+        width: 95%;
+        padding: 3rem 2rem;
+    }
+    @media (max-width: 450px) {
+        width: 100%;
+    }
 `;
 
 const StyledSpan = styled.span`
