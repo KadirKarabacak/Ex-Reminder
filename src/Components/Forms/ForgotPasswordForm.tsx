@@ -78,7 +78,7 @@ export default function ForgotPasswordForm() {
     }
 
     useEffect(() => {
-        setFocus("email");
+        if (window.innerWidth > 1000) setFocus("email");
     }, [setFocus]);
 
     return (

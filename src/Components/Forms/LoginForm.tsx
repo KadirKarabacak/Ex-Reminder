@@ -127,7 +127,7 @@ const steps = [
         content: i18n.t(
             "The instructions will be useful for you. You can follow it and learn Ex-Reminder easily."
         ),
-        placement: "right-start",
+        placement: "top-end",
     },
     {
         target: ".register-button",
@@ -203,7 +203,7 @@ export default function LoginForm() {
     }
 
     useEffect(() => {
-        setFocus("email");
+        if (window.innerWidth > 1000) setFocus("email");
     }, [setFocus]);
 
     useEffect(() => {
