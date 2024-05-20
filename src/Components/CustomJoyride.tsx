@@ -1,7 +1,6 @@
 import { memo } from "react";
 import { useTranslation } from "react-i18next";
 import Joyride, { CallBackProps } from "react-joyride";
-import { useLocation } from "react-router-dom";
 
 function CustomJoyride({
     steps,
@@ -13,16 +12,13 @@ function CustomJoyride({
     callback?: (data: CallBackProps) => void;
 }) {
     const { t } = useTranslation();
-    const { pathname: location } = useLocation();
     return (
         <Joyride
             steps={steps}
             run={pathname}
             continuous
             showProgress
-            disableScrolling={
-                location === "/employees" || location === "/settings"
-            }
+            disableScrolling
             disableOverlayClose
             callback={callback}
             styles={{
