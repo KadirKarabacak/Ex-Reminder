@@ -277,13 +277,13 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
 
     return (
         <div>
-            <IconButton onClick={handleClick}>
+            <IconButton id="button-group-btn" onClick={handleClick}>
                 <MoreVert />
             </IconButton>
             <StyledMenu
-                id="demo-customized-menu"
+                id="button-group-menu"
                 MenuListProps={{
-                    "aria-labelledby": "demo-customized-button",
+                    "aria-labelledby": "button-group-btn",
                 }}
                 anchorEl={anchorEl}
                 open={open}

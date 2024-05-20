@@ -24,6 +24,7 @@ const StyledAccounting = styled.main`
 
     @media (max-width: 1000px) {
         border-radius: 0;
+        min-height: 70rem;
         padding: 1rem;
     }
 `;

@@ -96,7 +96,7 @@ const StyledName = styled.span`
 
 const StyledButton = styled(Button)`
     &:hover > svg {
-        color: var(--color-brand-500);
+        color: var(--color-green-lighter);
     }
 `;
 
@@ -260,6 +260,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                 </StyledUserInfo>
                 <StyledSmallContainer>
                     <StyledButton
+                        id="app-menu-btn"
                         aria-haspopup="true"
                         aria-expanded={opensMenu ? "true" : undefined}
                         onClick={handleClickMenuItem}
@@ -278,9 +279,9 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                         <MoreVertIcon sx={iconStyle} />
                     </StyledButton>
                     <Menu
-                        id="demo-customized-menu"
+                        id="app-menu"
                         MenuListProps={{
-                            "aria-labelledby": "demo-customized-button",
+                            "aria-labelledby": "app-menu-btn",
                         }}
                         anchorEl={anchorEl}
                         open={opensMenu}

@@ -31,6 +31,7 @@ const StyledContact = styled.main`
     @media (max-width: 1000px) {
         border-radius: 0;
         padding: 1rem;
+        min-height: 70rem;
     }
 
     @media (max-width: 600px) {

@@ -78,7 +78,7 @@ const DrawerStyle = {
     width: "26rem",
     zIndex: "30000",
     bottom: "0",
-    height: "100dvh",
+    height: "auto",
 };
 
 const StyledDrawerContainer = styled.span`

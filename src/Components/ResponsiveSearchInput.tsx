@@ -28,9 +28,7 @@ const StyledBox = styled(Box)`
     }
     @media (max-width: 550px) {
         width: 90%;
-    }
-    @media (max-width: 450px) {
-        width: 98%;
+        padding: 2rem 1rem;
     }
 `;
 
