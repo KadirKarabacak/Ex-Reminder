@@ -123,7 +123,7 @@ export default function CustomTable({
 
     React.useEffect(() => {
         if (data) setFilteredData(data);
-    }, []);
+    }, [data]);
 
     // TODO: Fix Error!
     React.useEffect(() => {
