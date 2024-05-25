@@ -76,17 +76,12 @@
 78- ✅ To display notification on agreement changes, set agreementBudget or agreementParties as required.
 79- After user logged in, when clicking the browsers history button, block user to move login and keep in app
 80- ✅ Make export button & search input in table toolbars Joyride with pathname
-81- For smaller screens update applayout Joyride steps to first select left menu
-82- Fix add address modal select menu paddings
+81- ✅ For smaller screens update applayout Joyride steps to first select left menu
+82- ✅ Fix add address modal select menu paddings
 83- Notification joyride ste 1 and step 2 header & icon doesnt look good, fix it (on regular screen)
 
 
-### RESPONSIVE
-6: Lower than 1000px check search input expandings.
-10: Lower than 600px Employees > All employees graphics remove name of job titles
-15: Responsive Search input auto focus on opening modal
-
-
+### ✅ RESPONSIVE
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
 
