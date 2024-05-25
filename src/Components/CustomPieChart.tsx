@@ -112,7 +112,13 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
                         innerRadius={85}
                         outerRadius={110}
                         cy="50%"
-                        cx="40%"
+                        cx={
+                            window.innerWidth < 600
+                                ? "50%"
+                                : window.innerWidth < 550
+                                ? "70%"
+                                : "40%"
+                        }
                         paddingAngle={4}
                     >
                         {jobs?.map((_, i) => (
@@ -126,14 +132,16 @@ export function CustomPieChart({ data }: { data: Employee[] | undefined }) {
                         ))}
                     </Pie>
                     <Tooltip />
-                    <Legend
-                        verticalAlign="middle"
-                        align="right"
-                        layout="vertical"
-                        iconSize={15}
-                        iconType="triangle"
-                        style={{ right: "20px" }}
-                    />
+                    {window.innerWidth > 550 && (
+                        <Legend
+                            verticalAlign="middle"
+                            align="right"
+                            layout="vertical"
+                            iconSize={15}
+                            iconType="triangle"
+                            style={{ right: "20px" }}
+                        />
+                    )}
                 </PieChart>
             </ResponsiveContainer>
         </ChartBox>
