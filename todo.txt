@@ -77,6 +77,8 @@
 79- After user logged in, when clicking the browsers history button, block user to move login and keep in app
 80- ✅ Make export button & search input in table toolbars Joyride with pathname
 81- For smaller screens update applayout Joyride steps to first select left menu
+82- Fix add address modal select menu paddings
+83- Notification joyride ste 1 and step 2 header & icon doesnt look good, fix it (on regular screen)
 
 
 ### RESPONSIVE
@@ -99,3 +101,7 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 # Uygulama hakkında demo bir video olabilir
 
 Slogan: Save Everything about your Company!
+
+
+GOOGLE AI STUDIO API KEY
+AIzaSyBUnb4cMgHXi6DuSsdYKH4q3L2tWXuWLiw
