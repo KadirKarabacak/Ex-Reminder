@@ -280,6 +280,7 @@ svg{
 
 .leaflet-popup-content-wrapper {
   background: var(--color-grey-100);
+  border-radius: var(--border-radius-sm)!important;
 }
 
 .leaflet-popup-tip{

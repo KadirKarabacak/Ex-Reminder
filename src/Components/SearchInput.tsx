@@ -68,7 +68,7 @@ export default function SearchInput({
     searchText: string;
     setSearchText: any;
     label: string;
-    inputRef: any;
+    inputRef?: any;
 }) {
     const { pathname } = useLocation();
 
