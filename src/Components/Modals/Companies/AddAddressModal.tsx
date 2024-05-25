@@ -41,9 +41,15 @@ const StyledBox = styled(Box)`
         width: 95%;
         padding: 3rem 2rem;
     }
+
     @media (max-width: 600px) {
-        width: 98%;
-        height: 98%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 0;
+        gap: 0.3rem;
     }
 `;
 const StyledButtonContainer = styled.div`
@@ -207,6 +213,7 @@ export default function AddAddressModal({
         searchParams.set("neighbourhood", e.target.value);
         setSearchParams(searchParams);
     }
+    console.log();
 
     //! Get Address by Map Click
     useEffect(() => {
@@ -265,7 +272,9 @@ export default function AddAddressModal({
                                 },
                             }}
                         >
-                            {t("Add Address")}
+                            {searchParams.has("edit-company")
+                                ? t("Edit Address")
+                                : t("Add Address")}
                         </Typography>
                         <Grid container spacing={3} sx={{ mb: "2rem" }}>
                             <Grid item xs={12} md={4} xl={3}>
@@ -394,7 +403,6 @@ export default function AddAddressModal({
                             </Grid>
                             <Grid item xs={12} md={8} xl={9}>
                                 <Paper
-                                    elevation={6}
                                     sx={{
                                         minHeight: "16rem",
                                         overflow: "hidden",
@@ -403,6 +411,7 @@ export default function AddAddressModal({
                                         "@media (max-width:900px)": {
                                             height: "33rem",
                                         },
+                                        boxShadow: "var(--shadow-lg)",
                                     }}
                                 >
                                     <Map
@@ -443,7 +452,7 @@ export default function AddAddressModal({
                                 type="submit"
                                 variant="contained"
                             >
-                                {t("Complate Address")}
+                                {t("Complete Address")}
                             </Button>
                             <Button
                                 onClick={onCloseModal}

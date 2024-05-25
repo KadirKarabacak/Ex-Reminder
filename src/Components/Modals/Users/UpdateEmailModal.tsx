@@ -203,7 +203,7 @@ export default function UpdateEmailModal({ open, handleClose }: ModalTypes) {
                         <StyledTitle>{t("New Email")}</StyledTitle>
                         <StyledTextField
                             disabled={isUpdating}
-                            placeholder={t("test@example.com")}
+                            placeholder={t("youremail@example.com")}
                             sx={{ width: "100%", mb: "0.5rem" }}
                             variant="outlined"
                             {...register("email", {

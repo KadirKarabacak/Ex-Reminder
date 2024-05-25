@@ -37,7 +37,13 @@ const StyledBox = styled(Box)`
         padding: 3rem 2rem;
     }
     @media (max-width: 450px) {
-        width: 98%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 0;
+        gap: 0.3rem;
     }
 `;
 const StyledButtonContainer = styled.div`

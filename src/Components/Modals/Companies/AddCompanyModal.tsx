@@ -37,12 +37,18 @@ const StyledBox = styled(Box)`
     @media (max-width: 1000px) {
         width: 80%;
     }
-    @media (max-width: 650px) {
+    @media (max-width: 900px) {
         width: 95%;
         padding: 3rem 2rem;
     }
     @media (max-width: 450px) {
-        width: 98%;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        border-radius: 0;
+        gap: 0.3rem;
     }
 `;
 const StyledButtonContainer = styled.div`
@@ -260,7 +266,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                {window.innerWidth > 650 && (
+                                {window.innerWidth > 900 && (
                                     <Grid item xs={12}>
                                         <Divider
                                             sx={{
@@ -333,7 +339,7 @@ export default function AddCompanyModal({ open, handleClose }: ModalTypes) {
                                         }
                                     />
                                 </Grid>
-                                {window.innerWidth > 650 && (
+                                {window.innerWidth > 900 && (
                                     <Grid item xs={12}>
                                         <Divider
                                             sx={{
