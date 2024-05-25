@@ -335,7 +335,7 @@ export default function SettingForm() {
                                 transition: "all .3s",
                                 padding: "1rem 3rem",
                                 "@media (max-width:500px)": {
-                                    padding: "1rem",
+                                    padding: "1rem 2rem",
                                 },
                                 fontSize: "1.1rem",
                                 alignSelf: "center",
