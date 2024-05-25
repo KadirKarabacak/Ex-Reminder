@@ -11,15 +11,35 @@ const StyledAlarm = styled.div`
     padding: 2rem;
     border-radius: 5px;
     box-shadow: var(--shadow-lg);
-    width: 27%;
+    width: 30%;
     position: absolute;
     top: 2rem;
     left: 40%;
-    z-index: 1500;
+    z-index: 1000;
     transition: all 0.3s;
 
     &:hover {
         box-shadow: 0px 2px 25px var(--color-green-lighter);
+    }
+
+    @media (max-width: 1300px) {
+        width: 40%;
+        left: 35%;
+    }
+
+    @media (max-width: 900px) {
+        width: 55%;
+        left: 25%;
+    }
+
+    @media (max-width: 700px) {
+        width: 70%;
+        left: 15%;
+    }
+
+    @media (max-width: 550px) {
+        width: 90%;
+        left: 5%;
     }
 `;
 
