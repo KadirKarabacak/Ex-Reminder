@@ -65,7 +65,13 @@ export default function CompanyTableRow({
             </TableCell>
             <TableCell
                 align="right"
-                sx={TableCellStyles}
+                sx={{
+                    ...TableCellStyles,
+                    padding:
+                        window.innerWidth < 600
+                            ? "0px 16px 0px 0px!important"
+                            : "16px",
+                }}
                 className="button-group-companies"
             >
                 <ButtonGroup tableName="company" row={row} />
