@@ -41,7 +41,7 @@ const StyledSelect = styled(Select)`
         font-size: 1.3rem;
         color: var(--color-grey-800);
 
-        @media (max-width: 1000px) {
+        @media (max-width: 1250px) {
             color: black;
         }
 
@@ -85,7 +85,7 @@ const iconStyle = {
 
 const StyledSmallContainer = styled.div`
     display: none;
-    @media (max-width: 1000px) {
+    @media (max-width: 1250px) {
         display: block;
     }
 `;
@@ -93,7 +93,7 @@ const StyledSmallContainer = styled.div`
 const StyledLargeContainer = styled.div`
     display: flex;
     gap: 1rem;
-    @media (max-width: 1000px) {
+    @media (max-width: 1250px) {
         display: none;
     }
 `;

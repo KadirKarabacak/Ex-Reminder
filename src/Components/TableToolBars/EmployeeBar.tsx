@@ -26,7 +26,7 @@ const StyledToolBar = styled(Toolbar)`
 
 const StyledSmallContainer = styled.div`
     display: none;
-    @media (max-width: 1000px) {
+    @media (max-width: 1100px) {
         display: block;
     }
 `;
@@ -34,14 +34,14 @@ const StyledSmallContainer = styled.div`
 const StyledLargeContainer = styled.div`
     display: flex;
     gap: 1rem;
-    @media (max-width: 1000px) {
+    @media (max-width: 1100px) {
         display: none;
     }
 `;
 
 const StyledSmallSearchContainer = styled.div`
     display: none;
-    @media (max-width: 650px) {
+    @media (max-width: 1100px) {
         display: block;
     }
 `;
@@ -49,7 +49,7 @@ const StyledSmallSearchContainer = styled.div`
 const StyledLargeSearchContainer = styled.div`
     display: flex;
     gap: 1rem;
-    @media (max-width: 650px) {
+    @media (max-width: 1100px) {
         display: none;
     }
 `;
