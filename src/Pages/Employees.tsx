@@ -49,7 +49,7 @@ const InformationContainer = styled.div`
     gap: 1.5rem;
     grid-template-columns: 1fr 1fr;
 
-    @media (max-width: 1000px) {
+    @media (max-width: 1300px) {
         grid-template-columns: auto;
     }
 `;
@@ -225,7 +225,7 @@ export default function Employees() {
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}
                 steps={
-                    window.innerWidth < 600
+                    window.innerWidth < 1100
                         ? employeesStepsPhone
                         : employeeSteps
                 }

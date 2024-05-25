@@ -214,7 +214,7 @@ export default function Warehouse() {
                 pathname={runJoyride}
                 callback={handleJoyrideCallback}
                 steps={
-                    window.innerWidth < 600
+                    window.innerWidth < 1100
                         ? warehouseStepsPhone
                         : warehouseSteps
                 }

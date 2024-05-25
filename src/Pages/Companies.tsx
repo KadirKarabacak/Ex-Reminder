@@ -239,7 +239,7 @@ export default function Companies() {
                     pathname={runJoyride}
                     callback={handleJoyrideCallback}
                     steps={
-                        window.innerWidth < 600
+                        window.innerWidth <= 1200
                             ? companiesStepsPhone
                             : companiesSteps
                     }

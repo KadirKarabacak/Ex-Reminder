@@ -244,7 +244,7 @@ export default function Notifications() {
             />
             <CustomJoyride
                 steps={
-                    window.innerWidth < 1000
+                    window.innerWidth < 1250
                         ? notificationsStepsPhone
                         : notificationsSteps
                 }
