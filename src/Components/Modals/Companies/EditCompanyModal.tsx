@@ -33,6 +33,7 @@ const StyledBox = styled(Box)`
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
     padding: 4rem 4rem 3rem;
     border-radius: 5px;
+    z-index: 30000;
 
     @media (max-width: 1000px) {
         width: 80%;
