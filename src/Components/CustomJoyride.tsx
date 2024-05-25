@@ -28,7 +28,7 @@ function CustomJoyride({
                     overlayColor: "rgba(0,0,0,0.3)",
                     primaryColor: "var(--color-green-lighter)",
                     textColor: "var(--color-grey-100)",
-                    zIndex: 1000000,
+                    zIndex: 100000,
                 },
             }}
             locale={{
