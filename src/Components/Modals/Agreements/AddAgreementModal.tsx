@@ -257,7 +257,7 @@ export default function AddAgreementModal({
                                     }
                                 />
                             </Grid>
-                            {window.innerWidth > 650 && (
+                            {window.innerWidth > 900 && (
                                 <Grid item xs={12}>
                                     <Divider
                                         sx={{

@@ -318,7 +318,7 @@ export default function EditCompanyModal({
                                         }
                                     />
                                 </Grid>
-                                {window.innerWidth > 650 && (
+                                {window.innerWidth > 900 && (
                                     <Grid item xs={12}>
                                         <Divider
                                             sx={{
@@ -383,7 +383,7 @@ export default function EditCompanyModal({
                                         defaultValue={row.companyWebsite}
                                     />
                                 </Grid>
-                                {window.innerWidth > 650 && (
+                                {window.innerWidth > 900 && (
                                     <Grid item xs={12}>
                                         <Divider
                                             sx={{
