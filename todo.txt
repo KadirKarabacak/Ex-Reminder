@@ -79,6 +79,7 @@
 81- ✅ For smaller screens update applayout Joyride steps to first select left menu
 82- ✅ Fix add address modal select menu paddings
 83- Notification joyride ste 1 and step 2 header & icon doesnt look good, fix it (on regular screen)
+84- For phone screens, in company operations remove drag & drop feature which applied to agreements
 
 
 ### ✅ RESPONSIVE
