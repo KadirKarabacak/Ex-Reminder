@@ -3,6 +3,7 @@ import { styled, alpha } from "@mui/material/styles";
 import SearchIcon from "@mui/icons-material/Search";
 import { useLocation } from "react-router-dom";
 import { generateSearchInputClassName } from "../Utils/utils";
+import { useEffect } from "react";
 
 const Search = styled("div")(({ theme }) => ({
     height: "4.4rem",
@@ -62,12 +63,20 @@ export default function SearchInput({
     searchText,
     setSearchText,
     label,
+    inputRef,
 }: {
     searchText: string;
     setSearchText: any;
     label: string;
+    inputRef: any;
 }) {
     const { pathname } = useLocation();
+
+    useEffect(() => {
+        if (inputRef?.current) {
+            inputRef?.current.focus();
+        }
+    }, []);
 
     return (
         <Search className={generateSearchInputClassName(pathname)}>
@@ -80,8 +89,10 @@ export default function SearchInput({
                 onChange={e => {
                     setSearchText(e.target.value);
                 }}
+                // ref={inputRef}
                 placeholder={label}
                 inputProps={{ "aria-label": "search" }}
+                inputRef={inputRef}
             />
         </Search>
     );

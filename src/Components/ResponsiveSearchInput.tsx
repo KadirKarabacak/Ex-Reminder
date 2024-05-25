@@ -3,6 +3,7 @@ import styled from "styled-components";
 import SearchInput from "./SearchInput";
 import { Backdrop, Button, Fade, Modal } from "@mui/material";
 import { useTranslation } from "react-i18next";
+import { useRef } from "react";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -53,6 +54,8 @@ function ResponsiveSearchInput({
     onCloseModal: () => void;
 }) {
     const { t } = useTranslation();
+    const inputRef = useRef<HTMLInputElement>(null);
+
     return (
         <Modal
             aria-labelledby="transition-modal-title"
@@ -71,6 +74,7 @@ function ResponsiveSearchInput({
                 <StyledBox>
                     <span style={{ paddingLeft: "1rem" }}>{label}</span>
                     <SearchInput
+                        inputRef={inputRef}
                         searchText={searchText}
                         setSearchText={setSearchText}
                         label={label}
