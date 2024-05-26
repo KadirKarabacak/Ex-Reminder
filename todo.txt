@@ -80,7 +80,12 @@
 82- ✅ Fix add address modal select menu paddings
 83- Notification joyride ste 1 and step 2 header & icon doesnt look good, fix it (on regular screen)
 84- For phone screens, in company operations remove drag & drop feature which applied to agreements
-
+85- All Modal Heads must be lower font (especially including editing argument)
+86- Check date pickers language translate & touch action to swipe months
+87- Add employee remove dividers and make form 2x2 ( Lower screens )
+88- Fix detail item & employee modals remove dividers and make grid 2x2 ( Lower screens )
+89- Try to fix joyride beacon's z-index. Must be behind the modals
+90- Fix forgot password form
 
 ### ✅ RESPONSIVE
 

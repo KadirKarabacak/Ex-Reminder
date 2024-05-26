@@ -291,7 +291,9 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
-                                paddingTop: "0!important",
+                                paddingTop: "6px!important",
+                                borderBottom:
+                                    "1px solid var(--color-border-soft)",
                             }}
                             disableRipple
                         >
@@ -343,7 +345,9 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
-                                paddingTop: "0!important",
+                                paddingTop: "6px!important",
+                                borderBottom:
+                                    "1px solid var(--color-border-soft)",
                             }}
                             onClick={handleCloseMenu}
                             disableRipple
@@ -359,7 +363,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                     >
                                         <StyledButton
                                             sx={{
-                                                fontSize: "1rem",
+                                                fontSize: "1.1rem",
                                                 minWidth: 0,
                                                 p: "0.7rem",
                                                 display: "flex",
@@ -388,13 +392,15 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
-                                paddingTop: "0!important",
+                                paddingTop: "6px!important",
+                                borderBottom:
+                                    "1px solid var(--color-border-soft)",
                             }}
                             disableRipple
                         >
                             <StyledButton
                                 sx={{
-                                    fontSize: "1rem",
+                                    fontSize: "1.1rem",
                                     minWidth: 0,
                                     p: "0.7rem",
                                     display: "flex",
@@ -435,7 +441,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             sx={{
                                 paddingLeft: "10px!important",
                                 paddingRight: "10px!important",
-                                paddingTop: "0!important",
+                                paddingTop: "6px!important",
                             }}
                             disableRipple
                         >
@@ -450,7 +456,7 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             >
                                 <StyledButton
                                     sx={{
-                                        fontSize: "1rem",
+                                        fontSize: "1.1rem",
                                         minWidth: 0,
                                         p: "0.7rem",
                                         lineHeight: 0,

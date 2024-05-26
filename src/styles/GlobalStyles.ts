@@ -112,6 +112,7 @@ const GlobalStyles = createGlobalStyle`
   --color-green-new: #1F994D;
   --color-green-lighter: #25b35b;
   --color-white-soft: #FBFAF5;
+  --color-border-soft: #f3f4f6;
 }
 
 *,
