@@ -31,10 +31,10 @@ const StyledAppLayout = styled.div`
     grid-template-columns: 26rem 1fr;
     grid-template-rows: auto 1fr;
     height: 100vh;
-    display: contents;
+    display: grid;
 
-    @media (min-width: 1000px) {
-        display: grid;
+    @media (max-width: 1000px) {
+        display: contents;
     }
 `;
 
@@ -226,6 +226,11 @@ function AppLayout() {
     const [isAlarm, setIsAlarm] = useState(false);
     const [runJoyride, setRunJoyride] = useState(false);
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
+    const isScrollMustHidden =
+        pathname === "/" ||
+        pathname === "/companies" ||
+        pathname === "/warehouse" ||
+        pathname.includes("/notifications");
 
     const toggleDrawer = () => {
         setIsOpenDrawer(prevState => !prevState);
@@ -287,17 +292,17 @@ function AppLayout() {
         }
     };
 
-    useEffect(() => {
-        if (
-            window.innerWidth > 1000 &&
-            (pathname === "/" ||
-                pathname === "/companies" ||
-                pathname === "/warehouse" ||
-                pathname.includes("/notifications"))
-        )
-            document.body.style.overflow = "hidden";
-        else document.body.style.overflow = "visible";
-    }, [pathname]);
+    // useEffect(() => {
+    //     if (
+    //         window.innerWidth > 1000 &&
+    //         (pathname === "/" ||
+    //             pathname === "/companies" ||
+    //             pathname === "/warehouse" ||
+    //             pathname.includes("/notifications"))
+    //     )
+    //         document.body.style.overflow = "hidden";
+    //     else document.body.style.overflow = "visible";
+    // }, [pathname]);
 
     return (
         <ProtectedRoute>
@@ -328,6 +333,7 @@ function AppLayout() {
                             pathname === "/" || window.innerWidth < 1000
                                 ? "0"
                                 : "3.5rem",
+                        overflowY: isScrollMustHidden ? "hidden" : "scroll",
                     }}
                 >
                     <Container>
