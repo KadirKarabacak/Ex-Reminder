@@ -7,7 +7,7 @@ import { Helmet } from "react-helmet";
 import CustomTable from "../Components/Table";
 import { NotificationToolBar } from "../Components/TableToolBars/NotificationBar";
 import { useEffect, useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useLocation, useSearchParams } from "react-router-dom";
 import { NotificationTypes } from "../Interfaces/User";
 import i18n from "../i18n";
 import JoyrideTitle from "../Components/JoyrideTitle";
@@ -22,7 +22,6 @@ import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 const StyledNotifications = styled.main`
     width: 100%;
     min-height: 60rem;
-
     background-color: var(--color-grey-100);
     text-align: center;
     display: flex;
@@ -30,6 +29,10 @@ const StyledNotifications = styled.main`
     padding: 2rem 2rem;
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
+
+    @media (max-width: 1200px) {
+        padding: 1rem 2rem;
+    }
 
     @media (max-width: 1000px) {
         border-radius: 0;
@@ -173,6 +176,7 @@ export default function Notifications() {
     const [searchParams] = useSearchParams();
     const [selected, setSelected] = useState<readonly string[]>([]);
     const [runJoyride, setRunJoyride] = useState(false);
+    const { pathname } = useLocation();
     const notReadedNotification = notifications?.filter(
         (notification: NotificationTypes) => notification.isReaded === false
     );
@@ -199,7 +203,8 @@ export default function Notifications() {
         if (
             lifecycle === "tooltip" ||
             lifecycle === "complete" ||
-            lifecycle === "ready"
+            lifecycle === "ready" ||
+            pathname.includes("/notifications")
         ) {
             document.body.style.overflow = "hidden";
         } else {
