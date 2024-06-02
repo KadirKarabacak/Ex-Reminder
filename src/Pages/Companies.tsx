@@ -32,6 +32,10 @@ const StyledCompany = styled.main`
     border-radius: var(--border-radius-md);
     box-shadow: var(--shadow-sm);
 
+    @media (max-width: 1200px) {
+        padding: 1rem 2rem;
+    }
+
     @media (max-width: 1000px) {
         border-radius: 0;
         padding: 1rem;
