@@ -86,6 +86,7 @@
 88- Fix detail item & employee modals remove dividers and make grid 2x2 ( Lower screens )
 89- Try to fix joyride beacon's z-index. Must be behind the modals
 90- Fix forgot password form
+91- Fix joyride steps inlude into components and make it with useMemo
 
 ### ✅ RESPONSIVE
 
