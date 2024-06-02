@@ -355,7 +355,7 @@ export default function EditCompanyModal({
                                     <StyledTextField
                                         disabled={isPending}
                                         variant="filled"
-                                        label="Company Email"
+                                        label={t("Company Email")}
                                         {...register("companyEmail", {
                                             pattern: {
                                                 value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
