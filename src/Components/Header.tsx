@@ -357,33 +357,32 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                 color="success"
                             >
                                 <Link to="/notifications?action=not-readed">
-                                    <Tooltip
+                                    {/* <Tooltip
                                         TransitionComponent={Grow}
                                         title={t("Notifications")}
+                                    > */}
+                                    <StyledButton
+                                        sx={{
+                                            fontSize: "1.1rem",
+                                            minWidth: 0,
+                                            p: "0.7rem",
+                                            display: "flex",
+                                            gap: "0.5rem",
+                                        }}
+                                        color="inherit"
+                                        variant="text"
                                     >
-                                        <StyledButton
+                                        <NotificationsIcon
                                             sx={{
-                                                fontSize: "1.1rem",
-                                                minWidth: 0,
-                                                p: "0.7rem",
-                                                display: "flex",
-                                                gap: "0.5rem",
+                                                ...iconStyle,
+                                                "@media (max-width: 600px)": {
+                                                    color: "var(--color-green-lighter)",
+                                                },
                                             }}
-                                            color="inherit"
-                                            variant="text"
-                                        >
-                                            <NotificationsIcon
-                                                sx={{
-                                                    ...iconStyle,
-                                                    "@media (max-width: 600px)":
-                                                        {
-                                                            color: "var(--color-green-lighter)",
-                                                        },
-                                                }}
-                                            />{" "}
-                                            {t("Notifications")}
-                                        </StyledButton>
-                                    </Tooltip>
+                                        />{" "}
+                                        {t("Notifications")}
+                                    </StyledButton>
+                                    {/* </Tooltip> */}
                                 </Link>
                             </Badge>
                         </MenuItem>
