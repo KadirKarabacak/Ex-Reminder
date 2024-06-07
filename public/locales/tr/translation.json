@@ -1,5 +1,5 @@
 {
-    "There is no value to update user": "Kullanıcıyı güncelleyecek veri yok",
+    "There is no value to update user": "Kullanıcıyı güncelleyecek herhangi bir veri girmediniz",
     "There is no data to display": "Gösterilecek veri yok",
     "Login to your account": "Hesabına giriş yap",
     "Email is required": "Email zorunludur",
@@ -441,8 +441,8 @@
     "Total Sold Item": "Toplam Malzeme",
     "items sold": "malzeme satıldı",
     "Companies sold to": "Satılan Şirketler",
-    "": "",
-    "": "",
+    "Move to operations": "İşlemler'e git",
+    "Sold Item": "Satılan Malzeme",
     "": "",
     "": "",
     "": "",

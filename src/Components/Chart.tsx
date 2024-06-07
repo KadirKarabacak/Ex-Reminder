@@ -147,7 +147,7 @@ export default function Chart({ data }: any) {
                             stroke={colors.profit?.stroke}
                             fill={colors.profit?.fill}
                             strokeWidth={2}
-                            name="Sale Price"
+                            name={t("Sale Price")}
                             unit="₺"
                         />
                         <Area
@@ -156,7 +156,7 @@ export default function Chart({ data }: any) {
                             stroke={colors.text}
                             fill={colors.text}
                             strokeWidth={2}
-                            name="Sold Item"
+                            name={t("Sold Item")}
                         />
                         <Area
                             dataKey="saleItemAmount"
@@ -164,7 +164,7 @@ export default function Chart({ data }: any) {
                             stroke={colors.text}
                             fill={colors.text}
                             strokeWidth={2}
-                            name="Item Amount"
+                            name={t("Item Amount")}
                         />
                     </AreaChart>
                 </ResponsiveContainer>
