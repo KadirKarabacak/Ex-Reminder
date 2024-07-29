@@ -38,7 +38,7 @@ export default function Login() {
             <Helmet>
                 <title>Ex Reminder | {t("Login")}</title>
             </Helmet>
-            {window.innerWidth > 1200 && <Background />}
+            {window.innerWidth > 1400 && <Background />}
             <LoginForm />
         </StyledLogin>
     );
