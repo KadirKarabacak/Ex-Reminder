@@ -263,6 +263,10 @@ export default function LoginForm() {
                     p: "4rem 4rem",
                     boxShadow: "var(--shadow-md)",
                     minWidth: "45rem",
+                    "@media (max-width: 1400px)": {
+                        padding: "2rem 4rem",
+                        gap: " 1rem",
+                    },
                     "@media (max-width: 600px)": {
                         minWidth: "40rem",
                     },
