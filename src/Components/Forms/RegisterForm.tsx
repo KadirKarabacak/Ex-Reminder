@@ -12,7 +12,6 @@ import ConfidentialityAgreementModal from "../Modals/Register/ConfidentialityAgr
 const StyledLogo = styled.img`
     width: 17rem;
     height: 17rem;
-    /* filter: blur(3px); */
 `;
 
 const StyledTextField = styled(TextField)`
@@ -46,6 +45,7 @@ const StyledTextField = styled(TextField)`
     & div > fieldset {
         border-color: var(--color-grey-500);
     }
+
     &:hover > div > fieldset {
         border-color: var(--color-brand-600) !important;
     }
@@ -88,6 +88,7 @@ const StyledSpan = styled.span`
 
 const StyledCheckbox = styled(Checkbox)`
     align-self: start;
+
     & > svg {
         font-size: 1.8rem;
     }
@@ -104,6 +105,8 @@ export default function RegisterForm() {
     const navigate = useNavigate();
     const currentLanguage = i18n.language;
     const [searchParams, setSearchParams] = useSearchParams();
+    const isMobileOrBigDesktop =
+        window.innerWidth > 1400 || window.innerWidth < 600;
 
     const handleOpen = () => {
         setOpen(true);
@@ -161,6 +164,10 @@ export default function RegisterForm() {
                         color: "var(--color-grey-800)",
                         backgroundColor: "var(--color-grey-50-forms)",
                         p: "4rem",
+                        "@media (max-width: 1400px)": {
+                            padding: "2rem 4rem",
+                            gap: " 0.8rem",
+                        },
                         boxShadow: "var(--shadow-md)",
                         maxWidth: "55rem",
                         position: "relative",
@@ -190,7 +197,9 @@ export default function RegisterForm() {
                         id="email"
                         error={Boolean(errors.email)}
                         helperText={
-                            (errors?.email?.message as React.ReactNode) || ""
+                            (isMobileOrBigDesktop &&
+                                (errors?.email?.message as React.ReactNode)) ||
+                            ""
                         }
                     />
                     <StyledTextField
@@ -211,7 +220,10 @@ export default function RegisterForm() {
                         type="password"
                         error={Boolean(errors?.password)}
                         helperText={
-                            (errors?.password?.message as React.ReactNode) || ""
+                            (isMobileOrBigDesktop &&
+                                (errors?.password
+                                    ?.message as React.ReactNode)) ||
+                            ""
                         }
                     />
                     <StyledTextField
@@ -229,15 +241,14 @@ export default function RegisterForm() {
                         type="password"
                         error={Boolean(errors?.repeatPassword)}
                         helperText={
-                            (errors?.repeatPassword
-                                ?.message as React.ReactNode) || ""
+                            (isMobileOrBigDesktop &&
+                                (errors?.repeatPassword
+                                    ?.message as React.ReactNode)) ||
+                            ""
                         }
                     />
                     <StyledAgreementContainer>
                         <StyledCheckbox
-                            // {...register("confidentialityAgreement", {
-                            //     required: "",
-                            // })}
                             checked={confidentialityAgreement}
                             inputProps={{}}
                             onChange={e =>
