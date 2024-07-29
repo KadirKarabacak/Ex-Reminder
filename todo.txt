@@ -78,7 +78,7 @@
 80- ✅ Make export button & search input in table toolbars Joyride with pathname
 81- ✅ For smaller screens update applayout Joyride steps to first select left menu
 82- ✅ Fix add address modal select menu paddings
-83- Notification joyride ste 1 and step 2 header & icon doesnt look good, fix it (on regular screen)
+83- Notification joyride step 1 and step 2 header & icon doesnt look good, fix it (on regular screen)
 84- For phone screens, in company operations remove drag & drop feature which applied to agreements
 85- All Modal Heads must be lower font (especially including editing argument)
 86- Check date pickers language translate & touch action to swipe months
@@ -89,6 +89,8 @@
 91- Fix joyride steps inlude into components and make it with useMemo
 
 ### ✅ RESPONSIVE
+1- Login page + Register page on laptop fix background translateY & form gap - padding
+2- Map + companies + warehouse + notifications on laptop fix overflow hidden problem
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
 
