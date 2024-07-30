@@ -8,7 +8,7 @@ const StyledBox = styled(Box)`
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 35%;
-    max-height: 75rem;
+    max-height: 95dvh;
     background-color: var(--color-grey-100);
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
