@@ -89,8 +89,8 @@
 91- Fix joyride steps inlude into components and make it with useMemo
 
 ### ✅ RESPONSIVE
-1- Login page + Register page on laptop fix background translateY & form gap - padding
-2- Map + companies + warehouse + notifications on laptop fix overflow hidden problem
+1- ✅ Login page + Register page on laptop fix background translateY & form gap - padding
+2- ✅ Map + companies + warehouse + notifications on laptop fix overflow hidden problem
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
 
