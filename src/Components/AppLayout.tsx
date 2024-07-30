@@ -9,11 +9,10 @@ import {
 } from "../Api/negotiateController";
 import { auth } from "../Api/firebase";
 import { differenceInMinutes, isBefore } from "date-fns";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import Alarm from "./Alarm";
 import CustomJoyride from "./CustomJoyride";
 import JoyrideTitle from "./JoyrideTitle";
-import i18n from "../i18n";
 import { CallBackProps } from "react-joyride";
 import MapIcon from "@mui/icons-material/Map";
 import AccountBalanceWalletIcon from "@mui/icons-material/AccountBalanceWallet";
@@ -26,6 +25,7 @@ import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LogoutIcon from "@mui/icons-material/Logout";
 import LanguageIcon from "@mui/icons-material/Language";
 import SwapVertIcon from "@mui/icons-material/SwapVert";
+import { useTranslation } from "react-i18next";
 
 const StyledAppLayout = styled.div`
     grid-template-columns: 26rem 1fr;
@@ -57,167 +57,168 @@ const StyledMain = styled.main`
     overflow-y: scroll;
 `;
 
-const applayoutSteps = [
-    {
-        target: ".map-nav",
-        content: i18n.t(
-            "Map Route shows map location pins and surface information of companies your company does business with."
-        ),
-        placement: "right",
-        title: (
-            <JoyrideTitle
-                icon={<MapIcon sx={iconStyle} />}
-                title={i18n.t("Map")}
-            />
-        ),
-    },
-    {
-        target: ".accounting-nav",
-        content: i18n.t(
-            "Accounting Route shows the list and details of all sales your company makes to other companies."
-        ),
-        placement: "right",
-        title: (
-            <JoyrideTitle
-                icon={<AccountBalanceWalletIcon sx={iconStyle} />}
-                title={i18n.t("Accounting")}
-            />
-        ),
-    },
-    {
-        target: ".companies-nav",
-        content: i18n.t(
-            "Companies Route shows all the companies your company does business with and enables you to make sales, agreements and negotiations with them."
-        ),
-        placement: "right",
-        title: (
-            <JoyrideTitle
-                icon={<BusinessIcon sx={iconStyle} />}
-                title={i18n.t("Companies")}
-            />
-        ),
-    },
-    {
-        target: ".warehouse-nav",
-        content: i18n.t(
-            "Warehouse Route shows all the products in your company's inventory and information such as product purchase and sale price."
-        ),
-        placement: "right",
-        title: (
-            <JoyrideTitle
-                icon={<WarehouseOutlined sx={iconStyle} />}
-                title={i18n.t("Warehouse")}
-            />
-        ),
-    },
-    {
-        target: ".employees-nav",
-        content: i18n.t(
-            "Employees Route shows all your employees and their information within your company."
-        ),
-        placement: "right",
-        title: (
-            <JoyrideTitle
-                icon={<GroupIcon sx={iconStyle} />}
-                title={i18n.t("Employees")}
-            />
-        ),
-    },
-    {
-        target: ".settings-nav",
-        content: i18n.t(
-            "Settings Route allow you to update your company's login & display settings"
-        ),
-        placement: "right",
-        title: (
-            <JoyrideTitle
-                icon={<SettingsIcon sx={iconStyle} />}
-                title={i18n.t("Settings")}
-            />
-        ),
-    },
-    {
-        target: ".language-nav",
-        content: i18n.t("You can change language from here in application"),
-        placement: "bottom",
-        title: (
-            <JoyrideTitle
-                icon={<LanguageIcon sx={iconStyle} />}
-                title={i18n.t("Change Language")}
-            />
-        ),
-    },
-    {
-        target: ".notifications-nav",
-        content: i18n.t(
-            "Notifications holds your application changes like adding, updating or deleting stuff."
-        ),
-        placement: "bottom",
-        title: (
-            <JoyrideTitle
-                icon={<NotificationsIcon sx={iconStyle} />}
-                title={i18n.t("Notifications")}
-            />
-        ),
-    },
-    {
-        target: ".toggledarkmode-nav",
-        content: i18n.t(
-            "You can switch between Dark-Mode & Light-Mode from here"
-        ),
-        placement: "bottom",
-        title: (
-            <JoyrideTitle
-                icon={<DarkModeIcon sx={iconStyle} />}
-                title={i18n.t("Dark Mode & Light Mode")}
-            />
-        ),
-    },
-    {
-        target: ".logout-nav",
-        content: i18n.t("You can safely logout from here"),
-        placement: "bottom",
-        title: (
-            <JoyrideTitle
-                icon={<LogoutIcon sx={iconStyle} />}
-                title={i18n.t("Logout")}
-            />
-        ),
-    },
-];
+// const applayoutSteps = [
+//     {
+//         target: ".map-nav",
+//         content: i18n.t(
+//             "Map Route shows map location pins and surface information of companies your company does business with."
+//         ),
+//         placement: "right",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<MapIcon sx={iconStyle} />}
+//                 title={i18n.t("Map")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".accounting-nav",
+//         content: i18n.t(
+//             "Accounting Route shows the list and details of all sales your company makes to other companies."
+//         ),
+//         placement: "right",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<AccountBalanceWalletIcon sx={iconStyle} />}
+//                 title={i18n.t("Accounting")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".companies-nav",
+//         content: i18n.t(
+//             "Companies Route shows all the companies your company does business with and enables you to make sales, agreements and negotiations with them."
+//         ),
+//         placement: "right",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<BusinessIcon sx={iconStyle} />}
+//                 title={i18n.t("Companies")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".warehouse-nav",
+//         content: i18n.t(
+//             "Warehouse Route shows all the products in your company's inventory and information such as product purchase and sale price."
+//         ),
+//         placement: "right",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<WarehouseOutlined sx={iconStyle} />}
+//                 title={i18n.t("Warehouse")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".employees-nav",
+//         content: i18n.t(
+//             "Employees Route shows all your employees and their information within your company."
+//         ),
+//         placement: "right",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<GroupIcon sx={iconStyle} />}
+//                 title={i18n.t("Employees")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".settings-nav",
+//         content: i18n.t(
+//             "Settings Route allow you to update your company's login & display settings"
+//         ),
+//         placement: "right",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SettingsIcon sx={iconStyle} />}
+//                 title={i18n.t("Settings")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".language-nav",
+//         content: i18n.t("You can change language from here in application"),
+//         placement: "bottom",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<LanguageIcon sx={iconStyle} />}
+//                 title={i18n.t("Change Language")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".notifications-nav",
+//         content: i18n.t(
+//             "Notifications holds your application changes like adding, updating or deleting stuff."
+//         ),
+//         placement: "bottom",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<NotificationsIcon sx={iconStyle} />}
+//                 title={i18n.t("Notifications")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".toggledarkmode-nav",
+//         content: i18n.t(
+//             "You can switch between Dark-Mode & Light-Mode from here"
+//         ),
+//         placement: "bottom",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<DarkModeIcon sx={iconStyle} />}
+//                 title={i18n.t("Dark Mode & Light Mode")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".logout-nav",
+//         content: i18n.t("You can safely logout from here"),
+//         placement: "bottom",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<LogoutIcon sx={iconStyle} />}
+//                 title={i18n.t("Logout")}
+//             />
+//         ),
+//     },
+// ];
 
-const applayoutPhoneSteps = [
-    {
-        target: ".applicationDrawer",
-        content: i18n.t(
-            "From here you can navigate in application between different pages like Map, Accounting, Companies etc."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<SwapVertIcon sx={iconStyle} />}
-                title={i18n.t("Application Navigation")}
-            />
-        ),
-    },
-    {
-        target: ".applicationMenu",
-        content: i18n.t(
-            "From here you can change application's language, can check notifications, can toggle between Light Mode & Dark Mode and you can safely logout."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<SettingsIcon sx={iconStyle} />}
-                title={i18n.t("Application Menu")}
-            />
-        ),
-    },
-];
+// const applayoutPhoneSteps = [
+//     {
+//         target: ".applicationDrawer",
+//         content: i18n.t(
+//             "From here you can navigate in application between different pages like Map, Accounting, Companies etc."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SwapVertIcon sx={iconStyle} />}
+//                 title={i18n.t("Application Navigation")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".applicationMenu",
+//         content: i18n.t(
+//             "From here you can change application's language, can check notifications, can toggle between Light Mode & Dark Mode and you can safely logout."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SettingsIcon sx={iconStyle} />}
+//                 title={i18n.t("Application Menu")}
+//             />
+//         ),
+//     },
+// ];
 
 // Parent Route
+
 function AppLayout() {
-    // const { t } = useTranslation();
+    const { t, i18n } = useTranslation();
     const { pathname } = useLocation();
     const { currentUser } = auth;
     const { data: negotiates } = useGetNegotiates(currentUser?.uid);
@@ -226,11 +227,11 @@ function AppLayout() {
     const [isAlarm, setIsAlarm] = useState(false);
     const [runJoyride, setRunJoyride] = useState(false);
     const [isOpenDrawer, setIsOpenDrawer] = useState(false);
-    const isScrollMustHidden =
-        pathname === "/" ||
-        pathname === "/companies" ||
-        pathname === "/warehouse" ||
-        pathname.includes("/notifications");
+    // const isScrollMustHidden =
+    //     pathname === "/" ||
+    //     pathname === "/companies" ||
+    //     pathname === "/warehouse" ||
+    //     pathname.includes("/notifications");
 
     const toggleDrawer = () => {
         setIsOpenDrawer(prevState => !prevState);
@@ -292,17 +293,169 @@ function AppLayout() {
         }
     };
 
-    // useEffect(() => {
-    //     if (
-    //         window.innerWidth > 1000 &&
-    //         (pathname === "/" ||
-    //             pathname === "/companies" ||
-    //             pathname === "/warehouse" ||
-    //             pathname.includes("/notifications"))
-    //     )
-    //         document.body.style.overflow = "hidden";
-    //     else document.body.style.overflow = "visible";
-    // }, [pathname]);
+    const applayoutSteps = useMemo(
+        () => [
+            {
+                target: ".map-nav",
+                content: t(
+                    "Map Route shows map location pins and surface information of companies your company does business with."
+                ),
+                placement: "right",
+                title: (
+                    <JoyrideTitle
+                        icon={<MapIcon sx={iconStyle} />}
+                        title={t("Map")}
+                    />
+                ),
+            },
+            {
+                target: ".accounting-nav",
+                content: t(
+                    "Accounting Route shows the list and details of all sales your company makes to other companies."
+                ),
+                placement: "right",
+                title: (
+                    <JoyrideTitle
+                        icon={<AccountBalanceWalletIcon sx={iconStyle} />}
+                        title={t("Accounting")}
+                    />
+                ),
+            },
+            {
+                target: ".companies-nav",
+                content: t(
+                    "Companies Route shows all the companies your company does business with and enables you to make sales, agreements and negotiations with them."
+                ),
+                placement: "right",
+                title: (
+                    <JoyrideTitle
+                        icon={<BusinessIcon sx={iconStyle} />}
+                        title={t("Companies")}
+                    />
+                ),
+            },
+            {
+                target: ".warehouse-nav",
+                content: t(
+                    "Warehouse Route shows all the products in your company's inventory and information such as product purchase and sale price."
+                ),
+                placement: "right",
+                title: (
+                    <JoyrideTitle
+                        icon={<WarehouseOutlined sx={iconStyle} />}
+                        title={t("Warehouse")}
+                    />
+                ),
+            },
+            {
+                target: ".employees-nav",
+                content: t(
+                    "Employees Route shows all your employees and their information within your company."
+                ),
+                placement: "right",
+                title: (
+                    <JoyrideTitle
+                        icon={<GroupIcon sx={iconStyle} />}
+                        title={t("Employees")}
+                    />
+                ),
+            },
+            {
+                target: ".settings-nav",
+                content: t(
+                    "Settings Route allow you to update your company's login & display settings"
+                ),
+                placement: "right",
+                title: (
+                    <JoyrideTitle
+                        icon={<SettingsIcon sx={iconStyle} />}
+                        title={t("Settings")}
+                    />
+                ),
+            },
+            {
+                target: ".language-nav",
+                content: t("You can change language from here in application"),
+                placement: "bottom",
+                title: (
+                    <JoyrideTitle
+                        icon={<LanguageIcon sx={iconStyle} />}
+                        title={t("Change Language")}
+                    />
+                ),
+            },
+            {
+                target: ".notifications-nav",
+                content: t(
+                    "Notifications holds your application changes like adding, updating or deleting stuff."
+                ),
+                placement: "bottom",
+                title: (
+                    <JoyrideTitle
+                        icon={<NotificationsIcon sx={iconStyle} />}
+                        title={t("Notifications")}
+                    />
+                ),
+            },
+            {
+                target: ".toggledarkmode-nav",
+                content: t(
+                    "You can switch between Dark-Mode & Light-Mode from here"
+                ),
+                placement: "bottom",
+                title: (
+                    <JoyrideTitle
+                        icon={<DarkModeIcon sx={iconStyle} />}
+                        title={t("Dark Mode & Light Mode")}
+                    />
+                ),
+            },
+            {
+                target: ".logout-nav",
+                content: t("You can safely logout from here"),
+                placement: "bottom",
+                title: (
+                    <JoyrideTitle
+                        icon={<LogoutIcon sx={iconStyle} />}
+                        title={t("Logout")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
+
+    const applayoutPhoneSteps = useMemo(
+        () => [
+            {
+                target: ".applicationDrawer",
+                content: t(
+                    "From here you can navigate in application between different pages like Map, Accounting, Companies etc."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SwapVertIcon sx={iconStyle} />}
+                        title={t("Application Navigation")}
+                    />
+                ),
+            },
+            {
+                target: ".applicationMenu",
+                content: t(
+                    "From here you can change application's language, can check notifications, can toggle between Light Mode & Dark Mode and you can safely logout."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SettingsIcon sx={iconStyle} />}
+                        title={t("Application Menu")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
 
     return (
         <ProtectedRoute>
@@ -333,7 +486,7 @@ function AppLayout() {
                             pathname === "/" || window.innerWidth < 1000
                                 ? "0"
                                 : "3.5rem",
-                        overflowY: isScrollMustHidden ? "hidden" : "scroll",
+                        // overflowY: isScrollMustHidden ? "hidden" : "scroll",
                     }}
                 >
                     <Container>

@@ -8,7 +8,7 @@ import { CustomPieChart } from "../Components/CustomPieChart";
 import EmployeeStats from "../Components/EmployeeStats";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { CallBackProps } from "react-joyride";
 import CustomJoyride from "../Components/CustomJoyride";
 import i18n from "../i18n";
@@ -61,89 +61,89 @@ const iconStyle = {
     transition: "all .3s",
 };
 
-const employeeSteps = [
-    {
-        target: ".addEmployee-btn",
-        content: i18n.t(
-            "You can add your employees working in your company to your table here."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<GroupIcon sx={iconStyle} />}
-                title={i18n.t("Add Employees")}
-            />
-        ),
-    },
-    {
-        target: ".export-btn-employee",
-        content: i18n.t(
-            "Here you can print out all employee data in your table as PDF or Excel."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<FileDownloadIcon sx={iconStyle} />}
-                title={i18n.t("Export Data")}
-            />
-        ),
-    },
-    {
-        target: ".search-input-employee",
-        content: i18n.t(
-            "From here, you can find an employee in your table much more easily by searching by name."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<SearchIcon sx={iconStyle} />}
-                title={i18n.t("Search Data")}
-            />
-        ),
-    },
-    {
-        target: ".button-group-employees",
-        content: i18n.t(
-            "From here you can edit, delete and see more details for each employee in the rows in the employees table."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<EngineeringIcon sx={iconStyle} />}
-                title={i18n.t("Employee Operations")}
-            />
-        ),
-    },
-];
+// const employeeSteps = [
+//     {
+//         target: ".addEmployee-btn",
+//         content: i18n.t(
+//             "You can add your employees working in your company to your table here."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<GroupIcon sx={iconStyle} />}
+//                 title={i18n.t("Add Employees")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".export-btn-employee",
+//         content: i18n.t(
+//             "Here you can print out all employee data in your table as PDF or Excel."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<FileDownloadIcon sx={iconStyle} />}
+//                 title={i18n.t("Export Data")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".search-input-employee",
+//         content: i18n.t(
+//             "From here, you can find an employee in your table much more easily by searching by name."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SearchIcon sx={iconStyle} />}
+//                 title={i18n.t("Search Data")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".button-group-employees",
+//         content: i18n.t(
+//             "From here you can edit, delete and see more details for each employee in the rows in the employees table."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<EngineeringIcon sx={iconStyle} />}
+//                 title={i18n.t("Employee Operations")}
+//             />
+//         ),
+//     },
+// ];
 
-const employeesStepsPhone = [
-    {
-        target: ".employee-operations-menu",
-        content: i18n.t(
-            "From here you can print all employee data as PDF or Excel and add employees within your company."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<EngineeringIcon sx={iconStyle} />}
-                title={i18n.t("Employee Operations")}
-            />
-        ),
-    },
-    {
-        target: ".employees-search-modal",
-        content: i18n.t(
-            "From here you can search for a spesific employee by employee name."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<SearchIcon sx={iconStyle} />}
-                title={i18n.t("Search Data")}
-            />
-        ),
-    },
-];
+// const employeesStepsPhone = [
+//     {
+//         target: ".employee-operations-menu",
+//         content: i18n.t(
+//             "From here you can print all employee data as PDF or Excel and add employees within your company."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<EngineeringIcon sx={iconStyle} />}
+//                 title={i18n.t("Employee Operations")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".employees-search-modal",
+//         content: i18n.t(
+//             "From here you can search for a spesific employee by employee name."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SearchIcon sx={iconStyle} />}
+//                 title={i18n.t("Search Data")}
+//             />
+//         ),
+//     },
+// ];
 
 const AnimatedStyledEmployees = animated(StyledEmployees);
 
@@ -189,6 +189,96 @@ export default function Employees() {
             setRunJoyride(false);
         }
     };
+
+    const employeeSteps = useMemo(
+        () => [
+            {
+                target: ".addEmployee-btn",
+                content: t(
+                    "You can add your employees working in your company to your table here."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<GroupIcon sx={iconStyle} />}
+                        title={t("Add Employees")}
+                    />
+                ),
+            },
+            {
+                target: ".export-btn-employee",
+                content: t(
+                    "Here you can print out all employee data in your table as PDF or Excel."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<FileDownloadIcon sx={iconStyle} />}
+                        title={t("Export Data")}
+                    />
+                ),
+            },
+            {
+                target: ".search-input-employee",
+                content: t(
+                    "From here, you can find an employee in your table much more easily by searching by name."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SearchIcon sx={iconStyle} />}
+                        title={t("Search Data")}
+                    />
+                ),
+            },
+            {
+                target: ".button-group-employees",
+                content: t(
+                    "From here you can edit, delete and see more details for each employee in the rows in the employees table."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<EngineeringIcon sx={iconStyle} />}
+                        title={t("Employee Operations")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
+
+    const employeesStepsPhone = useMemo(
+        () => [
+            {
+                target: ".employee-operations-menu",
+                content: t(
+                    "From here you can print all employee data as PDF or Excel and add employees within your company."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<EngineeringIcon sx={iconStyle} />}
+                        title={t("Employee Operations")}
+                    />
+                ),
+            },
+            {
+                target: ".employees-search-modal",
+                content: t(
+                    "From here you can search for a spesific employee by employee name."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SearchIcon sx={iconStyle} />}
+                        title={t("Search Data")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
 
     if (isLoading)
         return (

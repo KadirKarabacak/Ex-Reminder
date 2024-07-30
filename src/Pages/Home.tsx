@@ -5,7 +5,7 @@ import Map from "../Components/Map/Map";
 
 const StyledMap = styled.main`
     width: 100%;
-    min-height: 60rem;
+    /* min-height: 60rem; */
     height: calc(100dvh - 6.5rem);
 `;
 

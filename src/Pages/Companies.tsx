@@ -8,7 +8,7 @@ import { useGetCompanies } from "../Api/companyController";
 import { InfinitySpin } from "react-loader-spinner";
 import { useLocation, useParams } from "react-router-dom";
 import AnimatedPage from "../Components/AnimatedPage";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import i18n from "../i18n";
 import JoyrideTitle from "../Components/JoyrideTitle";
 import { CallBackProps } from "react-joyride";
@@ -61,102 +61,102 @@ const iconStyle = {
     transition: "all .3s",
 };
 
-const companiesSteps = [
-    {
-        target: ".makeSaleFromCompany-btn",
-        content: i18n.t(
-            "Here you can create a sales record for a company in your table. Sales records are recorded both in the operations section of the company and in the accounting section of your application."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<PostAddIcon sx={iconStyle} />}
-                title={i18n.t("Make Sales")}
-            />
-        ),
-    },
-    {
-        target: ".addCompany-btn",
-        content: i18n.t(
-            "Here you can add and list the companies you do business with in your companies table."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<DomainAddIcon sx={iconStyle} />}
-                title={i18n.t("Add Companies")}
-            />
-        ),
-    },
-    {
-        target: ".export-btn-companies",
-        content: i18n.t(
-            "Here you can print out all companies data in your table as PDF or Excel."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<FileDownloadIcon sx={iconStyle} />}
-                title={i18n.t("Export Data")}
-            />
-        ),
-    },
-    {
-        target: ".search-input-companies",
-        content: i18n.t(
-            "From here, you can find a company in your table much more easily by searching by company name."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<SearchIcon sx={iconStyle} />}
-                title={i18n.t("Search Data")}
-            />
-        ),
-    },
-    {
-        target: ".button-group-companies",
-        content: i18n.t(
-            "From here, you can edit, delete, add agreements, negotiations and sales to your companies. You can also browse the operations section for more details about agreements, sales and the company."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<SettingsApplicationsIcon sx={iconStyle} />}
-                title={i18n.t("Company Operations")}
-            />
-        ),
-    },
-];
+// const companiesSteps = [
+//     {
+//         target: ".makeSaleFromCompany-btn",
+//         content: i18n.t(
+//             "Here you can create a sales record for a company in your table. Sales records are recorded both in the operations section of the company and in the accounting section of your application."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<PostAddIcon sx={iconStyle} />}
+//                 title={i18n.t("Make Sales")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".addCompany-btn",
+//         content: i18n.t(
+//             "Here you can add and list the companies you do business with in your companies table."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<DomainAddIcon sx={iconStyle} />}
+//                 title={i18n.t("Add Companies")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".export-btn-companies",
+//         content: i18n.t(
+//             "Here you can print out all companies data in your table as PDF or Excel."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<FileDownloadIcon sx={iconStyle} />}
+//                 title={i18n.t("Export Data")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".search-input-companies",
+//         content: i18n.t(
+//             "From here, you can find a company in your table much more easily by searching by company name."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SearchIcon sx={iconStyle} />}
+//                 title={i18n.t("Search Data")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".button-group-companies",
+//         content: i18n.t(
+//             "From here, you can edit, delete, add agreements, negotiations and sales to your companies. You can also browse the operations section for more details about agreements, sales and the company."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SettingsApplicationsIcon sx={iconStyle} />}
+//                 title={i18n.t("Company Operations")}
+//             />
+//         ),
+//     },
+// ];
 
-const companiesStepsPhone = [
-    {
-        target: ".company-operations-menu",
-        content: i18n.t(
-            "From here you can create a sales record for a company, can print out all companies as PDF or Excel, can add and list the companies you do business with in the table."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<BusinessIcon sx={iconStyle} />}
-                title={i18n.t("Company Operations")}
-            />
-        ),
-    },
-    {
-        target: ".company-search-modal",
-        content: i18n.t(
-            "From here you can search for a spesific company by company name."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<SearchIcon sx={iconStyle} />}
-                title={i18n.t("Search Data")}
-            />
-        ),
-    },
-];
+// const companiesStepsPhone = [
+//     {
+//         target: ".company-operations-menu",
+//         content: i18n.t(
+//             "From here you can create a sales record for a company, can print out all companies as PDF or Excel, can add and list the companies you do business with in the table."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<BusinessIcon sx={iconStyle} />}
+//                 title={i18n.t("Company Operations")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".company-search-modal",
+//         content: i18n.t(
+//             "From here you can search for a spesific company by company name."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SearchIcon sx={iconStyle} />}
+//                 title={i18n.t("Search Data")}
+//             />
+//         ),
+//     },
+// ];
 
 const AnimatedStyledCompany = animated(StyledCompany);
 
@@ -208,6 +208,109 @@ export default function Companies() {
             setRunJoyride(false);
         }
     };
+
+    const companiesSteps = useMemo(
+        () => [
+            {
+                target: ".makeSaleFromCompany-btn",
+                content: t(
+                    "Here you can create a sales record for a company in your table. Sales records are recorded both in the operations section of the company and in the accounting section of your application."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<PostAddIcon sx={iconStyle} />}
+                        title={t("Make Sales")}
+                    />
+                ),
+            },
+            {
+                target: ".addCompany-btn",
+                content: t(
+                    "Here you can add and list the companies you do business with in your companies table."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<DomainAddIcon sx={iconStyle} />}
+                        title={t("Add Companies")}
+                    />
+                ),
+            },
+            {
+                target: ".export-btn-companies",
+                content: t(
+                    "Here you can print out all companies data in your table as PDF or Excel."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<FileDownloadIcon sx={iconStyle} />}
+                        title={t("Export Data")}
+                    />
+                ),
+            },
+            {
+                target: ".search-input-companies",
+                content: t(
+                    "From here, you can find a company in your table much more easily by searching by company name."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SearchIcon sx={iconStyle} />}
+                        title={t("Search Data")}
+                    />
+                ),
+            },
+            {
+                target: ".button-group-companies",
+                content: t(
+                    "From here, you can edit, delete, add agreements, negotiations and sales to your companies. You can also browse the operations section for more details about agreements, sales and the company."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SettingsApplicationsIcon sx={iconStyle} />}
+                        title={t("Company Operations")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
+
+    const companiesStepsPhone = useMemo(
+        () => [
+            {
+                target: ".company-operations-menu",
+                content: t(
+                    "From here you can create a sales record for a company, can print out all companies as PDF or Excel, can add and list the companies you do business with in the table."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<BusinessIcon sx={iconStyle} />}
+                        title={t("Company Operations")}
+                    />
+                ),
+            },
+            {
+                target: ".company-search-modal",
+                content: t(
+                    "From here you can search for a spesific company by company name."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SearchIcon sx={iconStyle} />}
+                        title={t("Search Data")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
 
     if (isLoading)
         return (

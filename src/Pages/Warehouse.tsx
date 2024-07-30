@@ -6,7 +6,7 @@ import { WarehouseToolBar } from "../Components/TableToolBars/WarehouseBar";
 import { InfinitySpin } from "react-loader-spinner";
 import { Helmet } from "react-helmet";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import i18n from "../i18n";
 import JoyrideTitle from "../Components/JoyrideTitle";
 import { CallBackProps } from "react-joyride";
@@ -58,89 +58,89 @@ const iconStyle = {
     transition: "all .3s",
 };
 
-const warehouseSteps = [
-    {
-        target: ".addItem-btn",
-        content: i18n.t(
-            "Here you can add the items in your inventory to your warehouses table."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<AddBusinessIcon sx={iconStyle} />}
-                title={i18n.t("Add Items")}
-            />
-        ),
-    },
-    {
-        target: ".export-btn-warehouse",
-        content: i18n.t(
-            "Here you can print out all warehouse data in your table as PDF or Excel."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<FileDownloadIcon sx={iconStyle} />}
-                title={i18n.t("Export Data")}
-            />
-        ),
-    },
-    {
-        target: ".search-input-warehouse",
-        content: i18n.t(
-            "From here, you can find an item in your table much more easily by searching by item name."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<SearchIcon sx={iconStyle} />}
-                title={i18n.t("Search Data")}
-            />
-        ),
-    },
-    {
-        target: ".button-group-warehouses",
-        content: i18n.t(
-            "From here you can edit, delete and see more details for each items in the rows in the warehouse table."
-        ),
-        placement: "bottom-end",
-        title: (
-            <JoyrideTitle
-                icon={<WarehouseIcon sx={iconStyle} />}
-                title={i18n.t("Warehouse Operations")}
-            />
-        ),
-    },
-];
+// const warehouseSteps = [
+//     {
+//         target: ".addItem-btn",
+//         content: i18n.t(
+//             "Here you can add the items in your inventory to your warehouses table."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<AddBusinessIcon sx={iconStyle} />}
+//                 title={i18n.t("Add Items")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".export-btn-warehouse",
+//         content: i18n.t(
+//             "Here you can print out all warehouse data in your table as PDF or Excel."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<FileDownloadIcon sx={iconStyle} />}
+//                 title={i18n.t("Export Data")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".search-input-warehouse",
+//         content: i18n.t(
+//             "From here, you can find an item in your table much more easily by searching by item name."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SearchIcon sx={iconStyle} />}
+//                 title={i18n.t("Search Data")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".button-group-warehouses",
+//         content: i18n.t(
+//             "From here you can edit, delete and see more details for each items in the rows in the warehouse table."
+//         ),
+//         placement: "bottom-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<WarehouseIcon sx={iconStyle} />}
+//                 title={i18n.t("Warehouse Operations")}
+//             />
+//         ),
+//     },
+// ];
 
-const warehouseStepsPhone = [
-    {
-        target: ".warehouse-operations-menu",
-        content: i18n.t(
-            "From here you can print all warehouse data as PDF or Excel and add the items your company sells to your inventory."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<WarehouseIcon sx={iconStyle} />}
-                title={i18n.t("Warehouse Operations")}
-            />
-        ),
-    },
-    {
-        target: ".warehouse-search-modal",
-        content: i18n.t(
-            "From here you can search for a spesific item by item name."
-        ),
-        placement: "right-end",
-        title: (
-            <JoyrideTitle
-                icon={<SearchIcon sx={iconStyle} />}
-                title={i18n.t("Search Data")}
-            />
-        ),
-    },
-];
+// const warehouseStepsPhone = [
+//     {
+//         target: ".warehouse-operations-menu",
+//         content: i18n.t(
+//             "From here you can print all warehouse data as PDF or Excel and add the items your company sells to your inventory."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<WarehouseIcon sx={iconStyle} />}
+//                 title={i18n.t("Warehouse Operations")}
+//             />
+//         ),
+//     },
+//     {
+//         target: ".warehouse-search-modal",
+//         content: i18n.t(
+//             "From here you can search for a spesific item by item name."
+//         ),
+//         placement: "right-end",
+//         title: (
+//             <JoyrideTitle
+//                 icon={<SearchIcon sx={iconStyle} />}
+//                 title={i18n.t("Search Data")}
+//             />
+//         ),
+//     },
+// ];
 
 const AnimatedStyledContact = animated(StyledContact);
 
@@ -188,6 +188,96 @@ export default function Warehouse() {
             setRunJoyride(false);
         }
     };
+
+    const warehouseSteps = useMemo(
+        () => [
+            {
+                target: ".addItem-btn",
+                content: t(
+                    "Here you can add the items in your inventory to your warehouses table."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<AddBusinessIcon sx={iconStyle} />}
+                        title={t("Add Items")}
+                    />
+                ),
+            },
+            {
+                target: ".export-btn-warehouse",
+                content: t(
+                    "Here you can print out all warehouse data in your table as PDF or Excel."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<FileDownloadIcon sx={iconStyle} />}
+                        title={t("Export Data")}
+                    />
+                ),
+            },
+            {
+                target: ".search-input-warehouse",
+                content: t(
+                    "From here, you can find an item in your table much more easily by searching by item name."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SearchIcon sx={iconStyle} />}
+                        title={t("Search Data")}
+                    />
+                ),
+            },
+            {
+                target: ".button-group-warehouses",
+                content: t(
+                    "From here you can edit, delete and see more details for each items in the rows in the warehouse table."
+                ),
+                placement: "bottom-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<WarehouseIcon sx={iconStyle} />}
+                        title={t("Warehouse Operations")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
+
+    const warehouseStepsPhone = useMemo(
+        () => [
+            {
+                target: ".warehouse-operations-menu",
+                content: t(
+                    "From here you can print all warehouse data as PDF or Excel and add the items your company sells to your inventory."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<WarehouseIcon sx={iconStyle} />}
+                        title={t("Warehouse Operations")}
+                    />
+                ),
+            },
+            {
+                target: ".warehouse-search-modal",
+                content: t(
+                    "From here you can search for a spesific item by item name."
+                ),
+                placement: "right-end",
+                title: (
+                    <JoyrideTitle
+                        icon={<SearchIcon sx={iconStyle} />}
+                        title={t("Search Data")}
+                    />
+                ),
+            },
+        ],
+        [i18n.language]
+    );
 
     if (isLoading)
         return (
