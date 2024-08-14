@@ -6,7 +6,7 @@ import CustomTable from "../Components/Table";
 import { CompaniesToolBar } from "../Components/TableToolBars/CompaniesBar";
 import { useGetCompanies } from "../Api/companyController";
 import { InfinitySpin } from "react-loader-spinner";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import AnimatedPage from "../Components/AnimatedPage";
 import { useEffect, useState, useMemo } from "react";
 import i18n from "../i18n";
@@ -180,7 +180,6 @@ export default function Companies() {
     const { companyId } = params;
     const currentCompany =
         companyId && data?.find(comp => comp.id === companyId);
-    const { pathname } = useLocation();
 
     useEffect(() => {
         if (localStorage.getItem("isCompaniesJoyrideDisplayed") === "true")
