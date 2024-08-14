@@ -1,4 +1,4 @@
-import { Checkbox, TableCell, TableRow } from "@mui/material";
+import { Checkbox, Grow, TableCell, TableRow, Tooltip } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
 import { useGetWarehouse } from "../../Api/warehouseController";
@@ -58,7 +58,18 @@ export default function SalesTableRow({
                 {formatCurrency(row.saleItemPrice) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.saleDescription || "-"}
+                {row.saleDescription.length > 50 && window.innerWidth < 1000 ? (
+                    <Tooltip
+                        TransitionComponent={Grow}
+                        title={row.saleDescription || "-"}
+                        placement="bottom"
+                    >
+                        {row.saleDescription.slice(0, 50).padEnd(53, "...") ||
+                            "-"}
+                    </Tooltip>
+                ) : (
+                    row.saleDescription || "-"
+                )}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 <ButtonGroup tableName="sales" row={row} />
