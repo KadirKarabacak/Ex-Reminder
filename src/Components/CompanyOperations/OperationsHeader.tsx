@@ -105,7 +105,7 @@ export function OperationsHeader({ currentCompany }: { currentCompany: any }) {
                         onClick={handleClickMenuItem}
                         endIcon={<KeyboardArrowDownIcon />}
                     >
-                        Operations
+                        {t("Operations")}
                     </Button>
                     <Menu
                         id="demo-customized-menu"
