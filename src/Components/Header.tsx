@@ -353,7 +353,12 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                             disableRipple
                         >
                             <Badge
-                                badgeContent={isNotReadeds?.length}
+                                badgeContent={
+                                    isNotReadeds?.length &&
+                                    isNotReadeds?.length > 99
+                                        ? "+99"
+                                        : isNotReadeds?.length
+                                }
                                 color="success"
                             >
                                 <Link to="/notifications?action=not-readed">
@@ -531,7 +536,12 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                         id="notificationsBtn"
                     >
                         <Badge
-                            badgeContent={isNotReadeds?.length}
+                            badgeContent={
+                                isNotReadeds?.length &&
+                                isNotReadeds?.length > 99
+                                    ? "+99"
+                                    : isNotReadeds?.length
+                            }
                             color="success"
                         >
                             <Link to="/notifications?action=not-readed">
