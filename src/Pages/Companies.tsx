@@ -196,8 +196,7 @@ export default function Companies() {
         if (
             lifecycle === "tooltip" ||
             lifecycle === "complete" ||
-            lifecycle === "ready" ||
-            pathname === "/companies"
+            lifecycle === "ready"
         ) {
             document.body.style.overflow = "hidden";
         } else {
