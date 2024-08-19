@@ -49,7 +49,7 @@ const InformationContainer = styled.div`
     gap: 1.5rem;
     grid-template-columns: 1fr 1fr;
 
-    @media (max-width: 1300px) {
+    @media (max-width: 1450px) {
         grid-template-columns: auto;
     }
 `;
