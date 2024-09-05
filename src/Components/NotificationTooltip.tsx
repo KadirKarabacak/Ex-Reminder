@@ -1,6 +1,10 @@
 import { Chip, Grid } from "@mui/material";
 import { useTranslation } from "react-i18next";
-import { formatCurrency, formatDateAndTime } from "../Utils/utils";
+import {
+    formatCurrency,
+    formatDateAndTime,
+    formatTimestampToDate,
+} from "../Utils/utils";
 import { NotificationTypes } from "../Interfaces/User";
 
 const ChipStyles = {
@@ -89,7 +93,7 @@ export default function NotificationTooltip({
                             label={t("Hire Date")}
                             color="info"
                         />
-                        {data.contentObj.hire_date}
+                        {formatTimestampToDate(data.contentObj.hire_date)}
                     </Grid>
                     <Grid item xs={12}>
                         <Chip
