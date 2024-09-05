@@ -103,6 +103,9 @@ const StyledSmallSearchContainer = styled.div`
     @media (max-width: 1250px) {
         display: block;
     }
+    @media (max-width: 450px) {
+        margin-right: auto;
+    }
 `;
 
 const StyledLargeSearchContainer = styled.div`
@@ -229,6 +232,9 @@ export function NotificationToolBar({
                         fontSize: "2.4rem",
                         fontWeight: "bold",
                         borderBottom: "3px solid var(--color-green-lighter)",
+                        "@media (max-width: 400px)": {
+                            fontSize: "1.8rem",
+                        },
                     }}
                     variant="subtitle1"
                     component="div"
@@ -251,6 +257,9 @@ export function NotificationToolBar({
                                 borderColor: "transparent",
                             },
                             borderRadius: "50%",
+                            "@media(max-width: 450px)": {
+                                display: "none",
+                            },
                         }}
                         color="inherit"
                         variant="outlined"
@@ -323,6 +332,9 @@ export function NotificationToolBar({
                                 backgroundColor: "var(--color-grey-500)",
                             },
                             "& > span > svg": { fill: "var(--color-grey-50)" },
+                            "@media (max-width: 400px)": {
+                                padding: "1rem",
+                            },
                         }}
                         id="demo-customized-button"
                         aria-controls={
