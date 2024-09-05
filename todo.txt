@@ -91,6 +91,7 @@
 ### ✅ RESPONSIVE
 1- ✅ Login page + Register page on laptop fix background translateY & form gap - padding
 2- ✅ Map + companies + warehouse + notifications on laptop fix overflow hidden problem
+3- 1000 - 1400px edit agreement & add agreement -> agreement start & end date responsive must be fixed
 
 # Şirketin yapılan toplantılarının ve toplantı içeriklerinin tutulduğu bir sayfa. ❔
 
@@ -105,7 +106,3 @@ Alım - satım - yıllık kar [gelir-gider] - kredi-borç verilerini tutan tablo
 # Uygulama hakkında demo bir video olabilir
 
 Slogan: Save Everything about your Company!
-
-
-GOOGLE AI STUDIO API KEY
-AIzaSyBUnb4cMgHXi6DuSsdYKH4q3L2tWXuWLiw
