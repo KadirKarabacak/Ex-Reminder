@@ -3,7 +3,8 @@ import i18n from "../i18n";
 import { API_KEY } from "../Constants/constant";
 
 export const extractFileName = (file: any) => {
-    return file ? file?.name?.slice(0, 25) + "..." : "";
+    const isSmallScreen = window.innerWidth < 450;
+    return file ? file?.name?.slice(0, isSmallScreen ? 10 : 25) + "..." : "";
 };
 
 export function formatDate(date: any) {
@@ -162,4 +163,26 @@ export function generateSearchInputClassName(pathname: string) {
     if (pathname.includes("/companies/")) return "search-input-sales";
     if (pathname.includes("/notifications"))
         return "search-input-notifications";
+}
+
+// Test
+export function formatTimestampToDate({
+    seconds,
+    nanoseconds,
+}: {
+    seconds: any;
+    nanoseconds: any;
+}) {
+    const date = new Date(seconds * 1000 + nanoseconds / 1000000); // Timestamp'i milisaniyeye çevir
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0"); // Aylar 0-11 arasında olduğundan 1 ekliyoruz
+    const year = date.getFullYear();
+
+    return `${day}/${month}/${year}`;
+}
+
+export function timestampToDate({ seconds }: { seconds: any }) {
+    // Timestamp'i milisaniyeye çevir (saniyeyi 1000 ile çarp)
+    const date = new Date(seconds * 1000);
+    return date;
 }
