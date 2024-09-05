@@ -8,7 +8,7 @@ const StyledBox = styled(Box)`
     left: 50%;
     transform: translate(-50%, -50%);
     min-width: 35%;
-    max-height: 95dvh;
+    max-height: 100dvh;
     background-color: var(--color-grey-100);
     border: none;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
@@ -21,8 +21,9 @@ const StyledBox = styled(Box)`
         width: 80%;
     }
     @media (max-width: 650px) {
-        width: 95%;
+        width: 100%;
         padding: 3rem 2rem;
+        border-radius: 0;
     }
     @media (max-width: 450px) {
         width: 100%;
@@ -32,6 +33,7 @@ const StyledBox = styled(Box)`
         justify-content: center;
         border-radius: 0;
         gap: 0.3rem;
+        border-radius: 0;
     }
 `;
 
@@ -48,6 +50,14 @@ const StyledContent = styled.div`
     flex-direction: column;
     gap: 1rem;
     max-height: 65rem;
+`;
+
+const StyledButtonContainer = styled.div`
+    display: flex;
+    gap: 1.5rem;
+    align-items: center;
+    margin-top: 0.5rem;
+    justify-content: center;
 `;
 
 const TypographyStyle = {
@@ -166,35 +176,72 @@ export default function ConfidentialityAgreementModal({
                             {t(
                                 `By using the App, Users agree to this Privacy Agreement. If this Agreement If you do not agree with its provisions, please use the App do not use it.`
                             )}
-                            <Button
-                                onClick={() => {
-                                    onCloseModal();
-                                    setConfidentialityAgreement(true);
-                                }}
-                                sx={{
-                                    color: "var(--color-white-soft)",
-                                    transition: "all .3s",
-                                    padding: "1.3rem 3.3rem",
-                                    mt: "3rem",
-                                    alignSelf: "center",
-                                    fontSize: "1.2rem",
-                                    border: "1px solid transparent",
-                                    backgroundColor: "var(--color-green-new)",
-                                    fontWeight: "bold",
-                                    "&:hover": {
-                                        backgroundColor:
-                                            "var(--color-green-lighter)",
-                                        transform: "translateY(-2px)",
+                            <StyledButtonContainer>
+                                <Button
+                                    onClick={() => {
+                                        onCloseModal();
+                                        setConfidentialityAgreement(true);
+                                    }}
+                                    sx={{
+                                        color: "var(--color-white-soft)",
+                                        transition: "all .3s",
+                                        padding: "1.3rem 3.3rem",
+                                        mt: "3rem",
+                                        alignSelf: "center",
+                                        fontSize: "1.2rem",
                                         border: "1px solid transparent",
-                                    },
-                                    "&:active": {
-                                        transform: "translateY(0)",
-                                    },
-                                }}
-                                variant="outlined"
-                            >
-                                {t("I have read & Approve")}
-                            </Button>
+                                        backgroundColor:
+                                            "var(--color-green-new)",
+                                        fontWeight: "bold",
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "var(--color-green-lighter)",
+                                            transform: "translateY(-2px)",
+                                            border: "1px solid transparent",
+                                        },
+                                        "&:active": {
+                                            transform: "translateY(0)",
+                                        },
+                                        "@media (max-width: 390px)": {
+                                            padding: "1rem 1.5rem",
+                                        },
+                                    }}
+                                    variant="outlined"
+                                >
+                                    {t("I have read & Approve")}
+                                </Button>
+                                <Button
+                                    onClick={onCloseModal}
+                                    sx={{
+                                        color: "var(--color-grey-800)",
+                                        transition: "all .3s",
+                                        padding: "1.3rem 3.3rem",
+                                        fontSize: "1.2rem",
+                                        border: "1px solid var(--color-grey-800)",
+                                        fontWeight: "bold",
+                                        mt: "3rem",
+
+                                        "&:hover": {
+                                            backgroundColor:
+                                                "var(--color-grey-200)",
+                                            transform: "translateY(-2px)",
+                                            border: "1px solid var(--color-grey-800)",
+                                        },
+                                        "&:active": {
+                                            transform: "translateY(0)",
+                                        },
+                                        "&.Mui-disabled": {
+                                            background: "var(--color-grey-400)",
+                                        },
+                                        "@media (max-width: 390px)": {
+                                            padding: "1rem 2rem",
+                                        },
+                                    }}
+                                    variant="outlined"
+                                >
+                                    {t("Back")}
+                                </Button>
+                            </StyledButtonContainer>
                         </Typography>
                     </StyledContent>
                 </StyledBox>
