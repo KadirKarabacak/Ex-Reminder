@@ -251,10 +251,26 @@ function Header({ isOpenDrawer, setIsOpenDrawer }: HeaderTypes) {
                                 alt={t("Placeholder Avatar")}
                             />
                         )}
+
                         <StyledName>
-                            {currentUser?.displayName
-                                ? currentUser.displayName
-                                : t("User")}
+                            <Tooltip
+                                title={
+                                    currentUser?.displayName
+                                        ? currentUser?.displayName
+                                        : t("User")
+                                }
+                            >
+                                <span>
+                                    {currentUser?.displayName
+                                        ? currentUser?.displayName.length > 20
+                                            ? `${currentUser?.displayName?.slice(
+                                                  0,
+                                                  20
+                                              )}...`
+                                            : currentUser?.displayName
+                                        : t("User")}
+                                </span>
+                            </Tooltip>
                         </StyledName>
                     </StyledListItem>
                 </StyledUserInfo>
