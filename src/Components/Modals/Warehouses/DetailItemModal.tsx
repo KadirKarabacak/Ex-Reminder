@@ -119,7 +119,7 @@ export default function DetailItemModal({
                         </StyledSpan>
                     </Typography>
                     <Grid container spacing={2} sx={{ mt: "2rem" }}>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Name of item")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemName || t("Not spesified")}
@@ -133,32 +133,34 @@ export default function DetailItemModal({
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Item Amount")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemAmount || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Sale Price")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemSalePrice || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider
-                                sx={{
-                                    borderColor: "var(--color-grey-200)",
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
+                        {window.innerWidth > 900 && (
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                        )}
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Purchase Price")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemPurchasePrice || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>
                                 {profit > 0
                                     ? t("Profit")
@@ -175,33 +177,37 @@ export default function DetailItemModal({
                                 ) || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Created At")}</StyledTitle>
                             <StyledDescription>
                                 {row.createdAt || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider
-                                sx={{
-                                    borderColor: "var(--color-grey-200)",
-                                }}
-                            />
-                        </Grid>
+                        {window.innerWidth > 900 && (
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                        )}
 
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Item Description")}</StyledTitle>
                             <StyledDescription>
                                 {row.itemDescription || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider
-                                sx={{
-                                    borderColor: "var(--color-grey-200)",
-                                }}
-                            />
-                        </Grid>
+                        {window.innerWidth > 900 && (
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                        )}
                     </Grid>
 
                     <StyledButtonContainer>
