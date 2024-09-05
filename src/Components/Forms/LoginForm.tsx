@@ -283,7 +283,7 @@ export default function LoginForm() {
                     src="../../../EX_REMINDER-blue.png"
                     alt="EX_REMINDER logo"
                 />
-                <Heading title={t("Login to your account")} />
+                <Heading title={t("Login")} />
                 <StyledTextField
                     disabled={isSubmitting}
                     label="Email"
