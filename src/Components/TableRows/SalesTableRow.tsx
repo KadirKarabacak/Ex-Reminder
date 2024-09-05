@@ -2,7 +2,7 @@ import { Checkbox, Grow, TableCell, TableRow, Tooltip } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
 import { useGetWarehouse } from "../../Api/warehouseController";
-import { formatCurrency } from "../../Utils/utils";
+import { formatCurrency, formatTimestampToDate } from "../../Utils/utils";
 
 const TableCellStyles = {
     color: "var(--color-grey-600)",
@@ -46,7 +46,7 @@ export default function SalesTableRow({
                 />
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.saleCreatedAt || "-"}
+                {formatTimestampToDate(row.saleCreatedAt) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {itemById?.itemName || "-"}
