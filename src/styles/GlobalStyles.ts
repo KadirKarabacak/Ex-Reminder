@@ -447,6 +447,10 @@ svg{
   z-index: 28000!important;
 }
 
+.MuiModal-root{
+  z-index: 99999999999!important;
+}
+
 `;
 
 export default GlobalStyles;
