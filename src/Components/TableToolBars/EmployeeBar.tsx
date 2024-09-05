@@ -13,7 +13,7 @@ import styled from "styled-components";
 import SearchInput from "../SearchInput";
 import ExportButton from "../ExportButton";
 import { Employee } from "../../Interfaces/User";
-import { formatCurrency } from "../../Utils/utils";
+import { formatCurrency, formatTimestampToDate } from "../../Utils/utils";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import SearchIcon from "@mui/icons-material/Search";
 import { useSearchParams } from "react-router-dom";
@@ -104,7 +104,7 @@ export function EmployeeToolBar({
             job_title: value?.job_title || t("-"),
             department: value?.department || t("-"),
             salary: formatCurrency(value?.salary),
-            hire_date: value?.hire_date || t("-"),
+            hire_date: formatTimestampToDate(value?.hire_date) || t("-"),
             age: value?.age || t("-"),
             email: value?.email || t("-"),
         };
@@ -116,7 +116,7 @@ export function EmployeeToolBar({
             value?.job_title || t("-"),
             value?.department || t("-"),
             formatCurrency(value?.salary),
-            value?.hire_date || t("-"),
+            formatTimestampToDate(value?.hire_date) || t("-"),
             value?.age || t("-"),
             value?.email || t("-"),
         ];
