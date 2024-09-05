@@ -9,17 +9,17 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import styled from "styled-components";
-import { useForm } from "react-hook-form";
-import { useTranslation } from "react-i18next";
 import { DatePicker, DateValidationError } from "@mui/x-date-pickers";
-import React, { useState } from "react";
-import { formatDate, parseDateFromString } from "../../../Utils/utils";
 import { min } from "date-fns";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
-import { EditEmployeeModalTypes } from "../../../Interfaces/User";
-import { auth } from "../../../Api/firebase";
+import { useTranslation } from "react-i18next";
+import styled from "styled-components";
 import { useUpdateEmployee } from "../../../Api/employeeController";
+import { auth } from "../../../Api/firebase";
+import { EditEmployeeModalTypes } from "../../../Interfaces/User";
+import { formatDate, timestampToDate } from "../../../Utils/utils";
 
 const StyledBox = styled(Box)`
     position: absolute;
@@ -135,9 +135,7 @@ export default function EditEmployeeModal({
     id,
     row,
 }: EditEmployeeModalTypes) {
-    const [hireTime, setHireTime] = useState(
-        parseDateFromString(row.hire_date)
-    );
+    const [hireTime, setHireTime] = useState(timestampToDate(row.hire_date));
     const [error, setError] = useState<DateValidationError>(null);
     const { t, i18n } = useTranslation();
     const { mutateAsync: updateEmployee, isPending: isUpdating } =
@@ -175,9 +173,10 @@ export default function EditEmployeeModal({
         const { fullName, jobTitle, department, email, age, salary, hireDate } =
             getValues();
         let date;
-        hireDate !== undefined
-            ? (date = formatDate(hireDate))
-            : (date = formatDate(hireTime));
+        // hireDate !== undefined
+        //     ? (date = formatDate(hireDate))
+        //     : (date = formatDate(hireTime));
+        hireDate !== undefined ? (date = hireDate) : (date = hireTime);
 
         const employee = {
             full_name: fullName,
@@ -261,13 +260,17 @@ export default function EditEmployeeModal({
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
+
+                            {window.innerWidth > 900 && (
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                            )}
                             <Grid item xs={6}>
                                 <StyledTitle>{t("Department")}</StyledTitle>
                                 <StyledTextField
@@ -307,13 +310,16 @@ export default function EditEmployeeModal({
                                     }
                                 />
                             </Grid>
-                            <Grid item xs={12}>
-                                <Divider
-                                    sx={{
-                                        borderColor: "var(--color-grey-200)",
-                                    }}
-                                />
-                            </Grid>
+                            {window.innerWidth > 900 && (
+                                <Grid item xs={12}>
+                                    <Divider
+                                        sx={{
+                                            borderColor:
+                                                "var(--color-grey-200)",
+                                        }}
+                                    />
+                                </Grid>
+                            )}
                             <Grid item xs={4}>
                                 <StyledTitle>{t("Age")}</StyledTitle>
                                 <StyledTextField
