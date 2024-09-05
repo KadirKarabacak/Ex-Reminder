@@ -10,7 +10,7 @@ import {
 } from "@mui/material";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
-import { formatCurrency } from "../../../Utils/utils";
+import { formatCurrency, formatTimestampToDate } from "../../../Utils/utils";
 import { EditEmployeeModalTypes } from "../../../Interfaces/User";
 
 const StyledBox = styled(Box)`
@@ -104,7 +104,7 @@ export default function DetailEmployeeModal({
                         <StyledSpan>{row.full_name}</StyledSpan>
                     </Typography>
                     <Grid container spacing={2} sx={{ mt: "2rem" }}>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Name of employee")}</StyledTitle>
 
                             <StyledDescription>
@@ -119,65 +119,71 @@ export default function DetailEmployeeModal({
                                 }}
                             />
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Job Title")}</StyledTitle>
                             <StyledDescription>
                                 {row.job_title || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Department")}</StyledTitle>
                             <StyledDescription>
                                 {row.department || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider
-                                sx={{
-                                    borderColor: "var(--color-grey-200)",
-                                }}
-                            />
-                        </Grid>
-                        <Grid item xs={4}>
+                        {window.innerWidth > 900 && (
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                        )}
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>Email</StyledTitle>
                             <StyledDescription>
                                 {row.email || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Age")}</StyledTitle>
                             <StyledDescription>
                                 {row.age || t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={4}>
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Salary")}</StyledTitle>
                             <StyledDescription>
                                 {formatCurrency(row.salary) ||
                                     t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider
-                                sx={{
-                                    borderColor: "var(--color-grey-200)",
-                                }}
-                            />
-                        </Grid>
-
-                        <Grid item xs={4}>
+                        {window.innerWidth > 900 && (
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                        )}
+                        <Grid item xs={6} md={4}>
                             <StyledTitle>{t("Hire Date")}</StyledTitle>
                             <StyledDescription>
-                                {row.hire_date || t("Not spesified")}
+                                {formatTimestampToDate(row.hire_date) ||
+                                    t("Not spesified")}
                             </StyledDescription>
                         </Grid>
-                        <Grid item xs={12}>
-                            <Divider
-                                sx={{
-                                    borderColor: "var(--color-grey-200)",
-                                }}
-                            />
-                        </Grid>
+                        {window.innerWidth > 900 && (
+                            <Grid item xs={12}>
+                                <Divider
+                                    sx={{
+                                        borderColor: "var(--color-grey-200)",
+                                    }}
+                                />
+                            </Grid>
+                        )}
                     </Grid>
 
                     <StyledButtonContainer>
