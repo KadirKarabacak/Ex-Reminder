@@ -213,7 +213,6 @@ export default function AddAddressModal({
         searchParams.set("neighbourhood", e.target.value);
         setSearchParams(searchParams);
     }
-    console.log();
 
     //! Get Address by Map Click
     useEffect(() => {
