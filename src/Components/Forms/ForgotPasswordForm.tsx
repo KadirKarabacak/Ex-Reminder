@@ -96,6 +96,10 @@ export default function ForgotPasswordForm() {
                     boxShadow: "var(--shadow-md)",
                     position: "relative",
                     zIndex: "9",
+                    minWidth: "32rem",
+                    "@media (max-width: 450px)": {
+                        padding: "6rem 2rem",
+                    },
                 }}
             >
                 <StyledLogo src="../../../EX_REMINDER-blue.png" />
@@ -142,6 +146,10 @@ export default function ForgotPasswordForm() {
                                 background: "var(--color-grey-400)",
                                 cursor: "not-allowed",
                             },
+                            "@media (max-width: 450px)": {
+                                padding: "1rem 1.5rem",
+                                fontWeight: "300",
+                            },
                         }}
                         type="submit"
                         variant="contained"
@@ -168,6 +176,10 @@ export default function ForgotPasswordForm() {
                             },
                             "&.Mui-disabled": {
                                 background: "var(--color-grey-400)",
+                            },
+                            "@media (max-width: 450px)": {
+                                padding: "1rem 1.5rem",
+                                fontWeight: "300",
                             },
                         }}
                         variant="outlined"
