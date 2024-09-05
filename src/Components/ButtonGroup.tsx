@@ -26,7 +26,7 @@ import DeleteSaleModal from "./Modals/Sales/DeleteSaleModal";
 import AddNegotiateModal from "./Modals/Companies/AddNegotiateModal";
 import MoreTimeIcon from "@mui/icons-material/MoreTime";
 import DeleteNotificationModal from "./Modals/Notifications/DeleteNotificationModal";
-import { formatDateAndTime } from "../Utils/utils";
+import { formatDateAndTime, formatTimestampToDate } from "../Utils/utils";
 
 const StyledMenu = styled((props: MenuProps) => (
     <Menu
@@ -302,7 +302,9 @@ export default function ButtonGroup({ row, tableName }: ButtonGroupTypes) {
                     {tableName === "company" && row?.companyName}
                     {tableName === "sales" && row?.saleCreatedAt}
                     {tableName === "accounting" &&
-                        `${row?.saleCompanyName} - ${row?.saleCreatedAt}`}
+                        `${row?.saleCompanyName} - ${formatTimestampToDate(
+                            row?.saleCreatedAt
+                        )}`}
                     {tableName === "notifications" &&
                         `${formatDateAndTime(row.createdAt.seconds * 1000)}`}
                 </MenuItem>
