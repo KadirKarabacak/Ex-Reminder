@@ -42,7 +42,7 @@ export interface Employee {
     employee_id: string;
     last_name: string;
     job_title: string;
-    hire_date: string;
+    hire_date: any;
     salary: string;
     id?: string;
 }
