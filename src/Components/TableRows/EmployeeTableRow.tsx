@@ -1,5 +1,5 @@
 import { Checkbox, TableCell, TableRow } from "@mui/material";
-import { formatCurrency } from "../../Utils/utils";
+import { formatCurrency, formatTimestampToDate } from "../../Utils/utils";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
 
@@ -61,7 +61,7 @@ export default function EmployeeTableRow({
                 {formatCurrency(row.salary as string) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.hire_date || "-"}
+                {formatTimestampToDate(row.hire_date) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 {row.age || "-"}
