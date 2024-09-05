@@ -196,7 +196,14 @@ export default function DeleteSaleModal({
                                 aşağıdaki seçenekleri kullanabilirsiniz.
                             </Typography>
                         )}
-                        <FormControl sx={{ width: "50%" }}>
+                        <FormControl
+                            sx={{
+                                width: "50%",
+                                "@media (max-width: 450px)": {
+                                    width: "100%",
+                                },
+                            }}
+                        >
                             <StyledSelect
                                 required
                                 displayEmpty
