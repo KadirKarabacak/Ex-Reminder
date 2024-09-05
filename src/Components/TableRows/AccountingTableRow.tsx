@@ -1,7 +1,7 @@
 import { Checkbox, Chip, TableCell, TableRow } from "@mui/material";
 import ButtonGroup from "../ButtonGroup";
 import { TableRowTypes } from "../../Interfaces/User";
-import { formatCurrency } from "../../Utils/utils";
+import { formatCurrency, formatTimestampToDate } from "../../Utils/utils";
 import { useTranslation } from "react-i18next";
 
 const TableCellStyles = {
@@ -54,7 +54,7 @@ export default function AccountingTableRow({
                 {row?.saleCompanyName || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
-                {row.saleCreatedAt || "-"}
+                {formatTimestampToDate(row.saleCreatedAt) || "-"}
             </TableCell>
             <TableCell align="right" sx={TableCellStyles}>
                 <Chip
