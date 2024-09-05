@@ -141,9 +141,10 @@ export default function AddEmployeeModal({ open, handleClose }: ModalTypes) {
         const { fullName, jobTitle, department, email, age, salary, hireDate } =
             getValues();
         let date;
-        hireDate !== undefined
-            ? (date = formatDate(hireDate))
-            : (date = formatDate(hireTime));
+        // hireDate !== undefined
+        //     ? (date = formatDate(hireDate))
+        //     : (date = formatDate(hireTime));
+        hireDate !== undefined ? (date = hireDate) : (date = hireTime);
         const newEmployee = {
             full_name: fullName,
             job_title: jobTitle,
