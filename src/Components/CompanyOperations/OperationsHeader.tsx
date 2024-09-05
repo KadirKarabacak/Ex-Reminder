@@ -16,6 +16,11 @@ const StyledSpan = styled.span`
     color: var(--color-grey-800);
     border-left: 2px solid var(--color-grey-500);
     padding-left: 8px;
+    visibility: visible;
+
+    @media (max-width: 600px) {
+        visibility: hidden;
+    }
 `;
 
 const StyledSmallContainer = styled.div`
