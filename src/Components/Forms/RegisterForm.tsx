@@ -168,6 +168,10 @@ export default function RegisterForm() {
                             padding: "2rem 4rem",
                             gap: " 0.8rem",
                         },
+                        "@media (max-width: 500px)": {
+                            padding: "2rem 1rem",
+                            gap: " 0.8rem",
+                        },
                         boxShadow: "var(--shadow-md)",
                         maxWidth: "55rem",
                         position: "relative",
@@ -271,6 +275,9 @@ export default function RegisterForm() {
                                         backgroundColor:
                                             "var(--color-grey-200)",
                                     },
+                                    "@media (max-width: 500px)": {
+                                        lineHeight: "unset",
+                                    },
                                 }}
                                 variant="text"
                             >
@@ -325,6 +332,9 @@ export default function RegisterForm() {
                                     background: "var(--color-grey-400)",
                                     cursor: "not-allowed",
                                 },
+                                "@media (max-width: 390px)": {
+                                    padding: "1rem 2rem",
+                                },
                             }}
                             type="submit"
                             variant="contained"
@@ -351,6 +361,9 @@ export default function RegisterForm() {
                                 },
                                 "&.Mui-disabled": {
                                     background: "var(--color-grey-400)",
+                                },
+                                "@media (max-width: 390px)": {
+                                    padding: "1rem 1.5rem",
                                 },
                             }}
                             type="submit"
