@@ -11,13 +11,13 @@ import {
     TextField,
     Typography,
 } from "@mui/material";
-import styled from "styled-components";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
-import React, { useEffect, useState } from "react";
-import { useGetWarehouse } from "../../../Api/warehouseController";
+import styled from "styled-components";
 import { useGetCompanies } from "../../../Api/companyController";
 import { useAddSale } from "../../../Api/saleController";
+import { useGetWarehouse } from "../../../Api/warehouseController";
 import { calcGuaranteeExpireDate, formatDate } from "../../../Utils/utils";
 import i18n from "../../../i18n";
 
@@ -188,7 +188,7 @@ export default function AddSaleModal({
             saleGuaranteeEndTime: formatDate(guaranteeExpire),
             saleDescription: saleDescription,
             totalSalePrice: findPrice * itemAmount,
-            saleCreatedAt: formatDate(new Date()),
+            saleCreatedAt: new Date(),
         };
 
         const item = {
