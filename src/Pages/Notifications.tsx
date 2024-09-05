@@ -1,23 +1,23 @@
+import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
+import InfoIcon from "@mui/icons-material/Info";
+import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
+import SearchIcon from "@mui/icons-material/Search";
+import ToggleOnIcon from "@mui/icons-material/ToggleOn";
+import { useEffect, useState } from "react";
+import { Helmet } from "react-helmet";
+import { useTranslation } from "react-i18next";
+import { CallBackProps } from "react-joyride";
+import { InfinitySpin } from "react-loader-spinner";
+import { useSearchParams } from "react-router-dom";
 import { animated, easings, useSpring } from "react-spring";
 import styled from "styled-components";
 import { useGetNotifications } from "../Api/notificationController";
-import { useTranslation } from "react-i18next";
-import { InfinitySpin } from "react-loader-spinner";
-import { Helmet } from "react-helmet";
+import CustomJoyride from "../Components/CustomJoyride";
+import JoyrideTitle from "../Components/JoyrideTitle";
 import CustomTable from "../Components/Table";
 import { NotificationToolBar } from "../Components/TableToolBars/NotificationBar";
-import { useEffect, useState } from "react";
-import { useLocation, useSearchParams } from "react-router-dom";
 import { NotificationTypes } from "../Interfaces/User";
 import i18n from "../i18n";
-import JoyrideTitle from "../Components/JoyrideTitle";
-import MarkChatReadIcon from "@mui/icons-material/MarkChatRead";
-import ToggleOnIcon from "@mui/icons-material/ToggleOn";
-import SearchIcon from "@mui/icons-material/Search";
-import InfoIcon from "@mui/icons-material/Info";
-import { CallBackProps } from "react-joyride";
-import CustomJoyride from "../Components/CustomJoyride";
-import CircleNotificationsIcon from "@mui/icons-material/CircleNotifications";
 
 const StyledNotifications = styled.main`
     width: 100%;
@@ -176,7 +176,6 @@ export default function Notifications() {
     const [searchParams] = useSearchParams();
     const [selected, setSelected] = useState<readonly string[]>([]);
     const [runJoyride, setRunJoyride] = useState(false);
-    const { pathname } = useLocation();
     const notReadedNotification = notifications?.filter(
         (notification: NotificationTypes) => notification.isReaded === false
     );
@@ -203,8 +202,8 @@ export default function Notifications() {
         if (
             lifecycle === "tooltip" ||
             lifecycle === "complete" ||
-            lifecycle === "ready" ||
-            pathname.includes("/notifications")
+            lifecycle === "ready"
+            // pathname.includes("/notifications")
         ) {
             document.body.style.overflow = "hidden";
         } else {
