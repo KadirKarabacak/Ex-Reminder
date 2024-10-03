@@ -451,6 +451,10 @@ svg{
   z-index: 99999999999!important;
 }
 
+.base-Popper-root {
+  z-index: 5000000000!important;
+}
+
 `;
 
 export default GlobalStyles;
