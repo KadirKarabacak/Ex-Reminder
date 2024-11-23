@@ -1,4 +1,4 @@
-import { createGlobalStyle } from "styled-components";
+import { createGlobalStyle } from 'styled-components';
 
 // Instead of using external file, we create global presets here.
 const GlobalStyles = createGlobalStyle`
@@ -138,6 +138,7 @@ body {
   min-height: 100dvh;
   line-height: 1.5;
   font-size: 1.6rem;
+  overflow: unset!important;
   /* overflow: hidden; */
 }
 
