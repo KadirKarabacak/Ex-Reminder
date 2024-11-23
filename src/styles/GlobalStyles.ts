@@ -456,6 +456,42 @@ svg{
   z-index: 5000000000!important;
 }
 
+
+*::-webkit-scrollbar {
+  height:9px;
+  width:9px;
+}
+*::-webkit-scrollbar-track {
+  border-radius: 0px;
+  background-color: var(--color-grey-300);
+}
+
+*::-webkit-scrollbar-track:hover {
+  background-color: var(--color-grey-300);
+}
+
+*::-webkit-scrollbar-track:active {
+  background-color: var(--color-grey-300);
+}
+
+*::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: var(--color-green-lighter);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-color: var(--color-green-lighter);
+}
+
+*::-webkit-scrollbar-thumb:active {
+  background-color: var(--color-green-lighter);
+}
+
+::selection {
+  color: var(--color-white-soft);
+  background-color: var(--color-green-lighter);
+}
+
 `;
 
 export default GlobalStyles;
